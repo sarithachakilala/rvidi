@@ -22,10 +22,6 @@ gem 'mongo'
 gem 'mongoid'
 gem 'devise', '2.2.3'
 
-# which debugs errors very effectively and handles exceptions
-gem 'better_errors' , :group => [:development]
-#  shows all the local and instance variables
-gem 'binding_of_caller', :group => [:development] 
 
 group :development, :test do
   gem 'turn', :require => false                      # Pretty printed test output
@@ -44,6 +40,9 @@ group :development, :test do
   gem 'headless', '>= 0.1.0'                         # capybara webkit driver
   gem 'launchy'                                      # capybara dependency
   gem 'simplecov', :require => false                 # for providing test coverage statistics
+	gem 'better_errors' 															 # To debug errors very effectively and handles exceptions
+	gem 'binding_of_caller' 													 # To show all the local and instance variables
+
 end
 
 # To use ActiveModel has_secure_password
