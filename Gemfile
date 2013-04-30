@@ -10,6 +10,7 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # Fixed the vesion of therubyracer because of Segmentation Fault + Ruby 1.9.3p392
   gem 'therubyracer',  '0.11.3', :platforms => :ruby # Necessary, to Provide Javascrtpt Runtime.
+  gem 'thin'                                         # To avoid content-length warnings, of Webrick 
 
   gem 'uglifier', '>= 1.0.3'
 end
@@ -21,7 +22,6 @@ gem 'bson_ext'
 gem 'mongo'
 gem 'mongoid'
 gem 'devise', '2.2.3'
-
 
 group :development, :test do
   gem 'turn', :require => false                      # Pretty printed test output
@@ -40,9 +40,12 @@ group :development, :test do
   gem 'headless', '>= 0.1.0'                         # capybara webkit driver
   gem 'launchy'                                      # capybara dependency
   gem 'simplecov', :require => false                 # for providing test coverage statistics
-	gem 'better_errors' 															 # To debug errors very effectively and handles exceptions
-	gem 'binding_of_caller' 													 # To show all the local and instance variables
+end
 
+group :development do
+  gem 'better_errors'                                # To debug errors very effectively and handles exceptions
+  gem 'binding_of_caller'                            # To show all the local and instance variables
+  gem 'quiet_assets'                                 # To Avoid Asset Pipeline Log in Development
 end
 
 # To use ActiveModel has_secure_password
