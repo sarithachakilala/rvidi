@@ -3,3 +3,8 @@
 
 en:
   hello: "Hello world"
+  login: "Login"
+
+tl:
+  hello: "హలో ప్రపంచ"
+  login: "లాగిన్"

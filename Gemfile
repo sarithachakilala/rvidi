@@ -21,7 +21,7 @@ gem 'bson_ext'
 gem 'mongo'
 gem 'mongoid'
 gem 'devise', '2.2.3'
-
+gem 'webrick', '1.3.1'
 
 group :development, :test do
   gem 'turn', :require => false                      # Pretty printed test output
