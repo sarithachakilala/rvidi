@@ -27,6 +27,25 @@ gem 'better_errors' , :group => [:development]
 #  shows all the local and instance variables
 gem 'binding_of_caller', :group => [:development] 
 
+group :development, :test do
+  gem 'turn', :require => false                      # Pretty printed test output
+  gem 'spork', '~> 0.9.2'                            # for fast running of tests
+  gem 'faker'                                        # for building fake data
+  gem 'factory_girl_rails'                           # for generating test data
+  gem 'rspec'                                        # unit test framework
+  gem 'rspec-rails'                                  # rspec only for rails
+  gem 'shoulda-matchers'                             # helps to test relationships easily for rspec
+  gem 'email_spec', '~> 1.2.1'                       # for testing emails in rspec and cucumber
+  gem 'database_cleaner'                             # for cleaning the database between test suites
+  gem 'cucumber-rails', '~>1.3.0', :require => false # integration testing
+  gem 'webrat'                                       # writing acceptance tests
+  gem 'minitest'                                     # dependency for webrat or capybara; not sure 
+  gem 'capybara', '~> 1.1.2'                         # integration testing tool for rack based web applications; simulates user interaction with web app
+  gem 'headless', '>= 0.1.0'                         # capybara webkit driver
+  gem 'launchy'                                      # capybara dependency
+  gem 'simplecov', :require => false                 # for providing test coverage statistics
+end
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
