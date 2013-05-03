@@ -21,6 +21,7 @@ gem 'jquery-rails'
 gem 'bson_ext'
 gem 'mongo'
 gem 'mongoid'
+gem "bcrypt-ruby", :require => "bcrypt"
 
 group :development, :test do
   gem 'turn', :require => false                      # Pretty printed test output
@@ -39,6 +40,8 @@ group :development, :test do
   gem 'headless', '>= 0.1.0'                         # capybara webkit driver
   gem 'launchy'                                      # capybara dependency
   gem 'simplecov', :require => false                 # for providing test coverage statistics
+  gem 'better_errors'                                # To debug errors very effectively and handles exceptions
+  gem 'binding_of_caller'                            # To show all the local and instance variables
 end
 
 group :development do

@@ -2,4 +2,34 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  helpers:
+    submit:
+      user:
+        create: "Create a %{model}"
+        update: "Confirm changes to %{model}"
+
+  singn_up: "Sign Up"
+  form_is_invalid: "Form is invalid"
   hello: "Hello world"
+  email: "Email"
+  password: "Password"
+  password_confirmation: "Password Confirmation"  # we can use helpers for lables...(for further)
+
+  log_in: "Log in"
+
+
+sp:
+  helpers:
+      submit:
+        user:
+          create: "Crear una %{model}"
+          update: "Confirme los cambios en %{model}"
+
+  singn_up: "Regístrate Up"
+  form_is_invalid: "La forma es inválida"
+  hello: "Hola mundo"
+  email: "Email"
+  password: "contraseña"
+  password_confirmation: "Confirme Contraseña"  
+
+  log_in: "iniciar la sesión"
