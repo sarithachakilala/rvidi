@@ -9,10 +9,10 @@ class User
   attr_accessor :password
   before_save :encrypt_password
   
+  validates :email, :presence => true
+                    :uniqueness => { :case_sensitive => false }
+  validates :password, :presence => true, :on => :create
   validates_confirmation_of :password
-  validates_presence_of :password, :on => :create
-  validates_presence_of :email
-  validates_uniqueness_of :email
   
   def self.authenticate(email, password)
     user = User.where(:email=>email).first

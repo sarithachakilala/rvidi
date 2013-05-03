@@ -16,7 +16,7 @@ en:
   password_confirmation: "Password Confirmation"  # we can use helpers for lables...(for further)
 
   log_in: "Log in"
-  
+
 
 sp:
   helpers:
@@ -30,6 +30,6 @@ sp:
   hello: "Hola mundo"
   email: "Email"
   password: "contraseña"
-  password_confirmation: "Confirme Contraseña"  # we can use helpers for lables...(for further)
+  password_confirmation: "Confirme Contraseña"  
 
   log_in: "iniciar la sesión"
