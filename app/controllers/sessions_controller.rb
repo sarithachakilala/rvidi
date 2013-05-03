@@ -3,8 +3,6 @@ class SessionsController < ApplicationController
   end
 
   def create
-    # user = User.where(:email=>params[:email]).first
-    # raise user.inspect
     user = User.authenticate(params[:email], params[:password])
     if user
       session[:user_id] = user.id
