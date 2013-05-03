@@ -21,7 +21,6 @@ gem 'jquery-rails'
 gem 'bson_ext'
 gem 'mongo'
 gem 'mongoid'
-gem 'devise', '2.2.3'
 
 group :development, :test do
   gem 'turn', :require => false                      # Pretty printed test output
