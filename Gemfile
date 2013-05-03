@@ -30,7 +30,7 @@ group :development, :test do
   gem 'factory_girl_rails'                           # for generating test data
   gem 'rspec'                                        # unit test framework
   gem 'rspec-rails'                                  # rspec only for rails
-  gem 'shoulda-matchers'                             # helps to test relationships easily for rspec
+  gem 'mongoid-rspec'                                # helps to test relationships easily for rspec
   gem 'email_spec', '~> 1.2.1'                       # for testing emails in rspec and cucumber
   gem 'database_cleaner'                             # for cleaning the database between test suites
   gem 'cucumber-rails', '~>1.3.0', :require => false # integration testing
