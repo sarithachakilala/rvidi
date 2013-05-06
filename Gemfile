@@ -4,17 +4,13 @@ gem 'rails', '3.2.13'
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  # gem 'sass-rails',   '~> 3.2.3' --> Not using as of now.
-  # gem 'coffee-rails', '~> 3.2.1' --> Not using as of now.
-
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # Fixed the vesion of therubyracer because of Segmentation Fault + Ruby 1.9.3p392
   gem 'therubyracer',  '0.11.3', :platforms => :ruby # Necessary, to Provide Javascrtpt Runtime.
-  gem 'thin'                                         # To avoid content-length warnings, of Webrick 
-
   gem 'uglifier', '>= 1.0.3'
 end
 
+gem 'thin'                                           # To avoid content-length warnings, of Webrick 
 gem 'jquery-rails'
 
 # DB Related
