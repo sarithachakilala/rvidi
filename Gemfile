@@ -10,8 +10,7 @@ group :assets do
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # Fixed the vesion of therubyracer because of Segmentation Fault + Ruby 1.9.3p392
   gem 'therubyracer',  '0.11.3', :platforms => :ruby # Necessary, to Provide Javascrtpt Runtime.
-  gem 'thin'                                         # To avoid content-length warnings, of Webrick 
-
+  gem 'thin'                              # To avoid content-type warning messages caused by webrick, except in production.
   gem 'uglifier', '>= 1.0.3'
 end
 
