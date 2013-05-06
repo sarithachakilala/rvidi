@@ -5,11 +5,11 @@ Rvidi::Application.routes.draw do
 
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
-  match 'signout', to: 'sessions#destroy', as: 'signout'
+  match 'sign_out', to: 'sessions#destroy', as: 'sign_out'
 
   get "sessions/new"
 
-  get "log_in" => "sessions#new", :as => "log_in"
+  get "sign_in" => "sessions#new", :as => "sign_in"
   get "sign_up" => "users#new", :as => "sign_up"
   
   root :to => "users#new"

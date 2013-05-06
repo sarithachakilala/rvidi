@@ -22,21 +22,16 @@ class User
   validates :username, :presence => true
   validates :email, :presence => true,
                     :uniqueness => { :case_sensitive => false }
-  # validates :password, :presence => true, :on => :create
-  # validates_confirmation_of :password
+  validates :password, :presence => true, :on => :create
+  validates_confirmation_of :password
   
   # CLASS METHODS
   def self.authenticate(login, password)
-    facebook_user= User.where(:provider=> "facebook").and(:email =>login).first || User.where(:provider=> "facebook").and(:email=>login).first
-    if facebook_user
-      user = "Login with facebook"
-    else 
     user = User.where(:username=>login.downcase).first || User.where(:email=>login).first
-      if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
-        user
-      else
-        nil
-      end
+    if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
+      user
+    else
+      nil
     end
   end
   
