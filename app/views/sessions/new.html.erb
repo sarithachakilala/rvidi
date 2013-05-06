@@ -2,8 +2,8 @@
 
 <%= form_tag sessions_path do %>
   <p>
-    <%= t(:email) %><br />
-    <%= text_field_tag :email, params[:email] %>
+    <%= t(:email_user) %><br />
+    <%= text_field_tag :login, params[:login] , :placeholder=> "Enter email or password"%>
   </p>
   <p>
     <%= t(:password) %><br />
