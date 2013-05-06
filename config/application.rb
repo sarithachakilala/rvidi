@@ -65,6 +65,9 @@ module Rvidi
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    #If you are deploying on Heroku, you may want to set to false to not access the DB or load models when precompiling your assets.
+    config.assets.initialize_on_precompile = true
+   
     # Specifications for generators to use
     config.generators do |g|
       g.test_framework :rspec,
