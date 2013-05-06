@@ -11,4 +11,8 @@ class UsersController < ApplicationController
       render "new"
     end
   end
+
+  def oauth_failure
+    redirect_to root_url, :notice => "Failure in Facebook Login!"
+  end
 end

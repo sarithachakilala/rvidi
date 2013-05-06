@@ -1,13 +1,25 @@
 Rvidi::Application.routes.draw do
 
-  resources :users
   resources :shows
   resources :sessions
 
-  get "log_out" => "sessions#destroy", :as => "log_out"
+  match 'auth/:provider/callback', to: 'sessions#create'
+  match 'auth/failure', to: redirect('/')
+  match 'signout', to: 'sessions#destroy', as: 'signout'
+
+  get "sessions/new"
+
   get "log_in" => "sessions#new", :as => "log_in"
   get "sign_up" => "users#new", :as => "sign_up"
+  
   root :to => "users#new"
+  resources :users do
+    member do
+      get 'oauth_failure'    
+    end
+  end
+
+ 
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

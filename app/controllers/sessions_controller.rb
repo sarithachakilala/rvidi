@@ -3,7 +3,11 @@ class SessionsController < ApplicationController
   end
 
   def create
-    user = User.authenticate(params[:email], params[:password])
+    if params[:provider]=="facebook"
+      user = User.from_omniauth(env["omniauth.auth"])
+    else
+     user = User.authenticate(params[:email], params[:password]) 
+   end
     if user
       session[:user_id] = user.id
       redirect_to root_url, :notice => "Logged in!"
@@ -17,4 +21,5 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to root_url, :notice => "Logged out!"
   end
+
 end

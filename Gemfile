@@ -3,7 +3,10 @@ source 'https://rubygems.org'
 gem 'rails', '3.2.13'
 # Gems used only for assets and not required
 # in production environments by default.
+
 group :assets do
+  # gem 'sass-rails',   '~> 3.2.3' --> Not using as of now.
+  gem 'coffee-rails', '~> 3.2.1' 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # Fixed the vesion of therubyracer because of Segmentation Fault + Ruby 1.9.3p392
   gem 'therubyracer',  '0.11.3', :platforms => :ruby # Necessary, to Provide Javascrtpt Runtime.
@@ -17,7 +20,8 @@ gem 'jquery-rails'
 gem 'bson_ext'
 gem 'mongo'
 gem 'mongoid'
-gem "bcrypt-ruby", :require => "bcrypt"
+gem "bcrypt-ruby", :require => "bcrypt"              # used to encrpty the user password
+gem 'omniauth-facebook', '1.4.0'
 
 group :development, :test do
   gem 'turn', :require => false                      # Pretty printed test output
@@ -36,8 +40,6 @@ group :development, :test do
   gem 'headless', '>= 0.1.0'                         # capybara webkit driver
   gem 'launchy'                                      # capybara dependency
   gem 'simplecov', :require => false                 # for providing test coverage statistics
-  gem 'better_errors'                                # To debug errors very effectively and handles exceptions
-  gem 'binding_of_caller'                            # To show all the local and instance variables
 end
 
 group :development do
