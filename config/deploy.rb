@@ -1,0 +1,64 @@
+require 'bundler/capistrano'
+require 'capistrano_colors'
+require 'capistrano-deploytags'
+require 'capistrano/ext/multistage'
+require "delayed/recipes" # Required for delayed_jobs
+
+set :stages, ["staging", "demo"]
+set :default_stage, "staging"
+
+set :use_sudo, false
+set :keep_releases, 5
+set :git_enable_submodules, 1
+
+set :scm, 'git'
+set :user, 'deploy'
+set :repository, 'git@github.com:dputtannaiah/rvidi.git'
+set :base_path, '/var/www/apps'
+set :normalize_asset_timestamps, false
+
+set :app_name, 'rvidi'
+set :application, 'rvidi.qwinixtech.com'
+set :shared_children, shared_children + %w{public/uploads}
+
+before "deploy:assets:precompile", "deploy:copy_database_yml"
+
+after 'deploy', 'deploy:migrate'
+after 'deploy', 'deploy:cleanup'
+after 'deploy', 'delayed_job:restart' # To Restart delayed_job after deploying the code
+
+## Necessary only to drop,create and reseed database. Not necessary other wise
+# after 'deploy:update_code', 'deploy:kill_postgres_connections'
+
+namespace :deploy do
+  desc 'Tell Passenger to restart the app.'
+  task :restart do
+    run "touch #{current_path}/tmp/restart.txt"
+  end
+
+  desc "Symlink shared configs and folders on each release."
+  task :copy_database_yml do
+    run "mkdir -p #{shared_path}/config"
+    run "cp -f #{release_path}/config/database.yml.example #{shared_path}/config/database.yml"
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+
+    # run "mkdir -p #{shared_path}/private"
+    # run "ln -nfs #{shared_path}/private #{release_path}/private"
+  end
+
+  # To reset database connection, while deploying
+  # desc 'kill pgsql users so database can be dropped'
+  # task :kill_postgres_connections do
+  #   run 'echo "SELECT pg_terminate_backend(procpid) FROM pg_stat_activity WHERE datname=\'mquiq_staging\';" | psql -U postgres'
+  # end
+end
+
+namespace :delayed_job do 
+  desc "Restart the delayed_job process"
+  task :restart, :roles => :app do
+    run "cd #{current_path}; RAILS_ENV=#{stage} script/delayed_job restart"
+  end
+end
+
+
+

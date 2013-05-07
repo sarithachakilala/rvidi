@@ -43,19 +43,5 @@ group :development do
   gem 'better_errors'                                # To debug errors very effectively and handles exceptions
   gem 'binding_of_caller'                            # To show all the local and instance variables
   gem 'quiet_assets'                                 # To Avoid Asset Pipeline Log in Development
+  gem 'capistrano'                                   # To Deploy with Capistrano
 end
-
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'
