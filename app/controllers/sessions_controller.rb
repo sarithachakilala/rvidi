@@ -8,7 +8,8 @@ class SessionsController < ApplicationController
     else
      user = User.authenticate(params[:login], params[:password]) 
    end
-    if user
+
+   if user
       session[:user_id] = user.id
       redirect_to root_url, :notice => "Logged in!"
     else

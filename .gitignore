@@ -18,4 +18,4 @@
 *.DS_Store
 /nbproject
 
-config/mongoid.yml
+config/database.yml

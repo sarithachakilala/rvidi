@@ -42,7 +42,7 @@ RSpec.configure do |config|
 
   # for cleaning the database everytime specs are run
   config.before(:suite) do
-    DatabaseCleaner[:mongoid].strategy = :truncation
+    DatabaseCleaner.strategy = :transaction
     DatabaseCleaner.clean_with(:truncation)
   end
 
@@ -54,8 +54,6 @@ RSpec.configure do |config|
     DatabaseCleaner.clean
   end
 
-  # To have matchers helpers for mongoid
-  config.include Mongoid::Matchers
 end
 
 Spork.each_run do
