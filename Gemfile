@@ -13,6 +13,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_jobs
 
 # DB Related
 gem 'pg'
