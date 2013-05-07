@@ -2,7 +2,7 @@ server 'qwinixtech.com', :app, :web, :db, :primary => true
 
 # RVM Settings
 require 'rvm/capistrano'
-set :rvm_ruby_string, 'ruby-1.9.3-head@rvidi'
+set :rvm_ruby_string, 'ruby-1.9.3-p392@rvidi'
 # Add RVM's lib directory to the load path.
 $:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 set :rvm_path, '/usr/local/rvm'
