@@ -11,6 +11,8 @@ require 'cucumber/rails'
 # selectors in your step definitions to use the XPath syntax.
 # Capybara.default_selector = :xpath
 
+Capybara.javascript_driver = :webkit
+
 # By default, any exception happening in your Rails application will bubble up
 # to Cucumber so that your scenario will fail. This is a different from how 
 # your application behaves in the production environment, where an error page will 
@@ -31,7 +33,7 @@ ActionController::Base.allow_rescue = false
 # Remove/comment out the lines below if your app doesn't have a database.
 # For some databases (like MongoDB and CouchDB) you may need to use :truncation instead.
 begin
-  DatabaseCleaner.strategy = :transaction
+  DatabaseCleaner[:mongoid].strategy = :truncation
 rescue NameError
   raise "You need to add database_cleaner to your Gemfile (in the :test group) if you wish to use it."
 end
@@ -56,3 +58,13 @@ end
 # See https://github.com/cucumber/cucumber-rails/blob/master/features/choose_javascript_database_strategy.feature
 Cucumber::Rails::Database.javascript_strategy = :truncation
 
+# Cucumber Hooks, to run Before,After or Around each Senario(AfterStep, AfterConfiguration hooks also available)
+# Ex: https://github.com/cucumber/cucumber/wiki/Hooks
+Before do|scenario|
+end
+
+After do|scenario|
+end
+
+Around do|scenario|
+end
