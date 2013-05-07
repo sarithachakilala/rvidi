@@ -32,6 +32,7 @@ group :development, :test do
   gem 'email_spec', '~> 1.2.1'                       # for testing emails in rspec and cucumber
   gem 'database_cleaner'                             # for cleaning the database between test suites
   gem 'cucumber-rails', '~>1.3.0', :require => false # integration testing
+  gem 'capybara-webkit'                              # Capybara driver for headless WebKit so you can test Javascript web apps
   gem 'webrat'                                       # writing acceptance tests
   gem 'minitest'                                     # dependency for webrat or capybara; not sure 
   gem 'capybara', '~> 1.1.2'                         # integration testing tool for rack based web applications; simulates user interaction with web app
