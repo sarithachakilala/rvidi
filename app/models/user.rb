@@ -1,19 +1,6 @@
-class User
-  include Mongoid::Document
-  include Mongoid::Timestamps
-
-  # Fields Declararion
-  field :email, type: String
-  field :provider, type: String
-  field :uid, type: Integer
-  field :name, type: String
-  field :username, type: String
-  field :oauth_token, type: String
-  field :oauth_expires_at, type: Date
-  field :password_hash, type: String
-  field :password_salt, type: String
+class User < ActiveRecord::Base
   
-  attr_accessor :password
+  attr_accessor :password, :password_confirmation
   attr_accessible :email, :password, :password_confirmation, :username
   
   before_save :encrypt_password
@@ -27,20 +14,15 @@ class User
   
   # CLASS METHODS
   def self.authenticate(login, password)
-    facebook_user= User.where(:provider=> "facebook").and(:email =>login).first || User.where(:provider=> "facebook").and(:email=>login).first
-    if facebook_user
-      user = "Login with facebook"
-    else 
-    user = User.where(:username=>login.downcase).first || User.where(:email=>login).first
-      if user && user.password_hash == BCrypt::Engine.hash_secret(password, user.password_salt)
-        user
-      else
-        nil
-      end
-    end
+    user = User.find_by_username(login.downcase) || User.find_by_email(login)
+    (user && user.match_password?(password)) ? user : nil
   end
   
   # INSTANCE METHODS
+  def match_password?(password)
+    self.password_hash == BCrypt::Engine.hash_secret(password, self.password_salt)
+  end
+
   def encrypt_password
     if password.present?
       self.password_salt = BCrypt::Engine.generate_salt

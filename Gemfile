@@ -1,25 +1,21 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
+
 # Gems used only for assets and not required
 # in production environments by default.
-
 group :assets do
-  # gem 'sass-rails',   '~> 3.2.3' --> Not using as of now.
-  gem 'coffee-rails', '~> 3.2.1' 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # Fixed the vesion of therubyracer because of Segmentation Fault + Ruby 1.9.3p392
   gem 'therubyracer',  '0.11.3', :platforms => :ruby # Necessary, to Provide Javascrtpt Runtime.
-  gem 'thin'                              # To avoid content-type warning messages caused by webrick, except in production.
   gem 'uglifier', '>= 1.0.3'
+  gem 'thin'                              # To avoid content-type warning messages caused by webrick, except in production.
 end
 
 gem 'jquery-rails'
 
 # DB Related
-gem 'bson_ext'
-gem 'mongo'
-gem 'mongoid'
+gem 'pg'
 gem "bcrypt-ruby", :require => "bcrypt"              # used to encrpty the user password
 gem 'omniauth-facebook', '1.4.0'
 
@@ -30,7 +26,7 @@ group :development, :test do
   gem 'factory_girl_rails'                           # for generating test data
   gem 'rspec'                                        # unit test framework
   gem 'rspec-rails'                                  # rspec only for rails
-  gem 'mongoid-rspec'                                # helps to test relationships easily for rspec
+  gem 'shoulda-matchers'                             # making tests easy
   gem 'email_spec', '~> 1.2.1'                       # for testing emails in rspec and cucumber
   gem 'database_cleaner'                             # for cleaning the database between test suites
   gem 'cucumber-rails', '~>1.3.0', :require => false # integration testing

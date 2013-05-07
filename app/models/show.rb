@@ -1,11 +1,5 @@
-class Show
-  include Mongoid::Document
-  include Mongoid::Timestamps
+class Show < ActiveRecord::Base
 
-  # Fields Declaration
-  field :user_id, type: Integer
-  field :title, type: String
-  field :description, type: String
   attr_accessible :user_id, :title, :description
 
   # Validations
