@@ -43,5 +43,12 @@ group :development do
   gem 'better_errors'                                # To debug errors very effectively and handles exceptions
   gem 'binding_of_caller'                            # To show all the local and instance variables
   gem 'quiet_assets'                                 # To Avoid Asset Pipeline Log in Development
-  gem 'capistrano'                                   # To Deploy with Capistrano
+
+  # To Deploy the Application using Capistrano
+  gem 'rvm-capistrano'
+  gem 'capistrano'
+  gem 'capistrano-deepmodules'
+  gem 'capistrano_colors'
+  gem 'capistrano-ext'
+  gem 'capistrano-deploytags'  
 end
