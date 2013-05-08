@@ -1,8 +1,9 @@
 class User < ActiveRecord::Base
   
   attr_accessor :password, :password_confirmation
-  attr_accessible :email, :password, :password_confirmation, :username
-  
+  attr_accessible :email, :password, :password_confirmation, :username, :city, :state, :country,
+                  :name, :description
+    
   before_save :encrypt_password
 
   # VALIDATIONS
@@ -38,6 +39,8 @@ class User < ActiveRecord::Base
         user.name = auth.info.name
         user.username = auth.extra.raw_info.username
         user.email = auth.info.email
+        user.description = auth.extra.raw_info.bio
+        user.city = auth.extra.raw_info.hometown.name
         user.oauth_token = auth.credentials.token
         user.oauth_expires_at = Time.at(auth.credentials.expires_at)
         user.save!

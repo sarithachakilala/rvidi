@@ -12,9 +12,9 @@ Rvidi::Application.routes.draw do
   get "sign_in" => "sessions#new", :as => "sign_in"
   get "sign_up" => "users#new", :as => "sign_up"
   
-  root :to => "users#new"
+  root :to => "sessions#new"
   resources :users do
-    collection do
+    member do
       get 'oauth_failure'    
       get 'profile'    
     end

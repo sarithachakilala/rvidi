@@ -7,8 +7,7 @@ gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_job
 
 # DB Related
 gem 'pg'
-gem "bcrypt-ruby", :require => "bcrypt"              # used to encrpty the user password
-gem 'omniauth-facebook', '1.4.0'
+gem "bcrypt-ruby", :require => "bcrypt"              # To encrpty the user password
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -22,11 +21,7 @@ end
 
 gem 'jquery-rails'
 gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_jobs
-
-# DB Related
-gem 'pg'
-gem "bcrypt-ruby", :require => "bcrypt"              # used to encrpty the user password
-gem 'omniauth-facebook', '1.4.0'
+gem 'omniauth-facebook', '1.4.0'                     # For Integrating Facebook
 # gem 'omniauth-twitter'
 
 group :development, :test do
