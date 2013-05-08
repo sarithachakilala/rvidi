@@ -13,6 +13,7 @@ group :assets do
 end
 
 gem 'jquery-rails'
+gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_jobs
 
 # DB Related
 gem 'pg'
@@ -44,19 +45,12 @@ group :development do
   gem 'better_errors'                                # To debug errors very effectively and handles exceptions
   gem 'binding_of_caller'                            # To show all the local and instance variables
   gem 'quiet_assets'                                 # To Avoid Asset Pipeline Log in Development
+
+  # To Deploy the Application using Capistrano
+  gem 'rvm-capistrano'
+  gem 'capistrano'
+  gem 'capistrano-deepmodules'
+  gem 'capistrano_colors'
+  gem 'capistrano-ext'
+  gem 'capistrano-deploytags'  
 end
-
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
-
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
-
-# Use unicorn as the app server
-# gem 'unicorn'
-
-# Deploy with Capistrano
-# gem 'capistrano'
-
-# To use debugger
-# gem 'debugger'
