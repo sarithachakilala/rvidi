@@ -1,4 +1,4 @@
-Mquiq::Application.configure do
+Rvidi::Application.configure do
   # Settings specified here will take precedence over those in config/application.rb
 
   # Code is not reloaded between requests
