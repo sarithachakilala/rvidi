@@ -7,8 +7,7 @@ class CreateUsers < ActiveRecord::Migration
       t.string :password_salt
       t.string :name
       t.string :provider      
-      t.string :facebook_id
-      t.string :twitter_id
+      t.string :uid
       t.string :city
       t.string :state
       t.string :country

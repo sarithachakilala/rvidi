@@ -14,8 +14,9 @@ Rvidi::Application.routes.draw do
   
   root :to => "users#new"
   resources :users do
-    member do
+    collection do
       get 'oauth_failure'    
+      get 'profile'    
     end
   end
 

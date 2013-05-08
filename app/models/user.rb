@@ -9,8 +9,8 @@ class User < ActiveRecord::Base
   validates :username, :presence => true
   validates :email, :presence => true,
                     :uniqueness => { :case_sensitive => false }
-  validates :password, :presence => true, :on => :create
-  validates_confirmation_of :password
+  # validates :password, :presence => true, :on => :create
+  # validates_confirmation_of :password
   
   # CLASS METHODS
   def self.authenticate(login, password)

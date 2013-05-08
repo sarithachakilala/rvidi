@@ -18,6 +18,7 @@ gem 'jquery-rails'
 gem 'pg'
 gem "bcrypt-ruby", :require => "bcrypt"              # used to encrpty the user password
 gem 'omniauth-facebook', '1.4.0'
+# gem 'omniauth-twitter'
 
 group :development, :test do
   gem 'turn', :require => false                      # Pretty printed test output

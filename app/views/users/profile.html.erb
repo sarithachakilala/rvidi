@@ -1,0 +1,40 @@
+<h1><%=t :singn_up %></h1>
+
+<%= form_for @user do |f| %>
+  <% if @user.errors.any? %>
+    <div class="error_messages">
+      <h2><%=t :form_is_invalid %></h2>
+      <ul>
+        <% for message in @user.errors.full_messages %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+  <p>
+    <%= t(:email) %><br />
+    <%= f.text_field :email %>
+  </p>
+  <p>
+    <%= t(:username) %><br />
+    <%= f.text_field :username %>
+  </p>
+  <p>
+    <%= f.label :city%><br />
+    <%= f.password_field :city %>
+  </p>  
+  <p>
+    <%= f.label :state %><br />
+    <%= f.password_field :state %>
+  </p> 
+  <p>
+    <%= f.label :country %><br />
+    <%= f.password_field :country %>
+  </p>
+  <p>
+    <%= f.label :description%><br />
+    <%= f.password_field :description %>
+  </p>
+ 
+  <p class="button"><%= f.submit %></p>
+<% end %>
