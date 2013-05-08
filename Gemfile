@@ -1,6 +1,14 @@
 source 'https://rubygems.org'
 
 gem 'rails', '3.2.13'
+gem 'jquery-rails'
+gem 'multi_json', '1.7.2'                            # To provide easy switching between different JSON backends. Warnings with latest Gem Version 1.7.3
+gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_jobs
+
+# DB Related
+gem 'pg'
+gem "bcrypt-ruby", :require => "bcrypt"              # used to encrpty the user password
+gem 'omniauth-facebook', '1.4.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -12,14 +20,6 @@ group :assets do
   gem 'thin'                              # To avoid content-type warning messages caused by webrick, except in production.
 end
 
-gem 'jquery-rails'
-gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_jobs
-
-# DB Related
-gem 'pg'
-gem "bcrypt-ruby", :require => "bcrypt"              # used to encrpty the user password
-gem 'omniauth-facebook', '1.4.0'
-
 group :development, :test do
   gem 'turn', :require => false                      # Pretty printed test output
   gem 'spork', '~> 0.9.2'                            # for fast running of tests
@@ -30,7 +30,7 @@ group :development, :test do
   gem 'shoulda-matchers'                             # making tests easy
   gem 'email_spec', '~> 1.2.1'                       # for testing emails in rspec and cucumber
   gem 'database_cleaner'                             # for cleaning the database between test suites
-  gem 'cucumber-rails', '~>1.3.0', :require => false # integration testing
+  gem 'cucumber-rails', '~>1.3.0', :require => false # integration testing  
   gem 'capybara-webkit'                              # Capybara driver for headless WebKit so you can test Javascript web apps
   gem 'webrat'                                       # writing acceptance tests
   gem 'minitest'                                     # dependency for webrat or capybara; not sure 

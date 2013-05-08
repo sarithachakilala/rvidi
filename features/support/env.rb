@@ -60,11 +60,11 @@ Cucumber::Rails::Database.javascript_strategy = :truncation
 
 # Cucumber Hooks, to run Before,After or Around each Senario(AfterStep, AfterConfiguration hooks also available)
 # Ex: https://github.com/cucumber/cucumber/wiki/Hooks
-Before do|scenario|
-end
+# Before do|scenario|
+# end
 
-After do|scenario|
-end
+# After do|scenario|
+# end
 
-Around do|scenario|
-end
+# Around do|scenario|
+# end
