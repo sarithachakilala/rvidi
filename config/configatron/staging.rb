@@ -1,7 +1,7 @@
 # Configurations Specific to Staging Environment
 
 # Site Configurations
-config.host = 'rvidi.qwinixtech.com'
+configatron.host = 'rvidi.qwinixtech.com'
 configatron.site_name = 'staging-rvidi'
 configatron.site_address = 'rvidi.qwinixtech.com'
 configatron.site_address_full = 'http://rvidi.qwinixtech.com'
