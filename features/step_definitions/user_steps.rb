@@ -1,7 +1,12 @@
-Given(/^login with the title "(.*?)"$/) do |arg1|
-  pending # express the regexp above with the code you wish you had
+When(/^i click on "(.*?)"$/) do |arg1|
+  visit '/sessions/new'
+  click_link 'Sign up'
 end
 
-Then(/^user is able to register with the application$/) do
-  pending # express the regexp above with the code you wish you had
+Then(/^user is able to create his "(.*?)"$/) do |arg1|
+  visit '/users/new'
+  fill_in 'user_email', :with => 'user@example.com'
+  fill_in 'user_username', :with => 'user'
+  fill_in 'user_password', :with => 'password'
+  fill_in 'user_password_confirmation', :with => 'password'
 end

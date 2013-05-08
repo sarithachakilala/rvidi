@@ -1,9 +1,5 @@
 <p id="notice"><%= notice %></p>
-<%= @user.id%>
-<% @user = User.find(session[:user_id]) %>
-<%= @user.city%>
-<p>
-  <b>Username:</b>
+<b>Username:</b>
   <%= @user.username %>
 </p>
 <p>
@@ -30,4 +26,4 @@
   <%= @user.description %>
 </p>
 
-<%= link_to 'Edit', profile_user_path(:id=>@user.id) %> |
+<%= link_to 'Edit', profile_user_path(:id=>@user.id) %> 
