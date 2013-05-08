@@ -4,11 +4,13 @@ gem 'rails', '3.2.13'
 gem 'jquery-rails'
 gem 'multi_json', '1.7.2'                            # To provide easy switching between different JSON backends. Warnings with latest Gem Version 1.7.3
 gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_jobs
+gem 'omniauth-facebook', '1.4.0'
+gem 'psych'                                          # Libyaml Wrapper for Ruby
+gem 'configatron'                                    # to add configuration values as environment specific and as default values as well.
 
 # DB Related
 gem 'pg'
 gem "bcrypt-ruby", :require => "bcrypt"              # used to encrpty the user password
-gem 'omniauth-facebook', '1.4.0'
 
 # Gems used only for assets and not required
 # in production environments by default.
