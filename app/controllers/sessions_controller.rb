@@ -11,7 +11,6 @@ class SessionsController < ApplicationController
     else
       user = User.authenticate(params[:login], params[:password]) 
    end
-
    if user
       session[:user_id] = user.id
       redirect_to profile_user_path(:id=>user.id), :notice => "Logged in!"

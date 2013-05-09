@@ -2,18 +2,17 @@ class User < ActiveRecord::Base
   
   attr_accessor :password, :password_confirmation
   attr_accessible :email, :password, :password_confirmation, :username, :city, :state, :country,
-                  :name, :description
+                  :name, :description, :provider, :uid
     
   before_save :encrypt_password
 
   has_many :authentications
 
   # VALIDATIONS
-  # validates :username, :presence => true
-  # validates :email, :presence => true,
-                    # :uniqueness => { :case_sensitive => false }
-  # validates :password, :presence => true, :on => :create
-  # validates_confirmation_of :password
+  validates :username, :presence => true, :if => Proc.new { |user| user.provider.nil? }
+  validates :email, :presence => true, :if => Proc.new { |user| user.provider.nil? }
+  validates :password, :presence => true, :on => :create, :if => Proc.new { |user| user.provider.nil?}
+  validates_confirmation_of :password_confirmation, :if => Proc.new { |user| user.provider.nil?}
   
   # CLASS METHODS
   def self.authenticate(login, password)
@@ -39,7 +38,7 @@ class User < ActiveRecord::Base
         user.provider = auth.provider
         user.uid = auth.uid
         user.name = auth.info.name if auth.info.present?
-        if auth.provide == "facebook"
+        if auth.provider == "facebook"
           user = user_facebook_details(auth,user)
         else
           user = user_twitter_details(auth,user)

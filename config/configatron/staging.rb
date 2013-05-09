@@ -11,5 +11,5 @@ configatron.facebook_app_id = '602532909766076'
 configatron.facebook_app_secret = '7fdd18a299246a7ae19686ea98e2f83e'
 
 # Twitter Registration Values:
-configatron.twitter_consumer_key = 'yC8k7ntNjfUBievtIRSt8w'
-configatron.twitter_consumer_secret = 'PIiX7lOtcPYmZrAOEqKCY0Pz09swpa09SKmraGNQ'
+configatron.twitter_consumer_key = 'mrwCL5pk04rjhg6meeVTXA'
+configatron.twitter_consumer_secret = '3jDVe7aZutkXyk92jwht0J1dhdoQsqMbczcbMk97Urc'
