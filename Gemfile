@@ -6,7 +6,8 @@ gem 'multi_json', '1.7.2'                            # To provide easy switching
 gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_jobs
 gem 'psych'                                          # Libyaml Wrapper for Ruby
 gem 'configatron'                                    # to add configuration values as environment specific and as default values as well.
-gem 'omniauth-facebook', '1.4.0'
+gem 'omniauth-facebook', '1.4.0'                     # For Integrating Facebook
+gem 'omniauth-twitter'                               # For Integrating Twitter
 
 # DB Related
 gem 'pg'
@@ -25,9 +26,6 @@ end
 
 gem 'jquery-rails'
 gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_jobs
-gem 'omniauth-facebook', '1.4.0'                     # For Integrating Facebook
-gem 'omniauth-twitter'
-gem 'twitter'
 
 group :development, :test do
   gem 'turn', :require => false                      # Pretty printed test output

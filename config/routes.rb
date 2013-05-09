@@ -2,7 +2,6 @@ Rvidi::Application.routes.draw do
 
   resources :shows
   resources :sessions
-
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
   match 'sign_out', to: 'sessions#destroy', as: 'sign_out'
@@ -19,8 +18,6 @@ Rvidi::Application.routes.draw do
       get 'profile'    
     end
   end
-
- 
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

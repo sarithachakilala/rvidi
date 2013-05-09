@@ -42,7 +42,8 @@ class User < ActiveRecord::Base
         user.username = auth.extra.raw_info.username
         user.email = auth.info.email
         user.description = auth.extra.raw_info.bio
-        user.city = auth.extra.raw_info.hometown.name
+        user.city = auth.extra.raw_info.hometown.name if auth.extra.raw_info.hometown.present?
+        user.state = auth.extra.raw_info.location.name if auth.extra.raw_info.location.present?
         user.oauth_token = auth.credentials.token
         user.oauth_expires_at = Time.at(auth.credentials.expires_at)
         user.save!

@@ -1,12 +1,13 @@
 class SessionsController < ApplicationController
+  skip_before_filter :verify_authenticity_token, :only => :create
   def new
   end
 
   def create
     if params[:provider]=="facebook"
-      user = User.find_by_provider_and_uid(auth["provider"], auth["uid"]) || User.from_omniauth(env["omniauth.auth"])
+      user = User.find_by_provider_and_uid(env["omniauth.auth"].provider, env["omniauth.auth"].uid) || User.from_omniauth(env["omniauth.auth"])
     else
-     user = User.authenticate(params[:login], params[:password]) 
+      user = User.authenticate(params[:login], params[:password]) 
    end
 
    if user
