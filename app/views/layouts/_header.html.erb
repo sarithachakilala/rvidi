@@ -1,12 +1,3 @@
-<%# if current_user %>
-  <!-- Logged in as <strong><%#= current_user.email %></strong>! -->
-  <%#= link_to "Sign out", sign_out_path %>
-<%# else %>
-  <%#= link_to "Sign up", sign_up_path %>
-  <%#= link_to "Sign Up with Facebook", "/auth/facebook", id: "sign_in" %>
-  <%##= link_to "Sign in with Twitter", "/auth/twitter", id: "sign_in" %>
-<%# end %>
-
 <div class="row-fluid">
   <div class="span6">
     <div class="sprite-logo" style="float: left;"> </div>
