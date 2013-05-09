@@ -1,0 +1,41 @@
+<%# if current_user %>
+  <!-- Logged in as <strong><%#= current_user.email %></strong>! -->
+  <%#= link_to "Sign out", sign_out_path %>
+<%# else %>
+  <%#= link_to "Sign up", sign_up_path %>
+  <%#= link_to "Sign Up with Facebook", "/auth/facebook", id: "sign_in" %>
+  <%##= link_to "Sign in with Twitter", "/auth/twitter", id: "sign_in" %>
+<%# end %>
+
+<div class="row-fluid">
+  <div class="span6">
+    <div class="sprite-logo" style="float: left;"> </div>
+  </div>
+  <div class="span6">
+    <div class="row-fluid"> 
+      <div class=" pull-right header_login_margin">
+        <%= link_to "<i class='sprite-camera-small'></i>Get Started".html_safe, sign_up_path, :class => "btn btn-warning" %>
+        <%= link_to "Log in", sign_in_path, :class => "btn btn-info login_btn_padding" %>
+      </div>
+    </div>
+
+    <!-- search Button desktop view -->
+    <div class="row-fluid hidden-phone hidden-tablet">
+      <div class="span6 text_align_right search_label">GO PRO JOIN</div>
+      <div class="span6">
+        <div class="input-append pull-right">
+          <div class="input-prepend input-append search_padding">
+            <span class="add-on prepend_background" ><i class="icon-search"></i></span>
+            <input class="span9" id="appendedPrependedInput" type="text" placeholder="Search Shows">
+            <span class="add-on btn-warning">Go</span>
+          </div>
+          <div> 
+            <label class="checkbox">
+              <input type="checkbox">Search only open shows
+            </label>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,34 +1,50 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
+    <meta charset="utf-8">
     <title>Rvidi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-    <%= stylesheet_link_tag "application", :media => "all" %>   <!-- Load All Common Styles from application css file -->
-    <%= stylesheet_link_tag controller_name %>                  <!-- To load Only Controller specific Styles -->
+    <%= stylesheet_link_tag "application", :media => "all" %>
     <%= csrf_meta_tags %>
+
+    <!-- Fav and touch icons, Necessary for SEO Purpose. Images need to be Added.  -->
+<!-- 
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+    <link rel="shortcut icon" href="/assets/favicon.png">
+ -->
   </head>
+
   <body>
-    <div id="user_nav">
-      <% if current_user %>
-        Logged in as <strong><%= current_user.email %></strong>!
-        <%= link_to "Sign out", sign_out_path %>
-      <% else %>
-        <%= link_to "Sign up", sign_up_path %> or
-        <%= link_to "Sign Up with Facebook", "/auth/facebook", id: "sign_in" %>
-        <%#= link_to "Sign in with Twitter", "/auth/twitter", id: "sign_in" %>
-      <% end %>
+    <div class="container body_bg" style="background-color:#e3e4e6;"> 
+      <div class="highlight">
+        <div class="graphic_bg">
+          <%= render :partial => "layouts/header" %>
+          <%= yield %>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <%= render :partial => "layouts/footer" %>
     </div>
 
-    <%= yield %>
-
-    <%#* Loading Javascripts. Loading in last, will load the page much faster. %>    
-    <%= javascript_include_tag "application" %>   <!-- Load All Common JavaScripts from application js file -->
-    <%= javascript_include_tag controller_name %> <!-- To load Only Controller specific JavaScripts -->
-
+    <%##* Loading Javascripts. Loading in last, will load the page much faster. %>    
+    <%= javascript_include_tag "application" %>
     <script type='text/javascript'>
+      // Script for Carousel
+      !function ($) {
+        $(function(){
+          // carousel demo
+          $('#myCarousel').carousel()
+        })
+      }(window.jQuery)
+
       <%= yield :js %>
     </script>
-
   </body>
-
 </html>
