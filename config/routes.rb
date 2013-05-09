@@ -2,6 +2,7 @@ Rvidi::Application.routes.draw do
 
   resources :shows
   resources :sessions
+  match "/auth/twitter/callback" => "sessions#create"
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
   match 'sign_out', to: 'sessions#destroy', as: 'sign_out'
