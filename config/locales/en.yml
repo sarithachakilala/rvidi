@@ -18,6 +18,10 @@ en:
   password_confirmation: "Password Confirmation"  # we can use helpers for lables...(for further)
 
   sign_in: "Sign in"
+  city: "City"
+  state: "State"
+  country: "Country"
+  description: "Description"
 
 
 sp:

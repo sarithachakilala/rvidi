@@ -15,12 +15,19 @@ gem "bcrypt-ruby", :require => "bcrypt"              # To encrpty the user passw
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
+  
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # Fixed the vesion of therubyracer because of Segmentation Fault + Ruby 1.9.3p392
   gem 'therubyracer',  '0.11.3', :platforms => :ruby # Necessary, to Provide Javascrtpt Runtime.
   gem 'uglifier', '>= 1.0.3'
   gem 'thin'                              # To avoid content-type warning messages caused by webrick, except in production.
 end
+
+gem 'jquery-rails'
+gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_jobs
+gem 'omniauth-facebook', '1.4.0'                     # For Integrating Facebook
+gem 'omniauth-twitter'
+gem 'twitter'
 
 group :development, :test do
   gem 'turn', :require => false                      # Pretty printed test output

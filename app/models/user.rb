@@ -6,6 +6,8 @@ class User < ActiveRecord::Base
     
   before_save :encrypt_password
 
+  has_many :authentications
+
   # VALIDATIONS
   validates :username, :presence => true
   validates :email, :presence => true,
