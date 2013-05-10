@@ -6,7 +6,11 @@
     <div class="row-fluid"> 
       <div class=" pull-right header_login_margin">
         <%= link_to "<i class='sprite-camera-small'></i>Get Started".html_safe, sign_up_path, :class => "btn btn-warning" %>
-        <%= link_to "Log in", sign_in_path, :class => "btn btn-info login_btn_padding" %>
+        <% if current_user.present? %>
+          <%= link_to "Sign Out", sign_out_path, :class => "btn btn-info login_btn_padding" %>
+        <% else %>
+          <%= link_to "Log in", sign_in_path, :class => "btn btn-info login_btn_padding" %>
+        <% end %>
       </div>
     </div>
 
