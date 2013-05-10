@@ -1,31 +1,58 @@
-<h1><%=t :singn_up %></h1>
-
 <%= form_for @user do |f| %>
-  <% if @user.errors.any? %>
-    <div class="error_messages">
-      <h2><%=t :form_is_invalid %></h2>
-      <ul>
-        <% for message in @user.errors.full_messages %>
-          <li><%= message %></li>
+
+  <div class="login_container">
+    <div class="row-fluid">
+      <div class="span6">
+        <div class="login_title"> Already an rVidi member? 
+          <%= link_to "Log In", sign_in_path %>
+        </div>
+        <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</p>
+        <br>
+        <br>
+        <div class="login_title">Login with Facebook or Twitter </div>
+        <%= link_to "<i class='sprite-facebook-white'></i>Login with Facebook".html_safe, "/auth/facebook", id: "sign_in", class: "btn btn-primary" %>
+        <%= link_to "<i class='sprite-twitter-white'></i>Login with Twitter".html_safe, "/auth/twitter", id: "sign_in", class: "btn btn-info" %>
+
+        <p class="margin_top_10"> rVidi will access friend list from Facebook or Twitter, allowing you to invite them to participate in videos, etc. Copy goes here explaining. You can also add your friend from Facebook or Twitter later on. </p>
+      </div>
+      <div class="span2 text_align_center">
+        <i class="sprite-or-icon" style="margin-top: 125px;"></i>
+      </div>
+      <div class="span4 text_align_center"> 
+        <div class="login_title">Create a New Account</div>
+        <% if @user.errors.any? %>
+          <div class="error_messages">
+            <h2><%=t :form_is_invalid %></h2>
+            <ul>
+              <% for message in @user.errors.full_messages %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
         <% end %>
-      </ul>
+
+        <%= f.text_field :username, :class => "span12", :placeholder => "Pick a Username" %>
+        <%= f.text_field :email, :class => "span12", :placeholder => "Email Address" %>
+        <%= f.text_field :password, :class => "span12", :placeholder => "Choose a Password" %>
+        <%= f.text_field :password_confirmation, :class => "span12", :placeholder => "Re-type Password" %>
+        <%= f.text_field :city, :class => "span12", :placeholder => "City" %>
+        <%= f.text_field :state, :class => "span12", :placeholder => "State" %>
+        <%= f.text_field :country, :class => "span12", :placeholder => "Country" %>
+
+        <label class="checkbox"><input type="checkbox"> I agree to the Terms and Condition</label>
+        <span  style="width:245px;height: 30px;margin-bottom: 10px;">
+          <img style="width:245px;height: 30px;margin-bottom: 10px;" src="/assets/capcha.png" alt="Contributors">
+        </span>
+        <input type="text" class="span12" placeholder="Type the two words above">
+      </div>
     </div>
-  <% end %>
-  <p> 
-    <%= t(:email) %><br />
-    <%= f.text_field :email %>
-  </p>
-  <p>
-    <%= t(:username) %><br />
-    <%= f.text_field :username %>
-  </p>
-  <p>
-    <%= t(:password) %><br />
-    <%= f.password_field :password %>
-  </p>
-  <p>
-    <%= t(:password_confirmation) %><br />
-    <%= f.password_field :password_confirmation %>
-  </p>
-  <p class="button"><%= f.submit %></p>
+  </div>
+  <!-- login container end here -->
+  <div class=" hr_bg"> 
+      <div class="text_align_center login_and_account"> 
+        <%= link_to "Cancel", home_index_path, :class => 'btn' %>
+        <i class="sprite-or-icon_black" style=""></i>
+        <%= f.submit 'Create Account', :class => "btn btn-warning" %>
+      </div>
+  </div>
 <% end %>

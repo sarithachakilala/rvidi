@@ -1,13 +1,36 @@
-<h1><%= t(:sign_in) %></h1>
-
 <%= form_tag sessions_path do %>
-  <p>
-    <%= t(:email_user) %><br />
-    <%= text_field_tag :login, params[:login] , :placeholder=> "Enter email or username"%>
-  </p>
-  <p>
-    <%= t(:password) %><br />
-    <%= password_field_tag :password %>
-  </p>
-  <p class="button"><%= submit_tag "Sign in" %></p>
+  <div class="login_container">
+    <div class="row-fluid">
+      <div class="span6">
+        <div class="login_title">
+          Need an rVidi Account? <%= link_to "Register", sign_up_path %>
+        </div>
+        <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</p>
+        <br>
+        <br>
+        <div class="login_title">Login with Facebook or Twitter </div>
+        <%= link_to "<i class='sprite-facebook-white'></i>Login with Facebook".html_safe, "/auth/facebook", id: "sign_in", class: "btn btn-primary" %>
+        <%= link_to "<i class='sprite-twitter-white'></i>Login with Twitter".html_safe, "/auth/twitter", id: "sign_in", class: "btn btn-info" %>
+
+        <p class="margin_top_10"> rVidi will access friend list from Facebook or Twitter, allowing you to invite them to participate in videos, etc. Copy goes here explaining. You can also add your friend from Facebook or Twitter later on. </p>
+      </div>
+      <div class="span2 text_align_center">
+        <i class="sprite-or-icon" style="margin-top: 125px;"></i>
+      </div>
+      <div class="span4 text_align_center"> 
+        <div class="login_title">Log In</div>
+
+        <%= text_field_tag :login, params[:login], :class => "span12", :placeholder=> "Enter email or password"%>
+        <%= password_field_tag :password, '', :class => "span12", :placeholder=> "Enter Password"%>
+      </div>
+    </div>
+  </div>  
+  <!-- login container end here -->
+  <div class=" hr_bg"> 
+      <div class="text_align_center login_and_account"> 
+        <%= link_to "Cancel", home_index_path, :class => 'btn' %>
+        <i class="sprite-or-icon_black" style=""></i>
+        <%= submit_tag "Sign in", :class => "btn btn-warning" %>
+      </div>
+  </div>
 <% end %>
