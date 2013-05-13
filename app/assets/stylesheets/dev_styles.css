@@ -1,1 +1,12 @@
 /* Styels Added by Developers Comes here. */
+.error-message {
+  margin: 0px;
+  font-size: 12px;
+  font-weight: normal;
+  color: #FF0000;
+  text-align: left;
+  float: left; 
+}
+.flash-messages{
+  text-align:center;
+}

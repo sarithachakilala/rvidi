@@ -281,8 +281,8 @@
       <div class="text_align_center" style="width: 140px;margin-left: 22px;">
         <div class="side_title text_align_center"> How It Works</div>
         <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
-        <div class="text_align_center" > <i class="sprite-account-icon"> </i></div>
-        <div class="text_align_center acc_text"> Create An Account</div>
+        <div class="text_align_center" > <%= link_to "<i class='sprite-account-icon'> </i>".html_safe, sign_up_path %></div>
+        <div class="text_align_center acc_text"> <%= link_to "Create An Account", sign_up_path %></div>
         <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
         <div class="text_align_center" > <i class="sprite-camera-big"> </i></div>
         <div class="text_align_center show_text"> Start Your Show </div>

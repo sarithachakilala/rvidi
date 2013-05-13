@@ -1,10 +1,8 @@
-<%= form_tag sessions_path do %>
+<%= form_tag sessions_path, :class => "js-validated-form" do %>
   <div class="login_container">
     <div class="row-fluid">
       <div class="span6">
-        <div class="login_title">
-          Need an rVidi Account? <%= link_to "Register", sign_up_path %>
-        </div>
+        <div class="login_title">Need an rVidi Account? <%= link_to "Join", sign_up_path %></div>
         <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book</p>
         <br>
         <br>
@@ -20,8 +18,8 @@
       <div class="span4 text_align_center"> 
         <div class="login_title">Log In</div>
 
-        <%= text_field_tag :login, params[:login], :class => "span12", :placeholder=> "Enter email or password"%>
-        <%= password_field_tag :password, '', :class => "span12", :placeholder=> "Enter Password"%>
+        <div><%= text_field_tag :login, params[:login], :class => "span12 js-required", :placeholder=> "Enter email or password"%></div>
+        <div><%= password_field_tag :password, '', :class => "span12 js-required", :placeholder=> "Enter Password"%></div>
       </div>
     </div>
   </div>  
@@ -33,4 +31,8 @@
         <%= submit_tag "Sign in", :class => "btn btn-warning" %>
       </div>
   </div>
+<% end %>
+
+<% content_for :js do %>
+  facebookLogin("<%= configatron.facebook_app_id %>");
 <% end %>
