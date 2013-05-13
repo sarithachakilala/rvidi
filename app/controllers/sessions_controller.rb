@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
    end
    if user
       session[:user_id] = user.id
-      redirect_to profile_user_path(:id=>user.id), :notice => "Logged in Successfully!"
+      redirect_to dashboard_user_path(user.id), :notice => "Logged in Successfully!"
     else
       flash.now.alert = "Invalid email or password"
       render "new"

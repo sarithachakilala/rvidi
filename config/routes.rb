@@ -17,7 +17,11 @@ Rvidi::Application.routes.draw do
   resources :users do
     member do
       get 'oauth_failure'    
-      get 'profile'    
+      get 'profile'
+      get 'getting_started'
+      get 'dashboard'
+      get 'friends'
+      get 'friend_profile'
     end
   end
 

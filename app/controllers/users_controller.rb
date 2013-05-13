@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  before_filter :get_user, :only => [:profile, :update, :show, :getting_started, :dashboard, :friends, :friend_profile]
+
   def new
     @user = User.new
   end
@@ -17,11 +19,9 @@ class UsersController < ApplicationController
   end
 
   def profile
-    @user = User.find(params[:id])
   end
 
   def update
-    @user = User.find(params[:id])
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to @user, notice: 'User was successfully updated.' }
@@ -34,13 +34,30 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @user }
     end
   end
 
+  def getting_started
+  end
+
+  def dashboard
+  end
+
+  def friends
+  end
+
+  def friend_profile
+    @friend = User.find(params[:friend_id])
+  end
+
+  private
+  def get_user
+    # Can we make it to be current_user always ??
+    # @user = current_user
+    @user = User.find(params[:id])
+  end
 
 end
