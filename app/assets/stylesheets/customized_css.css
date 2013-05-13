@@ -32,6 +32,18 @@
     vertical-align: middle;
     width: 20px;
 }
+.sprite-save-icon{
+    background-position: -653px -7px;
+    height: 25px;
+    vertical-align: middle;
+    width: 25px;
+}
+.sprite-flag-icon{
+    background-position: -653px -45px;
+    height: 25px;
+    vertical-align: middle;
+    width: 25px;
+}
 .sprite-into-icon{
     background-position: -376px -3px;
     height: 20px;
@@ -39,13 +51,13 @@
     width: 20px;
 }
 .sprite-camera-small{
-    background-position: -236px 0;
-    height: 27px;
+    background-position: -236px -2px;
+    height: 25px;
     width: 25px;
     vertical-align: middle;
 }
 .sprite-question-small{
-   background-position: -419px 0;
+   background-position: -419px -2px;
     height: 27px;
     vertical-align: middle;
     width: 25px;
@@ -57,7 +69,7 @@
     width: 40px;
 }
 .sprite-plus-small{
-      background-position: -790px -46px;
+      background-position: -790px -49px;
     height: 42px;
     vertical-align: middle;
     width: 40px;
@@ -89,7 +101,7 @@
     text-align: center;
 }
 .login_btn_padding{
-    padding: 8px 10px  !important;
+    padding: 7px 10px  !important;
 }
 .search_label{
     vertical-align: middle;
@@ -210,7 +222,7 @@
     width: 25px;
 }
 .thumbnail_image_widht{
-    width: 145px; height:94px;
+    width: 132px; height:94px;
 }
 .side_title{
     font-size: 30px;
@@ -260,8 +272,8 @@
     width: 82px;
 }
 .sprite-reel-white{
-     background-position: -703px -42px;
-    height: 36px;
+     background-position: -703px -46px;
+    height: 28px;
     vertical-align: middle;
     width: 80px;
 }
@@ -447,7 +459,7 @@
 }
 .myvision_title{
     color: #6e6d73;
-    font-size: 32px;
+    font-size: 34px;
     font-weight: bold;
 }
 .font_weight_bold{
@@ -471,7 +483,7 @@
     padding-right: 4px;
 }
 .prepend_background{
-    background-color: #ffffff !important;
+    background-color:#ffffff !important;
 }
 .hr_bg{
      background: url("/assets/white_hr.png") no-repeat;
@@ -486,6 +498,13 @@
      margin-left: 50px;
      position: absolute;
      width: 800px;
+}
+.hr_bg_gettingstarted{
+    background: url("/assets/white_hr.png") no-repeat scroll 0 0 transparent;
+    margin-left: 10px;
+    margin-top: 50px;
+    position: absolute;
+    width: 800px;
 }
 .login_and_account{
     margin-top:  -18px;vertical-align: middle;padding-bottom: 20px;position: relative;
@@ -633,7 +652,7 @@ padding-left: 20px;
 }
 .edit_subtitle{
     color: #ffffff;
-    line-height: 16px;
+    line-height: 20px;
     padding-left: 20px;
 }
 .scrollspy-example {
@@ -645,7 +664,7 @@ padding-left: 20px;
     padding-top: 20px;
 }
 .cameo_friends{
-    height: 410px; overflow: auto;position: relative;padding: 20px 0px;
+    height: 410px; overflow: auto;position: relative;padding: 20px 5px;background-color: #d1d2d4;
 }
 .contributors_image_size{
     width: 44px;height: 44px;float: left;
@@ -655,4 +674,74 @@ padding-left: 20px;
 }
 .edit_contributor_text{
     padding: 20px 30px;
+}
+.margin_top_30{
+    margin-top: 30px;
+}
+.feedback_textarea{
+    width: 740px;border: 4px solid #d1d2d4;
+}
+.buttons_height{
+    height: 150px;
+}
+.buttons_height_100{
+    height: 100px;
+}
+.feedback_btn{
+    margin-top: -10px;
+    position: relative;
+    vertical-align: middle;
+}
+.add_cameo_btn{
+    margin-top: -17px;
+    position: relative;
+    vertical-align: middle;
+}
+.gettingstarted_textarea{
+    width: 360px;border: 4px solid #d1d2d4;
+}
+.margin_bottom_10{
+    margin-bottom: 10px;
+}
+.chk_box_container{
+    padding: 5px;background-color: #d1d2d4;
+    border: 5px solid #ffffff;
+}
+.ratings_line{
+    line-height: 30px;
+    vertical-align: middle;
+}
+.invitation_padding{
+    padding: 10px 30px;
+}
+.save_flag_btn_width{
+    width: 212px;
+}
+.newshow_video_caption_bg{
+    background: #f7941d;
+    color: #ffffff;
+    padding: 10px 20px;
+    font-size: 16px;
+}
+.newshow_btn{
+    margin-top: -10px;
+}
+.textarea_bg_color{
+    background-color:  #ffffff !important;
+}
+.capcha_image{
+    width:250px;height: 30px;margin-bottom: 10px;margin-top: 20px;
+}
+.myvision_title_padding{
+    padding-left: 15px;
+}
+.invite_tocameo_btn_padding{
+    padding: 9px 12px !important;
+}
+.thumbnail_image_widht_five{
+    height: 94px;
+    width: 145px;
+}
+.search_input_bg{
+    background-color: #ffffff !important;
 }
