@@ -13,7 +13,9 @@ class SessionsController < ApplicationController
    end
    if user
       session[:user_id] = user.id
-      redirect_to dashboard_user_path(user.id), :notice => "Logged in Successfully!"
+      user.increment_sign_in_count
+      user_login_path = (user.sign_in_count > 1) ? dashboard_user_path(user.id) : getting_started_user_path(user.id)
+      redirect_to user_login_path, :notice => "Logged in Successfully!"
     else
       flash.now.alert = "Invalid email or password"
       render "new"

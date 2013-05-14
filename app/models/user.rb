@@ -13,28 +13,24 @@ class User < ActiveRecord::Base
   validates :email, :presence => true, :if => Proc.new { |user| user.provider.nil? }
   validates :email, :format => {:with => /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i,
                     :message => 'format is Invalid' },
+                    :uniqueness => true,
                     :if => Proc.new { |user| user.email.present? }
   validates :password, :presence => true, :on => :create, :if => Proc.new { |user| user.provider.nil?}
-  validates_confirmation_of :password_confirmation, :if => Proc.new { |user| user.provider.nil?}
+  validates :password_confirmation, :presence => true, :on => :create, :if => Proc.new { |user| user.provider.nil?}
+  validate :check_password_confirmation, :on => :create, :if => Proc.new { |user| user.password.present? && user.password_confirmation.present? }
   
+  def check_password_confirmation
+    is_valdiate = (self.password.present? && self.password_confirmation.present?) ? (self.password == self.password_confirmation) : true
+    self.errors.add(:password, " should match Password Confirmation")
+    return is_valdiate
+  end
+
   # CLASS METHODS
   def self.authenticate(login, password)
     user = User.find_by_username(login.downcase) || User.find_by_email(login)
     (user && user.match_password?(password)) ? user : nil
   end
   
-  # INSTANCE METHODS
-  def match_password?(password)
-    self.password_hash == BCrypt::Engine.hash_secret(password, self.password_salt)
-  end
-
-  def encrypt_password
-    if password.present?
-      self.password_salt = BCrypt::Engine.generate_salt
-      self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
-    end
-  end
-
   def self.from_omniauth(auth)
     unless auth.blank?
       where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
@@ -67,5 +63,22 @@ class User < ActiveRecord::Base
     user.city = auth.extra.raw_info.location if auth.extra.raw_info.location.present?
     user.oauth_token = auth.credentials.token
     user.save!
+  end  
+
+  # INSTANCE METHODS
+  def encrypt_password
+    if password.present?
+      self.password_salt = BCrypt::Engine.generate_salt
+      self.password_hash = BCrypt::Engine.hash_secret(password, password_salt)
+    end
   end
+
+  def increment_sign_in_count
+    self.update_attribute(:sign_in_count, (self.sign_in_count+1))
+  end
+
+  def match_password?(password)
+    self.password_hash == BCrypt::Engine.hash_secret(password, self.password_salt)
+  end
+
 end
