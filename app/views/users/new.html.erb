@@ -20,16 +20,6 @@
       </div>
       <div class="span4 text_align_center"> 
         <div class="login_title">Create a New Account</div>
-        <% if @user.errors.any? %>
-          <div class="error_messages">
-            <h2><%=t :form_is_invalid %></h2>
-            <ul>
-              <% for message in @user.errors.full_messages %>
-                <li><%= message %></li>
-              <% end %>
-            </ul>
-          </div>
-        <% end %>
 
         <div><%= f.text_field :username, :class => "span12 js-required", :placeholder => "Pick a Username" %></div>
         <div><%= f.text_field :email, :class => "span12 js-required", :placeholder => "Email Address" %></div>
@@ -40,16 +30,7 @@
         <div><%= f.text_field :country, :class => "span12", :placeholder => "Country" %></div>
 
         <label class="checkbox"><input type="checkbox"> I agree to the Terms and Condition</label>
-        <%= recaptcha_tags :public_key => '6Ld0H-ESAAAAAJKKxhs4c5wZ_yLlRSN9vAuj98GJ', :ssl => true %> 
-
-
-<!--         <span  style="width:245px;height: 30px;margin-bottom: 10px;">
-          <img style="width:245px;height: 30px;margin-bottom: 10px;" src="/assets/capcha.png" alt="Contributors">
-        </span>
-        <input type="text" class="span12" placeholder="Type the two words above">
- -->
-
-
+        <%= recaptcha_tags :public_key => '6Ld0H-ESAAAAAJKKxhs4c5wZ_yLlRSN9vAuj98GJ', :ssl => true %>
       </div>
     </div>
   </div>
@@ -66,17 +47,3 @@
 <% content_for :js do %>
   facebookLogin("<%= configatron.facebook_app_id %>");
 <% end %>
-
-<%# content_for :js_with_tag do %>
-<!--  <script type="text/javascript"
-       src="http://www.google.com/recaptcha/api/challenge?k=6Ld0H-ESAAAAAJKKxhs4c5wZ_yLlRSN9vAuj98GJ">
-    </script>
-    <noscript>
-       <iframe src="http://www.google.com/recaptcha/api/noscript?k=6Ld0H-ESAAAAAJKKxhs4c5wZ_yLlRSN9vAuj98GJ"
-           height="300" width="500" frameborder="0"></iframe><br>
-       <textarea name="recaptcha_challenge_field" rows="3" cols="40">
-       </textarea>
-       <input type="hidden" name="recaptcha_response_field"
-           value="manual_challenge">
-    </noscript> -->
-<%# end %>
