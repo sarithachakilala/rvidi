@@ -1,31 +1,27 @@
 <div class="row-fluid">
   <div class="span6">
-    <div class="sprite-logo" style="float: left;"> </div>
+    <%= link_to "", root_path, :class => "sprite-logo", :style => "float: left;" %>
   </div>
   <div class="span6">
     <div class="row-fluid"> 
       <div class=" pull-right header_login_margin">
-        <%= link_to "<i class='sprite-camera-small'></i>Get Started".html_safe, sign_up_path, :class => "btn btn-warning" %>
-        <%= link_to "Log in", sign_in_path, :class => "btn btn-info login_btn_padding" %>
-      </div>
-    </div>
-
-    <!-- search Button desktop view -->
-    <div class="row-fluid hidden-phone hidden-tablet">
-      <div class="span6 text_align_right search_label">GO PRO JOIN</div>
-      <div class="span6">
-        <div class="input-append pull-right">
-          <div class="input-prepend input-append search_padding">
-            <span class="add-on prepend_background" ><i class="icon-search"></i></span>
-            <input class="span9" id="appendedPrependedInput" type="text" placeholder="Search Shows">
-            <span class="add-on btn-warning">Go</span>
+        <% if current_user.present? %>
+          <div class="btn-group">
+            <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#" style="line-height: 14px;">
+              Hi <%= current_user.username %><br>
+              Your Account
+              <i class="sprite-downarrow-white caret_margin"></i>
+            </a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "My Friends", friends_user_path(current_user.id), :tabindex => "-1" %></li>
+              <li><%= link_to "My Account", profile_user_path(current_user.id), :tabindex => "-1" %></li>
+            </ul>
           </div>
-          <div> 
-            <label class="checkbox">
-              <input type="checkbox">Search only open shows
-            </label>
-          </div>
-        </div>
+          <%= link_to "Sign Out", sign_out_path, :class => "btn btn-info login_btn_padding" %>
+        <% else %>
+          <%= link_to "<i class='sprite-camera-small'></i>Get Started".html_safe, sign_up_path, :class => "btn btn-warning" %>
+          <%= link_to "Log in", sign_in_path, :class => "btn btn-info login_btn_padding" %>
+        <% end %>
       </div>
     </div>
   </div>

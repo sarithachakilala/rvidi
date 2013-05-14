@@ -6,14 +6,14 @@ class SessionsController < ApplicationController
   def create
     if params[:provider]=="facebook"
       user = User.find_by_provider_and_uid(env["omniauth.auth"].provider, env["omniauth.auth"].uid) || User.from_omniauth(env["omniauth.auth"])
-    elsif env["omniauth.auth"].provider=="twitter"
+    elsif (env["omniauth.auth"].present? && (env["omniauth.auth"].provider=="twitter"))
       user = User.from_omniauth(env["omniauth.auth"])
     else
       user = User.authenticate(params[:login], params[:password]) 
    end
    if user
       session[:user_id] = user.id
-      redirect_to profile_user_path(:id=>user.id), :notice => "Logged in!"
+      redirect_to dashboard_user_path(user.id), :notice => "Logged in Successfully!"
     else
       flash.now.alert = "Invalid email or password"
       render "new"
@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
-    redirect_to root_url, :notice => "Logged out!"
+    redirect_to root_url, :notice => "Logged out Successfully!"
   end
 
 end

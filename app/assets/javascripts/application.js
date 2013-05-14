@@ -14,4 +14,5 @@
 //= require bootstrap
 //= require bootstrap-carousel
 //= require facebook
+//= require js-validations
 //= require utilities

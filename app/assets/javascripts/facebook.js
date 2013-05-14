@@ -7,25 +7,27 @@ jQuery(function() {
   });
 });
 
-window.fbAsyncInit = function() {
-  FB.init({
-    appId: '443407499077841',
-    cookie: true
-  });
-  $('#sign_in').click(function(e) {
-    e.preventDefault();
-    return FB.login(function(response) {
-      if (response.authResponse) {
-        return window.location = '/auth/facebook/callback';
-      }
+function facebookLogin(facebook_app_id){
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId: facebook_app_id,
+      cookie: true
     });
-  });
-  return $('#sign_out').click(function(e) {
-    FB.getLoginStatus(function(response) {
-      if (response.authResponse) {
-        return FB.logout();
-      }
+    $('#sign_in').click(function(e) {
+      e.preventDefault();
+      return FB.login(function(response) {
+        if (response.authResponse) {
+          return window.location = '/auth/facebook/callback';
+        }
+      });
     });
-    return true;
-  });
-};
+    return $('#sign_out').click(function(e) {
+      FB.getLoginStatus(function(response) {
+        if (response.authResponse) {
+          return FB.logout();
+        }
+      });
+      return true;
+    });
+  };
+}

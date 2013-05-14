@@ -1098,9 +1098,9 @@ input[type="color"],
   line-height: 20px;
   color: #555555;
   vertical-align: middle;
-  -webkit-border-radius: 4px;
+ /* -webkit-border-radius: 4px;
      -moz-border-radius: 4px;
-          border-radius: 4px;
+          border-radius: 4px; */
 }
 
 input,
@@ -1129,7 +1129,7 @@ input[type="search"],
 input[type="tel"],
 input[type="color"],
 .uneditable-input {
-  background-color: #ffffff;
+  background-color: #e2e6e7;
   border: 1px solid #cccccc;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
      -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -1751,25 +1751,25 @@ select:focus:invalid:focus {
 
 .input-prepend .add-on:first-child,
 .input-prepend .btn:first-child {
-  -webkit-border-radius: 4px 0 0 4px;
+/*  -webkit-border-radius: 4px 0 0 4px;
      -moz-border-radius: 4px 0 0 4px;
-          border-radius: 4px 0 0 4px;
+          border-radius: 4px 0 0 4px; */
 }
 
 .input-append input,
 .input-append select,
 .input-append .uneditable-input {
-  -webkit-border-radius: 4px 0 0 4px;
+ /* -webkit-border-radius: 4px 0 0 4px;
      -moz-border-radius: 4px 0 0 4px;
-          border-radius: 4px 0 0 4px;
+          border-radius: 4px 0 0 4px; */
 }
 
 .input-append input + .btn-group .btn:last-child,
 .input-append select + .btn-group .btn:last-child,
 .input-append .uneditable-input + .btn-group .btn:last-child {
-  -webkit-border-radius: 0 4px 4px 0;
+/*  -webkit-border-radius: 0 4px 4px 0;
      -moz-border-radius: 0 4px 4px 0;
-          border-radius: 0 4px 4px 0;
+          border-radius: 0 4px 4px 0; */
 }
 
 .input-append .add-on,
@@ -1781,9 +1781,9 @@ select:focus:invalid:focus {
 .input-append .add-on:last-child,
 .input-append .btn:last-child,
 .input-append .btn-group:last-child > .dropdown-toggle {
-  -webkit-border-radius: 0 4px 4px 0;
+/*  -webkit-border-radius: 0 4px 4px 0;
      -moz-border-radius: 0 4px 4px 0;
-          border-radius: 0 4px 4px 0;
+          border-radius: 0 4px 4px 0; */
 }
 
 .input-prepend.input-append input,
@@ -1797,25 +1797,25 @@ select:focus:invalid:focus {
 .input-prepend.input-append input + .btn-group .btn,
 .input-prepend.input-append select + .btn-group .btn,
 .input-prepend.input-append .uneditable-input + .btn-group .btn {
-  -webkit-border-radius: 0 4px 4px 0;
+/*  -webkit-border-radius: 0 4px 4px 0;
      -moz-border-radius: 0 4px 4px 0;
-          border-radius: 0 4px 4px 0;
+          border-radius: 0 4px 4px 0; */
 }
 
 .input-prepend.input-append .add-on:first-child,
 .input-prepend.input-append .btn:first-child {
   margin-right: -1px;
-  -webkit-border-radius: 4px 0 0 4px;
+/*  -webkit-border-radius: 4px 0 0 4px;
      -moz-border-radius: 4px 0 0 4px;
-          border-radius: 4px 0 0 4px;
+          border-radius: 4px 0 0 4px; */
 }
 
 .input-prepend.input-append .add-on:last-child,
 .input-prepend.input-append .btn:last-child {
   margin-left: -1px;
-  -webkit-border-radius: 0 4px 4px 0;
+/*  -webkit-border-radius: 0 4px 4px 0;
      -moz-border-radius: 0 4px 4px 0;
-          border-radius: 0 4px 4px 0;
+          border-radius: 0 4px 4px 0; */
 }
 
 .input-prepend.input-append .btn-group:first-child {
@@ -2913,13 +2913,13 @@ table th[class*="span"],
   left: 0;
   z-index: 1000;
   display: none;
-  float: left;
-  min-width: 160px;
-  padding: 5px 0;
-  margin: 2px 0 0;
+ /*  float: left; */
+  min-width: 125px;
+  padding: 5px 10px;
+  margin: 1px 0 0;
   list-style: none;
-  background-color: #ffffff;
-  border: 1px solid #ccc;
+  background-color: #111111;
+ border: 1px solid #ccc;
   border: 1px solid rgba(0, 0, 0, 0.2);
   *border-right-width: 2px;
   *border-bottom-width: 2px;
@@ -2928,7 +2928,7 @@ table th[class*="span"],
           border-radius: 6px;
   -webkit-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
      -moz-box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2); 
   -webkit-background-clip: padding-box;
      -moz-background-clip: padding;
           background-clip: padding-box;
@@ -2955,7 +2955,7 @@ table th[class*="span"],
   clear: both;
   font-weight: normal;
   line-height: 20px;
-  color: #333333;
+  color: #ffffff;
   white-space: nowrap;
 }
 
@@ -3012,6 +3012,7 @@ table th[class*="span"],
 
 .open > .dropdown-menu {
   display: block;
+  color: #ffffff;
 }
 
 .pull-right > .dropdown-menu {
@@ -4258,7 +4259,7 @@ input[type="submit"].btn.btn-mini {
  height: auto;
    background: url("/assets/tp_bg.png") repeat;
   padding: 5px 20px 5px 20px;
-  margin: 0 43px 10px 17px;
+  margin: 0 0px 10px 17px;
 }
 
 .tab-content > .active,
