@@ -4,6 +4,6 @@ Feature: Register User
   I want to singn up into the application
 
   Scenario:Register the User into the application
-    When i click on "Sign up"
+    When i click on "Join"
     Then user is able to create his "profile"
     

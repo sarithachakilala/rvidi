@@ -8,7 +8,7 @@ en:
         create: "Create a %{model}"
         update: "Confirm changes to %{model}"
 
-  singn_up: "Sign Up"
+  sign_up: "Join"
   form_is_invalid: "Form is invalid"
   hello: "Hello world"
   email: "Email"
@@ -17,7 +17,7 @@ en:
   password: "Password"
   password_confirmation: "Password Confirmation"  # we can use helpers for lables...(for further)
 
-  sign_in: "Sign in"
+  log_in: "Log in"
   city: "City"
   state: "State"
   country: "Country"

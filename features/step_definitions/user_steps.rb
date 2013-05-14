@@ -1,6 +1,6 @@
 When(/^i click on "(.*?)"$/) do |arg1|
   visit '/sessions/new'
-  click_link 'Sign up'
+  click_link 'Join'
 end
 
 Then(/^user is able to create his "(.*?)"$/) do |arg1|
