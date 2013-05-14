@@ -38,12 +38,18 @@
         <%= f.text_field :city, :class => "span12", :placeholder => "City" %>
         <%= f.text_field :state, :class => "span12", :placeholder => "State" %>
         <%= f.text_field :country, :class => "span12", :placeholder => "Country" %>
-
+      
         <label class="checkbox"><input type="checkbox"> I agree to the Terms and Condition</label>
-        <span  style="width:245px;height: 30px;margin-bottom: 10px;">
+        <%= recaptcha_tags :public_key => '6Ld0H-ESAAAAAJKKxhs4c5wZ_yLlRSN9vAuj98GJ', :ssl => true %> 
+
+
+<!--         <span  style="width:245px;height: 30px;margin-bottom: 10px;">
           <img style="width:245px;height: 30px;margin-bottom: 10px;" src="/assets/capcha.png" alt="Contributors">
         </span>
         <input type="text" class="span12" placeholder="Type the two words above">
+ -->
+
+
       </div>
     </div>
   </div>
@@ -56,3 +62,21 @@
       </div>
   </div>
 <% end %>
+
+<% content_for :js do %>
+  facebookLogin("<%= configatron.facebook_app_id %>");
+<% end %>
+
+<%# content_for :js_with_tag do %>
+<!--  <script type="text/javascript"
+       src="http://www.google.com/recaptcha/api/challenge?k=6Ld0H-ESAAAAAJKKxhs4c5wZ_yLlRSN9vAuj98GJ">
+    </script>
+    <noscript>
+       <iframe src="http://www.google.com/recaptcha/api/noscript?k=6Ld0H-ESAAAAAJKKxhs4c5wZ_yLlRSN9vAuj98GJ"
+           height="300" width="500" frameborder="0"></iframe><br>
+       <textarea name="recaptcha_challenge_field" rows="3" cols="40">
+       </textarea>
+       <input type="hidden" name="recaptcha_response_field"
+           value="manual_challenge">
+    </noscript> -->
+<%# end %>

@@ -8,6 +8,9 @@ gem 'psych'                                          # Libyaml Wrapper for Ruby
 gem 'configatron'                                    # to add configuration values as environment specific and as default values as well.
 gem 'omniauth-facebook', '1.4.0'                     # For Integrating Facebook
 gem 'omniauth-twitter'                               # For Integrating Twitter
+gem "recaptcha", :require => "recaptcha/rails"
+gem 'rmagick'
+gem 'recaptcha'
 
 # DB Related
 gem 'pg'
