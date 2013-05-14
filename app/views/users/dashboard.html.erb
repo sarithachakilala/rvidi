@@ -17,14 +17,130 @@
   <div style="padding-left: 20px;" class="span12"> 
     <div class="tabbable"> 
       <ul class="nav nav-tabs" style="padding-left:17px;">
-        <li><a data-toggle="tab" href="#tab1">My Show</a></li>
+        <li><a data-toggle="tab" href="#tab1">My Shows</a></li>
         <li class="active"><a data-toggle="tab" href="#tab2">Cameos</a></li>
-        <li><a data-toggle="tab" href="#tab3">Top Rated</a></li>
       </ul>
       <div class="tab-content">
         <div id="tab1" class="tab-pane">
-          <p> channel</p>
+          <div class="span text_align_right"> 
+            <a class="sprite-list-icon" href="#"> </a>
+            <a class="sprite-details-icon-lite" href="#"> </a>
+          </div>
+          <!-- Thumbnail start here -->
+          <div class="row-fluid">
+            <ul class="thumbnails margin_top_5">
+              <li class="thumbnail_fivegroup lengthier" style="">
+                <div class="thumbnail">
+                  <div class="triangle-with-shadow item">  
+                    <a> 
+                      <img class="thumbnail_image_widht_five" src="/assets/photo_background_2916660.jpeg" alt="300x200"> 
+                      <span class="play"></span> 
+                    </a>
+                  </div>
+                  <div class="row-fluid caption1 ">
+                    <div class="span9">
+                      <div class="thumbnail_title">Title of the show </div>
+                      <div class="thumbnail_name">Director Name </div>
+                      <div class="thumbnail_contributor">6 Contributors </div>
+                      <div class="thumbnail_contributor"><%= link_to "Edit Show", edit_show_path %> </div>
+                    </div>
+                    <div class="span3"> 
+                      <i class="sprite-thumbnail_title_icon"></i>
+                    </div>
+                  </div>
+
+                </div>
+
+              </li>
+              <li class="thumbnail_fivegroup lengthier">
+                <div class="thumbnail">
+                  <div class="triangle-with-shadow item">  
+                    <a> 
+                      <img class="thumbnail_image_widht_five" src="/assets/Girl_looking_next_to_path_2687938.jpeg" alt="300x200"> 
+                      <span class="play"></span> 
+                    </a>
+                  </div>
+                  <div class="row-fluid caption1 ">
+                    <div class="span9">
+                      <div class="thumbnail_title">Title of the show </div>
+                      <div class="thumbnail_name">Director Name </div>
+                      <div class="thumbnail_contributor">6 Contributors </div>
+                      <div class="thumbnail_contributor"><%= link_to "Edit Show", edit_show_path %> </div>
+                    </div>
+                    <div class="span3"> 
+                      <i class="sprite-thumbnail_title_icon"></i>
+                    </div>
+                  </div>
+
+                </div>
+              </li>
+              <li class="thumbnail_fivegroup lengthier">
+                <div class="thumbnail">
+                  <div class="triangle-with-shadow item">   
+                    <a> 
+                      <img class="thumbnail_image_widht_five" src="/assets/Living-room-CBP1045831.jpeg" alt="300x200"> 
+                      <span class="play"></span> 
+                    </a>
+                  </div>
+                  <div class="row-fluid caption1 ">
+                    <div class="span9">
+                      <div class="thumbnail_title">Title of the show </div>
+                      <div class="thumbnail_name">Director Name </div>
+                      <div class="thumbnail_contributor">6 Contributors </div>
+                      <div class="thumbnail_contributor"><%= link_to "Edit Show", edit_show_path %> </div>
+                    </div>
+                    <div class="span3"> 
+                      <i class="sprite-thumbnail_title_icon"></i>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="thumbnail_fivegroup lengthier">
+                <div class="thumbnail">
+                  <div class="triangle-with-shadow item">  
+                    <a> 
+                      <img class="thumbnail_image_widht_five" src="/assets/Elderly-man-looking-at-photographs-FAN2036854.jpeg" alt="300x200"> 
+                      <span class="play"></span> 
+                    </a>
+                  </div>
+                  <div class="row-fluid caption1 ">
+                    <div class="span9">
+                      <div class="thumbnail_title">Title of the show </div>
+                      <div class="thumbnail_name">Director Name </div>
+                      <div class="thumbnail_contributor">6 Contributors </div>
+                      <div class="thumbnail_contributor"><%= link_to "Edit Show", edit_show_path %> </div>
+                    </div>
+                    <div class="span3"> 
+                      <i class="sprite-thumbnail_title_icon"></i>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li class="thumbnail_fivegroup lengthier">
+                <div class="thumbnail item">
+                  <div class="triangle-with-shadow">  
+                    <a> 
+                      <img class="thumbnail_image_widht_five" src="/assets/Living-room-CBP1045831.jpeg" alt="300x200"> 
+                      <span class="play"></span> 
+                    </a>
+                  </div>
+                  <div class="row-fluid caption1 ">
+                    <div class="span9">
+                      <div class="thumbnail_title">Title of the show </div>
+                      <div class="thumbnail_name">Director Name </div>
+                      <div class="thumbnail_contributor">6 Contributors </div>
+                      <div class="thumbnail_contributor"><%= link_to "Edit Show", edit_show_path %> </div>
+                    </div>
+                    <div class="span3"> 
+                      <i class="sprite-thumbnail_title_icon"></i>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
+
         <div id="tab2" class="tab-pane  active">
           <div class="span text_align_right"> 
             <a class="sprite-list-icon" href="#"> </a>
@@ -355,14 +471,12 @@
           <!-- Thumbnail end here -->
           <div class="see_more text_align_right margin_top_10"> See more</div>
         </div>
-        <div id="tab3" class="tab-pane">
-          <div>Top Rated</div>
-        </div>
+
       </div>
     </div>
     <div class="hr_bg_welcome"> 
       <div class="text_align_center login_and_account"> 
-        <a href="#" class="btn btn-warning "><i class="sprite-camera-white"></i>Start a new show</a>
+        <%= link_to "<i class='sprite-camera-white'></i>Start a new show".html_safe, new_show_path, :class => "btn btn-warning" %>
       </div>
     </div>
   </div>

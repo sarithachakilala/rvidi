@@ -13,7 +13,7 @@ class ShowsController < ApplicationController
   # GET /shows/1
   # GET /shows/1.json
   def show
-    @show = Show.find(params[:id])
+    # @show = Show.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -34,7 +34,7 @@ class ShowsController < ApplicationController
 
   # GET /shows/1/edit
   def edit
-    @show = Show.find(params[:id])
+    # @show = Show.find(params[:id])
   end
 
   # POST /shows

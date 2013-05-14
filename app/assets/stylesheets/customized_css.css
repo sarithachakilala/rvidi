@@ -514,8 +514,11 @@
     float: left;
     margin-left: 10px !important;
 }
+.thumbnail_fivegroup.lengthier{
+    height: 170px;
+}
 .thumbnail .caption1 {
-  padding: 9px 0px 9px 0px;
+  padding: 6px 0px 6px 0px;
   color: #555555;
 }
 .item {  }  
