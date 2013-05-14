@@ -1,6 +1,6 @@
 <div class="row-fluid">
   <div class="span6">
-    <%= link_to "", root_path, :class => "sprite-logo", :style => "float: left;" %>
+    <%= link_to "", user_root_path, :class => "sprite-logo", :style => "float: left;" %>
   </div>
   <div class="span6">
     <div class="row-fluid"> 
@@ -13,6 +13,7 @@
               <i class="sprite-downarrow-white caret_margin"></i>
             </a>
             <ul class="dropdown-menu">
+              <li><%= link_to "Dashboard", dashboard_user_path(current_user.id), :tabindex => "-1" %></li>
               <li><%= link_to "My Friends", friends_user_path(current_user.id), :tabindex => "-1" %></li>
               <li><%= link_to "My Account", profile_user_path(current_user.id), :tabindex => "-1" %></li>
             </ul>

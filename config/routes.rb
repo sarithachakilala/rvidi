@@ -1,14 +1,19 @@
 Rvidi::Application.routes.draw do
 
-  get "home/index"
-
-  resources :shows
+  resources :cameos
+  resources :shows do
+    member do
+      get 'view_invitation'
+    end
+  end
   resources :sessions
+
   match "/auth/twitter/callback" => "sessions#create"
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
   match 'sign_out', to: 'sessions#destroy', as: 'sign_out'
 
+  get "home/index"
   get "sessions/new"
 
   get "sign_in" => "sessions#new", :as => "sign_in"

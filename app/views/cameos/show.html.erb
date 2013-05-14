@@ -1,0 +1,35 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <b>Video:</b>
+  <%= @cameo.video_id %>
+</p>
+
+<p>
+  <b>User:</b>
+  <%= @cameo.user_id %>
+</p>
+
+<p>
+  <b>Director:</b>
+  <%= @cameo.director_id %>
+</p>
+
+<p>
+  <b>Status:</b>
+  <%= @cameo.status %>
+</p>
+
+<p>
+  <b>Show:</b>
+  <%= @cameo.show_id %>
+</p>
+
+<p>
+  <b>Show order:</b>
+  <%= @cameo.show_order %>
+</p>
+
+
+<%= link_to 'Edit', edit_cameo_path(@cameo) %> |
+<%= link_to 'Back', cameos_path %>

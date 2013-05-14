@@ -1,0 +1,41 @@
+<%= form_for(@cameo) do |f| %>
+  <% if @cameo.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@cameo.errors.count, "error") %> prohibited this cameo from being saved:</h2>
+
+      <ul>
+      <% @cameo.errors.full_messages.each do |msg| %>
+        <li><%= msg %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :video_id %><br />
+    <%= f.number_field :video_id %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br />
+    <%= f.number_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :director_id %><br />
+    <%= f.number_field :director_id %>
+  </div>
+  <div class="field">
+    <%= f.label :status %><br />
+    <%= f.text_field :status %>
+  </div>
+  <div class="field">
+    <%= f.label :show_id %><br />
+    <%= f.number_field :show_id %>
+  </div>
+  <div class="field">
+    <%= f.label :show_order %><br />
+    <%= f.number_field :show_order %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

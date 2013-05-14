@@ -80,4 +80,9 @@ class ShowsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  # To View the cameo Invitation of a Shwo
+  def view_invitation
+    # @show = Show.find(params[:id])
+  end
 end

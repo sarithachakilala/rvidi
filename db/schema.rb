@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130508093940) do
+ActiveRecord::Schema.define(:version => 20130514074417) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -21,6 +21,17 @@ ActiveRecord::Schema.define(:version => 20130508093940) do
     t.datetime "oauth_expires_at"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+  end
+
+  create_table "cameos", :force => true do |t|
+    t.integer  "video_id"
+    t.integer  "user_id"
+    t.integer  "director_id"
+    t.string   "status"
+    t.integer  "show_id"
+    t.integer  "show_order"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "delayed_jobs", :force => true do |t|
@@ -38,24 +49,6 @@ ActiveRecord::Schema.define(:version => 20130508093940) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
-
-  create_table "profiles", :force => true do |t|
-    t.string   "username"
-    t.string   "email"
-    t.string   "password_salt"
-    t.string   "password_hash"
-    t.string   "city"
-    t.string   "country"
-    t.string   "provide"
-    t.string   "name"
-    t.string   "uid"
-    t.integer  "profile_video_id"
-    t.text     "description"
-    t.string   "oauth_token"
-    t.datetime "oauth_exprites_at"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
-  end
 
   create_table "shows", :force => true do |t|
     t.integer  "user_id"
