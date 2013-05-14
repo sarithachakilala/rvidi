@@ -20,9 +20,9 @@ class User < ActiveRecord::Base
   validate :check_password_confirmation, :on => :create, :if => Proc.new { |user| user.password.present? && user.password_confirmation.present? }
   
   def check_password_confirmation
-    is_valdiate = (self.password.present? && self.password_confirmation.present?) ? (self.password == self.password_confirmation) : true
-    self.errors.add(:password, " should match Password Confirmation")
-    return is_valdiate
+    is_valdiated = (self.password.present? && self.password_confirmation.present?) ? (self.password == self.password_confirmation) : true
+    self.errors.add(:password, " should match Password Confirmation") unless is_valdiated
+    return is_valdiated
   end
 
   # CLASS METHODS
