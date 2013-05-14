@@ -7,7 +7,8 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(params[:user])
-    if @user.save
+    if verify_recaptcha(:model => @user, :message => "Oh! It's error with reCAPTCHA!", :private_key=>'6Ld0H-ESAAAAAEEPiXGvWRPWGS37UvgaeSpjpFN2') && @user.save
+    # if @user.save
       redirect_to root_url, :notice => "Account Created Successfully!"
     else
       render "new"
