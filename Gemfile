@@ -9,8 +9,6 @@ gem 'configatron'                                    # to add configuration valu
 gem 'omniauth-facebook', '1.4.0'                     # For Integrating Facebook
 gem 'omniauth-twitter'                               # For Integrating Twitter
 gem "recaptcha", :require => "recaptcha/rails"
-gem 'rmagick'
-gem 'recaptcha'
 
 # DB Related
 gem 'pg'
