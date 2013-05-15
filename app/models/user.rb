@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   attr_accessor :password, :password_confirmation, :terms_conditions
 
   attr_accessible :email, :password, :password_confirmation, :username, :city, :state, :country,
-                  :name, :description, :provider, :uid
+                  :name, :description, :provider, :uid, :terms_conditions
     
   before_save :encrypt_password
 
@@ -30,7 +30,7 @@ class User < ActiveRecord::Base
   validate :check_password_confirmation, :on => :create,
            :if => Proc.new { |user| user.password.present? && user.password_confirmation.present? }
 
-  validates :terms_conditions, :presence => true,
+  validates :terms_conditions, :acceptance => true,
                                :on => :create
   
   def check_password_confirmation

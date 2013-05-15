@@ -28,7 +28,10 @@
         <div><%= f.text_field :city, :class => "span12", :placeholder => "City" %></div>
         <div><%= f.text_field :state, :class => "span12", :placeholder => "State" %></div>
         <div><%= f.text_field :country, :class => "span12", :placeholder => "Country" %></div>
-        <label class="checkbox"><input type="checkbox" clss ='span12 js-required'> I agree to the Terms and Condition</label>
+        <div>
+          <%= f.check_box :terms_conditions, :class => "js-required", :placeholder => "Country" %>
+          <span> I agree to the Terms and Condition</span>
+        </div>
       </div>
     </div>
     <div class="row-fluid">
