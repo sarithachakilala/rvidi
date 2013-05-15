@@ -11,3 +11,12 @@
 /* Hint to resize / style the recaptcha Image  */
 /*.recaptcha-div #recaptcha_widget_div { width: 250px; overflow:hidden; }
 .recaptcha-div #recaptcha_image img  { width: 250px; }*/
+
+/* To remove the privacy conditions */
+.recaptcha_only_if_privacy 
+{
+  float: right;
+  text-align: right;
+  display: none;
+}
+
