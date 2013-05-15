@@ -50,6 +50,24 @@ ActiveRecord::Schema.define(:version => 20130514103151) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "profiles", :force => true do |t|
+    t.string   "username"
+    t.string   "email"
+    t.string   "password_salt"
+    t.string   "password_hash"
+    t.string   "city"
+    t.string   "country"
+    t.string   "provide"
+    t.string   "name"
+    t.string   "uid"
+    t.integer  "profile_video_id"
+    t.text     "description"
+    t.string   "oauth_token"
+    t.datetime "oauth_exprites_at"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
   create_table "shows", :force => true do |t|
     t.integer  "user_id"
     t.string   "title"

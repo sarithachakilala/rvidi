@@ -1,6 +1,7 @@
 class User < ActiveRecord::Base
   
   attr_accessor :password, :password_confirmation, :terms_conditions
+
   attr_accessible :email, :password, :password_confirmation, :username, :city, :state, :country,
                   :name, :description, :provider, :uid
     
@@ -11,16 +12,26 @@ class User < ActiveRecord::Base
   # VALIDATIONS
   validates :username, :presence => true,
                        :uniqueness => true, :if => Proc.new { |user| user.provider.nil? }
+
   validates :email, :presence => true, :if => Proc.new { |user| user.provider.nil? }
   validates :email, :format => {:with => /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i,
                     :message => 'format is Invalid' },
                     :uniqueness => true,
                     :if => Proc.new { |user| user.email.present? }
-  validates :password, :presence => true, :on => :create, :if => Proc.new { |user| user.provider.nil?}
-  validates :password_confirmation, :presence => true, :on => :create, :if => Proc.new { |user| user.provider.nil?}
-  validate :check_password_confirmation, :on => :create, :if => Proc.new { |user| user.password.present? && user.password_confirmation.present? }
-  # validates :terms_conditions, :presence => true, :on => :create
-  validates :terms_conditions, :presence => true, :on => :create
+
+  validates :password, :presence => true, 
+                       :on => :create, 
+                       :if => Proc.new { |user| user.provider.nil?}
+
+  validates :password_confirmation, :presence => true,
+                                    :on => :create,
+                                    :if => Proc.new { |user| user.provider.nil?}
+
+  validate :check_password_confirmation, :on => :create,
+           :if => Proc.new { |user| user.password.present? && user.password_confirmation.present? }
+
+  validates :terms_conditions, :presence => true,
+                               :on => :create
   
   def check_password_confirmation
     is_valdiated = (self.password.present? && self.password_confirmation.present?) ? (self.password == self.password_confirmation) : true
@@ -35,17 +46,9 @@ class User < ActiveRecord::Base
   end
   
   def self.from_omniauth(auth)
-    unless auth.blank?
-      where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
-        # user.provider = auth.provider
-        # user.uid = auth.uid
-        user.name = auth.info.name if auth.info.present?
-        if auth.provider == "facebook"
-          user = user_facebook_details(auth,user)
-        else
-          user = user_twitter_details(auth,user)
-        end
-      end
+    where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+      user.name = auth.info.name if auth.info.present?
+      user = (auth.provider == "facebook") ? user_facebook_details(auth,user) : user_twitter_details(auth,user)
     end
   end
 
@@ -53,21 +56,15 @@ class User < ActiveRecord::Base
     user = User.find_by_email(auth.info.email)
     if user
       authentication = Authentication.where(:user_id => user.id).first
-      unless authentication 
-        authentication_record(auth,user)
-      end
+      authentication_record(auth,user) unless authentication 
     else
       authentication = Authentication.where(:uid => auth.uid).first
-      unless authentication 
-        authentication_record(auth,user)
-      end 
+      authentication_record(auth,user) unless authentication 
       user.username = auth.extra.raw_info.username if auth.info.username.present?
       user.email = auth.info.email
       user.description = auth.extra.raw_info.bio if auth.extra.raw_info.bio.present?
       user.city = auth.extra.raw_info.hometown.name if auth.extra.raw_info.hometown.present?
       user.state = auth.extra.raw_info.location.name   if auth.extra.raw_info.location.present?
-      # user.oauth_token = auth.credentials.token
-      # user.oauth_expires_at = Time.at(auth.credentials.expires_at)
       user.save!
     end 
   end 
@@ -76,9 +73,7 @@ class User < ActiveRecord::Base
     user = User.find_by_username(auth.extra.raw_info.screen_name)
     if user
       authentication = Authentication.where(:user_id => user.id).first
-      unless authentication 
-        authentication_record(auth,user)
-      end
+      authentication_record(auth,user) unless authentication 
     else
       authentication = Authentication.where(:uid => auth.uid).first
       unless authentication 
@@ -87,8 +82,8 @@ class User < ActiveRecord::Base
       user.username = auth.extra.raw_info.screen_name
       user.description = auth.extra.raw_info.description
       user.city = auth.extra.raw_info.location if auth.extra.raw_info.location.present?
-      # user.oauth_token = auth.credentials.token
       user.save!
+    end  
   end  
 
   def self.authentication_record(auth,user)
@@ -96,10 +91,11 @@ class User < ActiveRecord::Base
     authentication.user_id = user.id
     authentication.uid = auth.uid
     authentication.provider = auth.provider
-    authentication.oauth_expires_at = Time.at(auth.credentials.expires_at)
+    authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.provider == "facebook"
     authentication.oauth_token = auth.credentials.token
     authentication.save
   end
+  
 
   # INSTANCE METHODS
   def encrypt_password
