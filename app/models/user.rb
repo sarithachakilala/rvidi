@@ -91,7 +91,7 @@ class User < ActiveRecord::Base
     authentication.user_id = user.id
     authentication.uid = auth.uid
     authentication.provider = auth.provider
-    authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.provider == "facebook"
+    authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.credentials.expires_at.present?
     authentication.oauth_token = auth.credentials.token
     authentication.save
   end
