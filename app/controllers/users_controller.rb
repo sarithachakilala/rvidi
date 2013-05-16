@@ -8,7 +8,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if verify_recaptcha(:model => @user, :private_key=>'6Ld0H-ESAAAAAEEPiXGvWRPWGS37UvgaeSpjpFN2') && @user.save
-      redirect_to dashboard_user_path(@user.id), :notice => "Account Created Successfully!"
+      redirect_to root_url, :notice => "Account Created Successfully!"
     else
       @user.errors.add(:error, "You have entered an invalid value for the captcha,please re-enter again!") if @user.errors[:base].present?
       @user.errors.delete(:base)
