@@ -30,7 +30,7 @@
         <div><%= f.text_field :country, :class => "span12", :placeholder => "Country" %></div>
         <div>
           <%= f.check_box :terms_conditions, :class => "js-required", :placeholder => "Country" %>
-          <span> I agree to the Terms and Condition</span>
+          <span> I agree to the <%= link_to "Terms and Condition", "/home/terms_condition" , :target => "_blank"%></span>
         </div>
       </div>
     </div>
