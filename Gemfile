@@ -9,6 +9,7 @@ gem 'configatron'                                    # to add configuration valu
 gem 'omniauth-facebook', '1.4.0'                     # For Integrating Facebook
 gem 'omniauth-twitter'                               # For Integrating Twitter
 gem "recaptcha", :require => "recaptcha/rails"
+gem 'rest-client'                                    # Simple HTTP and REST client for Ruby, inspired by the Sinatra microframework style of specifying actions: get, put, post, delete.
 
 # DB Related
 gem 'pg'
@@ -41,7 +42,7 @@ group :development, :test do
   gem 'cucumber-rails', '~>1.3.0', :require => false # integration testing  
   gem 'capybara-webkit'                              # Capybara driver for headless WebKit so you can test Javascript web apps
   gem 'webrat'                                       # writing acceptance tests
-  gem 'minitest'                                     # dependency for webrat or capybara; not sure 
+  gem 'minitest', '4.7.4'                            # dependency for webrat or capybara; not sure 
   gem 'capybara', '~> 1.1.2'                         # integration testing tool for rack based web applications; simulates user interaction with web app
   gem 'headless', '>= 0.1.0'                         # capybara webkit driver
   gem 'launchy'                                      # capybara dependency
