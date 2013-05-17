@@ -4,10 +4,9 @@ class SessionsController < ApplicationController
   end
 
   def create
-    if params[:provider]=="facebook"
-      user = User.from_omniauth(env["omniauth.auth"])
-    elsif (env["omniauth.auth"].present? && (env["omniauth.auth"].provider=="twitter"))
-      user = User.from_omniauth(env["omniauth.auth"])
+    auth = env["omniauth.auth"]
+    if auth.present? && ((auth.provider=="twitter") || (auth.provider=="facebook"))
+      user = User.from_omniauth(auth)
     else
       user = User.authenticate(params[:login], params[:password]) 
    end

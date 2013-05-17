@@ -25,9 +25,14 @@ Rvidi::Application.routes.draw do
       get 'oauth_failure'    
       get 'profile'
       get 'getting_started'
-      get 'dashboard'
+      get 'dashboard', :path => "/home"
       get 'friends'
       get 'friend_profile'
+    end
+  end
+  resources :home do
+    collection do
+      get 'terms_condition' 
     end
   end
 

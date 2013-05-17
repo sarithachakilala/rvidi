@@ -53,46 +53,38 @@ class User < ActiveRecord::Base
   end
 
   def self.user_facebook_details(auth,user)
-    user = User.find_by_email(auth.info.email)
-    if user
-      authentication = Authentication.where(:user_id => user.id).first
-      authentication_record(auth,user) unless authentication 
+    existing_user = User.find_by_email(auth.info.email)
+    if existing_user
+      authentication = Authentication.where(:user_id => existing_user.id).first
+      authentication_record(auth,existing_user) unless authentication 
     else
-      authentication = Authentication.where(:uid => auth.uid).first
-      authentication_record(auth,user) unless authentication 
-      user.username = auth.extra.raw_info.username if auth.info.username.present?
+      user.username = auth.extra.raw_info.username 
       user.email = auth.info.email
-      user.description = auth.extra.raw_info.bio if auth.extra.raw_info.bio.present?
+      user.description = auth.extra.raw_info.bio 
       user.city = auth.extra.raw_info.hometown.name if auth.extra.raw_info.hometown.present?
-      user.state = auth.extra.raw_info.location.name   if auth.extra.raw_info.location.present?
+      user.state = auth.extra.raw_info.location.name if auth.extra.raw_info.location.present?
       user.save!
+      authentication_record(auth,user) 
     end 
   end 
 
   def self.user_twitter_details(auth,user)
-    user = User.find_by_username(auth.extra.raw_info.screen_name)
-    if user
-      authentication = Authentication.where(:user_id => user.id).first
-      authentication_record(auth,user) unless authentication 
+    existing_user = User.find_by_username(auth.extra.raw_info.screen_name)
+    if existing_user
+      authentication = Authentication.where(:user_id => existing_user.id).first
+      authentication_record(auth,existing_user) unless authentication 
     else
-      authentication = Authentication.where(:uid => auth.uid).first
-      unless authentication 
-        authentication_record(auth,user)
-      end 
       user.username = auth.extra.raw_info.screen_name
       user.description = auth.extra.raw_info.description
-      user.city = auth.extra.raw_info.location if auth.extra.raw_info.location.present?
+      user.city = auth.extra.raw_info.location 
       user.save!
+      authentication_record(auth,user)
     end  
   end  
 
   def self.authentication_record(auth,user)
-    authentication = Authentication.new
-    authentication.user_id = user.id
-    authentication.uid = auth.uid
-    authentication.provider = auth.provider
+    authentication = Authentication.new(:user_id=>user.id, :uid=>auth.uid, :provider=>auth.provider,:oauth_token=>auth.credentials.token )
     authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.credentials.expires_at.present?
-    authentication.oauth_token = auth.credentials.token
     authentication.save
   end
   
