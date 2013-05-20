@@ -137,7 +137,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.23)
-    minitest (5.0.1)
+    minitest (4.7.4)
     multi_json (1.7.2)
     multipart-post (1.2.0)
     net-scp (1.1.1)
@@ -201,6 +201,8 @@ GEM
       json (~> 1.4)
     recaptcha (0.3.5)
     ref (1.0.4)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
@@ -209,7 +211,7 @@ GEM
     rspec-expectations (2.13.0)
       diff-lcs (>= 1.1.3, < 2.0)
     rspec-mocks (2.13.1)
-    rspec-rails (2.13.2)
+    rspec-rails (2.13.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
@@ -256,7 +258,7 @@ GEM
       multi_json (~> 1.0)
       simple_oauth (~> 0.2)
     tzinfo (0.3.37)
-    uglifier (2.1.1)
+    uglifier (2.1.0)
       execjs (>= 0.3.0)
       multi_json (~> 1.0, >= 1.0.2)
     webrat (0.7.3)
@@ -294,7 +296,7 @@ DEPENDENCIES
   koala
   launchy
   linkedin!
-  minitest
+  minitest (= 4.7.4)
   multi_json (= 1.7.2)
   omniauth-facebook (= 1.4.0)
   omniauth-twitter
@@ -303,6 +305,7 @@ DEPENDENCIES
   quiet_assets
   rails (= 3.2.13)
   recaptcha
+  rest-client
   rspec
   rspec-rails
   rvm-capistrano
