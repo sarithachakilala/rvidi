@@ -155,7 +155,7 @@
             <div class="span6">
               <div class="title"> Invite some friends to contribute to this show!</div>
               <div class="margin_top_10"> 
-                <a class="btn  btn-primary " href="#"><i class="sprite-facebook-white"></i>Add from Facebook</a>
+                <%= link_to "Add from Facebook", invite_facebook_friends_home_index_path, :class => "btn  btn-primary " %>
                 <a class="btn  btn-info " href="#"><i class="sprite-twitter-white"></i>Add from Twitter</a>
               </div>
               <div class="margin_top_10">
@@ -200,20 +200,7 @@
                     <div class="span4">
                     </div>
                   </div>
-                  <div class="row-fluid">
-                    <div class="span4 padding_left">
-                      <label class="checkbox inline">
-                        <input type="checkbox" id="inlineCheckbox3" class="checkbox-input" value="option1"> John Doe
-                      </label>
-                    </div>
-                    <div class="span4">
-                      <label class="checkbox inline">
-                        <input type="checkbox" id="inlineCheckbox4" class="checkbox-input" value="option2"> Jerry James
-                      </label>
-                    </div>
-                    <div class="span4">
-                    </div>
-                  </div>
+                  
                   <div class="row-fluid">
                     <div class="span4 padding_left">
                       <label class="checkbox inline">
@@ -240,7 +227,8 @@
       </div>
     </div>
   </div>
-
+</div>
+            
 </div>
 <div class="buttons_height">
   <div class=" hr_bg" style=""> 

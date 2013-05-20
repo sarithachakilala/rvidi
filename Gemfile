@@ -10,6 +10,14 @@ gem 'omniauth-facebook', '1.4.0'                     # For Integrating Facebook
 gem 'omniauth-twitter'                               # For Integrating Twitter
 gem "recaptcha", :require => "recaptcha/rails"
 
+# gem 'socialshare'
+
+# Social share dependencies
+gem 'twitter'
+gem 'linkedin', :git => "git://github.com/pengwynn/linkedin.git"
+gem 'koala'
+
+
 # DB Related
 gem 'pg'
 gem "bcrypt-ruby", :require => "bcrypt"              # To encrpty the user password

@@ -1,3 +1,84 @@
+<% content_for :local_script do %>
+  <div id="fb-root"></div>
+  <script>
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+  <script type="text/javascript">
+
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '<%= configatron.facebook_app_id %>', // App ID
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+      });
+      
+      FB.getLoginStatus(function(response)
+      {
+        if(response.status === 'connected') {
+          // connected
+          testAPI();
+        } else if (response.status === 'not_authorized') {
+          // not_authorized
+          alert("not authorixed")
+          login();
+        } else {
+          // not_logged_in
+          //setTimeout(login, 1000);
+          alert("not authorixed else")
+          login();
+        }
+      });
+      
+    }
+
+    function login() {
+      FB.login(function(response) {
+        if (response.authResponse) {
+          // connected
+          testAPI();
+        } else {
+
+        }
+      });
+    }
+
+    function testAPI() {
+      FB.api('/me/friends', { fields: 'name,id,picture' }, function(response) {
+        jQuery.ajax({
+          url: "<%= friends_list_home_index_url %>",
+          data: JSON.stringify(response),
+          type: 'POST',
+          dataType: 'script', 
+          contentType: "application/json",
+          error : function(xhr, status, response) {
+            alert(response);
+          }
+
+        });
+      });
+    }
+
+    //Facebook Send Message to a friend
+    $(document).on('click', '.button-facebook-friend-invite', function(e){
+      e.preventDefault();
+      facebook_send_message($(this).attr('id'), '<%#= j current_user.name %>',
+                                                '<%#= j get_profile_image_full_path %>');
+    });
+  </script>
+<% end %>
+
+<div class="container" style="width: 800px;">
+  <div class="jQueryFriends"></div>
+  </div>
 <div class="myvision_container">
   <div class="row-fluid">
     <div class="span12 frinds_container_padding">
@@ -13,7 +94,7 @@
         </div>
         <div class="span8">
           <div class="margin_bottom_si" > 
-            <a class="btn  btn-primary " href="#"><i class="sprite-facebook-white"></i>Add from Facebook</a>
+            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), invite_facebook_friends_home_index_path, :class=>"btn  btn-primary " %>
             <a class="btn  btn-info " href="#"><i class="sprite-twitter-white"></i>Add from Twitter</a>
           </div>
 
