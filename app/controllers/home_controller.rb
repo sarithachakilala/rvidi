@@ -11,19 +11,4 @@ class HomeController < ApplicationController
    
   end
 
-  def authorize
-    respond_to do |format|
-      format.html # authorize.html.erb
-    end
-  end
-
-  def invite_facebook_friends
-  end
-  
-  def friends_list
-    @friends = []
-    params[:data].each do |each_friend|
-      @friends <<  each_friend
-    end
-  end
 end

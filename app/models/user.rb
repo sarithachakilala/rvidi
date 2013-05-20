@@ -88,9 +88,6 @@ class User < ActiveRecord::Base
     authentication.save
   end
   
-  def faceboook
-  end
-  
   def friends
     @graph = Koala::Facebook::API.new('CAACEdEose0cBAOEhRtI2n0yYprTc8uGOrqsXHQl5DxNUK09F9jM4HrGDJG7hnQfdP17YG15LlxgAD9sIE7Y9ddCr4BNYxNqeiavI8o8tnDAmqWiZCRe9jDpc4JyOg5IbX1W7XIbZCeBUXqbfNLG5M24kOcM8r6Ei7HpzqxJwZDZD')
     profile = @graph.get_object("me")

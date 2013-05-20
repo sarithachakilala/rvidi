@@ -61,16 +61,20 @@ class UsersController < ApplicationController
       format.json { render json: @user}
     end
   end
+
   def friends
+    @users = User.all 
   end
-  
+
+  def friends_list
+    @users = User.all 
+    @users = User.where("username like ? OR email like ?",'%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
+  end
+
   def friend_profile
-      @friend = User.find(params[:friend_id])
-      respond_to do |format|
-        format.html 
-        format.json { render json: @user}
-      end
-     end
+    @friend = User.find(params[:friend_id])
+  end
+
 
   private
   def get_user
