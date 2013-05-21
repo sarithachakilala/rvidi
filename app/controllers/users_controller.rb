@@ -87,6 +87,11 @@ class UsersController < ApplicationController
     @friend = User.find(params[:friend_id])
   end
 
+  def send_friend_request
+    @user = User.find(params[:friend_id])
+    RvidiMailer.invite_friend(@user).deliver
+    redirect_to friends_user_path(:id => session[:user_id])
+  end
 
   private
   def get_user
