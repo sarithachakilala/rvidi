@@ -87,9 +87,20 @@ class UsersController < ApplicationController
     @friend = User.find(params[:friend_id])
   end
 
+  def notification
+    @notifications = Array.new
+    @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
+  end
+  
   def send_friend_request
     @user = User.find(params[:friend_id])
     RvidiMailer.invite_friend(@user).deliver
+    friend_requst1 = FriendMapping.new(:user_id =>session[:user_id] , :friend_id=>@user.id, :status => "pending")
+    friend_requst2 = FriendMapping.new(:user_id =>@user.id , :friend_id=>session[:user_id], :status => "pending")
+    notification = Notification.new(:from_id=>session[:user_id], :to_id=>@user.id, :status =>"pending", :content=>"Requested to add as friend")
+    friend_requst1.save!
+    friend_requst2.save!
+    notification.save!
     redirect_to friends_user_path(:id => session[:user_id])
   end
 
