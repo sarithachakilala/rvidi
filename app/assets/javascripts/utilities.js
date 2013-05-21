@@ -42,6 +42,7 @@ $(document).ready(function(){
     }
   });       
 
+  // Get the list of friends list based on search criteria
   $('#search_friends').on('click',function(){
     $.ajax({
           url: "/users/friends_list.js",
@@ -50,5 +51,4 @@ $(document).ready(function(){
       })    
   });       
 
-       
 });

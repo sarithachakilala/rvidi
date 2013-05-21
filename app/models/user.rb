@@ -13,10 +13,9 @@ class User < ActiveRecord::Base
   validates :username, :presence => true,
                        :uniqueness => true, :if => Proc.new { |user| user.provider.nil? }
 
-  validates :email, :presence => true, :if => Proc.new { |user| user.provider.nil? }
   validates :email, :format => {:with => /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i,
                     :message => 'format is Invalid' },
-                    :uniqueness => true,
+                    :uniqueness => { :scope => :provider },
                     :if => Proc.new { |user| user.email.present? }
 
   validates :password, :presence => true, 
