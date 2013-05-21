@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130521054838) do
+ActiveRecord::Schema.define(:version => 20130521092659) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -50,6 +50,14 @@ ActiveRecord::Schema.define(:version => 20130521054838) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "friend_mappings", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "friend_id"
+    t.string   "status"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "profiles", :force => true do |t|
     t.string   "username"
     t.string   "email"
@@ -82,8 +90,6 @@ ActiveRecord::Schema.define(:version => 20130521054838) do
     t.string   "password_hash"
     t.string   "password_salt"
     t.string   "name"
-    t.string   "provider"
-    t.string   "uid"
     t.string   "city"
     t.string   "state"
     t.string   "country"

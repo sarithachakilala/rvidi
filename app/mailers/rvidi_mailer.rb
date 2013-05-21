@@ -3,7 +3,7 @@ class RvidiMailer < ActionMailer::Base
 
   def invite_friend(user)
     @user = user
-    @url  = "http://localhost:3000/"
+    @url  = configatron.site_address
     mail(:to => user.email, :subject => "Welcome to My rvidi Site")
   end
 end

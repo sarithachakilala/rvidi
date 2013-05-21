@@ -52,11 +52,9 @@ class User < ActiveRecord::Base
   end
 
   def self.user_facebook_details(auth,user)
-    existing_user = User.find_by_email(auth.info.email)
-    if existing_user
-      authentication = Authentication.where(:user_id => existing_user.id).first
-      authentication_record(auth,existing_user) unless authentication 
-    else
+    authentication = Authentication.find_by_uid(auth.uid)
+    required_user = authentication.present? authentication.user : nil
+    if required_user.nil?
       user.username = auth.extra.raw_info.username 
       user.email = auth.info.email
       user.description = auth.extra.raw_info.bio 
@@ -64,27 +62,29 @@ class User < ActiveRecord::Base
       user.state = auth.extra.raw_info.location.name if auth.extra.raw_info.location.present?
       user.save!
       authentication_record(auth,user) 
+    else
+      required_user
     end 
   end 
 
   def self.user_twitter_details(auth,user)
-    existing_user = User.find_by_username(auth.extra.raw_info.screen_name)
-    if existing_user
-      authentication = Authentication.where(:user_id => existing_user.id).first
-      authentication_record(auth,existing_user) unless authentication 
-    else
+    authentication = Authentication.find_by_uid(auth.uid)
+    required_user = authentication.present? authentication.user : nil
+    if required_user.nil?
       user.username = auth.extra.raw_info.screen_name
       user.description = auth.extra.raw_info.description
       user.city = auth.extra.raw_info.location 
       user.save!
       authentication_record(auth,user)
+    else
+      required_user
     end  
   end  
 
   def self.authentication_record(auth,user)
     authentication = Authentication.new(:user_id=>user.id, :uid=>auth.uid, :provider=>auth.provider,:oauth_token=>auth.credentials.token )
     authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.credentials.expires_at.present?
-    authentication.save
+    authentication.save!
   end
   
   def friends
