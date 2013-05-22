@@ -39,7 +39,7 @@ class User < ActiveRecord::Base
   
   def self.from_omniauth(auth)
     auth_record = Authentication.find_by_uid(auth.uid)
-    user = User.find_by_id(auth_record.id) || User.new
+    user = auth_record.present? ? User.find_by_id(auth_record.id) : User.new
     # where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user = (auth.provider == "facebook") ? user_facebook_details(auth,user) : user_twitter_details(auth,user)
     # end
@@ -47,7 +47,7 @@ class User < ActiveRecord::Base
 
   def self.user_facebook_details(auth,user)
     authentication = Authentication.find_by_uid(auth.uid)
-    required_user = authentication.present? ? authentication.user : nil
+    required_user = authentication.present? ? User.find(authentication.user_id) : nil
     if required_user.nil?
       user.username = auth.extra.raw_info.username 
       user.email = auth.info.email
@@ -63,20 +63,20 @@ class User < ActiveRecord::Base
 
   def self.user_twitter_details(auth,user)
     authentication = Authentication.find_by_uid(auth.uid)
-    required_user = authentication.present? ? authentication.user : nil
+    required_user = authentication.present? ? User.find(authentication.user_id) : nil
     if required_user.nil?
       user.username = auth.extra.raw_info.screen_name
       user.description = auth.extra.raw_info.description
       user.city = auth.extra.raw_info.location 
-      user.save!
+      user.save(:validate => false)
       authentication_record(auth,user)
     else
       required_user
-    end  
+    end 
   end  
 
   def self.authentication_record(auth,user)
-    authentication = Authentication.new(:user_id=>user.id, :uid=>auth.uid, :provider=>auth.provider,:oauth_token=>auth.credentials.token )
+    authentication = Authentication.new(:user_id=>user.id, :uid=>auth.uid, :provider=>auth.provider,:oauth_token=>auth.credentials.token , :ouath_token_secret => auth.credentials.secret)
     authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.credentials.expires_at.present?
     authentication.save!
   end
