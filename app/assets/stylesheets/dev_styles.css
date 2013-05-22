@@ -6,6 +6,7 @@
   color: #FF0000;
   text-align: left;
   float: left; 
+  clear: both;
 }
 
 /* Hint to resize / style the recaptcha Image  */
@@ -19,4 +20,3 @@
   text-align: right;
   display: none;
 }
-

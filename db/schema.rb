@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130514103151) do
+ActiveRecord::Schema.define(:version => 20130521061529) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -54,8 +54,13 @@ ActiveRecord::Schema.define(:version => 20130514103151) do
     t.integer  "user_id"
     t.string   "title"
     t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
+    t.string   "display_preferences"
+    t.string   "display_preferences_password"
+    t.string   "contributor_preferences"
+    t.string   "contributor_preferences_password"
+    t.boolean  "need_review",                      :default => true
   end
 
   create_table "users", :force => true do |t|
@@ -79,16 +84,10 @@ ActiveRecord::Schema.define(:version => 20130514103151) do
   end
 
   create_table "videos", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.integer  "cameo_id"
     t.string   "video_file"
-    t.string   "kaltura_key"
-    t.datetime "kaltura_syncd_at"
-    t.string   "thumbnail_url"
-    t.integer  "duration"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.integer  "cameo_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
 end

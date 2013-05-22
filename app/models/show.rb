@@ -1,13 +1,17 @@
 class Show < ActiveRecord::Base
 
-  attr_accessible :user_id, :title, :description
+  attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password, 
+                  :contributor_preferences, :contributor_preferences_password, :need_review
 
   # Validations
   validates :user_id, :presence => true
   validates :title, :presence => true
   validates :description, :presence => true
+  validates :display_preferences, :presence => true
+  validates :contributor_preferences, :presence => true
 
   # Associations
-  belongs_to :user
+  belongs_to :director, :class_name => "User", :foreign_key => "user_id"
+  has_many :cameos
 
 end
