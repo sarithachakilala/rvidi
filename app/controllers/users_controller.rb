@@ -12,18 +12,30 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if verify_recaptcha(:model => @user, :private_key=>'6Ld0H-ESAAAAAEEPiXGvWRPWGS37UvgaeSpjpFN2') && @user.save
-      redirect_to root_url, :notice => "Account Created Successfully!"
+      @sucess = true
     else
+      @sucess = false
       @user.errors.add(:error, "You have entered an invalid value for the captcha,please re-enter again!") if @user.errors[:base].present?
       @user.errors.delete(:base)
       flash[:error] =  @user.errors.full_messages.join(', ')
       flash[:recaptcha_error] = ""  
-      render "new"
+    end
+    respond_to do |format|
+      if @success
+        format.html{ redirect_to root_url, :notice => "Account Created Successfully!" }
+        format.json{ render :json => { :status => 200, :user => @user } }
+      else
+        format.html{ render "new" }
+        format.json { render json=>{ :errros => @user.errors, :status => 203 }}
+      end
     end
   end
 
   def oauth_failure
-    redirect_to root_url, :notice => "Failure in Login!"
+    respond_to do|format|
+        format.html{ redirect_to root_url, :notice => "Failure in Login!" }
+        format.json { render json=>{ :errros => "Failure in Login!", :status => 401 }}
+    end
   end
 
   def profile
@@ -37,10 +49,10 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to profile_user_path(@user), notice: 'User was successfully updated.' }
-        format.json { head :no_content }
+        format.json { render json: @user }
       else
         format.html { render action: "edit" }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        format.json { render json => { :errros => @user.errors, :status => 422 }}
       end
     end
   end
@@ -75,6 +87,22 @@ class UsersController < ApplicationController
     @friend = User.find(params[:friend_id])
   end
 
+  def notification
+    @notifications = Array.new
+    @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
+  end
+  
+  def send_friend_request
+    @user = User.find(params[:friend_id])
+    RvidiMailer.invite_friend(@user).deliver
+    friend_requst1 = FriendMapping.new(:user_id =>session[:user_id] , :friend_id=>@user.id, :status => "pending")
+    friend_requst2 = FriendMapping.new(:user_id =>@user.id , :friend_id=>session[:user_id], :status => "pending")
+    notification = Notification.new(:from_id=>session[:user_id], :to_id=>@user.id, :status =>"pending", :content=>"Requested to add as friend")
+    friend_requst1.save!
+    friend_requst2.save!
+    notification.save!
+    redirect_to friends_user_path(:id => session[:user_id])
+  end
 
   private
   def get_user

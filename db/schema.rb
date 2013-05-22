@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130514103151) do
+ActiveRecord::Schema.define(:version => 20130522043831) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -19,8 +19,9 @@ ActiveRecord::Schema.define(:version => 20130514103151) do
     t.string   "provider"
     t.string   "oauth_token"
     t.datetime "oauth_expires_at"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",         :null => false
+    t.datetime "updated_at",         :null => false
+    t.string   "ouath_token_secret"
   end
 
   create_table "cameos", :force => true do |t|
@@ -50,6 +51,41 @@ ActiveRecord::Schema.define(:version => 20130514103151) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "friend_mappings", :force => true do |t|
+    t.integer  "user_id"
+    t.integer  "friend_id"
+    t.string   "status"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "notifications", :force => true do |t|
+    t.integer  "from_id"
+    t.integer  "to_id"
+    t.text     "content"
+    t.string   "status"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "profiles", :force => true do |t|
+    t.string   "username"
+    t.string   "email"
+    t.string   "password_salt"
+    t.string   "password_hash"
+    t.string   "city"
+    t.string   "country"
+    t.string   "provide"
+    t.string   "name"
+    t.string   "uid"
+    t.integer  "profile_video_id"
+    t.text     "description"
+    t.string   "oauth_token"
+    t.datetime "oauth_exprites_at"
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+  end
+
   create_table "shows", :force => true do |t|
     t.integer  "user_id"
     t.string   "title"
@@ -64,15 +100,11 @@ ActiveRecord::Schema.define(:version => 20130514103151) do
     t.string   "password_hash"
     t.string   "password_salt"
     t.string   "name"
-    t.string   "provider"
-    t.string   "uid"
     t.string   "city"
     t.string   "state"
     t.string   "country"
     t.integer  "profile_video_id"
     t.text     "description"
-    t.string   "oauth_token"
-    t.datetime "oauth_expires_at"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
     t.integer  "sign_in_count",    :default => 0

@@ -28,5 +28,21 @@ Rvidi::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
+  # ActionMailer Config
   config.action_mailer.default_url_options = { :host => configatron.site_address }
+  config.action_mailer.delivery_method = :smtp
+  # change to false to prevent email from being sent during development
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = true
+  config.action_mailer.default :charset => "utf-8"
+
+  config.action_mailer.smtp_settings = {
+    :enable_starttls_auto => true,
+    :address => "smtp.gmail.com",
+    :port => 587,
+    :domain => "gmail.com",
+    :authentication => :login,
+    :user_name => 'kbcpart1@gmail.com',
+    :password => 'orbital123',
+  }
 end
