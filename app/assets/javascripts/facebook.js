@@ -19,7 +19,7 @@ function facebookLogin(facebook_app_id){
         if (response.authResponse) {
           return window.location = '/auth/facebook/callback';
         }
-      });
+      }, {scope: 'email,user_likes'});
     });
     return $('#sign_out').click(function(e) {
       FB.getLoginStatus(function(response) {

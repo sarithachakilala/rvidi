@@ -12,9 +12,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if verify_recaptcha(:model => @user, :private_key=>'6Ld0H-ESAAAAAEEPiXGvWRPWGS37UvgaeSpjpFN2') && @user.save
-      @sucess = true
+      @success = true
     else
-      @sucess = false
+      @success = false
       @user.errors.add(:error, "You have entered an invalid value for the captcha,please re-enter again!") if @user.errors[:base].present?
       @user.errors.delete(:base)
       flash[:error] =  @user.errors.full_messages.join(', ')
@@ -22,7 +22,8 @@ class UsersController < ApplicationController
     end
     respond_to do |format|
       if @success
-        format.html{ redirect_to root_url, :notice => "Account Created Successfully!" }
+        session[:user_id] = @user.id
+        format.html{ redirect_to getting_started_user_path(@user.id), :notice => "Account Created Successfully!" }
         format.json{ render :json => { :status => 200, :user => @user } }
       else
         format.html{ render "new" }
@@ -75,7 +76,9 @@ class UsersController < ApplicationController
   end
 
   def friends
-    @users = User.all 
+    @users = User.all
+    # @users = FriendMapping.find_by_user_id(session[:user_id])
+    # raise @users.inspect
   end
 
   def friends_list
@@ -102,6 +105,13 @@ class UsersController < ApplicationController
     friend_requst2.save!
     notification.save!
     redirect_to friends_user_path(:id => session[:user_id])
+  end
+
+  def accept_friend_request
+    friend_requst1 = FriendMapping.find(:user_id =>session[:user_id] , :friend_id=>params[:friend_id])
+    raise friend_requst1.inspect
+    friend_requst1.update_attributes(:status =>"accepted")
+    FriendMapping.find
   end
 
   private
