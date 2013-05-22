@@ -28,11 +28,17 @@ Rvidi::Application.routes.draw do
       get 'dashboard', :path => "/home"
       get 'friends'
       get 'friend_profile'
+      get 'notification'
+    end
+    collection do
+      get 'friends_list'
+      get 'send_friend_request'
     end
   end
   resources :home do
     collection do
       get 'terms_condition' 
+      # post 'friends_list' 
     end
   end
 

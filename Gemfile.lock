@@ -1,3 +1,12 @@
+GIT
+  remote: git://github.com/pengwynn/linkedin.git
+  revision: 85cd822f6ab2b9163d39ed37162d560e65cf931d
+  specs:
+    linkedin (0.3.7)
+      hashie (>= 1.2, < 2.1)
+      multi_json (~> 1.0)
+      oauth (~> 0.4)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -117,6 +126,10 @@ GEM
     json (1.8.0)
     jwt (0.1.8)
       multi_json (>= 1.5)
+    koala (1.6.0)
+      addressable (~> 2.2)
+      faraday (~> 0.8)
+      multi_json (~> 1.3)
     launchy (2.3.0)
       addressable (~> 2.3)
     libv8 (3.11.8.17)
@@ -215,6 +228,7 @@ GEM
       websocket (~> 1.0.4)
     shoulda-matchers (2.1.0)
       activesupport (>= 3.0.0)
+    simple_oauth (0.2.0)
     simplecov (0.7.1)
       multi_json (~> 1.0)
       simplecov-html (~> 0.7.1)
@@ -239,6 +253,10 @@ GEM
       polyglot (>= 0.3.1)
     turn (0.9.6)
       ansi
+    twitter (4.6.2)
+      faraday (~> 0.8, < 0.10)
+      multi_json (~> 1.0)
+      simple_oauth (~> 0.2)
     tzinfo (0.3.37)
     uglifier (2.1.0)
       execjs (>= 0.3.0)
@@ -275,7 +293,9 @@ DEPENDENCIES
   faker
   headless (>= 0.1.0)
   jquery-rails
+  koala
   launchy
+  linkedin!
   minitest (= 4.7.4)
   multi_json (= 1.7.2)
   omniauth-facebook (= 1.4.0)
@@ -295,5 +315,6 @@ DEPENDENCIES
   therubyracer (= 0.11.3)
   thin
   turn
+  twitter
   uglifier (>= 1.0.3)
   webrat

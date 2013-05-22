@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   attr_accessor :password, :password_confirmation, :terms_conditions
 
   attr_accessible :email, :password, :password_confirmation, :username, :city, :state, :country,
-                  :name, :description, :provider, :uid, :terms_conditions
+                  :name, :description, :uid, :terms_conditions
     
   before_save :encrypt_password
 
@@ -11,33 +11,25 @@ class User < ActiveRecord::Base
 
   # VALIDATIONS
   validates :username, :presence => true,
-                       :uniqueness => true, :if => Proc.new { |user| user.provider.nil? }
+                       :uniqueness => true,
+                       :if => :provider_does_not_exist?
 
-  validates :email, :presence => true, :if => Proc.new { |user| user.provider.nil? }
   validates :email, :format => {:with => /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i,
                     :message => 'format is Invalid' },
-                    :uniqueness => true,
+                    # :uniqueness => { :scope => :provider },
                     :if => Proc.new { |user| user.email.present? }
 
   validates :password, :presence => true, 
-                       :on => :create, 
-                       :if => Proc.new { |user| user.provider.nil?}
+                       :on => :create
 
   validates :password_confirmation, :presence => true,
-                                    :on => :create,
-                                    :if => Proc.new { |user| user.provider.nil?}
+                                    :on => :create
 
   validate :check_password_confirmation, :on => :create,
            :if => Proc.new { |user| user.password.present? && user.password_confirmation.present? }
 
   validates :terms_conditions, :acceptance => true,
                                :on => :create
-  
-  def check_password_confirmation
-    is_valdiated = (self.password.present? && self.password_confirmation.present?) ? (self.password == self.password_confirmation) : true
-    self.errors.add(:password, " should match Password Confirmation") unless is_valdiated
-    return is_valdiated
-  end
 
   # CLASS METHODS
   def self.authenticate(login, password)
@@ -46,50 +38,66 @@ class User < ActiveRecord::Base
   end
   
   def self.from_omniauth(auth)
-    where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
-      user.name = auth.info.name if auth.info.present?
+    auth_record = Authentication.find_by_uid(auth.uid)
+    user = auth_record.present? ? User.find_by_id(auth_record.id) : User.new
+    # where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
       user = (auth.provider == "facebook") ? user_facebook_details(auth,user) : user_twitter_details(auth,user)
-    end
+    # end
   end
 
   def self.user_facebook_details(auth,user)
-    existing_user = User.find_by_email(auth.info.email)
-    if existing_user
-      authentication = Authentication.where(:user_id => existing_user.id).first
-      authentication_record(auth,existing_user) unless authentication 
-    else
+    authentication = Authentication.find_by_uid(auth.uid)
+    required_user = authentication.present? ? User.find(authentication.user_id) : nil
+    if required_user.nil?
       user.username = auth.extra.raw_info.username 
       user.email = auth.info.email
       user.description = auth.extra.raw_info.bio 
       user.city = auth.extra.raw_info.hometown.name if auth.extra.raw_info.hometown.present?
       user.state = auth.extra.raw_info.location.name if auth.extra.raw_info.location.present?
-      user.save!
+      user.save(:validate => false)
       authentication_record(auth,user) 
+    else
+      required_user
     end 
   end 
 
   def self.user_twitter_details(auth,user)
-    existing_user = User.find_by_username(auth.extra.raw_info.screen_name)
-    if existing_user
-      authentication = Authentication.where(:user_id => existing_user.id).first
-      authentication_record(auth,existing_user) unless authentication 
-    else
+    authentication = Authentication.find_by_uid(auth.uid)
+    required_user = authentication.present? ? User.find(authentication.user_id) : nil
+    if required_user.nil?
       user.username = auth.extra.raw_info.screen_name
       user.description = auth.extra.raw_info.description
       user.city = auth.extra.raw_info.location 
-      user.save!
+      user.save(:validate => false)
       authentication_record(auth,user)
-    end  
+    else
+      required_user
+    end 
   end  
 
   def self.authentication_record(auth,user)
-    authentication = Authentication.new(:user_id=>user.id, :uid=>auth.uid, :provider=>auth.provider,:oauth_token=>auth.credentials.token )
+    authentication = Authentication.new(:user_id=>user.id, :uid=>auth.uid, :provider=>auth.provider,:oauth_token=>auth.credentials.token , :ouath_token_secret => auth.credentials.secret)
     authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.credentials.expires_at.present?
-    authentication.save
+    authentication.save!
   end
   
-
   # INSTANCE METHODS
+  def provider_does_not_exist?
+    authentications = Authentication.where(:user_id => self.id)    
+  end
+
+  def check_password_confirmation
+    is_valdiated = (self.password.present? && self.password_confirmation.present?) ? (self.password == self.password_confirmation) : true
+    self.errors.add(:password, " should match Password Confirmation") unless is_valdiated
+    return is_valdiated
+  end
+
+  def friends
+    @graph = Koala::Facebook::API.new('CAACEdEose0cBAOEhRtI2n0yYprTc8uGOrqsXHQl5DxNUK09F9jM4HrGDJG7hnQfdP17YG15LlxgAD9sIE7Y9ddCr4BNYxNqeiavI8o8tnDAmqWiZCRe9jDpc4JyOg5IbX1W7XIbZCeBUXqbfNLG5M24kOcM8r6Ei7HpzqxJwZDZD')
+    profile = @graph.get_object("me")
+    friends = @graph.get_connections("me", "friends")
+  end
+
   def encrypt_password
     if password.present?
       self.password_salt = BCrypt::Engine.generate_salt

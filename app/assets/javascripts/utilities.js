@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    
   //    To Change the + / - icon on click
   $('.plus-minus-container').on('click','.changeable-plus-minus',function(){
     var icon_elem = $(this).find('.plus-minus-i').first()
@@ -42,5 +41,13 @@ $(document).ready(function(){
       });
     }
   });       
-       
+
+  // Get the list of friends list based on search criteria
+  $('#search_friends').on('click',function(){
+    $.ajax({
+          url: "/users/friends_list.js",
+          data: { search_val:$('#search_value').val()  },
+           cache: false
+      })    
+  });       
 });

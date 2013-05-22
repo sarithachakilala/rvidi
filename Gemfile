@@ -11,6 +11,12 @@ gem 'omniauth-twitter'                               # For Integrating Twitter
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'rest-client'                                    # Simple HTTP and REST client for Ruby, inspired by the Sinatra microframework style of specifying actions: get, put, post, delete.
 
+gem 'koala'
+# koala dependencies
+gem 'twitter'
+gem 'linkedin', :git => "git://github.com/pengwynn/linkedin.git"
+
+
 # DB Related
 gem 'pg'
 gem "bcrypt-ruby", :require => "bcrypt"              # To encrpty the user password
