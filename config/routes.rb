@@ -1,5 +1,6 @@
 Rvidi::Application.routes.draw do
 
+  resources :videos
   resources :cameos
   resources :shows do
     member do

@@ -1,6 +1,6 @@
 GIT
   remote: git://github.com/pengwynn/linkedin.git
-  revision: 85cd822f6ab2b9163d39ed37162d560e65cf931d
+  revision: 91bed7ba874379c15e44f3357ec2017ed4bcd524
   specs:
     linkedin (0.3.7)
       hashie (>= 1.2, < 2.1)
@@ -137,7 +137,7 @@ GEM
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
     mime-types (1.23)
-    minitest (5.0.1)
+    minitest (4.7.4)
     multi_json (1.7.2)
     multipart-post (1.2.0)
     net-scp (1.1.1)
@@ -200,7 +200,9 @@ GEM
     rdoc (3.12.2)
       json (~> 1.4)
     recaptcha (0.3.5)
-    ref (1.0.4)
+    ref (1.0.5)
+    rest-client (1.6.7)
+      mime-types (>= 1.16)
     rspec (2.13.0)
       rspec-core (~> 2.13.0)
       rspec-expectations (~> 2.13.0)
@@ -294,7 +296,7 @@ DEPENDENCIES
   koala
   launchy
   linkedin!
-  minitest
+  minitest (= 4.7.4)
   multi_json (= 1.7.2)
   omniauth-facebook (= 1.4.0)
   omniauth-twitter
@@ -303,6 +305,7 @@ DEPENDENCIES
   quiet_assets
   rails (= 3.2.13)
   recaptcha
+  rest-client
   rspec
   rspec-rails
   rvm-capistrano

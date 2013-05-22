@@ -78,4 +78,17 @@ ActiveRecord::Schema.define(:version => 20130514103151) do
     t.integer  "sign_in_count",    :default => 0
   end
 
+  create_table "videos", :force => true do |t|
+    t.string   "title"
+    t.text     "description"
+    t.integer  "cameo_id"
+    t.string   "video_file"
+    t.string   "kaltura_key"
+    t.datetime "kaltura_syncd_at"
+    t.string   "thumbnail_url"
+    t.integer  "duration"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
 end
