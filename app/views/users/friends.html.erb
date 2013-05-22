@@ -1,3 +1,6 @@
+<div class="container" style="width: 800px;">
+  <div class="jQueryFriends"></div>
+  </div>
 <div class="myvision_container">
   <div class="row-fluid">
     <div class="span12 frinds_container_padding">
@@ -13,149 +16,19 @@
         </div>
         <div class="span8">
           <div class="margin_bottom_si" > 
-            <a class="btn  btn-primary " href="#"><i class="sprite-facebook-white"></i>Add from Facebook</a>
+            <%#= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), invite_facebook_friends_home_index_path, :class=>"btn  btn-primary " %>
+            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), "#", :class=>"btn  btn-primary " %>
             <a class="btn  btn-info " href="#"><i class="sprite-twitter-white"></i>Add from Twitter</a>
           </div>
 
           <div class="input-prepend input-append search_padding">
             <span class="add-on prepend_background" ><i class="icon-search"></i></span>
-            <input type="text" placeholder="Search by Name or Email"  class="input-xlarge">
-            <span class="add-on btn-warning">Go</span>
+            <input type="text" placeholder="Search by Name or Email"  class="input-xlarge" id = "search_value">
+            <span class="btn add-on btn-warning" id = "search_friends">Go</span>
           </div>
         </div>
       </div>
-
-      <ul class="thumbnails">
-        <li class="span12">
-          <div class="thumbnail frinds_thumbnail_padding" >
-            <div class="row-fluid frinds_row_margin">
-              <div class="span4"> 
-                <div class="row-fluid"> 
-                  <div class="span4">
-                    <div class="friend_image"> 
-                      <img  src="/assets/OCP0154256_P_Portrait-of-a-young-man.png" alt="300x200" >
-                    </div> 
-                  </div>
-                  <div class="span8">
-                    <div class="friend_name"> <%= link_to "Jane Doe", friend_profile_user_path(current_user.id, :friend_id => User.last.id) %></div>
-                    <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a> </div>
-                  </div>
-                </div>
-              </div>
-              <div class="span4"> 
-                <div class="row-fluid"> 
-                  <div class="span4">
-                    <div class="friend_image"> 
-                      <img  src="/assets/1624747_P_Businesswoman-in-front-of-people.png" alt="300x200" >
-                    </div> 
-                  </div>
-                  <div class="span8">
-                    <div class="friend_name"><%= link_to "Jane Doe", friend_profile_user_path(current_user.id, :friend_id => User.last.id) %></div>
-                    <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a> </div>
-                  </div>
-                </div>
-              </div>
-              <div class="span4"> 
-                <div class="row-fluid"> 
-                  <div class="span4">
-                    <div class="friend_image"> 
-                      <img  src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" alt="300x200" >
-                    </div> 
-                  </div>
-                  <div class="span8">
-                    <div class="friend_name"> <%= link_to "Jane Doe", friend_profile_user_path(current_user.id, :friend_id => User.last.id) %></div>
-                    <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a> </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row-fluid  ">
-              <div class="span4"> 
-                <div class="row-fluid frinds_row_margin"> 
-                  <div class="span4">
-                    <div class="friend_image"> 
-                      <img  src="/assets/1624747_P_Businesswoman-in-front-of-people.png" alt="300x200" >
-                    </div> 
-                  </div>
-                  <div class="span8">
-                    <div class="friend_name"> <%= link_to "Jane Doe", friend_profile_user_path(current_user.id, :friend_id => User.last.id) %></div>
-                    <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a> </div>
-                  </div>
-                </div>
-              </div>
-              <div class="span4"> 
-                <div class="row-fluid"> 
-                  <div class="span4">
-                    <div class="friend_image"> 
-                      <img  src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" alt="300x200" >
-                    </div> 
-                  </div>
-                  <div class="span8">
-                    <div class="friend_name"> <%= link_to "Jane Doe", friend_profile_user_path(current_user.id, :friend_id => User.last.id) %></div>
-                    <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a> </div>
-                  </div>
-                </div>
-              </div>
-              <div class="span4"> 
-                <div class="row-fluid"> 
-                  <div class="span4">
-                    <div class="friend_image"> 
-                      <img  src="/assets/OCP0154256_P_Portrait-of-a-young-man.png" alt="300x200" >
-                    </div> 
-                  </div>
-                  <div class="span8">
-                    <div class="friend_name"> <%= link_to "Jane Doe", friend_profile_user_path(current_user.id, :friend_id => User.last.id) %></div>
-                    <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a> </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="row-fluid  ">
-              <div class="span4"> 
-                <div class="row-fluid frinds_row_margin"> 
-                  <div class="span4">
-                    <div class="friend_image"> 
-                      <img  src="/assets/OCP0154256_P_Portrait-of-a-young-man.png" alt="300x200" >
-                    </div> 
-                  </div>
-                  <div class="span8">
-                    <div class="friend_name"> <%= link_to "Jane Doe", friend_profile_user_path(current_user.id, :friend_id => User.last.id) %></div>
-                    <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a> </div>
-                  </div>
-                </div>
-              </div>
-              <div class="span4"> 
-                <div class="row-fluid"> 
-                  <div class="span4">
-                    <div class="friend_image"> 
-                      <img  src="/assets/1624747_P_Businesswoman-in-front-of-people.png" alt="300x200" >
-                    </div> 
-                  </div>
-                  <div class="span8">
-                    <div class="friend_name"> <%= link_to "Jane Doe", friend_profile_user_path(current_user.id, :friend_id => User.last.id) %></div>
-                    <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a> </div>
-                  </div>
-                </div>
-              </div>
-              <div class="span4"> 
-                <div class="row-fluid"> 
-                  <div class="span4">
-                    <div class="friend_image"> 
-                      <img  src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" alt="300x200" >
-                    </div>
-                  </div>
-                  <div class="span8">
-                    <div class="friend_name"> <%= link_to "Jane Doe", friend_profile_user_path(current_user.id, :friend_id => User.last.id) %></div>
-                    <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a> </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
-
-      </ul>
-
+      <%= render :partial=>"/users/friends_list"%>
       <!-- Details view end here -->
     </div>
   </div>

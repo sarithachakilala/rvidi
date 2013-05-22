@@ -29,10 +29,14 @@ Rvidi::Application.routes.draw do
       get 'friends'
       get 'friend_profile'
     end
+    collection do
+      get 'friends_list'
+    end
   end
   resources :home do
     collection do
       get 'terms_condition' 
+      # post 'friends_list' 
     end
   end
 

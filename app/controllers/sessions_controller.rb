@@ -1,6 +1,11 @@
 class SessionsController < ApplicationController
   skip_before_filter :verify_authenticity_token, :only => :create
+  
   def new
+    respond_to do |format|
+      format.html{}
+      format.json { render :json => {}}
+    end
   end
 
   def create
@@ -9,7 +14,7 @@ class SessionsController < ApplicationController
       user = User.from_omniauth(auth)
     else
       user = User.authenticate(params[:login], params[:password]) 
-   end
+    end
    if user
       session[:user_id] = user.id
       user.increment_sign_in_count
@@ -19,12 +24,10 @@ class SessionsController < ApplicationController
       flash.now.alert = "Invalid email or password"
       render "new"
     end
-
   end
 
   def destroy
     session[:user_id] = nil
     redirect_to root_url, :notice => "Logged out Successfully!"
   end
-
 end

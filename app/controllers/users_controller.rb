@@ -3,6 +3,10 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+    respond_to do |format|
+      format.html {}
+      format.json { render json: @user }
+    end
   end
 
   def create
@@ -19,10 +23,14 @@ class UsersController < ApplicationController
   end
 
   def oauth_failure
-    redirect_to root_url, :notice => "Failure in Facebook Login!"
+    redirect_to root_url, :notice => "Failure in Login!"
   end
 
   def profile
+    respond_to do |format|
+      format.html {}
+      format.json { render json: @user }
+    end
   end
 
   def update
@@ -48,14 +56,25 @@ class UsersController < ApplicationController
   end
 
   def dashboard
+    respond_to do |format|
+      format.html 
+      format.json { render json: @user}
+    end
   end
 
   def friends
+    @users = User.all 
+  end
+
+  def friends_list
+    @users = User.all 
+    @users = User.where("username like ? OR email like ?",'%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
   end
 
   def friend_profile
     @friend = User.find(params[:friend_id])
   end
+
 
   private
   def get_user
