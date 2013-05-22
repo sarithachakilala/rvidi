@@ -12,9 +12,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(params[:user])
     if verify_recaptcha(:model => @user, :private_key=>'6Ld0H-ESAAAAAEEPiXGvWRPWGS37UvgaeSpjpFN2') && @user.save
-      @sucess = true
+      @success = true
     else
-      @sucess = false
+      @success = false
       @user.errors.add(:error, "You have entered an invalid value for the captcha,please re-enter again!") if @user.errors[:base].present?
       @user.errors.delete(:base)
       flash[:error] =  @user.errors.full_messages.join(', ')

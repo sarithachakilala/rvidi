@@ -6,6 +6,13 @@ class ApplicationController < ActionController::Base
     I18n.locale = params[:locale] || I18n.default_locale
   end
 
+  if Rails.env.test?
+    prepend_before_filter :stub_current_user
+    def stub_current_user
+      session[:user_id] = cookies[:stub_user_id] if cookies[:stub_user_id]
+    end
+  end
+
   private
   def current_user
     @current_user ||= User.find(session[:user_id]) if session[:user_id]
@@ -13,7 +20,7 @@ class ApplicationController < ActionController::Base
 
   def get_kaltura_session
     if current_user.present?
-      session[:client] ||= Video.get_kaltura_client
+      session[:client] ||= Cameo.get_kaltura_client
       session[:ks] ||= session[:client].ks
       p "user loggedin! session is #{session[:ks]}"
     else

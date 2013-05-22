@@ -1,139 +1,147 @@
-<!-- login container start here -->
-<div class="login_container">
-  <div class="invite_friends_padding">
-    <div class="myvision_title line_height_40">
-      Record a Cameo <i class="sprite-question-small pull-right"> </i>
+<%= form_for @cameo, :html => {:class => "js-validated-form form-horizontal", :multipart => true } do |f| %>
+  <!-- login container start here -->
+  <div class="login_container">
+    <div class="invite_friends_padding">
+      <div class="myvision_title line_height_40">
+        Record a Cameo <i class="sprite-question-small pull-right"> </i>
+      </div>
     </div>
-  </div>
 
-  <div class="row-fluid margin_top_10"> 
-    <div class="span3 text_align_center">
-      <i class="sprite-camera-big"></i>
-      <div class="font_weight_bold">
-        Click here to record a video clip
-      </div>
-      <div> (15 seconds or less)</div>
+    <div class="row-fluid margin_top_10"> 
+      <div class="span3 text_align_center">
+        <i class="sprite-camera-big"></i>
+        <div class="font_weight_bold">
+          Click here to record a video clip
+        </div>
+        <div> (15 seconds or less)</div>
 
+      </div>
+      <div class="span2 text_align_center">
+        <i class="sprite-or-icon"></i>
+      </div>
+      <div class="span3 text_align_center">
+        <div class="font_weight_bold"> 
+          Upload clip from your computer or Camera
+        </div><br>
+        <!-- <a href="#" class="btn btn-info ">Choose</a> -->
+        <%= f.hidden_field :user_id, :value => current_user.id %>
+        <%= f.hidden_field :show_id, :value => @cameo.show_id %>
+        <%= f.hidden_field :director_id, :value => @cameo.director_id %>
+        <%= f.file_field :video_file %>
+      </div>
     </div>
-    <div class="span2 text_align_center">
-      <i class="sprite-or-icon"></i>
-    </div>
-    <div class="span3 text_align_center">
-      <div class="font_weight_bold"> 
-        Upload clip from your computer or Camera
-      </div><br>
-      <a href="#" class="btn btn-info ">Choose</a>
-    </div>
-  </div>
 
-  <div class="row-fluid"> 
-    <div class="myvision_title line_height_40 margin_top_30 ">
-      Review Shows
-    </div>
-    <div class="span8 marging_none">
-      <div class="edit_title_bg" style="width:527px;"> 
-        <div class="edit_title"> Title of the Show</div>
-        <div class="font_weight_bold edit_subtitle">Director Name </div>
+    <div class="row-fluid"> 
+      <div class="myvision_title line_height_40 margin_top_30 ">
+        Review Shows
       </div>
-      <div style="">
-        <img alt="" src="/assets/video_img.png">
-      </div>
-    </div>
-  </div>
-</div>
-<div class="myvision_container">
-  <div class="row-fluid">
-    <div class="span12"> 
-      <div class="invite_friends_padding">
-        <div class=" myvision_title line_height_40">Invite Friends</div>
-      </div>
-      <div class="title">invite some friend to contribute to this show!</div>
-      <div class="margin_top_10"> 
-        <a href="#" class="btn  btn-primary "><i class="sprite-facebook-white"></i>Add from Facebook</a>
-        <a href="#" class="btn  btn-info "><i class="sprite-twitter-white"></i>Add from Twitter</a>
-      </div>
-      <div class="margin_top_10">
-        <div class="input-append">
-          <div class="input-prepend input-append search_padding">
-            <span class="add-on prepend_background"><i class="icon-search"></i></span>
-            <input type="text" class="search_input_bg input-xlarge"  placeholder="Name or Email">
-            <span class="add-on btn-warning">Go</span>
-          </div>
-
+      <div class="span8 marging_none">
+        <div class="edit_title_bg" style="width:527px;"> 
+          <div class="edit_title"> Title of the Show</div>
+          <div class="font_weight_bold edit_subtitle">Director Name </div>
+        </div>
+        <div style="">
+          <img alt="" src="/assets/video_img.png">
         </div>
       </div>
-      <div class="selects-container chk_box_container">
-        <form class="">
-          <div class="row-fluid">
-            <div class="span4 padding_left">
-              <label class="checkbox inline">
-                <input type="checkbox" value="option1" class="checkbox-input" id="inlineCheckbox1"> John Doe
-              </label>
-            </div>
-            <div class="span4">
-              <label class="checkbox inline">
-                <input type="checkbox" value="option2" class="checkbox-input" id="inlineCheckbox2"> Jerry James
-              </label>
-            </div>
-            <div class="span4">
-            </div>
-          </div>
-          <div class="row-fluid">
-            <div class="span4 padding_left">
-              <label class="checkbox inline">
-                <input type="checkbox" value="option1" class="checkbox-input" id="inlineCheckbox1"> John Doe
-              </label>
-            </div>
-            <div class="span4">
-              <label class="checkbox inline">
-                <input type="checkbox" value="option2" class="checkbox-input" id="inlineCheckbox2"> Jerry James
-              </label>
-            </div>
-            <div class="span4">
-            </div>
-          </div>
-          <div class="row-fluid">
-            <div class="span4 padding_left">
-              <label class="checkbox inline">
-                <input type="checkbox" value="option1" class="checkbox-input" id="inlineCheckbox3"> John Doe
-              </label>
-            </div>
-            <div class="span4">
-              <label class="checkbox inline">
-                <input type="checkbox" value="option2" class="checkbox-input" id="inlineCheckbox4"> Jerry James
-              </label>
-            </div>
-            <div class="span4">
-            </div>
-          </div>
-          <div class="row-fluid">
-            <div class="span4 padding_left">
-              <label class="checkbox inline">
-                <input type="checkbox" value="option1" class="checkbox-input" id="inlineCheckbox5"> John Doe
-              </label>
-            </div>
-            <div class="span4">
-              <label class="checkbox inline">
-                <input type="checkbox" value="option2" class="checkbox-input" id="inlineCheckbox6"> Jerry James
-              </label>
-            </div>
-            <div class="span4">
-              <label class="checkbox inline select-all-label">
-                Select all
-              </label>
-            </div>
-          </div>
-        </form>
-      </div>
     </div>
   </div>
-  
-  <div class="buttons_height_100">
-    <div class="hr_bg_gettingstarted" style=""> 
-      <div class="text_align_center add_cameo_btn"> 
-        <a class="btn  btn-info " href="#"><i class="sprite-reel-white"></i> Add a Cameo</a>
-      </div>
-    </div>
-  </div>
+  <div class="myvision_container">
+    <div class="row-fluid">
+      <div class="span12"> 
+        <div class="invite_friends_padding">
+          <div class=" myvision_title line_height_40">Invite Friends</div>
+        </div>
+        <div class="title">invite some friend to contribute to this show!</div>
+        <div class="margin_top_10"> 
+          <a href="#" class="btn  btn-primary "><i class="sprite-facebook-white"></i>Add from Facebook</a>
+          <a href="#" class="btn  btn-info "><i class="sprite-twitter-white"></i>Add from Twitter</a>
+        </div>
+        <div class="margin_top_10">
+          <div class="input-append">
+            <div class="input-prepend input-append search_padding">
+              <span class="add-on prepend_background"><i class="icon-search"></i></span>
+              <input type="text" class="search_input_bg input-xlarge"  placeholder="Name or Email">
+              <span class="add-on btn-warning">Go</span>
+            </div>
 
-</div>
+          </div>
+        </div>
+        <div class="selects-container chk_box_container">
+          <!-- <form class=""> -->
+            <div class="row-fluid">
+              <div class="span4 padding_left">
+                <label class="checkbox inline">
+                  <input type="checkbox" value="option1" class="checkbox-input" id="inlineCheckbox1"> John Doe
+                </label>
+              </div>
+              <div class="span4">
+                <label class="checkbox inline">
+                  <input type="checkbox" value="option2" class="checkbox-input" id="inlineCheckbox2"> Jerry James
+                </label>
+              </div>
+              <div class="span4">
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div class="span4 padding_left">
+                <label class="checkbox inline">
+                  <input type="checkbox" value="option1" class="checkbox-input" id="inlineCheckbox1"> John Doe
+                </label>
+              </div>
+              <div class="span4">
+                <label class="checkbox inline">
+                  <input type="checkbox" value="option2" class="checkbox-input" id="inlineCheckbox2"> Jerry James
+                </label>
+              </div>
+              <div class="span4">
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div class="span4 padding_left">
+                <label class="checkbox inline">
+                  <input type="checkbox" value="option1" class="checkbox-input" id="inlineCheckbox3"> John Doe
+                </label>
+              </div>
+              <div class="span4">
+                <label class="checkbox inline">
+                  <input type="checkbox" value="option2" class="checkbox-input" id="inlineCheckbox4"> Jerry James
+                </label>
+              </div>
+              <div class="span4">
+              </div>
+            </div>
+            <div class="row-fluid">
+              <div class="span4 padding_left">
+                <label class="checkbox inline">
+                  <input type="checkbox" value="option1" class="checkbox-input" id="inlineCheckbox5"> John Doe
+                </label>
+              </div>
+              <div class="span4">
+                <label class="checkbox inline">
+                  <input type="checkbox" value="option2" class="checkbox-input" id="inlineCheckbox6"> Jerry James
+                </label>
+              </div>
+              <div class="span4">
+                <label class="checkbox inline select-all-label">
+                  Select all
+                </label>
+              </div>
+            </div>
+          <!-- </form> -->
+        </div>
+      </div>
+    </div>
+    
+    <div class="buttons_height_100">
+      <div class="hr_bg_gettingstarted" style=""> 
+        <div class="text_align_center add_cameo_btn"> 
+          <%= button_tag( :class => "btn btn-info") do %>
+            <i class='sprite-reel-white'></i> Publish Cameo
+          <% end %>
+        </div>
+      </div>
+    </div>
+
+  </div>
+<% end %>

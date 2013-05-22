@@ -24,7 +24,7 @@ class CameosController < ApplicationController
   # GET /cameos/new
   # GET /cameos/new.json
   def new
-    @cameo = Cameo.new
+    @cameo = Cameo.new(:show_id => params[:show_id], :director_id => params[:director_id])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,12 +41,16 @@ class CameosController < ApplicationController
   # POST /cameos.json
   def create
     @cameo = Cameo.new(params[:cameo])
+    media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
+    @cameo.set_uploaded_video_details(media_entry)
 
     respond_to do |format|
       if @cameo.save
+        p "1"*80;
         format.html { redirect_to @cameo, notice: 'Cameo was successfully created.' }
         format.json { render json: @cameo, status: :created, location: @cameo }
       else
+        p "*"*80; p @cameo.errors
         format.html { render action: "new" }
         format.json { render json: @cameo.errors, status: :unprocessable_entity }
       end

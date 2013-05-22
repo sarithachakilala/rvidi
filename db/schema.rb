@@ -25,14 +25,19 @@ ActiveRecord::Schema.define(:version => 20130522043831) do
   end
 
   create_table "cameos", :force => true do |t|
-    t.integer  "video_id"
     t.integer  "user_id"
     t.integer  "director_id"
-    t.string   "status"
     t.integer  "show_id"
     t.integer  "show_order"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "status"
+    t.string   "name"
+    t.string   "description"
+    t.string   "tags"
+    t.string   "thumbnail_url"
+    t.string   "download_url"
+    t.string   "duration"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "delayed_jobs", :force => true do |t|
