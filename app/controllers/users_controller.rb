@@ -76,13 +76,10 @@ class UsersController < ApplicationController
   end
 
   def friends
-    @users = User.all
-    # @users = FriendMapping.find_by_user_id(session[:user_id])
-    # raise @users.inspect
+    @friends = FriendMapping.where(:user_id => session[:user_id], :status =>"accepted")
   end
 
   def friends_list
-    @users = User.all 
     @users = User.where("username like ? OR email like ?",'%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
   end
 
@@ -91,7 +88,6 @@ class UsersController < ApplicationController
   end
 
   def notification
-    @notifications = Array.new
     @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
   end
   
@@ -99,19 +95,18 @@ class UsersController < ApplicationController
     @user = User.find(params[:friend_id])
     RvidiMailer.invite_friend(@user).deliver
     friend_requst1 = FriendMapping.new(:user_id =>session[:user_id] , :friend_id=>@user.id, :status => "pending")
-    friend_requst2 = FriendMapping.new(:user_id =>@user.id , :friend_id=>session[:user_id], :status => "pending")
+    # friend_requst2 = FriendMapping.new(:user_id =>@user.id , :friend_id=>session[:user_id], :status => "pending")
     notification = Notification.new(:from_id=>session[:user_id], :to_id=>@user.id, :status =>"pending", :content=>"Requested to add as friend")
     friend_requst1.save!
-    friend_requst2.save!
+    # friend_requst2.save!
     notification.save!
     redirect_to friends_user_path(:id => session[:user_id])
   end
 
   def accept_friend_request
-    friend_requst1 = FriendMapping.find(:user_id =>session[:user_id] , :friend_id=>params[:friend_id])
-    raise friend_requst1.inspect
+    friend_requst1 = FriendMapping.where(:user_id =>session[:user_id] , :friend_id=>params[:friend_id]).first
     friend_requst1.update_attributes(:status =>"accepted")
-    FriendMapping.find
+    redirect_to notifications_user_path(:id => session[:user_id])
   end
 
   private
