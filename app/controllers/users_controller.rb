@@ -35,8 +35,8 @@ class UsersController < ApplicationController
 
   def oauth_failure
     respond_to do|format|
-        format.html{ redirect_to root_url, :notice => "Failure in Login!" }
-        format.json { render json=>{ :errros => "Failure in Login!", :status => 401 }}
+      format.html{ redirect_to root_url, :notice => "Failure in Login!" }
+      format.json { render json=>{ :errros => "Failure in Login!", :status => 401 }}
     end
   end
 
@@ -95,9 +95,9 @@ class UsersController < ApplicationController
   def send_friend_request
     @user = User.find(params[:friend_id])
     RvidiMailer.invite_friend(@user).deliver
-    friend_requst1 = FriendMapping.new(:user_id =>session[:user_id] , :friend_id=>@user.id, :status => "pending", :request_from =>session[:user_id])
-    friend_requst2 = FriendMapping.new(:user_id =>@user.id , :friend_id=>session[:user_id], :status => "pending")
-    notification = Notification.new(:from_id=>session[:user_id], :to_id=>@user.id, :status =>"pending", :content=>"Requested to add as friend")
+    friend_requst1 = FriendMapping.new(:user_id =>session[:user_id], :friend_id=>@user.id, :status => "pending", :request_from => session[:user_id])
+    friend_requst2 = FriendMapping.new(:user_id =>@user.id, :friend_id=> session[:user_id], :status => "pending")
+    notification = Notification.new(:from_id=>session[:user_id], :to_id=> @user.id, :status => "pending", :content=>"Requested to add as friend")
     friend_requst1.save!
     friend_requst2.save!
     notification.save!
@@ -105,13 +105,19 @@ class UsersController < ApplicationController
   end
 
   def accept_friend_request
-    friend_requst1 = FriendMapping.where(:user_id =>session[:user_id] , :friend_id=>params[:friend_id]).first
-    friend_requst2 = FriendMapping.where(:user_id =>params[:friend_id] , :friend_id=>session[:user_id]).first
-    notification = Notification.where(:from_id => session[:user_id], :to_id => params[:friend_id]).first
+    friend_requst1 = FriendMapping.where(:user_id =>session[:user_id], :friend_id=> params[:friend_id]).first
+    friend_requst2 = FriendMapping.where(:user_id =>params[:friend_id], :friend_id=> session[:user_id]).first
+    notification = Notification.where(:to_id => session[:user_id], :from_id => params[:friend_id]).first
     friend_requst1.update_attributes(:status =>"accepted")
     friend_requst2.update_attributes(:status =>"accepted")
     notification.update_attributes(:status => "accepted")        
     redirect_to notification_user_path(:id => session[:user_id])
+  end
+
+  def invite_friend_via_email
+    @user = User.find(params[:email_from])
+    RvidiMailer.invite_new_friend(params[:email], @user).deliver
+    redirect_to friends_user_path(:id => session[:user_id])
   end
 
   private

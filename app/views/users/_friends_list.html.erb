@@ -20,7 +20,7 @@
                         <div class="btn-small btn-warning">
                           <% @friend_detail = FriendMapping.where(:user_id => each_user_detail.id, :friend_id =>session[:user_id]).first%>
                           <% if @friend_detail.present? && @friend_detail.status == "pending" && @friend_detail.request_from == each_user_detail.id%>
-                            <%= link_to "Respond to friend request", send_friend_request_users_path(:friend_id => each_user_detail.id) %>
+                            <%= link_to "Respond to friend request", accept_friend_request_users_path(:friend_id => each_user_detail.id) %>
                           <% elsif @friend_detail.present? && @friend_detail.status == "pending"%>
                             pending 
                           <%elsif @friend_detail.present? &&  @friend_detail.status == "accepted"%>
@@ -36,6 +36,9 @@
             </div>
           <% end %>
         <% end %>
+      <% else %>
+        You want to send a request to the user: <%= params[:search_val]%>
+        <%= link_to "Confirm to send request", invite_friend_via_email_users_path(:email => params[:search_val], :email_from =>session[:user_id]) %>
       <% end %>
     </li>
   </ul>
