@@ -86,7 +86,7 @@ class Cameo < ActiveRecord::Base
   end
 
   def latest_cameo_order
-    Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.show_order
+    Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.try(:show_order) || 0
   end
 
 end
