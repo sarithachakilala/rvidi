@@ -4,6 +4,7 @@ describe Show do
   # pending "add some examples to (or delete) #{__FILE__}"
 
   before(:all) do    
+    User.destroy_all
   end
 
   before(:each) do

@@ -46,11 +46,9 @@ class CameosController < ApplicationController
 
     respond_to do |format|
       if @cameo.save
-        p "1"*80;
         format.html { redirect_to @cameo, notice: 'Cameo was successfully created.' }
         format.json { render json: @cameo, status: :created, location: @cameo }
       else
-        p "*"*80; p @cameo.errors
         format.html { render action: "new" }
         format.json { render json: @cameo.errors, status: :unprocessable_entity }
       end

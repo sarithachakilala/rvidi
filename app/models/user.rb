@@ -8,6 +8,7 @@ class User < ActiveRecord::Base
   before_save :encrypt_password
 
   has_many :authentications
+  has_many :shows
 
   # VALIDATIONS
   validates :username, :presence => true,
@@ -35,6 +36,12 @@ class User < ActiveRecord::Base
   def self.authenticate(login, password)
     user = User.find_by_username(login.downcase) || User.find_by_email(login)
     (user && user.match_password?(password)) ? user : nil
+  end
+
+  def self.authentication_record(auth,user)
+    authentication = Authentication.new(:user_id=>user.id, :uid=>auth.uid, :provider=>auth.provider,:oauth_token=>auth.credentials.token , :ouath_token_secret => auth.credentials.secret)
+    authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.credentials.expires_at.present?
+    authentication.save!
   end
   
   def self.from_omniauth(auth)
@@ -74,28 +81,16 @@ class User < ActiveRecord::Base
       required_user
     end 
   end  
-
-  def self.authentication_record(auth,user)
-    authentication = Authentication.new(:user_id=>user.id, :uid=>auth.uid, :provider=>auth.provider,:oauth_token=>auth.credentials.token , :ouath_token_secret => auth.credentials.secret)
-    authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.credentials.expires_at.present?
-    authentication.save!
-  end
   
   # INSTANCE METHODS
-  def provider_does_not_exist?
-    authentications = Authentication.where(:user_id => self.id)    
-  end
-
   def check_password_confirmation
     is_valdiated = (self.password.present? && self.password_confirmation.present?) ? (self.password == self.password_confirmation) : true
     self.errors.add(:password, " should match Password Confirmation") unless is_valdiated
     return is_valdiated
   end
 
-  def friends
-    @graph = Koala::Facebook::API.new('CAACEdEose0cBAOEhRtI2n0yYprTc8uGOrqsXHQl5DxNUK09F9jM4HrGDJG7hnQfdP17YG15LlxgAD9sIE7Y9ddCr4BNYxNqeiavI8o8tnDAmqWiZCRe9jDpc4JyOg5IbX1W7XIbZCeBUXqbfNLG5M24kOcM8r6Ei7HpzqxJwZDZD')
-    profile = @graph.get_object("me")
-    friends = @graph.get_connections("me", "friends")
+  def contributed_shows
+    Show.joins(:cameos).where("cameos.user_id = ? and shows.user_id != ?", self.id, self.id).order("created_at desc")    
   end
 
   def encrypt_password
@@ -105,12 +100,26 @@ class User < ActiveRecord::Base
     end
   end
 
+  def friends
+    @graph = Koala::Facebook::API.new('CAACEdEose0cBAOEhRtI2n0yYprTc8uGOrqsXHQl5DxNUK09F9jM4HrGDJG7hnQfdP17YG15LlxgAD9sIE7Y9ddCr4BNYxNqeiavI8o8tnDAmqWiZCRe9jDpc4JyOg5IbX1W7XIbZCeBUXqbfNLG5M24kOcM8r6Ei7HpzqxJwZDZD')
+    profile = @graph.get_object("me")
+    friends = @graph.get_connections("me", "friends")
+  end
+
   def increment_sign_in_count
     self.update_attribute(:sign_in_count, (self.sign_in_count+1))
   end
 
+  def is_director?(show)
+    (self.id == show.user_id)
+  end
+
   def match_password?(password)
     self.password_hash == BCrypt::Engine.hash_secret(password, self.password_salt)
+  end
+
+  def provider_does_not_exist?
+    authentications = Authentication.where(:user_id => self.id)    
   end
 
 end

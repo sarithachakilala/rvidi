@@ -36,8 +36,9 @@ ActiveRecord::Schema.define(:version => 20130522043831) do
     t.string   "thumbnail_url"
     t.string   "download_url"
     t.string   "duration"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.string   "kaltura_entry_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "delayed_jobs", :force => true do |t|

@@ -32,10 +32,10 @@ class Cameo < ActiveRecord::Base
     kaltura_config
   end
 
-  def self.get_kaltura_client
+  def self.get_kaltura_client(user_id)
     kaltura_config = get_kaltura_config    
     kaltura_client = Kaltura::KalturaClient.new( kaltura_config )
-    ks = kaltura_client.session_service.start( configatron.administrator_secret, configatron.user_id, Kaltura::KalturaSessionType::ADMIN )
+    ks = kaltura_client.session_service.start( configatron.administrator_secret, user_id, Kaltura::KalturaSessionType::ADMIN )
     kaltura_client.ks = ks
     kaltura_client
   end
@@ -63,9 +63,14 @@ class Cameo < ActiveRecord::Base
 
     created_entry = client.media_service.add_from_uploaded_file(media_entry, video_token, ks)
     
-    media_entry = client.base_entry_service.get(created_entry.id)    
+    media_entry = get_kaltura_video(client, created_entry.id)
     media_entry
   end
+
+  def self.get_kaltura_video(client, kaltura_entry_id)
+    media_entry = client.base_entry_service.get(kaltura_entry_id)        
+  end
+
   # Methods to manage Videos using Kaltura Ends
   # INSTANCE METHODS
   def set_uploaded_video_details(media_entry)
@@ -76,6 +81,12 @@ class Cameo < ActiveRecord::Base
     self.thumbnail_url =  media_entry.thumbnail_url
     self.download_url =  media_entry.download_url
     self.duration =  media_entry.duration
+    self.kaltura_entry_id =  media_entry.id
+    self.show_order = (latest_cameo_order+1)
+  end
+
+  def latest_cameo_order
+    Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.show_order
   end
 
 end

@@ -19,13 +19,18 @@ class ApplicationController < ActionController::Base
   end
 
   def get_kaltura_session
-    if current_user.present?
-      session[:client] ||= Cameo.get_kaltura_client
-      session[:ks] ||= session[:client].ks
-      p "user loggedin! session is #{session[:ks]}"
-    else
-      session[:client] = nil
-      session[:ks] = nil
+    begin
+      if current_user.present?
+        session[:client] ||= Cameo.get_kaltura_client(current_user.id)
+        session[:ks] ||= session[:client].ks
+        p "user loggedin! session is #{session[:ks]}"
+      else
+        session[:client] = nil
+        session[:ks] = nil
+      end
+    rescue Kaltura::KalturaAPIError => e
+      p "Handling Kaltura::KalturaAPIError exception ------- 1"
+      p e.message
     end
   end
 

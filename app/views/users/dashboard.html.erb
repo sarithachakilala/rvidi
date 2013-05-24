@@ -21,108 +21,23 @@
       </ul>
       <div class="tab-content">
         <div id="tab1" class="tab-pane active">
-          <div class="span text_align_right"> 
-            <a class="sprite-list-icon" href="#"> </a>
+          <div class="span text_align_right">
+            <a class="sprite-list-icon" href="#"></a>
             <a class="sprite-details-icon-lite" href="#"> </a>
           </div>
-          <!-- Thumbnail start here -->
-          <div class="row-fluid">
-            <ul class="thumbnails margin_top_5">
-              <li class="thumbnail_fivegroup lengthier" style="">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/photo_background_2916660.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                      <div class="thumbnail_contributor"><%= link_to "Edit Show", edit_show_path(Show.first) %> </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-
-                </div>
-
-              </li>
-              <li class="thumbnail_fivegroup lengthier">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Girl_looking_next_to_path_2687938.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                      <div class="thumbnail_contributor"><%= link_to "Edit Show", edit_show_path(Show.first) %> </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-
-                </div>
-              </li>
-              <li class="thumbnail_fivegroup lengthier">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">   
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Living-room-CBP1045831.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                      <div class="thumbnail_contributor"><%= link_to "Edit Show", edit_show_path(Show.first) %> </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="thumbnail_fivegroup lengthier">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Elderly-man-looking-at-photographs-FAN2036854.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                      <div class="thumbnail_contributor"><%= link_to "Edit Show", edit_show_path(Show.first) %> </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="thumbnail_fivegroup lengthier">
-                <div class="thumbnail item">
-                  <div class="triangle-with-shadow">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Living-room-CBP1045831.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                      <div class="thumbnail_contributor"><%= link_to "Edit Show", edit_show_path(Show.first) %> </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
+          <% if current_user.shows.present? %>
+            <% current_user.shows.each_slice(5) do|slice| %>
+              <div class="row-fluid">
+                <ul class="thumbnails margin_top_5">
+                  <% slice.each do|show| %>
+                    <%= render :partial => "show_thumbnail", :locals => { :show => show } %>
+                  <% end %>      
+                </ul>
+              </div>
+            <% end %>
+          <% else %>  
+            <div class="row-fluid">No Shows Exist for <%= current_user.username %></div>              
+          <% end %>
         </div>
 
         <div id="tab2" class="tab-pane">
@@ -130,287 +45,21 @@
             <a class="sprite-list-icon" href="#"> </a>
             <a class="sprite-details-icon-lite" href="#"> </a>
           </div>
-          <!-- Thumbnail start here -->
-          <div class="row-fluid">
-            <ul class="thumbnails margin_top_5">
-              <li class="thumbnail_fivegroup" style="">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/photo_background_2916660.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-
-                </div>
-
-              </li>
-              <li class="thumbnail_fivegroup">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Girl_looking_next_to_path_2687938.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-
-                </div>
-              </li>
-              <li class="thumbnail_fivegroup">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">   
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Living-room-CBP1045831.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="thumbnail_fivegroup">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Elderly-man-looking-at-photographs-FAN2036854.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="thumbnail_fivegroup">
-                <div class="thumbnail item">
-                  <div class="triangle-with-shadow">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Living-room-CBP1045831.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div> 
-          <div class="margin_top_10">
-            <ul class="thumbnails">
-              <li class="thumbnail_fivegroup" style="">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Woman-sorting-photographs-FAN2049915.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-
-                </div>
-
-              </li>
-              <li class="thumbnail_fivegroup">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/People-sleeping-by-photographs-ISP2138543.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-
-                </div>
-              </li>
-              <li class="thumbnail_fivegroup">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">   
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Living-room-CBP1045831.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="thumbnail_fivegroup">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/slider_image1.png' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="thumbnail_fivegroup">
-                <div class="thumbnail item">
-                  <div class="triangle-with-shadow">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Living-room-CBP1045831.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div>
-          <div class="row-fluid">
-            <ul class="thumbnails margin_top_10">
-              <li class="thumbnail_fivegroup" style="">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/photo_background_2916660.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-
-                </div>
-
-              </li>
-              <li class="thumbnail_fivegroup">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Girl_looking_next_to_path_2687938.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-
-                </div>
-              </li>
-              <li class="thumbnail_fivegroup">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">   
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Living-room-CBP1045831.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="thumbnail_fivegroup">
-                <div class="thumbnail">
-                  <div class="triangle-with-shadow item">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Elderly-man-looking-at-photographs-FAN2036854.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </li>
-              <li class="thumbnail_fivegroup">
-                <div class="thumbnail item">
-                  <div class="triangle-with-shadow">  
-                    <%= link_to "<img class='thumbnail_image_widht_five' src='/assets/Living-room-CBP1045831.jpeg' alt='300x200'><span class='play'></span>".html_safe, show_path(Show.first) %>
-                  </div>
-                  <div class="row-fluid caption1 ">
-                    <div class="span9">
-                      <div class="thumbnail_title"><%= link_to "Title of the show", show_path(Show.first) %></div>
-                      <div class="thumbnail_name">Director Name </div>
-                      <div class="thumbnail_contributor">6 Contributors </div>
-                    </div>
-                    <div class="span3"> 
-                      <i class="sprite-thumbnail_title_icon"></i>
-                    </div>
-                  </div>
-                </div>
-              </li>
-            </ul>
-          </div> 
-          <!-- Thumbnail end here -->
-          <div class="see_more text_align_right margin_top_10"> See more</div>
+          <% if current_user.contributed_shows.present? %>
+            <% current_user.contributed_shows.each_slice(5) do|contr_slice| %>
+              <div class="row-fluid">
+                <ul class="thumbnails margin_top_5">
+                  <% contr_slice.each do|show| %>
+                    <%= render :partial => "show_thumbnail", :locals => { :show => show } %>
+                  <% end %>      
+                </ul>
+              </div>
+            <% end %>
+          <% else %>  
+            <div class="row-fluid">No Contributions Exist by <%= current_user.username %></div>
+          <% end %>
+          <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
         </div>
-
       </div>
     </div>
     <div class="hr_bg_welcome"> 
