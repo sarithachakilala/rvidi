@@ -23,6 +23,7 @@ class UsersController < ApplicationController
     respond_to do |format|
       if @success
         session[:user_id] = @user.id
+        @user.increment_sign_in_count
         format.html{ redirect_to getting_started_user_path(@user.id), :notice => "Account Created Successfully!" }
         format.json{ render :json => { :status => 200, :user => @user } }
       else
@@ -94,19 +95,23 @@ class UsersController < ApplicationController
   def send_friend_request
     @user = User.find(params[:friend_id])
     RvidiMailer.invite_friend(@user).deliver
-    friend_requst1 = FriendMapping.new(:user_id =>session[:user_id] , :friend_id=>@user.id, :status => "pending")
-    # friend_requst2 = FriendMapping.new(:user_id =>@user.id , :friend_id=>session[:user_id], :status => "pending")
+    friend_requst1 = FriendMapping.new(:user_id =>session[:user_id] , :friend_id=>@user.id, :status => "pending", :request_from =>session[:user_id])
+    friend_requst2 = FriendMapping.new(:user_id =>@user.id , :friend_id=>session[:user_id], :status => "pending")
     notification = Notification.new(:from_id=>session[:user_id], :to_id=>@user.id, :status =>"pending", :content=>"Requested to add as friend")
     friend_requst1.save!
-    # friend_requst2.save!
+    friend_requst2.save!
     notification.save!
     redirect_to friends_user_path(:id => session[:user_id])
   end
 
   def accept_friend_request
     friend_requst1 = FriendMapping.where(:user_id =>session[:user_id] , :friend_id=>params[:friend_id]).first
+    friend_requst2 = FriendMapping.where(:user_id =>params[:friend_id] , :friend_id=>session[:user_id]).first
+    notification = Notification.where(:from_id => session[:user_id], :to_id => params[:friend_id]).first
     friend_requst1.update_attributes(:status =>"accepted")
-    redirect_to notifications_user_path(:id => session[:user_id])
+    friend_requst2.update_attributes(:status =>"accepted")
+    notification.update_attributes(:status => "accepted")        
+    redirect_to notification_user_path(:id => session[:user_id])
   end
 
   private

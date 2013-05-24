@@ -18,10 +18,14 @@
                       <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
                        </div>
                         <div class="btn-small btn-warning">
-                          <% @friend_detail = FriendMapping.where(:user_id => session[:user_id], :friend_id =>each_user_detail.id, :status => "pending").first%>
-                          <% if @friend_detail.status == "pending"%>
+                          <% @friend_detail = FriendMapping.where(:user_id => each_user_detail.id, :friend_id =>session[:user_id]).first%>
+                          <% if @friend_detail.present? && @friend_detail.status == "pending" && @friend_detail.request_from == each_user_detail.id%>
+                            <%= link_to "Respond to friend request", send_friend_request_users_path(:friend_id => each_user_detail.id) %>
+                          <% elsif @friend_detail.present? && @friend_detail.status == "pending"%>
                             pending 
-                          <%else%>
+                          <%elsif @friend_detail.present? &&  @friend_detail.status == "accepted"%>
+                            Already friend
+                          <% else%>
                             <%= link_to "Add as friend", send_friend_request_users_path(:friend_id => each_user_detail.id) %>
                           <%end%>
                         </div>
