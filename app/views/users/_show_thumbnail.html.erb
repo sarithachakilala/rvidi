@@ -2,7 +2,8 @@
 <li class="thumbnail_fivegroup <%= li_extra_class %>" style="">
   <div class="thumbnail">
     <div class="triangle-with-shadow item">  
-      <%= link_to "<img class='thumbnail_image_widht_five' src='#{show.cameos.first.thumbnail_url}' alt='300x200'><span class='play'></span>".html_safe, show_path(show) %>
+      <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
+      <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe, show_path(show) %>
     </div>
     <div class="row-fluid caption1">
       <div class="span9">
