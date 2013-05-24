@@ -1,28 +1,44 @@
 <div id= "main_frame">
   <ul class="thumbnails">
     <li class="span12">
-      <% @users.each do |each_user_detail| %>
-        <div class="thumbnail frinds_thumbnail_padding">
-          <div class="row-fluid frinds_row_margin">
-            <div class="span4"> 
-              <div class="row-fluid"> 
-                <div class="span4">
-                  <div class="friend_image"> 
-                    <img  src="/assets/OCP0154256_P_Portrait-of-a-young-man.png" alt="300x200" >
-                  </div> 
-                </div>
-                <div class="span8">
-                  <div class="friend_name"> <%= link_to "#{each_user_detail.username}", friend_profile_user_path(current_user.id, :friend_id => each_user_detail.id) %></div>
-                  <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
-                   </div>
-                    <div class="btn-small btn-warning">
-                    <%= link_to "Add as friend", send_friend_request_users_path(:friend_id => each_user_detail.id) %></div>
-
+      <% if @users.present? %>
+        <% @users.each do |each_user_detail| %>
+          <% if each_user_detail.id != session[:user_id] %>
+          <div class="thumbnail frinds_thumbnail_padding">
+              <div class="row-fluid frinds_row_margin">
+                <div class="span4"> 
+                  <div class="row-fluid"> 
+                    <div class="span4">
+                      <div class="friend_image"> 
+                        <img  src="/assets/OCP0154256_P_Portrait-of-a-young-man.png" alt="300x200" >
+                      </div> 
+                    </div>
+                    <div class="span8">
+                      <div class="friend_name"> <%= link_to "#{each_user_detail.username}", friend_profile_user_path(current_user.id, :friend_id => each_user_detail.id) %></div>
+                      <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
+                       </div>
+                        <div class="btn-small btn-warning">
+                          <% @friend_detail = FriendMapping.where(:user_id => each_user_detail.id, :friend_id =>session[:user_id]).first%>
+                          <% if @friend_detail.present? && @friend_detail.status == "pending" && @friend_detail.request_from == each_user_detail.id%>
+                            <%= link_to "Respond to friend request", accept_friend_request_users_path(:friend_id => each_user_detail.id) %>
+                          <% elsif @friend_detail.present? && @friend_detail.status == "pending"%>
+                            pending 
+                          <%elsif @friend_detail.present? &&  @friend_detail.status == "accepted"%>
+                            Already friend
+                          <% else%>
+                            <%= link_to "Add as friend", send_friend_request_users_path(:friend_id => each_user_detail.id) %>
+                          <%end%>
+                        </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-        </div>
+          <% end %>
+        <% end %>
+      <% else %>
+        You want to send a request to the user: <%= params[:search_val]%>
+        <%= link_to "Confirm to send request", invite_friend_via_email_users_path(:email => params[:search_val], :email_from =>session[:user_id]) %>
       <% end %>
     </li>
   </ul>

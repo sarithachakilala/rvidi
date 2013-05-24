@@ -1,7 +1,7 @@
 OmniAuth.config.logger = Rails.logger
 
 Rails.application.config.middleware.use OmniAuth::Builder do
-  provider :facebook, configatron.facebook_app_id, configatron.facebook_app_secret
+  provider :facebook, configatron.facebook_app_id, configatron.facebook_app_secret, { scope: 'email' }
   provider :twitter, configatron.twitter_consumer_key, configatron.twitter_consumer_secret
 end
 

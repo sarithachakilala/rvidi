@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130522043831) do
+ActiveRecord::Schema.define(:version => 20130524065829) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -61,8 +61,9 @@ ActiveRecord::Schema.define(:version => 20130522043831) do
     t.integer  "user_id"
     t.integer  "friend_id"
     t.string   "status"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+    t.integer  "request_from"
   end
 
   create_table "notifications", :force => true do |t|

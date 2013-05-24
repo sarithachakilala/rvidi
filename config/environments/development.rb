@@ -42,7 +42,7 @@ Rvidi::Application.configure do
     :port => 587,
     :domain => "gmail.com",
     :authentication => :login,
-    :user_name => 'kbcpart1@gmail.com',
-    :password => 'orbital123',
+    :user_name => 'qwinix.system@gmail.com',
+    :password => 'Qwinix#123',
   }
 end

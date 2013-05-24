@@ -33,6 +33,8 @@ Rvidi::Application.routes.draw do
     collection do
       get 'friends_list'
       get 'send_friend_request'
+      get 'accept_friend_request'
+      get 'invite_friend_via_email'
     end
   end
   resources :home do
