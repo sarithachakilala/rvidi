@@ -14,10 +14,7 @@ class UsersController < ApplicationController
     if verify_recaptcha(:model => @user, :private_key=>'6Ld0H-ESAAAAAEEPiXGvWRPWGS37UvgaeSpjpFN2') && @user.save
       @success = true
       if params[:from_id]
-        friend_requst1 = FriendMapping.new(:user_id =>params[:from_id], :friend_id=>@user.id, :status => "accepted", :request_from => params[:from_id])
-        friend_requst2 = FriendMapping.new(:user_id =>@user.id, :friend_id=> params[:from_id], :status => "accepted")
-        friend_requst1.save!
-        friend_requst2.save!
+        friendmapping_creation(@user)
       end
     else
       @success = false
@@ -144,6 +141,14 @@ class UsersController < ApplicationController
 
   def add_facebook_friends
     @facebook_friends = User.fetching_facebook
+  end
+
+  def friendmapping_creation(user)
+    @user= user
+    friend_requst1 = FriendMapping.new(:user_id =>params[:from_id], :friend_id=>@user.id, :status => "accepted", :request_from => params[:from_id])
+    friend_requst2 = FriendMapping.new(:user_id =>@user.id, :friend_id=> params[:from_id], :status => "accepted")
+    friend_requst1.save!
+    friend_requst2.save!
   end
 
   private

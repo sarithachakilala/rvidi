@@ -66,6 +66,7 @@ class User < ActiveRecord::Base
       authentication_record(auth,user) 
       user
     else
+      authentication.update_attributes(:oauth_token => auth.credentials.token)
       required_user
     end 
   end 
