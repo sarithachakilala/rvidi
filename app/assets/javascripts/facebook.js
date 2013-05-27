@@ -30,6 +30,8 @@ function facebookLogin(facebook_app_id){
       });
       return true;
     });
+    
+    // Used to send request added for future reference.
     function sendRequestToRecipients() {
         var user_ids = document.getElementsByName("user_ids")[0].value;
         FB.ui({method: 'apprequests',

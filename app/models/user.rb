@@ -53,6 +53,7 @@ class User < ActiveRecord::Base
   end
 
   def self.user_facebook_details(auth,user)
+    session['fb_access_token'] = auth['credentials']['token']
     authentication = Authentication.find_by_uid(auth.uid)
     required_user = authentication.present? ? User.find(authentication.user_id) : nil
     if required_user.nil?
@@ -85,10 +86,11 @@ class User < ActiveRecord::Base
   end 
 
   
-  def self.fetching_facebook
-    @graph = Koala::Facebook::API.new('CAACEdEose0cBAJMshg8zXSvMklf6YYzcZCxmIQDIKv7opTZC9u2WUCdo4a26XxCE6zVdJAvsKbC3ayTQu64sZALJyY1j9Jaj2tZAGPSzIiBsH5XlRuJlH5WnaPY4ndQZAhNMS3RcQkYHJg0ZAZBuWIuU3ieHQyrzjwZD')
+  def self.fetching_facebook 
+    @graph = Koala::Facebook::API.new(session['fb_access_token'])
     profile = @graph.get_object("me")
-    friends = @graph.get_connections("me", "friends")
+    @profile_image = graph.get_picture("me")
+    friends = @graph.get_connections("me", "friends?fields=id, name, picture.type(large)")
   end 
   
   # INSTANCE METHODS
@@ -110,7 +112,7 @@ class User < ActiveRecord::Base
   end
 
   def friends
-    @graph = Koala::Facebook::API.new('CAACEdEose0cBAJMshg8zXSvMklf6YYzcZCxmIQDIKv7opTZC9u2WUCdo4a26XxCE6zVdJAvsKbC3ayTQu64sZALJyY1j9Jaj2tZAGPSzIiBsH5XlRuJlH5WnaPY4ndQZAhNMS3RcQkYHJg0ZAZBuWIuU3ieHQyrzjwZD')
+    @graph = Koala::Facebook::API.new(session['fb_access_token'])
     profile = @graph.get_object("me")
     friends = @graph.get_connections("me", "friends")
   end
