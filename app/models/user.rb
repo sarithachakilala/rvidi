@@ -53,6 +53,7 @@ class User < ActiveRecord::Base
   end
 
   def self.user_facebook_details(auth,user)
+    session['fb_access_token'] = auth['credentials']['token']
     authentication = Authentication.find_by_uid(auth.uid)
     required_user = authentication.present? ? User.find(authentication.user_id) : nil
     if required_user.nil?
@@ -63,6 +64,7 @@ class User < ActiveRecord::Base
       user.state = auth.extra.raw_info.location.name if auth.extra.raw_info.location.present?
       user.save(:validate => false)
       authentication_record(auth,user) 
+      user
     else
       required_user
     end 
@@ -77,10 +79,19 @@ class User < ActiveRecord::Base
       user.city = auth.extra.raw_info.location 
       user.save(:validate => false)
       authentication_record(auth,user)
+      user
     else
       required_user
     end 
-  end  
+  end 
+
+  
+  def self.fetching_facebook 
+    @graph = Koala::Facebook::API.new(session['fb_access_token'])
+    profile = @graph.get_object("me")
+    @profile_image = graph.get_picture("me")
+    friends = @graph.get_connections("me", "friends?fields=id, name, picture.type(large)")
+  end 
   
   # INSTANCE METHODS
   def check_password_confirmation
@@ -101,7 +112,7 @@ class User < ActiveRecord::Base
   end
 
   def friends
-    @graph = Koala::Facebook::API.new('CAACEdEose0cBAOEhRtI2n0yYprTc8uGOrqsXHQl5DxNUK09F9jM4HrGDJG7hnQfdP17YG15LlxgAD9sIE7Y9ddCr4BNYxNqeiavI8o8tnDAmqWiZCRe9jDpc4JyOg5IbX1W7XIbZCeBUXqbfNLG5M24kOcM8r6Ei7HpzqxJwZDZD')
+    @graph = Koala::Facebook::API.new(session['fb_access_token'])
     profile = @graph.get_object("me")
     friends = @graph.get_connections("me", "friends")
   end
