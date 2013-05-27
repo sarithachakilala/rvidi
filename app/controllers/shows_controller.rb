@@ -13,7 +13,7 @@ class ShowsController < ApplicationController
   # GET /shows/1
   # GET /shows/1.json
   def show
-    # @show = Show.find(params[:id])
+    @show = Show.find(params[:id])
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,7 +24,7 @@ class ShowsController < ApplicationController
   # GET /shows/new
   # GET /shows/new.json
   def new
-    @show = Show.new
+    @show = Show.new(:display_preferences => "private", :contributor_preferences => "private")
 
     respond_to do |format|
       format.html # new.html.erb
@@ -34,7 +34,7 @@ class ShowsController < ApplicationController
 
   # GET /shows/1/edit
   def edit
-    # @show = Show.find(params[:id])
+    @show = Show.find(params[:id])
   end
 
   # POST /shows

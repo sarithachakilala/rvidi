@@ -3,94 +3,47 @@
     <div class="row-fluid">
       <div class="span8 marging_none">
         <div class="edit_title_bg"> 
-          <div class="edit_title"> Title of the Show</div>
-          <div class="font_weight_bold edit_subtitle">Director Name </div>
+          <div class="edit_title"><%= show.title %></div>
+          <div class="font_weight_bold edit_subtitle"><%= show.director.username %></div>
         </div>
         <div style="">
-          <img alt="" src="/assets/video_img.png">
+          <!-- <img alt="" src="/assets/video_img.png"> -->
+          <div id="kaltura_player_<%= show.id %>" style="width: 526px; height: 353px;" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
+            <% show.cameos.each do|cameo| %>
+              <span itemprop="name" content="RF_commercial2"></span>
+              <span itemprop="description" content=""></span>
+              <span itemprop="duration" content=""></span>
+              <span itemprop="thumbnail" content=""></span>
+              <span itemprop="width" content="526"></span>
+              <span itemprop="height" content="353"></span>
+              <a href="http://corp.kaltura.com/products/video-platform-features">Video Platform</a>
+              <a href="http://corp.kaltura.com/Products/Features/Video-Management">Video Management</a> 
+              <a href="http://corp.kaltura.com/Video-Solutions">Video Solutions</a>
+              <a href="http://corp.kaltura.com/Products/Features/Video-Player">Video Player</a>
+
+              <% content_for :js_with_script_tags do %>
+                <script src="http://cdnapi.kaltura.com/p/1409052/sp/140905200/embedIframeJs/uiconf_id/14018252/partner_id/1409052?autoembed=true&entry_id=<%= cameo.kaltura_entry_id %>&playerId=kaltura_player_<%= show.id %>&cache_st=1368767278&width=526&height=353">
+                </script>
+              <% end %>
+            <% end %>
+          </div>
         </div>
       </div>
       <div class="span4 marging_none cameo_friends">
-        <div class="row-fluid">
-          <div class="span3">
-            <div class="contributors_image"> <img alt="Contributors" src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" class="contributors_image_size"> </div>
+        <% show.cameos.each do|cameo| %>
+        <%# 10.times do|n| %>
+          <div class="row-fluid">
+            <div class="span3">
+              <div class="contributors_image">
+                <img alt="Contributors" src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" class="contributors_image_size">
+              </div>
+            </div>
+            <div class="span8 cameo_friends_text">
+              <%= cameo.user.username %>
+            </div>
           </div>
-          <div class="span8 cameo_friends_text"> 
-            First contributor
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span3">
-            <div class="contributors_image"> <img alt="Contributors" src="/assets/CUP0065824_P_Close-up-of-businesswomans-face.png" class="contributors_image_size"> </div>
-          </div>
-          <div class="span8 cameo_friends_text"> 
-            Another User
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span3">
-            <div class="contributors_image"> <img alt="Contributors" src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" class="contributors_image_size"> </div>
-          </div>
-          <div class="span8 cameo_friends_text"> 
-            Contributor Number Three
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span3">
-            <div class="contributors_image"> <img alt="Contributors" src="/assets/Coworkers-concentrating-on-pictures-CUP0014013.jpeg" class="contributors_image_size"> </div>
-          </div>
-          <div class="span8 cameo_friends_text"> 
-            user Four
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span3">
-            <div class="contributors_image"> <img alt="Contributors" src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" class="contributors_image_size"> </div>
-          </div>
-          <div class="span8 cameo_friends_text"> 
-            cameo the Fifth
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span3">
-            <div class="contributors_image"> <img alt="Contributors" src="/assets/CUP0065824_P_Close-up-of-businesswomans-face.png" class="contributors_image_size"> </div>
-          </div>
-          <div class="span8 cameo_friends_text"> 
-            Sixth person goes here
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span3">
-            <div class="contributors_image"> <img alt="Contributors" src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" class="contributors_image_size"> </div>
-          </div>
-          <div class="span8 cameo_friends_text"> 
-            Cameo the seven
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span3">
-            <div class="contributors_image"> <img alt="Contributors" src="/assets/Coworkers-concentrating-on-pictures-CUP0014013.jpeg" class="contributors_image_size"> </div>
-          </div>
-          <div class="span8 cameo_friends_text"> 
-            Eight Cameo
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span3">
-            <div class="contributors_image"> <img alt="Contributors" src="/assets/Coworkers-concentrating-on-pictures-CUP0014013.jpeg" class="contributors_image_size"> </div>
-          </div>
-          <div class="span8 cameo_friends_text"> 
-            Eight Cameo
-          </div>
-        </div>
-        <div class="row-fluid">
-          <div class="span3">
-            <div class="contributors_image"> <img alt="Contributors" src="/assets/Coworkers-concentrating-on-pictures-CUP0014013.jpeg" class="contributors_image_size"> </div>
-          </div>
-          <div class="span8 cameo_friends_text"> 
-            Eight Cameo
-          </div>
-        </div>
+        <% end %>
+
       </div>
     </div>
 
@@ -141,7 +94,7 @@
   <div class="buttons_height_100">
     <div class="hr_bg_gettingstarted" style=""> 
       <div class="text_align_center add_cameo_btn"> 
-        <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path, :class => "btn btn-info" %>
+        <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id), :class => "btn btn-info" %>
         <i class="sprite-or-icon_black" style=""></i>
         <%= link_to "<i class='sprite-camera-white'></i> Start a New Show".html_safe, new_show_path, :class => "btn btn-warning" %>
       </div>

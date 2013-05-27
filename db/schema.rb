@@ -25,14 +25,20 @@ ActiveRecord::Schema.define(:version => 20130524065829) do
   end
 
   create_table "cameos", :force => true do |t|
-    t.integer  "video_id"
     t.integer  "user_id"
     t.integer  "director_id"
-    t.string   "status"
     t.integer  "show_id"
     t.integer  "show_order"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.string   "status"
+    t.string   "name"
+    t.string   "description"
+    t.string   "tags"
+    t.string   "thumbnail_url"
+    t.string   "download_url"
+    t.string   "duration"
+    t.string   "kaltura_entry_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
   end
 
   create_table "delayed_jobs", :force => true do |t|
@@ -73,8 +79,13 @@ ActiveRecord::Schema.define(:version => 20130524065829) do
     t.integer  "user_id"
     t.string   "title"
     t.text     "description"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
+    t.string   "display_preferences"
+    t.string   "display_preferences_password"
+    t.string   "contributor_preferences"
+    t.string   "contributor_preferences_password"
+    t.boolean  "need_review",                      :default => true
   end
 
   create_table "users", :force => true do |t|
@@ -91,19 +102,6 @@ ActiveRecord::Schema.define(:version => 20130524065829) do
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
     t.integer  "sign_in_count",    :default => 0
-  end
-
-  create_table "videos", :force => true do |t|
-    t.string   "title"
-    t.text     "description"
-    t.integer  "cameo_id"
-    t.string   "video_file"
-    t.string   "kaltura_key"
-    t.datetime "kaltura_syncd_at"
-    t.string   "thumbnail_url"
-    t.integer  "duration"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
   end
 
 end

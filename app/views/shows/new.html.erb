@@ -1,239 +1,174 @@
-<div class="login_container">
+<%= form_for @show, :html => {:class => "js-validated-form form-horizontal"} do |f| %>
+  <div class="login_container">
 
-  <div class="accordion" id="accordion1">
-    <div class="accordion-group plus-minus-container">
-      <div class="accordion-heading">
-        <div class="accordion-toggle myvision_title line_height_40 changeable-plus-minus" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
-          Show Details <i class="sprite-question-small"> </i> <i class="sprite-minus-small plus-minus-i pull-right"> </i>
-        </div>
-      </div>
-      <div id="collapseOne" class="accordion-body collapse in">
-        <div class="accordion-inner">
-          <form class="form-horizontal">
-            <div class="control-group">
-              <label class="control-label blue_label" for="inputEmail">Title</label>
-              <div class="controls">
-                <input type="text" id="inputEmail" placeholder="Title">
-              </div>
-            </div>
-            <div class="control-group">
-              <label class="control-label  blue_label" for="inputPassword">Description</label>
-              <div class="controls">
-                <input type="text" id="inputPassword" placeholder="Description">
-              </div>
-            </div>
-          </form>
-          <form class="form-horizontal">
-            <div class="control-group">
-              <label class="control-label blue_label" for="inputEmail">Display</label>
-              <div class="controls radio-inputs-container">
-                <label class="radio radiobtn_active_text">
-                  <input type="radio" name="optionsRadios" id="optionsRadios1" class="radio-input" value="option1" checked>
-                  Public-Anyone can watch
-                </label>
-                <label class="radio radiobtn_inactive_text">
-                  <input type="radio" name="optionsRadios" id="optionsRadios2" class="radio-input" value="option2">
-                  Private-Only my friends can watch
-                </label>
-                <label class="radio radiobtn_inactive_text">
-                  <input type="radio" name="optionsRadios" id="optionsRadios3" class="radio-input" value="option1">
-                  Password Protected-Anyone with the password can watch
-                </label>
-                <label class="password_padding">
-                  <input type="password" id="inputPassword" placeholder="password">
-                </label>
-              </div>
-            </div>
-
-          </form>
-          <form class="form-horizontal">
-            <div class="control-group">
-              <label class="control-label blue_label" for="inputEmail">Contributors</label>
-              <div class="controls radio-inputs-container">
-                <label class="radio radiobtn_active_text">
-                  <input type="radio" name="optionsRadios" id="optionsRadios4" class="radio-input" value="option1" checked>
-                  Public-Anyone can watch
-                </label>
-                <label class="radio radiobtn_inactive_text">
-                  <input type="radio" name="optionsRadios" id="optionsRadios5" class="radio-input" value="option2">
-                  Private-Only my friends can watch
-                </label>
-                <label class="radio radiobtn_inactive_text">
-                  <input type="radio" name="optionsRadios" id="optionsRadios6" class="radio-input" value="option1">
-                  Password Protected-Anyone with the password can watch
-                </label>
-                <label class="password_padding">
-                  <input type="password" id="inputPassword" placeholder="password">
-                </label>
-              </div>
-            </div>
-          </form>
-          <form class="form-horizontal">
-            <div class="control-group">
-              <div class="controls">
-                <label class="checkbox radiobtn_active_text">
-                  <input type="checkbox" name="optionsRadios" id="optionsRadios1" value="option1" checked>
-                  Let me review cameos before they're posted
-                </label>
-              </div>
-            </div>
-          </form>
-
-          <div class="row-fluid"> 
-            <div class="span2">
-
-            </div>
-            <div class="span10"> </div>
+    <div class="accordion" id="accordion1">
+      <div class="accordion-group plus-minus-container">
+        <div class="accordion-heading">
+          <div class="accordion-toggle myvision_title line_height_40 changeable-plus-minus" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+            Show Details <i class="sprite-question-small"> </i> <i class="sprite-minus-small plus-minus-i pull-right"> </i>
           </div>
         </div>
+        <%= render :partial => "shows/form_fields", :locals => { :f => f } %>
       </div>
     </div>
+
   </div>
-
-
-</div>
-<div class="myvision_container edit_contributor_padding">
-  <div class="accordion" id="accordion2">
-    <div class="accordion-group plus-minus-container">
-      <div class="accordion-heading edit_contributor_title_padding">
-        <div class="accordion-toggle myvision_title line_height_40 changeable-plus-minus" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
-          Record the Opening Cameo  <i class="sprite-minus-small plus-minus-i pull-right "> </i>
-        </div>
-      </div>
-      <div id="collapseTwo" class="accordion-body collapse in">
-        <div class="accordion-inner">
-          <div class="row-fluid"> 
-            <div class="span3 text_align_center">
-              <i class="sprite-camera-big"></i>
-              <div class="font_weight_bold">
-                Click here to record a video clip
-              </div>
-              <div> (15 seconds or less)</div>
-
-            </div>
-            <div class="span2 text_align_center">
-              <i class="sprite-or-icon_black"></i>
-            </div>
-            <div class="span3 text_align_center">
-              <div class="font_weight_bold"> 
-                Upload clip from your computer or Camera
-              </div><br>
-              <a class="btn btn-info " href="#">Choose</a>
-            </div>
-          </div>
-          <div class="row-fluid" style="padding: 20px;">
-            <div class="span8 marging_none">
-              <div class="edit_title_bg"> 
-                <div class="edit_title"> Title of the Show</div>
-                <div class="font_weight_bold edit_subtitle">Director Name </div>
-              </div>
-              <div style="">
-                <img src="/assets/video_img.png" alt="">
-              </div>
-              <div class="font_weight_bold text_align_center newshow_video_caption_bg">
-                your clip is longer than 15 seconds. Please drag the start and end above to create a shorter clip
-              </div>
-            </div>
+  <div class="myvision_container edit_contributor_padding">
+    <div class="accordion" id="accordion2">
+      <div class="accordion-group plus-minus-container">
+        <div class="accordion-heading edit_contributor_title_padding">
+          <div class="accordion-toggle myvision_title line_height_40 changeable-plus-minus" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+            Record the Opening Cameo  <i class="sprite-minus-small plus-minus-i pull-right "> </i>
           </div>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
+        <div id="collapseTwo" class="accordion-body collapse in">
+          <div class="accordion-inner">
+            <div class="row-fluid"> 
+              <div class="span3 text_align_center">
+                <i class="sprite-camera-big"></i>
+                <div class="font_weight_bold">
+                  Click here to record a video clip
+                </div>
+                <div> (15 seconds or less)</div>
 
-<div class="myvision_container">
-  <div class="accordion" id="accordion3">
-    <div class="accordion-group plus-minus-container">
-      <div class="accordion-heading invite_friends_padding">
-        <div class="accordion-toggle myvision_title line_height_40 changeable-plus-minus" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
-          Invite Friends <i class="sprite-minus-small plus-minus-i pull-right"> </i>
-        </div>
-      </div>
-      <div id="collapseThree" class="accordion-body collapse in">
-        <div class="accordion-inner">
-          <div class="row-fluid"> 
-            <div class="span6">
-              <div class="title"> Invite some friends to contribute to this show!</div>
-              <div class="margin_top_10"> 
-                <%= link_to "Add from Facebook", "#", :class => "btn  btn-primary " %>
-                <a class="btn  btn-info " href="#"><i class="sprite-twitter-white"></i>Add from Twitter</a>
               </div>
-              <div class="margin_top_10">
-                <div class="input-append">
-                  <div class="input-prepend input-append search_padding">
-                    <span class="add-on prepend_background"><i class="icon-search"></i></span>
-                    <input type="text" placeholder="" id="appendedPrependedInput" class="search_input_bg input-xlarge">
-                    <span class="add-on btn-warning">Go</span>
-                  </div>
-
+              <div class="span2 text_align_center">
+                <i class="sprite-or-icon_black"></i>
+              </div>
+              <div class="span3 text_align_center">
+                <div class="font_weight_bold"> 
+                  Upload clip from your computer or Camera
+                </div><br>
+                <a class="btn btn-info " href="#">Choose</a>
+              </div>
+            </div>
+            <div class="row-fluid" style="padding: 20px;">
+              <div class="span8 marging_none">
+                <div class="edit_title_bg"> 
+                  <div class="edit_title"> Title of the Show</div>
+                  <div class="font_weight_bold edit_subtitle">Director Name </div>
+                </div>
+                <div style="">
+                  <img src="/assets/video_img.png" alt="">
+                </div>
+                <div class="font_weight_bold text_align_center newshow_video_caption_bg">
+                  your clip is longer than 15 seconds. Please drag the start and end above to create a shorter clip
                 </div>
               </div>
             </div>
-            <div class="span5"> 
-              <div style="padding: 5px;background-color: #d1d2d4;" class="selects-container">
-                <form class="">
-                  <div class="row-fluid">
-                    <div class="span4 padding_left">
-                      <label class="checkbox inline">
-                        <input type="checkbox" id="inlineCheckbox1" class="checkbox-input" value="option1"> John Doe
-                      </label>
-                    </div>
-                    <div class="span4">
-                      <label class="checkbox inline">
-                        <input type="checkbox" id="inlineCheckbox2" class="checkbox-input" value="option2"> Jerry James
-                      </label>
-                    </div>
-                    <div class="span4">
-                    </div>
-                  </div>
-                  <div class="row-fluid">
-                    <div class="span4 padding_left">
-                      <label class="checkbox inline">
-                        <input type="checkbox" id="inlineCheckbox1" class="checkbox-input" value="option1"> John Doe
-                      </label>
-                    </div>
-                    <div class="span4">
-                      <label class="checkbox inline">
-                        <input type="checkbox" id="inlineCheckbox2" class="checkbox-input" value="option2"> Jerry James
-                      </label>
-                    </div>
-                    <div class="span4">
-                    </div>
-                  </div>
-                  
-                  <div class="row-fluid">
-                    <div class="span4 padding_left">
-                      <label class="checkbox inline">
-                        <input type="checkbox" id="inlineCheckbox5" class="checkbox-input" value="option1"> John Doe
-                      </label>
-                    </div>
-                    <div class="span4">
-                      <label class="checkbox inline">
-                        <input type="checkbox" id="inlineCheckbox6" class="checkbox-input" value="option2"> Jerry James
-                      </label>
-                    </div>
-                    <div class="span4">
-                      <label class="checkbox inline select-all-label">
-                        Select all
-                      </label>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
           </div>
-
         </div>
       </div>
     </div>
   </div>
-</div>
-            
-</div>
-<div class="buttons_height">
-  <div class=" hr_bg" style=""> 
-    <div class="text_align_center newshow_btn"> 
-      <a class="btn  btn-warning " href="#">Publish show</a>
+
+  <div class="myvision_container">
+    <div class="accordion" id="accordion3">
+      <div class="accordion-group plus-minus-container">
+        <div class="accordion-heading invite_friends_padding">
+          <div class="accordion-toggle myvision_title line_height_40 changeable-plus-minus" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
+            Invite Friends <i class="sprite-minus-small plus-minus-i pull-right"> </i>
+          </div>
+        </div>
+        <div id="collapseThree" class="accordion-body collapse in">
+          <div class="accordion-inner">
+            <div class="row-fluid"> 
+              <div class="span6">
+                <div class="title"> Invite some friends to contribute to this show!</div>
+                <div class="margin_top_10"> 
+                  <a class="btn  btn-primary " href="#"><i class="sprite-facebook-white"></i>Add from Facebook</a>
+                  <a class="btn  btn-info " href="#"><i class="sprite-twitter-white"></i>Add from Twitter</a>
+                </div>
+                <div class="margin_top_10">
+                  <div class="input-append">
+                    <div class="input-prepend input-append search_padding">
+                      <span class="add-on prepend_background"><i class="icon-search"></i></span>
+                      <input type="text" placeholder="" id="appendedPrependedInput" class="search_input_bg input-xlarge">
+                      <span class="add-on btn-warning">Go</span>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="span5"> 
+                <div style="padding: 5px;background-color: #d1d2d4;" class="selects-container">
+                  <!-- <form class=""> -->
+                    <div class="row-fluid">
+                      <div class="span4 padding_left">
+                        <label class="checkbox inline">
+                          <input type="checkbox" id="inlineCheckbox1" class="checkbox-input" value="option1"> John Doe
+                        </label>
+                      </div>
+                      <div class="span4">
+                        <label class="checkbox inline">
+                          <input type="checkbox" id="inlineCheckbox2" class="checkbox-input" value="option2"> Jerry James
+                        </label>
+                      </div>
+                      <div class="span4">
+                      </div>
+                    </div>
+                    <div class="row-fluid">
+                      <div class="span4 padding_left">
+                        <label class="checkbox inline">
+                          <input type="checkbox" id="inlineCheckbox1" class="checkbox-input" value="option1"> John Doe
+                        </label>
+                      </div>
+                      <div class="span4">
+                        <label class="checkbox inline">
+                          <input type="checkbox" id="inlineCheckbox2" class="checkbox-input" value="option2"> Jerry James
+                        </label>
+                      </div>
+                      <div class="span4">
+                      </div>
+                    </div>
+                    <div class="row-fluid">
+                      <div class="span4 padding_left">
+                        <label class="checkbox inline">
+                          <input type="checkbox" id="inlineCheckbox3" class="checkbox-input" value="option1"> John Doe
+                        </label>
+                      </div>
+                      <div class="span4">
+                        <label class="checkbox inline">
+                          <input type="checkbox" id="inlineCheckbox4" class="checkbox-input" value="option2"> Jerry James
+                        </label>
+                      </div>
+                      <div class="span4">
+                      </div>
+                    </div>
+                    <div class="row-fluid">
+                      <div class="span4 padding_left">
+                        <label class="checkbox inline">
+                          <input type="checkbox" id="inlineCheckbox5" class="checkbox-input" value="option1"> John Doe
+                        </label>
+                      </div>
+                      <div class="span4">
+                        <label class="checkbox inline">
+                          <input type="checkbox" id="inlineCheckbox6" class="checkbox-input" value="option2"> Jerry James
+                        </label>
+                      </div>
+                      <div class="span4">
+                        <label class="checkbox inline select-all-label">
+                          Select all
+                        </label>
+                      </div>
+                    </div>
+                  <!-- </form> -->
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
+  <div class="buttons_height">
+    <div class=" hr_bg" style=""> 
+      <div class="text_align_center newshow_btn"> 
+        <!-- <a class="btn  btn-warning " href="#">Publish show</a> -->
+        <%= f.submit "Publish Show", :class => "btn btn-warning" %>
+      </div>
+    </div>
+  </div>
+
+<% end %>

@@ -6,5 +6,10 @@ FactoryGirl.define do
     user_id 1
     title "Mark Birthday Wish"
     description "Every one please add your Birthday wish to mark "
+    display_preferences "Public"
+    display_preferences_password ""
+    contributor_preferences "Public"
+    contributor_preferences_password ""
+    need_review true
   end
 end
