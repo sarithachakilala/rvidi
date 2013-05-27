@@ -1,4 +1,6 @@
 class CameosController < ApplicationController
+  before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
+
   # GET /cameos
   # GET /cameos.json
   def index

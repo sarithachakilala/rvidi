@@ -18,15 +18,13 @@ class SessionsController < ApplicationController
    if user
       session[:user_id] = user.id
       user.increment_sign_in_count
-      user_login_path = (user.sign_in_count > 1) ? dashboard_user_path(user.id) : getting_started_user_path(user.id)    
+      user_login_path = (user.sign_in_count > 1) ? dashboard_user_path(user.id) : getting_started_user_path(user.id)
     end
     @success = user.present? ? true :false
 
     respond_to do |format|
       if @success
-        format.html{
-          redirect_to user_login_path, :notice => "Logged in Successfully!"
-        }
+        format.html{ redirect_back_or(user_login_path) }
         format.json{ render :json => { :status => 200, :user => user } }
       else
         format.html{
