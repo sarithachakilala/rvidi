@@ -5,6 +5,7 @@ Rvidi::Application.routes.draw do
   resources :shows do
     member do
       get 'view_invitation'
+      get 'play_cameo'
     end
   end
   resources :sessions

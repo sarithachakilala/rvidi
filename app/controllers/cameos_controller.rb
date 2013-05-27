@@ -46,7 +46,8 @@ class CameosController < ApplicationController
 
     respond_to do |format|
       if @cameo.save
-        format.html { redirect_to @cameo, notice: 'Cameo was successfully created.' }
+        @show = @cameo.show
+        format.html { redirect_to @show, notice: 'Cameo was successfully Added.' }        
         format.json { render json: @cameo, status: :created, location: @cameo }
       else
         format.html { render action: "new" }
