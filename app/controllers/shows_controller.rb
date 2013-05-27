@@ -1,4 +1,6 @@
 class ShowsController < ApplicationController
+  before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
+
   # GET /shows
   # GET /shows.json
   def index

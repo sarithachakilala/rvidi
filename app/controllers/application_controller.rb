@@ -1,11 +1,22 @@
 class ApplicationController < ActionController::Base
+  include SessionsHelper
   helper_method :current_user
   before_filter :set_locale, :get_kaltura_session
- 
+
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
   end
 
+  # METHODS for authentication redirections STARTS
+  def require_user
+    unless current_user.present?   
+      store_location
+      redirect_to sign_in_path, :notice => "You need Sign In / Register with rVidi to perform this Action"
+    end
+  end
+  # METHODS for authentication redirections ENDS
+
+  # To stub current_user method for cucumber specs. NEED TO BE VERIFIED AND UPDATED / REMOVED.
   if Rails.env.test?
     prepend_before_filter :stub_current_user
     def stub_current_user
