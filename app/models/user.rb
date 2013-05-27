@@ -56,6 +56,7 @@ class User < ActiveRecord::Base
       user.state = auth.extra.raw_info.location.name if auth.extra.raw_info.location.present?
       user.save(:validate => false)
       authentication_record(auth,user) 
+      user
     else
       required_user
     end 
@@ -70,6 +71,7 @@ class User < ActiveRecord::Base
       user.city = auth.extra.raw_info.location 
       user.save(:validate => false)
       authentication_record(auth,user)
+      user
     else
       required_user
     end 

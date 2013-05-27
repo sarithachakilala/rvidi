@@ -120,6 +120,27 @@ class UsersController < ApplicationController
     redirect_to friends_user_path(:id => session[:user_id])
   end
 
+  def add_twitter_friends
+    if twitter = current_user.authentications.find_by_provider("twitter")
+      Twitter.configure do |tw|
+        tw.consumer_key = configatron.twitter_consumer_key
+        tw.consumer_secret = configatron.twitter_consumer_secret
+        tw.oauth_token = twitter.oauth_token
+        tw.oauth_token_secret = twitter.ouath_token_secret
+      end
+    @twitter_friends = Twitter.followers(current_user.username)
+    else
+      # TODO 
+      # should not create a new user -> add this to the present user.
+      redirect_to "/auth/twitter"
+    end
+  end
+
+  def add_facebook_friends
+    friends = User.friends
+    
+  end
+
   private
   def get_user
     # Can we make it to be current_user always ??

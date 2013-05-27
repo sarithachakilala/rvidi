@@ -1,11 +1,12 @@
-jQuery(function() {
-  $('body').prepend('<div id="fb-root"></div>');
-  return $.ajax({
-    url: "" + window.location.protocol + "//connect.facebook.net/en_US/all.js",
-    dataType: 'script',
-    cache: true
-  });
-});
+// Blocked to make consistancy for twitter and facebook login
+// jQuery(function() {
+//   $('body').prepend('<div id="fb-root"></div>');
+//   return $.ajax({
+//     url: "" + window.location.protocol + "//connect.facebook.net/en_US/all.js",
+//     dataType: 'script',
+//     cache: true
+//   });
+// });
 
 function facebookLogin(facebook_app_id){
   window.fbAsyncInit = function() {
