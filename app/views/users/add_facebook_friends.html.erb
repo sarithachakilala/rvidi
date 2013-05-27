@@ -32,7 +32,6 @@
       <ul class="thumbnails">
         <li class="span12">
           <% @facebook_friends.to_a.each do |each_user_detail| %>
-            <%= debug each_user_detail%>
             <div class="thumbnail frinds_thumbnail_padding">
               <div class="row-fluid frinds_row_margin">
                 <div class="span4"> 
@@ -44,7 +43,6 @@
                     </div>
                     <div class="span8">
                       <div class="friend_name"><%= each_user_detail['name'] %></div>
-                      <div class="friend_name"><%= each_user_detail['email'] %></div>
                       <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
                         <div class="btn-small btn-warning">
                             <%= link_to "Invite Friend", "#" %>

@@ -53,7 +53,7 @@ class User < ActiveRecord::Base
   end
 
   def self.user_facebook_details(auth,user)
-    session['fb_access_token'] = auth['credentials']['token']
+    @fb_access_token = auth['credentials']['token']
     authentication = Authentication.find_by_uid(auth.uid)
     required_user = authentication.present? ? User.find(authentication.user_id) : nil
     if required_user.nil?
@@ -87,9 +87,9 @@ class User < ActiveRecord::Base
 
   
   def self.fetching_facebook 
-    @graph = Koala::Facebook::API.new(session['fb_access_token'])
+    @graph = Koala::Facebook::API.new(@fb_access_token)
     profile = @graph.get_object("me")
-    @profile_image = graph.get_picture("me")
+    @profile_image = @graph.get_picture("me")
     friends = @graph.get_connections("me", "friends?fields=id, name, picture.type(large)")
   end 
   
@@ -112,7 +112,7 @@ class User < ActiveRecord::Base
   end
 
   def friends
-    @graph = Koala::Facebook::API.new(session['fb_access_token'])
+    @graph = Koala::Facebook::API.new(@fb_access_token)
     profile = @graph.get_object("me")
     friends = @graph.get_connections("me", "friends")
   end
