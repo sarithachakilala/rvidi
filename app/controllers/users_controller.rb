@@ -13,6 +13,12 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if verify_recaptcha(:model => @user, :private_key=>'6Ld0H-ESAAAAAEEPiXGvWRPWGS37UvgaeSpjpFN2') && @user.save
       @success = true
+      if params[:from_id]
+        friend_requst1 = FriendMapping.new(:user_id =>params[:from_id], :friend_id=>@user.id, :status => "accepted", :request_from => params[:from_id])
+        friend_requst2 = FriendMapping.new(:user_id =>@user.id, :friend_id=> params[:from_id], :status => "accepted")
+        friend_requst1.save!
+        friend_requst2.save!
+      end
     else
       @success = false
       @user.errors.add(:error, "You have entered an invalid value for the captcha,please re-enter again!") if @user.errors[:base].present?
