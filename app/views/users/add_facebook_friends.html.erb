@@ -1,6 +1,6 @@
 <div class="container" style="width: 800px;">
   <div class="jQueryFriends"></div>
-</div>
+  </div>
 <div class="myvision_container">
   <div class="row-fluid">
     <div class="span12 frinds_container_padding">
@@ -16,7 +16,8 @@
         </div>
         <div class="span8">
           <div class="margin_bottom_si" > 
-            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), add_facebook_friends_users_path, :class=>"btn  btn-primary " %>
+            <%#= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), invite_facebook_friends_home_index_path, :class=>"btn  btn-primary " %>
+            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), "#", :class=>"btn  btn-primary " %>
              <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), add_twitter_friends_users_path, :class=>"btn   btn-info" %>
           </div>
 
@@ -30,20 +31,23 @@
       <div id= "main_frame">
       <ul class="thumbnails">
         <li class="span12">
-          <% @friends.each do |each_user_detail| %>
-          <% @user = User.find(each_user_detail.friend_id)%>
+          <% @facebook_friends.to_a.each do |each_user_detail| %>
             <div class="thumbnail frinds_thumbnail_padding">
               <div class="row-fluid frinds_row_margin">
                 <div class="span4"> 
                   <div class="row-fluid"> 
                     <div class="span4">
                       <div class="friend_image"> 
-                        <img  src="/assets/OCP0154256_P_Portrait-of-a-young-man.png" alt="300x200" >
+                        <img  src="<%#{}= each_user_detail.profile_image_url %>" alt="300x200" >
                       </div> 
                     </div>
                     <div class="span8">
-                      <div class="friend_name"><%= @user.username %></div>
+                      <div class="friend_name"><%= each_user_detail['name'] %></div>
                       <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
+                        <div class="btn-small btn-warning">
+                            <%= link_to "Invite Friend", "#" %>
+                            <!-- send_twitter_friend_request_users_path(:friend_id => each_user_detail.id)> -->
+                        </div>
                       </div>
                       </div>
                   </div>

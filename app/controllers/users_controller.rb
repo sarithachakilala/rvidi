@@ -137,8 +137,7 @@ class UsersController < ApplicationController
   end
 
   def add_facebook_friends
-    friends = User.friends
-    
+    @facebook_friends = User.fetching_facebook
   end
 
   private
