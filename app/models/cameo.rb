@@ -6,7 +6,7 @@ class Cameo < ActiveRecord::Base
   # Validations
   validates :director_id, :presence => true, :numericality => true
   validates :user_id, :presence => true, :numericality => true
-  validates :show_id, :presence => true, :numericality => true
+  # validates :show_id, :presence => true, :numericality => true # Need t o be added in after_save, to avoid being added from Terminal.
   validates :status, :presence => true, 
                       :inclusion => { :in => %w(pending approved disabled enabled),
                                       :message => "%{value} is not a valid status" }
@@ -74,7 +74,7 @@ class Cameo < ActiveRecord::Base
   # Methods to manage Videos using Kaltura Ends
   # INSTANCE METHODS
   def set_uploaded_video_details(media_entry)
-    self.status = "pending"
+    self.status = self.status || "pending"
     self.name =  media_entry.name
     self.description =  media_entry.description
     self.tags =  media_entry.tags

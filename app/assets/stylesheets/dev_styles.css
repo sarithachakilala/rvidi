@@ -20,3 +20,5 @@
   text-align: right;
   display: none;
 }
+.active-cameo{ background-color: #6d6e72; }
+.active-cameo a, .active-cameo a:hover{ color:#ffffff; }

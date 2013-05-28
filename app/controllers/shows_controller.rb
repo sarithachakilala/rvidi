@@ -1,4 +1,6 @@
 class ShowsController < ApplicationController
+  before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
+
   # GET /shows
   # GET /shows.json
   def index
@@ -14,6 +16,7 @@ class ShowsController < ApplicationController
   # GET /shows/1.json
   def show
     @show = Show.find(params[:id])
+    @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
 
     respond_to do |format|
       format.html # show.html.erb
@@ -25,6 +28,7 @@ class ShowsController < ApplicationController
   # GET /shows/new.json
   def new
     @show = Show.new(:display_preferences => "private", :contributor_preferences => "private")
+    @cameo = @show.cameos.build
 
     respond_to do |format|
       format.html # new.html.erb
@@ -41,12 +45,20 @@ class ShowsController < ApplicationController
   # POST /shows.json
   def create
     @show = Show.new(params[:show])
+    @cameo = @show.cameos.first    
+    if @cameo.video_file.present?
+      media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
+      @cameo.set_uploaded_video_details(media_entry)
+    else
+      @show.cameos=[]
+    end
 
     respond_to do |format|
       if @show.save
         format.html { redirect_to @show, notice: 'Show was successfully created.' }
         format.json { render json: @show, status: :created, location: @show }
       else
+        p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
         format.html { render action: "new" }
         format.json { render json: @show.errors, status: :unprocessable_entity }
       end
@@ -84,5 +96,15 @@ class ShowsController < ApplicationController
   # To View the cameo Invitation of a Shwo
   def view_invitation
     # @show = Show.find(params[:id])
+  end
+
+  def play_cameo
+    @cameo = Cameo.find(params[:id])    
+
+    respond_to do |format|
+      format.html { redirect_to show_url(@cameo.show_id) }
+      format.js {}
+      format.json { head :no_content }
+    end    
   end
 end

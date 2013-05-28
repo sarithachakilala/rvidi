@@ -10,3 +10,11 @@ Then(/^user is able to create his "(.*?)"$/) do |arg1|
   fill_in 'user_password', :with => 'password'
   fill_in 'user_password_confirmation', :with => 'password'
 end
+
+# Given /^a show with the title "([^\"]*)"$/ do |title|
+#   Show.create!(:title => title, :user_id => 1, :description => "#{title} description")
+# end
+
+# Given /^a show with the title "([^\"]*)"$/ do |title|
+#   Show.create!(:title => title, :user_id => 1, :description => "#{title} description")
+# end

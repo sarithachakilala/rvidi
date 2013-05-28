@@ -28,9 +28,7 @@ class SessionsController < ApplicationController
 
     respond_to do |format|
       if @success
-        format.html{
-          redirect_to user_login_path, :notice => "Logged in Successfully!"
-        }
+        format.html{ redirect_back_or(user_login_path) }
         format.json{ render :json => { :status => 200, :user => user } }
       else
         format.html{

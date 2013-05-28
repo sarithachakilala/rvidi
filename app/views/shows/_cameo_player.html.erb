@@ -1,0 +1,24 @@
+<% if cameo.nil? %>
+  <img alt="" src="/assets/video_img.png">
+<% else %>
+  <div id="kaltura_player_<%= cameo.show_id %>" style="width: 526px; height: 353px;" itemprop="video" itemscope itemtype="http://schema.org/VideoObject">
+    <%# show.cameos('created_at desc').each do|cameo| %>
+    <span itemprop="name" content="RF_commercial2"></span>
+    <span itemprop="description" content=""></span>
+    <span itemprop="duration" content=""></span>
+    <span itemprop="thumbnail" content=""></span>
+    <span itemprop="width" content="526"></span>
+    <span itemprop="height" content="353"></span>
+    <a href="http://corp.kaltura.com/products/video-platform-features">Video Platform</a>
+    <a href="http://corp.kaltura.com/Products/Features/Video-Management">Video Management</a> 
+    <a href="http://corp.kaltura.com/Video-Solutions">Video Solutions</a>
+    <a href="http://corp.kaltura.com/Products/Features/Video-Player">Video Player</a>
+
+    <% content_for :js_with_script_tags do %>
+      <!-- loadKalturaVideo(show_id, kaltura_entry_id) -->
+      <script src="http://cdnapi.kaltura.com/p/1409052/sp/140905200/embedIframeJs/uiconf_id/14018252/partner_id/1409052?autoembed=true&entry_id=<%= cameo.kaltura_entry_id %>&playerId=kaltura_player_<%= cameo.show_id %>&cache_st=1368767278&width=526&height=353">
+      </script>
+    <% end %>
+    <%# end %>
+  </div>
+<% end %>
