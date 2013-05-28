@@ -22,3 +22,24 @@
 }
 .active-cameo{ background-color: #6d6e72; }
 .active-cameo a, .active-cameo a:hover{ color:#ffffff; }
+
+.show-comments-container{ height:210px; overflow-y:auto; overflow-x:hidden; }
+.width-343{ width:343px; }
+.comment-padding{ padding:0px 17px 0px 5px;}
+textarea.comment-body{ width:323px;}
+
+/* Borders for testing div occupancies */
+.bg-grey{ background-color: #ccc }
+
+/* Custom Margins */
+.margin-bottom-3{ margin-bottom:3px; }
+
+/* Custom Paddings */
+.padding-bottom-3{ padding-bottom:3px; }
+
+/* Borders for testing div occupancies */
+.border-red{ border:1px solid red; }
+.border-green{ border:1px solid green; }
+.border-black{ border:1px solid black; }
+
+.clear-both{ clear:both; }

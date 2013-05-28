@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130524065829) do
+ActiveRecord::Schema.define(:version => 20130528033527) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -39,6 +39,15 @@ ActiveRecord::Schema.define(:version => 20130524065829) do
     t.string   "kaltura_entry_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+  end
+
+  create_table "comments", :force => true do |t|
+    t.text     "body"
+    t.integer  "user_id"
+    t.string   "user_name"
+    t.integer  "show_id"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   create_table "delayed_jobs", :force => true do |t|

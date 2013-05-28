@@ -20,6 +20,7 @@ describe Show do
   it{ should validate_presence_of(:contributor_preferences)  }
   it{ should belong_to(:director) }
   it{ should have_many(:cameos) }
+  it{ should have_many(:comments) }
 
   context "Class Methods" do
   end

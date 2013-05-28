@@ -1,5 +1,10 @@
 Rvidi::Application.routes.draw do
 
+  resources :comments do
+    collection do
+      get 'show_all'
+    end
+  end
   resources :videos
   resources :cameos
   resources :shows do

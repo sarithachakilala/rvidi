@@ -7,7 +7,7 @@
           <div class="font_weight_bold edit_subtitle"><%= show.director.username %></div>
         </div>
         <div id="show_<%= show.id %>_kaltura_player_container">
-          <% selected_cameo = @cameo.present? ? @cameo : show.cameos('show_order asc').first %>          
+          <% selected_cameo = cameo.present? ? cameo : show.cameos('show_order asc').first %>          
           <%= render :partial => "shows/cameo_player", :locals => { :cameo => selected_cameo } %>
         </div>
       </div>
@@ -54,29 +54,13 @@
       </div>
       <div class="span5">
         <div class="title">Comments</div>
-        <div>
-          <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-          <p class="pull-right"> Username 1/2/2012</p>
+        <div id="show_<%= show.id %>_show_comments_div" class='show-comments-container border-black'>
+          <%= render :partial => "comments/show_comments_list", :locals => { :show_comments => show_comments, :all_comments => all_comments, :show => show } %>
         </div>
-        <div>
-          <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-          <p class="pull-right"> Username 1/2/2012</p>
-        </div>
-        <div>
-          <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. </p>
-          <p class="pull-right"> Username 1/2/2012</p>
-        </div>
-        <div class="span font_weight_bold">
-          View all 6 comments
-        </div>
+
         <div class="span">
-          <% if current_user.present? %>
-            <%= link_to "Add Comment", "#", :class => "font_weight_bold" %>            
-          <% else %>
-            <%= link_to "Log In", sign_in_path, :class => "font_weight_bold" %> or 
-            <%= link_to "Join", sign_up_path, :class => "font_weight_bold" %>
-            to add comment
-          <% end %>
+          <%= link_to "Add Comment", new_comment_path(:show_id => show.id), :class => "font_weight_bold", :remote => true %>
+          <div id="show_<%= show.id %>_add_comments_div"></div>
         </div>
       </div>
     </div>

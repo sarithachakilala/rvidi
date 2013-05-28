@@ -1,0 +1,20 @@
+<% if all_comments.present? %>
+  <% show_comments.each do|comment| %>
+    <div class='bg-grey margin-bottom-3 width-343'>
+      <p class='comment-padding'><%= comment.body %></p>
+      <p class="pull-right comment-padding"><%= "#{comment.user_name} #{comment.created_at.strftime("%m/%d/%Y")}" %></p>    
+      <div class='clear-both'></div>
+    </div>
+  <% end %>
+
+  <% if (show_comments.count != all_comments.count) %>
+    <div class="span font_weight_bold">
+      <%= link_to "View all #{all_comments.count} comments", show_all_comments_path(:show_id => show.id), :remote => true  %>
+    </div>
+  <% end %>
+<% else %>
+  <div class='bg-grey margin-bottom-3 width-343'>
+    <p class='comment-padding'>No comments Added for this Show.</p>
+    <div class='clear-both'></div>
+  </div>
+<% end %>
