@@ -38,6 +38,7 @@ class User < ActiveRecord::Base
     (user && user.match_password?(password)) ? user : nil
   end
 
+  # Creating an Authentication Record
   def self.authentication_record(auth,user)
     authentication = Authentication.new(:user_id=>user.id, :uid=>auth.uid, :provider=>auth.provider,:oauth_token=>auth.credentials.token , :ouath_token_secret => auth.credentials.secret)
     authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.credentials.expires_at.present?
@@ -45,18 +46,22 @@ class User < ActiveRecord::Base
   end
   
   def self.from_omniauth(auth)
-    auth_record = Authentication.find_by_uid(auth.uid)
-    user = auth_record.present? ? User.find_by_id(auth_record.id) : User.new
-    # where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
-      user = (auth.provider == "facebook") ? user_facebook_details(auth,user) : user_twitter_details(auth,user)
-    # end
+    user = User.new
+    user = (auth.provider == "facebook") ? user_facebook_details(auth,user) : user_twitter_details(auth,user)
   end
 
   def self.user_facebook_details(auth,user)
     @fb_access_token = auth['credentials']['token']
-    authentication = Authentication.find_by_uid(auth.uid)
-    required_user = authentication.present? ? User.find(authentication.user_id) : nil
-    if required_user.nil?
+    existing_user = User.find_by_email(auth.info.email)
+    if existing_user
+      authentication = Authentication.where(:user_id => existing_user.id).first
+      authentication.update_attributes(:oauth_token => auth.credentials.token)
+      unless authentication 
+        authentication_record(auth,existing_user)
+        existing_user.update_attribute(:sign_in_count, (existing_user.sign_in_count-1))
+      end
+      existing_user
+    else
       user.username = auth.extra.raw_info.username 
       user.email = auth.info.email
       user.description = auth.extra.raw_info.bio 
@@ -65,9 +70,6 @@ class User < ActiveRecord::Base
       user.save(:validate => false)
       authentication_record(auth,user) 
       user
-    else
-      authentication.update_attributes(:oauth_token => auth.credentials.token)
-      required_user
     end 
   end 
 
@@ -85,7 +87,6 @@ class User < ActiveRecord::Base
       required_user
     end 
   end 
-
   
   def self.fetching_facebook 
     @graph = Koala::Facebook::API.new(@fb_access_token)

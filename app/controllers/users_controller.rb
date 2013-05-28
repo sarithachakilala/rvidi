@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if verify_recaptcha(:model => @user, :private_key=>'6Ld0H-ESAAAAAEEPiXGvWRPWGS37UvgaeSpjpFN2') && @user.save
       @success = true
-      if params[:from_id]
+      if params[:from_id].present?
         friendmapping_creation(@user)
       end
     else
@@ -56,7 +56,7 @@ class UsersController < ApplicationController
         format.html { redirect_to profile_user_path(@user), notice: 'User was successfully updated.' }
         format.json { render json: @user }
       else
-        format.html { render action: "edit" }
+        format.html { render action: "profile" }
         format.json { render json => { :errros => @user.errors, :status => 422 }}
       end
     end
@@ -140,7 +140,11 @@ class UsersController < ApplicationController
   end
 
   def add_facebook_friends
-    @facebook_friends = User.fetching_facebook
+    if facebook = current_user.authentications.find_by_provider("facebook")
+      @facebook_friends = User.fetching_facebook
+    else
+      redirect_to "/auth/facebook"
+    end
   end
 
   def friendmapping_creation(user)
