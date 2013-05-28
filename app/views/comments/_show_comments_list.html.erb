@@ -1,8 +1,8 @@
 <% if all_comments.present? %>
   <% show_comments.each do|comment| %>
-    <div class='bg-grey margin-bottom-3 width-343'>
+    <div class='margin-bottom-3 width-343'>
       <p class='comment-padding'><%= comment.body %></p>
-      <p class="pull-right comment-padding"><%= "#{comment.user_name} #{comment.created_at.strftime("%m/%d/%Y")}" %></p>    
+      <p class="pull-right comment-padding font_weight_bold"><%= "#{comment.user_name} #{comment.created_at.strftime("%m/%d/%Y")}" %></p>
       <div class='clear-both'></div>
     </div>
   <% end %>
@@ -13,7 +13,7 @@
     </div>
   <% end %>
 <% else %>
-  <div class='bg-grey margin-bottom-3 width-343'>
+  <div class='margin-bottom-3 width-343'>
     <p class='comment-padding'>No comments Added for this Show.</p>
     <div class='clear-both'></div>
   </div>
