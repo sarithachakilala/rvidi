@@ -55,10 +55,11 @@ class User < ActiveRecord::Base
     existing_user = User.find_by_email(auth.info.email)
     if existing_user
       authentication = Authentication.where(:user_id => existing_user.id).first
-      authentication.update_attributes(:oauth_token => auth.credentials.token)
       unless authentication 
         authentication_record(auth,existing_user)
         existing_user.update_attribute(:sign_in_count, (existing_user.sign_in_count-1))
+      else
+        authentication.update_attributes(:oauth_token => auth.credentials.token)        
       end
       existing_user
     else
