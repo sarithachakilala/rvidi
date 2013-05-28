@@ -11,7 +11,11 @@ class ApplicationController < ActionController::Base
   def require_user
     unless current_user.present?   
       store_location
-      redirect_to sign_in_path, :notice => "You need to Sign In / Register with rVidi to perform this Action"
+      respond_to do |format|
+        format.html{ redirect_to sign_in_path, :notice => "You need to Sign In / Register with rVidi to perform this Action" }
+        format.js{ render "/shared/redirect_to_a_new_page", :locals=>{:url=>sign_in_path} }
+        format.json { head :no_content }
+      end
     end
   end
   # METHODS for authentication redirections ENDS

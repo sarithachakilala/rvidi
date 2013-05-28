@@ -59,3 +59,23 @@ function loadKalturaVideo(show_id, kaltura_entry_id){
   // <script src="http://cdnapi.kaltura.com/p/1409052/sp/140905200/embedIframeJs/uiconf_id/14018252/partner_id/1409052?autoembed=true&entry_id=<%= cameo.kaltura_entry_id %>&playerId=kaltura_player_<%= cameo.show_id %>&cache_st=1368767278&width=526&height=353">
   // </script>
 }
+
+function loadANewPage(url){
+  // showLightBoxLoading();
+  window.location.href=url;
+}
+
+// sendAjaxRequest is used to send an xml http request using javascript to a url using a method / get, put, post, delete
+function sendAjaxRequest(url, mType){
+  methodType = mType || "GET";
+  jQuery.ajax({type: methodType, dataType:"script", url:url});
+}
+
+// Call this function by passing a heading and a body message.
+// it will pop up bootstrap modal with the message.
+function showMessageInThePopUp(heading, message){
+  $('#div-modal-popup-message .modal-body').html("<p>"+ message +"</p>");
+  $("#h3-modal-popup-message-header").text(heading);
+  $('#div-modal-popup-message').modal('show');
+  $(".btn").button('reset')
+}
