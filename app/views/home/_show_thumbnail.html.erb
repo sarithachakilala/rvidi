@@ -6,7 +6,7 @@
     </div>
     <div class="row-fluid caption">
       <div class="span9">
-        <div class="thumbnail_title"><%= link_to show.title, show_path(1) %></div>
+        <div class="thumbnail_title"><%= link_to show.title, show_path(show) %></div>
         <div class="thumbnail_name"><%= show.director.username %> </div>
         <div class="thumbnail_contributor"><%= show.cameos.size %> Contributors </div>
       </div>
