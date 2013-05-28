@@ -13,6 +13,12 @@ class UsersController < ApplicationController
     @user = User.new(params[:user])
     if verify_recaptcha(:model => @user, :private_key=>'6Ld0H-ESAAAAAEEPiXGvWRPWGS37UvgaeSpjpFN2') && @user.save
       @success = true
+      if params[:from_id]
+        friend_requst1 = FriendMapping.new(:user_id =>params[:from_id], :friend_id=>@user.id, :status => "accepted", :request_from => params[:from_id])
+        friend_requst2 = FriendMapping.new(:user_id =>@user.id, :friend_id=> params[:from_id], :status => "accepted")
+        friend_requst1.save!
+        friend_requst2.save!
+      end
     else
       @success = false
       @user.errors.add(:error, "You have entered an invalid value for the captcha,please re-enter again!") if @user.errors[:base].present?
@@ -118,6 +124,26 @@ class UsersController < ApplicationController
     @user = User.find(params[:email_from])
     RvidiMailer.invite_new_friend(params[:email], @user).deliver
     redirect_to friends_user_path(:id => session[:user_id])
+  end
+
+  def add_twitter_friends
+    if twitter = current_user.authentications.find_by_provider("twitter")
+      Twitter.configure do |tw|
+        tw.consumer_key = configatron.twitter_consumer_key
+        tw.consumer_secret = configatron.twitter_consumer_secret
+        tw.oauth_token = twitter.oauth_token
+        tw.oauth_token_secret = twitter.ouath_token_secret
+      end
+    @twitter_friends = Twitter.followers(current_user.username)
+    else
+      # TODO 
+      # should not create a new user -> add this to the present user.
+      redirect_to "/auth/twitter"
+    end
+  end
+
+  def add_facebook_friends
+    @facebook_friends = User.fetching_facebook
   end
 
   private

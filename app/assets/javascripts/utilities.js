@@ -44,17 +44,18 @@ $(document).ready(function(){
 
   // Get the list of friends list based on search criteria
   $('#search_friends').on('click',function(){
+    email = $('#search_value').val()
+    var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     $.ajax({
-          url: "/users/friends_list.js",
-          data: { search_val:$('#search_value').val()  },
-           cache: false
-      })    
+      url: "/users/friends_list.js",
+      data: { search_val:$('#search_value').val() , email_valid: regex.test(email)  },
+      cache: false
+    });
   });       
 });
 
+// TO BE UPDATED: script to update the playing cameo in shwo details page, with ajax request.
 function loadKalturaVideo(show_id, kaltura_entry_id){
-
-    // <script src="http://cdnapi.kaltura.com/p/1409052/sp/140905200/embedIframeJs/uiconf_id/14018252/partner_id/1409052?autoembed=true&entry_id=<%= cameo.kaltura_entry_id %>&playerId=kaltura_player_<%= cameo.show_id %>&cache_st=1368767278&width=526&height=353">
-    // </script>
-
+  // <script src="http://cdnapi.kaltura.com/p/1409052/sp/140905200/embedIframeJs/uiconf_id/14018252/partner_id/1409052?autoembed=true&entry_id=<%= cameo.kaltura_entry_id %>&playerId=kaltura_player_<%= cameo.show_id %>&cache_st=1368767278&width=526&height=353">
+  // </script>
 }
