@@ -4,6 +4,10 @@
       You are invited to rVidi by <%= @user_invited.username %>,
     </p>
     <p>
-      To register to the site, just follow this link: <%= link_to "#{@url}/users/new?from_id=#{@user_invited.id}" %>.
+      To register to the site, just follow this link: 
+      <%= link_to  "Click here", "http://#{configatron.site_address}/users/new?from_id=#{@user_invited.id}"%>.
     </p>
   </body>
+
+
+ 
