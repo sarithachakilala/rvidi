@@ -17,3 +17,4 @@
 //= require facebook
 //= require js-validations
 //= require utilities
+//= require kaltura_scripts

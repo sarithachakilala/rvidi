@@ -13,18 +13,18 @@
       </div>
       <div class="span4 marging_none cameo_friends">
         <% if show.cameos.present? %>
-          <% show.cameos.each do|cameo| %>
-          <%# 10.times do|n| %>
-            <% cameo_div_class = (cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
-            <div class="row-fluid <%= cameo_div_class %>">
+          <% show.cameos.order('show_order asc').each do|show_cameo| %>
+            <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
+            <div class="row-fluid show-cameo-detail <%= cameo_div_class %>" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail">
               <div class="span3">
                 <div class="contributors_image">
-                  <img alt="Contributors" src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" class="contributors_image_size">
+                  <% thumbnail = "/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" %>
+                  <img alt="Contributors" src="<%= thumbnail %>" class="contributors_image_size">
                 </div>
               </div>
               <div class="span8 cameo_friends_text">
-                <%#= link_to cameo.user.username, play_cameo_show_path(cameo.id), :remote => true %>
-                <%= link_to cameo.user.username, show_path(show.id, :cameo_id => cameo.id) %>
+                <%#= link_to show_cameo.user.username, show_path(show.id, :cameo_id => show_cameo.id) %>
+                <%= link_to show_cameo.user.username, play_cameo_show_path(:cameo_id => show_cameo.id), :remote => true %>
               </div>
             </div>
           <% end %>
