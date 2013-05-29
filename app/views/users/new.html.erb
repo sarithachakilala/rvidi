@@ -23,6 +23,8 @@
         <div class="login_title">Create a New Account</div>
         <%= hidden_field_tag :from_id, params[:from_id]%>
         <div><%= f.text_field :username, :class => "span12 js-required", :placeholder => "Pick a Username" %></div>
+        <div><%= f.text_field :first_name, :class => "span12 js-required", :placeholder => "Pick a Firstname" %></div>
+        <div><%= f.text_field :last_name, :class => "span12 js-required", :placeholder => "Pick a Lastname" %></div>
         <div><%= f.text_field :email, :class => "span12 js-required", :placeholder => "Email Address" %></div>
         <div><%= f.password_field :password, :class => "span12 js-required", :placeholder => "Choose a Password" %></div>
         <div><%= f.password_field :password_confirmation, :class => "span12 js-required", :placeholder => "Re-type Password" %></div>
@@ -41,15 +43,16 @@
         <%= recaptcha_tags :public_key => '6Ld0H-ESAAAAAJKKxhs4c5wZ_yLlRSN9vAuj98GJ', :ssl => true, :display => {:theme => 'white'} %>
       </div>
     </div>
-  </div>
-  <!-- login container end here -->
-  <div class=" hr_bg"> 
-      <div class="text_align_center login_and_account"> 
+    <div class="row-fluid">
+      <div class="pull-right"> 
+        <br/>
         <%= link_to "Cancel", home_index_path, :class => 'btn' %>
         <i class="sprite-or-icon_black" style=""></i>
         <%= f.submit 'Create Account', :class => "btn btn-warning" %>
       </div>
+    </div>
   </div>
+  <!-- login container end here -->
 <% end %>
 
 <% content_for :js do %>
