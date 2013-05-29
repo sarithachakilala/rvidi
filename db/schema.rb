@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130529110701) do
+ActiveRecord::Schema.define(:version => 20130529114147) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -108,11 +108,13 @@ ActiveRecord::Schema.define(:version => 20130529110701) do
     t.string   "country"
     t.integer  "profile_video_id"
     t.text     "description"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
-    t.integer  "sign_in_count",    :default => 0
+    t.datetime "created_at",                            :null => false
+    t.datetime "updated_at",                            :null => false
+    t.integer  "sign_in_count",          :default => 0
     t.string   "first_name"
     t.string   "last_name"
+    t.string   "password_reset_token"
+    t.datetime "password_reset_sent_at"
   end
 
 end

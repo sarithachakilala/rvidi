@@ -1,5 +1,7 @@
 Rvidi::Application.routes.draw do
+  get "password_resets/new"
 
+  resources :password_resets
   resources :comments do
     collection do
       get 'show_all'
