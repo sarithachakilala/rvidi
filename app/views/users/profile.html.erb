@@ -36,11 +36,18 @@
             <%= f.text_field :country %>
           </div>
         </div>
+        <div class="control-group">
+          <label class="control-label" for="inputstate">State</label>
+          <div class="controls">
+            <%= f.text_field :state %>
+          </div>
+        </div>
+        
 
         <div class="control-group"></div>
         <div class="control-group">
           <div class="controls pull-left" style="">
-            <%= f.submit "Save Changes", :class => "btn" %>
+            <%= f.submit "Save Changes", :class => "btn btn-warning" %>
           </div>
         </div>        
       </div>
@@ -53,9 +60,15 @@
           </div>
         </div>
         <div class="control-group">
-          <label class="control-label" for="inputstate">State</label>
+          <label class="control-label" for="inputstate">First Name</label>
           <div class="controls">
-            <%= f.text_field :state %>
+            <%= f.text_field :first_name %>
+          </div>
+        </div>
+        <div class="control-group">
+          <label class="control-label" for="inputdescription">Last Name</label>
+          <div class="controls">
+            <%= f.text_field :last_name %>
           </div>
         </div>
         <div class="control-group">
@@ -64,7 +77,6 @@
             <%= f.text_area :description, :rows => 6 %>
           </div>
         </div>
-
       </div>
     <% end %> 
   </div>

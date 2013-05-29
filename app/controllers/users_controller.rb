@@ -14,6 +14,7 @@ class UsersController < ApplicationController
     if verify_recaptcha(:model => @user, :private_key=>'6Ld0H-ESAAAAAEEPiXGvWRPWGS37UvgaeSpjpFN2') && @user.save
       @success = true
       if params[:from_id].present?
+        # friendmapping_creation(params[:from_id], @user.id, accepted)
         friendmapping_creation(@user)
       end
     else
@@ -98,6 +99,7 @@ class UsersController < ApplicationController
   def send_friend_request
     @user = User.find(params[:friend_id])
     RvidiMailer.invite_friend(@user).deliver
+    # friendmapping_creation(session[:user_id], @user.id, pending)
     friend_requst1 = FriendMapping.new(:user_id =>session[:user_id], :friend_id=>@user.id, :status => "pending", :request_from => session[:user_id])
     friend_requst2 = FriendMapping.new(:user_id =>@user.id, :friend_id=> session[:user_id], :status => "pending")
     notification = Notification.new(:from_id=>session[:user_id], :to_id=> @user.id, :status => "pending", :content=>"Requested to add as friend")
@@ -147,6 +149,7 @@ class UsersController < ApplicationController
     end
   end
 
+  # friendmapping_creation(from, friend, stautus)
   def friendmapping_creation(user)
     @user= user
     friend_requst1 = FriendMapping.new(:user_id =>params[:from_id], :friend_id=>@user.id, :status => "accepted", :request_from => params[:from_id])
@@ -163,3 +166,4 @@ class UsersController < ApplicationController
   end
 
 end
+

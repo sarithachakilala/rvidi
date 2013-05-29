@@ -54,7 +54,7 @@ $(document).ready(function(){
   });       
 });
 
-// TO BE UPDATED: script to update the playing cameo in shwo details page, with ajax request.
+// TO BE UPDATED: script to update the playing cameo in show details page, with ajax request.
 function loadKalturaVideo(show_id, kaltura_entry_id){
   // <script src="http://cdnapi.kaltura.com/p/1409052/sp/140905200/embedIframeJs/uiconf_id/14018252/partner_id/1409052?autoembed=true&entry_id=<%= cameo.kaltura_entry_id %>&playerId=kaltura_player_<%= cameo.show_id %>&cache_st=1368767278&width=526&height=353">
   // </script>

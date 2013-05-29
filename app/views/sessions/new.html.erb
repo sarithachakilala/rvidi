@@ -22,17 +22,17 @@
         <div><%= text_field_tag :login, params[:login], :class => "span12 js-required", :placeholder=> "Enter Email or Username "%></div>
         <div><%= password_field_tag :password, '', :class => "span12 js-required", :placeholder=> "Enter Password"%></div>
       </div>
+      <div class="row_fluid"> 
+          <div class="text_align_center"> 
+            <%= link_to "Cancel", home_index_path, :class => 'btn' %>
+            <i class="sprite-or-icon_black" style=""></i>
+            <%= submit_tag "Log in", :class => "btn btn-warning" %>
+          </div>
+      </div>
     </div>
+
   </div>  
   <!-- login container end here -->
-  <div class=" hr_bg"> 
-      <div class="text_align_center login_and_account"> 
-        <%= link_to "Cancel", home_index_path, :class => 'btn' %>
-        <i class="sprite-or-icon_black" style=""></i>
-        <%= submit_tag "Log in", :class => "btn btn-warning" %>
-      </div>
-  </div>
-
 <% end %>
 
 <% content_for :js do %>

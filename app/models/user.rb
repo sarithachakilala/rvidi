@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   attr_accessor :password, :password_confirmation, :terms_conditions
 
   attr_accessible :email, :password, :password_confirmation, :username, :city, :state, :country,
-                  :name, :description, :uid, :terms_conditions
+                  :description, :uid, :terms_conditions, :first_name, :last_name
     
   before_save :encrypt_password
 
@@ -11,6 +11,7 @@ class User < ActiveRecord::Base
   has_many :shows
 
   # VALIDATIONS
+  validates :first_name, :last_name, :presence => true
   validates :username, :presence => true,
                        :uniqueness => true,
                        :if => :provider_does_not_exist?
