@@ -101,10 +101,11 @@ class ShowsController < ApplicationController
   end
 
   def play_cameo
-    @cameo = Cameo.find(params[:id])    
+    @show = Show.find(params[:id])    
+    @cameo = Cameo.find(params[:cameo_id])    
 
     respond_to do |format|
-      format.html { redirect_to show_url(@cameo.show_id) }
+      format.html { redirect_to show_url(@cameo.show_id, :cameo_id => @cameo.id) }
       format.js {}
       format.json { head :no_content }
     end    
