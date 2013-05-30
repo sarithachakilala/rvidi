@@ -1,7 +1,18 @@
-<%= form_tag password_resets_path, :method => :post do %>
-  <div class="field">
-    <%= label_tag :email %>
-    <%= text_field_tag :email, params[:email] %>
+<div class="login_container">
+  <div class="span6 margin_bottom_10"> 
+    <h1> Forget Password</h1>
   </div>
-  <div class="actions"><%= submit_tag "Reset Password" %></div>
-<% end %>
+  <div class="row-fluid">
+    <%= form_tag password_resets_path, :method => :post do %>
+      <div class="span6">
+        <div class="control-group">
+          <label class="control-label" for="inputEmail">Email</label>
+          <div class="controls">
+            <%= text_field_tag :emaill, params[:email] %>
+          </div>
+        </div>
+        <%= link_to "Cancel", home_index_path, :class => ' btn' %>
+        <%= submit_tag "Reset Password", :class => "btn btn-warning" %>
+    <% end %> 
+  </div>
+</div>
