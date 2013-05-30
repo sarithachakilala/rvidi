@@ -99,6 +99,14 @@ class User < ActiveRecord::Base
     friends = @graph.get_connections("me", "friends?fields=id, name, picture.type(large)")
   end 
   
+  def self.friendmapping_creation(from, friend, stautus)
+    friend_requst1 = FriendMapping.new(:user_id =>from, :friend_id=>friend, :status => stautus, :request_from => from)
+    friend_requst2 = FriendMapping.new(:user_id =>friend, :friend_id=> from, :status => stautus)
+    friend_requst1.save!
+    friend_requst2.save!
+  end
+
+
   # INSTANCE METHODS
   def check_password_confirmation
     is_valdiated = (self.password.present? && self.password_confirmation.present?) ? (self.password == self.password_confirmation) : true
@@ -140,10 +148,12 @@ class User < ActiveRecord::Base
   end
   
   def send_password_reset
-      self.password_reset_token = SecureRandom.urlsafe_base64
-      self.password_reset_sent_at = Time.zone.now
-      save!
-      RvidiMailer.password_reset(self).deliver
-    end
+    self.password_reset_token = SecureRandom.urlsafe_base64
+    self.password_reset_sent_at = Time.zone.now
+    save!
+    RvidiMailer.password_reset(self).deliver
+  end
+
+
 
 end
