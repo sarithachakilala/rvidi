@@ -73,6 +73,7 @@ class UsersController < ApplicationController
   end
 
   def dashboard
+    @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
     respond_to do |format|
       format.html 
       format.json { render json: @user}
@@ -97,7 +98,6 @@ class UsersController < ApplicationController
   
   def send_friend_request
     @user = User.find(params[:friend_id])
-    RvidiMailer.invite_friend(@user).deliver
     User.friendmapping_creation(session[:user_id], @user.id, "pending")
     notification = Notification.new(:from_id=>session[:user_id], :to_id=> @user.id, :status => "pending", :content=>"Requested to add as friend")
     notification.save!
