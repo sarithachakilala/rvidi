@@ -116,7 +116,7 @@ class UsersController < ApplicationController
 
   def invite_friend_via_email
     @user = User.find(params[:email_from])
-    RvidiMailer.invite_new_friend(params[:email], @user).deliver
+    RvidiMailer.delay.invite_new_friend(params[:email], @user)
     redirect_to friends_user_path(:id => session[:user_id])
   end
 
