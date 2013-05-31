@@ -1,0 +1,1 @@
+$("#main_frame").html("<%= j(render :partial=>"/shows/friends_list",:locals => {:users=>@users, :search_val => params[:search_value]} ) %>")

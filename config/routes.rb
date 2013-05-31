@@ -14,6 +14,9 @@ Rvidi::Application.routes.draw do
       get 'view_invitation'
       get 'play_cameo'
     end
+    collection do 
+      get 'friends_list'
+    end
   end
   resources :sessions
 

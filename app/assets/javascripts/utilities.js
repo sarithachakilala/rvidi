@@ -51,7 +51,21 @@ $(document).ready(function(){
       data: { search_val:$('#search_value').val() , email_valid: regex.test(email)  },
       cache: false
     });
-  });       
+  }); 
+   
+  $('#search_friends_to_invite').on('click',function(){
+    email = $('#search_value_to_invite').val()
+    var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    $.ajax({
+      url: "/shows/friends_list.js",
+      data: { search_val:$('#search_value_to_invite').val() , email_valid: regex.test(email)  },
+      cache: false
+    });
+  });     
+
+
+
+
 });
 
 function loadANewPage(url){
