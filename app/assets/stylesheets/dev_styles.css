@@ -43,3 +43,10 @@ textarea.comment-body{ width:323px;}
 .border-black{ border:1px solid black; }
 
 .clear-both{ clear:both; }
+
+
+/* Genreralized width classes */
+.width-100-percent{ width:100%; }
+.width-75-percent{ width:75%; }
+.width-50-percent{ width:50%; }
+.width-25-percent{ width:25%; }

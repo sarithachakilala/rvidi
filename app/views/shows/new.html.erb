@@ -97,82 +97,29 @@
               </div>
               <div class="span5"> 
                 <div style="padding: 5px;background-color: #d1d2d4;" class="selects-container">
-                  <!-- <form class=""> -->
-                    <div class="row-fluid">
-                    <% @friends.each_with_index do |each_friend_detail, index|%>
-                    <% @user = User.find(each_friend_detail.friend_id)%>
-                      <%if index%2 == 0 %>
-                         <div class="span4" style="margin-left:-1px">
-                           <label class="checkbox inline">
-                            <input type="checkbox" id="inlineCheckbox1" class="checkbox-input" value="option1"> <%= "#{@user.first_name}  #{@user.last_name}"%>
-                          </label>
-                      </div>
-                      <%else%>
-                    <div class="row-fluid">
-                        <div class="span4 padding_left">
-                          <label class="checkbox inline">
-                            <input type="checkbox" id="inlineCheckbox1" class="checkbox-input" value="option1"> <%= "#{@user.first_name}  #{@user.last_name}"%>
-                          </label>
-                        </div>
-                      </div>
+                    <% @friend_mappings.each_slice(2) do|friends_slice| %>
+                      <div class="row-fluid">
+                        <% friends_slice.each do|friend_mapping| %>
+                          <% friend = User.find(friend_mapping.friend_id) %>
+                          <% position_class = (friends_slice.index(friend_mapping)==0) ? "padding_left" : "" %>
+                           <div class="span6 <%= position_class %>" style="margin-left:-1px">
+                             <label class="checkbox inline width-100-percent ">
+                              <input type="checkbox" id="inlineCheckbox1" class="checkbox-input" value="option1"> <%= "#{friend.first_name}  #{friend.last_name}"%>
+                            </label>
+                          </div>
                         <%end%>
+                      </div>
                     <%end%>
-                      <!-- <div class="span4">
-                        <label class="checkbox inline">
-                          <input type="checkbox" id="inlineCheckbox2" class="checkbox-input" value="option2"> Jerry James
-                        </label>
-                      </div> -->
-                      <!-- <div class="span4">
-                      </div>
-                    </div>
                     <div class="row-fluid">
-                      <div class="span4 padding_left">
-                        <label class="checkbox inline">
-                          <input type="checkbox" id="inlineCheckbox1" class="checkbox-input" value="option1"> John Doe
-                        </label>
-                      </div>
-                      <div class="span4">
-                        <label class="checkbox inline">
-                          <input type="checkbox" id="inlineCheckbox2" class="checkbox-input" value="option2"> Jerry James
-                        </label>
-                      </div>
-                      <div class="span4">
-                      </div>
-                    </div>
-                    <div class="row-fluid">
-                      <div class="span4 padding_left">
-                        <label class="checkbox inline">
-                          <input type="checkbox" id="inlineCheckbox3" class="checkbox-input" value="option1"> John Doe
-                        </label>
-                      </div>
-                      <div class="span4">
-                        <label class="checkbox inline">
-                          <input type="checkbox" id="inlineCheckbox4" class="checkbox-input" value="option2"> Jerry James
-                        </label>
-                      </div>
-                      <div class="span4">
-                      </div>
-                    </div>
-                    <div class="row-fluid">
-                      <div class="span4 padding_left">
-                        <label class="checkbox inline">
-                          <input type="checkbox" id="inlineCheckbox5" class="checkbox-input" value="option1"> John Doe
-                        </label>
-                      </div>
-                      <div class="span4">
-                        <label class="checkbox inline">
-                          <input type="checkbox" id="inlineCheckbox6" class="checkbox-input" value="option2"> Jerry James
-                        </label>
-                      </div>
+                      <div class="span4"></div>
+                      <div class="span4"></div>
                       <div class="span4">
                         <label class="checkbox inline select-all-label">
                           Select all
                         </label>
                       </div>
- -->
-
-                      
                     </div>
+                  </div>
                   <!-- </form> -->
                 </div>
               </div>

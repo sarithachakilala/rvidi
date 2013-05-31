@@ -31,7 +31,7 @@ class ShowsController < ApplicationController
   def new
     @show = Show.new(:display_preferences => "private", :contributor_preferences => "private")
     @cameo = @show.cameos.build
-    @friends = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
+    @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @show }
