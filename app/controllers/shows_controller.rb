@@ -41,6 +41,7 @@ class ShowsController < ApplicationController
   # GET /shows/1/edit
   def edit
     @show = Show.find(params[:id])
+    @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
   end
 
   # POST /shows
@@ -114,4 +115,14 @@ class ShowsController < ApplicationController
   def friends_list
     @users = User.where("username like ? OR email like ?",'%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
   end
+
+  def invite_friend
+    params[:checked_friends].each do |each_friend|
+      @user = User.find(each_friend) 
+      notification = Notification.new(:from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>"Requested to contribute for a cameo")
+      notification.save!
+    end
+    redirect_to edit_show_path(:id => current_user.id, :notice => "Invitation sent Successfully!" )
+  end
+
 end
