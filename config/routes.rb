@@ -14,6 +14,10 @@ Rvidi::Application.routes.draw do
       get 'view_invitation'
       get 'play_cameo'
     end
+    collection do
+      get 'test1'
+      post 'test2'
+    end
   end
   resources :sessions
 

@@ -110,4 +110,12 @@ class ShowsController < ApplicationController
       format.json { head :no_content }
     end    
   end
+
+  def test1
+  end
+
+  def test2
+    raise params.to_yaml
+  end
+
 end

@@ -51,6 +51,22 @@ class Cameo < ActiveRecord::Base
 
   # =======================================.
   # UNDER TEST DEVELOPMENT.
+  # Request for Recording a video
+  def self.record_video_to_kaltura(video, client, ks)
+    media_entry = Kaltura::KalturaMediaEntry.new
+    media_entry.name = "test record video 01"
+    media_entry.description = "test record video 01 description"
+
+    media_entry.media_type = Kaltura::KalturaMediaType::VIDEO
+
+    video_token = client.media_service.upload(video, ks)
+
+    created_entry = client.media_service.add_from_recorded_webcam(media_entry, video_token, ks)
+    
+    media_entry = get_kaltura_video(client, created_entry.id)
+    media_entry
+  end
+
   # Request for Uploading a video
   def self.upload_video_to_kaltura(video, client, ks)
     media_entry = Kaltura::KalturaMediaEntry.new
