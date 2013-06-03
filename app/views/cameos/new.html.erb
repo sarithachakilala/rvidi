@@ -27,6 +27,7 @@
         <%= f.hidden_field :user_id, :value => current_user.id %>
         <%= f.hidden_field :show_id, :value => @cameo.show_id %>
         <%= f.hidden_field :director_id, :value => @cameo.director_id %>
+        <%= hidden_field_tag :from, params[:from] %>
         <%= f.file_field :video_file %>
       </div>
     </div>

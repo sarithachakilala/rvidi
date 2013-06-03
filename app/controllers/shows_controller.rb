@@ -123,11 +123,10 @@ class ShowsController < ApplicationController
     if @checkd_users.present?
       @checkd_users.each do |each_friend|
         @user = User.find(each_friend) 
-        notification = Notification.new(:from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>"Requested to contribute for a cameo")
+        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>"You are Requested to contribute for a ")
         notification.save!
       end
     end
-     
   end
 
 end

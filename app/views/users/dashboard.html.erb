@@ -4,14 +4,17 @@
       <div class=""><img alt="" src="/assets/1624747_P_Businesswoman-in-front-of-people.png" class="jane_image"></div>
     </div>
     <div class="span10">
-      <div class="myvision_title">Welcome back, <%= @user.first_name.capitalize
- %>!</div>
-      <div class="margin_top_10 font_weight_bold">You have one <a href="#"> new cameo invitation</a> </div>
-      <div class="font_weight_bold"> Your show <a href="#">Title </a> has <a href="#">12 new cameos </a></div>
-      <div class="font_weight_bold"> 3 new cameos have been posted after your in <a href="#">Title</a></div>  
-      <% if @notifications.count>0 %>  
-       <div class="font_weight_bold"> <%= @notifications.count %> new friend Requests are there in <%= link_to "Notifications", notification_user_path(current_user.id) %></div>    
-       <% end %>
+      <div class="myvision_title">Welcome back, <%= @user.first_name.capitalize %>!</div>
+      <div class="margin_top_10">
+        <% if @cameo_invitations.count>0 %> 
+          <div class="font_weight_bold">Your have <%= @cameo_invitations.count %>  <%= link_to "new cameo invitation", notification_user_path(current_user.id) %></div> 
+        <% end %>
+        <div class="font_weight_bold"> Your show <a href="#">Title </a> has <a href="#">12 new cameos </a></div>
+        <div class="font_weight_bold"> 3 new cameos have been posted after your in <a href="#">Title</a></div>  
+        <% if @notifications.count>0 %>  
+         <div class="font_weight_bold"> <%= @notifications.count %> new friend Requests are there in <%= link_to "Notifications", notification_user_path(current_user.id) %></div>    
+         <% end %>
+      </div>
     </div>
   </div>
 </div>

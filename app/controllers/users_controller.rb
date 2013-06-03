@@ -74,6 +74,7 @@ class UsersController < ApplicationController
 
   def dashboard
     @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
+    @cameo_invitations = Notification.where(:status => "contribute", :to_id=> session[:user_id])
     respond_to do |format|
       format.html 
       format.json { render json: @user}
@@ -94,7 +95,8 @@ class UsersController < ApplicationController
   end
 
   def notification
-    @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
+    @friend_requests = Notification.where(:status => "pending", :to_id=> session[:user_id])
+    @cameo_invitations = Notification.where(:status => "contribute", :to_id=> session[:user_id])
   end
   
   def send_friend_request
