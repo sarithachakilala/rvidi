@@ -117,12 +117,17 @@ class ShowsController < ApplicationController
   end
 
   def invite_friend
-    params[:checked_friends].each do |each_friend|
-      @user = User.find(each_friend) 
-      notification = Notification.new(:from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>"Requested to contribute for a cameo")
-      notification.save!
+    @show = Show.find_by_user_id(current_user.id)
+    @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
+    @checkd_users = params[:checked_friends]
+    if @checkd_users.present?
+      @checkd_users.each do |each_friend|
+        @user = User.find(each_friend) 
+        notification = Notification.new(:from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>"Requested to contribute for a cameo")
+        notification.save!
+      end
     end
-    redirect_to edit_show_path(:id => current_user.id, :notice => "Invitation sent Successfully!" )
+     
   end
 
 end

@@ -29,44 +29,36 @@ $(document).ready(function(){
   $('.selects-container').on('click','.select-all-label',function(){
     var selects_container = $(this).parents('.selects-container').first();
     var all_selects = selects_container.find('.checkbox-input');
-    var checked_ids= []
     if($(selects_container).hasClass('checked-all')){
       $.each(all_selects, function(i, elem){
         $(elem).prop('checked',false);
-        checked_ids =[]
         $(selects_container).removeClass('checked-all');
       });
     }else{
       $.each(all_selects, function(i, elem){
         $(elem).prop('checked',true);
-        checked_ids.push($(elem).val());
         $(selects_container).addClass('checked-all');
       });
     }
   });  
 
-  $('.selects-container').on('click','#invite_friend',function(){
-    var selects_container = $(this).parents('.selects-container').first();
-    var all_selects = selects_container.find('.checkbox-input');
-    var checked_ids= []
-    if($(selects_container).hasClass('checked-all')){
-      $.each(all_selects, function(i, elem){
-        $(elem).prop('checked',false);
-      });
-    }else{
-      $.each(all_selects, function(i, elem){
-        alert($(elem).checked)
-        if ($(elem).prop('checked',true))
+  $(".selects-container").on('click','#invite_friend', function(){
+  var child_id = [];
+    $(".child_ckeck").each(function()
+    {   
+      var each_id = '#'+this.id;        
+       if($('#' + this.id).is(":checked"))
         {
-        checked_ids.push($(elem).val());}
-      });
-    }
+          child_id.push(this.id);
+        }           
+    });  
     $.ajax({
       url: "/shows/invite_friend.js",
-      data: { checked_friends: checked_ids },
-      cache: false
+      data: { checked_friends: child_id },
+      cache: false,
+      dataType: 'script'
     });
-  });   
+  }); 
 
   // Get the list of friends list based on search criteria
   $('#search_friends').on('click',function(){
@@ -88,9 +80,6 @@ $(document).ready(function(){
       cache: false
     });
   });     
-
-
-
 
 });
 

@@ -13,7 +13,7 @@
                 </div>
                 <div class="span8">
                   <label class="checkbox inline width-100-percent ">
-                  <input type="checkbox" id="<%= each_user_detail.id %>" class="checkbox-input" value="<%= each_user_detail.id %>">    <%= each_user_detail.username %></label>
+                  <%= check_box_tag(each_user_detail.id, '', checked = false, :class => 'child_ckeck')  %> <%= each_user_detail.username %>
                   <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
                   </div>
               </div>
