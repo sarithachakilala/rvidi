@@ -1,0 +1,34 @@
+<div id= "main_frame">
+  <ul class="thumbnails">
+    <li class="span12">
+      <% @users.each do |each_user_detail| %>
+        <% if each_user_detail.id != session[:user_id] %>
+          <div class="row-fluid frinds_row_margin">
+            <div class="span4"> 
+              <div class="row-fluid"> 
+                <div class="span4">
+                  
+                  <div class="friend_image"> 
+                    <img  src="/assets/OCP0154256_P_Portrait-of-a-young-man.png" alt="300x200" >
+                  </div> 
+                </div>
+                <div class="span8">
+                  <label class="checkbox inline width-100-percent ">
+                  <%= check_box_tag(each_user_detail.id, '', checked = false, :class => 'child_ckeck')  %> <%= each_user_detail.username %>
+                  <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
+                  </div>
+              </div>
+            </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+      <div class="span4">
+        <label class="checkbox inline select-all-label">
+          Select all
+        </label>
+          <span class="btn add-on btn-warning" id = "invite_friend">Invite Friend</span>
+      </div>
+    </li>
+  </ul>
+</div>

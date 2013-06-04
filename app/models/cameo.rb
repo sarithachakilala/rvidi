@@ -1,7 +1,7 @@
 class Cameo < ActiveRecord::Base
   attr_accessor :video_file
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, :description,
-                  :tags, :thumbnail_url, :download_url, :duration, :video_file
+                  :thumbnail_url, :download_url, :duration, :video_file
 
   # Validations
   validates :director_id, :presence => true, :numericality => true
@@ -93,7 +93,6 @@ class Cameo < ActiveRecord::Base
     self.status = self.status || "pending"
     self.name =  media_entry.name
     self.description =  media_entry.description
-    self.tags =  media_entry.tags
     self.thumbnail_url =  media_entry.thumbnail_url
     self.download_url =  media_entry.download_url
     self.duration =  media_entry.duration

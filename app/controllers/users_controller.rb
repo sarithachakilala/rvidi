@@ -73,6 +73,8 @@ class UsersController < ApplicationController
   end
 
   def dashboard
+    @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
+    @cameo_invitations = Notification.where(:status => "contribute", :to_id=> session[:user_id])
     respond_to do |format|
       format.html 
       format.json { render json: @user}
@@ -84,6 +86,7 @@ class UsersController < ApplicationController
   end
 
   def friends_list
+    raise "hereee"
     @users = User.where("username like ? OR email like ?",'%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
   end
 
@@ -92,12 +95,12 @@ class UsersController < ApplicationController
   end
 
   def notification
-    @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
+    @friend_requests = Notification.where(:status => "pending", :to_id=> session[:user_id])
+    @cameo_invitations = Notification.where(:status => "contribute", :to_id=> session[:user_id])
   end
   
   def send_friend_request
     @user = User.find(params[:friend_id])
-    RvidiMailer.invite_friend(@user).deliver
     User.friendmapping_creation(session[:user_id], @user.id, "pending")
     notification = Notification.new(:from_id=>session[:user_id], :to_id=> @user.id, :status => "pending", :content=>"Requested to add as friend")
     notification.save!
@@ -116,7 +119,7 @@ class UsersController < ApplicationController
 
   def invite_friend_via_email
     @user = User.find(params[:email_from])
-    RvidiMailer.invite_new_friend(params[:email], @user).deliver
+    RvidiMailer.delay.invite_new_friend(params[:email], @user)
     redirect_to friends_user_path(:id => session[:user_id])
   end
 

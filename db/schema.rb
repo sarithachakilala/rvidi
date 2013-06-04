@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130529114147) do
+ActiveRecord::Schema.define(:version => 20130603091222) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(:version => 20130529114147) do
     t.string   "status"
     t.string   "name"
     t.string   "description"
-    t.string   "tags"
     t.string   "thumbnail_url"
     t.string   "download_url"
     t.string   "duration"
@@ -82,6 +81,7 @@ ActiveRecord::Schema.define(:version => 20130529114147) do
     t.string   "status"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.integer  "show_id"
   end
 
   create_table "shows", :force => true do |t|
@@ -95,6 +95,7 @@ ActiveRecord::Schema.define(:version => 20130529114147) do
     t.string   "contributor_preferences"
     t.string   "contributor_preferences_password"
     t.boolean  "need_review",                      :default => true
+    t.string   "show_tag"
   end
 
   create_table "users", :force => true do |t|

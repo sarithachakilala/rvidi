@@ -31,7 +31,7 @@ class ShowsController < ApplicationController
   def new
     @show = Show.new(:display_preferences => "private", :contributor_preferences => "private")
     @cameo = @show.cameos.build
-
+    @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @show }
@@ -41,6 +41,7 @@ class ShowsController < ApplicationController
   # GET /shows/1/edit
   def edit
     @show = Show.find(params[:id])
+    @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
   end
 
   # POST /shows
@@ -111,6 +112,21 @@ class ShowsController < ApplicationController
     end    
   end
 
+  def friends_list
+    @users = User.where("username like ? OR email like ?",'%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
+  end
+
+  def invite_friend
+    @show = Show.find_by_user_id(current_user.id)
+    @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
+    @checkd_users = params[:checked_friends]
+    if @checkd_users.present?
+      @checkd_users.each do |each_friend|
+        @user = User.find(each_friend) 
+        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>"You are Requested to contribute for a ")
+        notification.save!
+      end
+    end
   def test1
   end
 

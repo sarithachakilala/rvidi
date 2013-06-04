@@ -42,8 +42,8 @@
         Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
       </div>
       <div class="margin_top_10"> 
-        <a href="#" class="btn  btn-primary "><i class="sprite-facebook-white"></i>Add from Facebook</a>
-        <a href="#" class="btn  btn-info "><i class="sprite-twitter-white"></i>Add from Twitter</a>
+        <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), friends_user_path(current_user.id), :class=>"btn btn-primary" %>
+        <%= link_to raw("<i class=\"sprite-twitter-white \"></i>Add from Twitter"), friends_user_path(current_user.id), :class=>"btn btn-info" %>
       </div>
     </div>
     <div class="span4"> 
@@ -83,7 +83,7 @@
       <div class="span12"> 
         <div class="register_hr_bg"> 
           <div class="text_align_center login_and_account"> 
-           <a class="btn btn-warning " href="#"><i class="sprite-camera-white"></i>Start a new show</a>
+            <%= link_to raw("<i class=\"sprite-camera-white \"></i>Start a new show"), new_show_path, :class=>"btn btn-warning " %>
          </div>
        </div>
      </div>

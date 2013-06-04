@@ -11,15 +11,16 @@
           <div class="myvision_title span">
             Notifications
           </div>
-          <div class="">
-            Click on Accept friends.
-          </div>
         </div>
       </div>
       <div id= "main_frame">
+        <div class="">
+            Click on Accept friends.
+          </div>
         <ul class="thumbnails">
           <li class="span12">
-            <% @notifications.each do |each_user_detail| %>
+
+            <% @friend_requests.each do |each_user_detail| %>
               <% @user = User.find(each_user_detail.from_id)%>
               <div class="thumbnail frinds_thumbnail_padding">
                 <div class="row-fluid frinds_row_margin">
@@ -36,6 +37,36 @@
                          </div>
                           <div class="btn-small btn-warning">
                           <%= link_to "Confirm as friend", accept_friend_request_users_path(:friend_id => each_user_detail.from_id) %></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+      <div id= "main_frame">
+        <div class="">
+            Cameo Invitations
+          </div>
+        <ul class="thumbnails">
+          <li class="span12">
+
+            <% @cameo_invitations.each do |each_user_detail| %>
+              <% @user = User.find(each_user_detail.from_id)%>
+              <div class="thumbnail frinds_thumbnail_padding">
+                <div class="row-fluid frinds_row_margin">
+                  <div class="span4"> 
+                    <div class="row-fluid"> 
+                      <div class="span4">
+                        <div class="friend_image"> 
+                          <img  src="/assets/OCP0154256_P_Portrait-of-a-young-man.png" alt="300x200" >
+                        </div> 
+                      </div>
+                      <div class="span8">
+                        <div class="friend_name"><%= @user.username %></div>
+                        <div><%= each_user_detail.content %><%= link_to " Show", show_path(:id=>each_user_detail.show_id,:from=>"contribute") %></div>
                       </div>
                     </div>
                   </div>

@@ -15,7 +15,7 @@
     </div>
 
     <div class="control-group">
-      <label class="control-label blue_label" for="inputEmail">Disply</label>
+      <label class="control-label blue_label" for="inputEmail">Display</label>
       <div class="controls radio-inputs-container">
         <label class="radio <%= radio_label_class(@show, 'display_preferences', 'public') %>">
           <%= f.radio_button :display_preferences, "public", {:class => "radio-input" } %>
@@ -52,6 +52,9 @@
         </label>
         <label class="password_padding">
           <%= f.password_field :contributor_preferences_password, :class => "", :placeholder => "Password" %>
+        </label>
+        <label class="password_padding">
+          <%= f.text_field :show_tag, :class => "", :placeholder => "Add a tag" %>
         </label>
       </div>
     </div>

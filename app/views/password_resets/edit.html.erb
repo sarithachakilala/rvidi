@@ -18,17 +18,18 @@
      <div class="control-group">
         <label class="control-label" for="inputEmail">password</label>
         <div class="controls">
-          <%= text_field_tag :password %>
+          <%= f.password_field :password %>
         </div>
       </div>
       <div class="control-group">
         <label class="control-label" for="inputEmail">Password Confirmation</label>
         <div class="controls">
-          <%= text_field_tag :password_confirmation %>
+          <%= f.password_field :password_confirmation %>
         </div>
       </div>
       <%= link_to "Cancel", home_index_path, :class => ' btn' %>
-      <%= submit_tag "Update Password", :class => "btn btn-warning" %>
+      <%= f.submit "Update Password", :class => "btn btn-warning" %>
     <% end %>
   </div>
 </div>
+

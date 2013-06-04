@@ -40,7 +40,25 @@ $(document).ready(function(){
         $(selects_container).addClass('checked-all');
       });
     }
-  });       
+  });  
+
+  $(".selects-container").on('click','#invite_friend', function(){
+  var child_id = [];
+    $(".child_ckeck").each(function()
+    {   
+      var each_id = '#'+this.id;        
+       if($('#' + this.id).is(":checked"))
+        {
+          child_id.push(this.id);
+        }           
+    });  
+    $.ajax({
+      url: "/shows/invite_friend.js",
+      data: { checked_friends: child_id },
+      cache: false,
+      dataType: 'script'
+    });
+  }); 
 
   // Get the list of friends list based on search criteria
   $('#search_friends').on('click',function(){
@@ -51,7 +69,18 @@ $(document).ready(function(){
       data: { search_val:$('#search_value').val() , email_valid: regex.test(email)  },
       cache: false
     });
-  });       
+  }); 
+   
+  $('#search_friends_to_invite').on('click',function(){
+    email = $('#search_value_to_invite').val()
+    var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+    $.ajax({
+      url: "/shows/friends_list.js",
+      data: { search_val:$('#search_value_to_invite').val() , email_valid: regex.test(email)  },
+      cache: false
+    });
+  });     
+
 });
 
 function loadANewPage(url){
