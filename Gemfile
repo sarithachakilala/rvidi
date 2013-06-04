@@ -10,7 +10,8 @@ gem 'omniauth-facebook', '1.4.0'                     # For Integrating Facebook
 gem 'omniauth-twitter'                               # For Integrating Twitter
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'rest-client'                                    # Simple HTTP and REST client for Ruby, inspired by the Sinatra microframework style of specifying actions: get, put, post, delete.
-
+gem "rmagick"
+gem "carrierwave"                                    # To add file uploads to the application
 gem 'koala'
 # koala dependencies
 gem 'twitter'

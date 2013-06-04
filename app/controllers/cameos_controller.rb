@@ -42,14 +42,16 @@ class CameosController < ApplicationController
   # POST /cameos
   # POST /cameos.json
   def create
-    if params[:from].present?
-      @notification = Notification.where(:show_id=> params[:cameo]['show_id'], :to_id=>params[:cameo]['user_id'], :from_id => params[:cameo]['director_id']).first
-      @notification.update_attributes(:status => "contributed") if @notification
-    end
     @cameo = Cameo.new(params[:cameo])
     media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
     @cameo.set_uploaded_video_details(media_entry)
-
+    if params[:from].present?
+      @notification = Notification.where(:show_id=> params[:cameo]['show_id'], :to_id=>params[:cameo]['user_id'], :from_id => params[:cameo]['director_id']).first
+      @notification.update_attributes(:status => "contributed", :read_status =>"unread") if @notification
+    else
+      notification = Notification.create(:show_id=>params[:cameo]['show_id'], :to_id=>params[:cameo]['user_id'], :from_id => params[:cameo]['director_id'], :status => "contributed", :content =>"Added a Cameo", :read_status =>"unread") 
+      notification.save!
+    end
     respond_to do |format|
       if @cameo.save
         @show = @cameo.show

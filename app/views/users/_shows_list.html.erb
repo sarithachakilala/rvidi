@@ -1,0 +1,32 @@
+<div class="thumbnail">
+  <div class="row-fluid caption">
+    <div class="span4">
+      <div class="detailsview_image_div item">
+        <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
+        <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe, show_path(show) %> </div>
+    </div>
+    <div class="span8">
+      <div class="row-fluid">
+        <div class="span4">
+          <div class="details_title"><%= link_to show.title, show_path(show) %></div>
+          <div class="thumbnail_name"><%= show.director.username %></div>
+        </div>
+        <div class="span8 text_align_right">
+          <div style="padding-right: 4px;" class="pull-right">
+            <div class="contributors_image_detail"> <img alt="Contributors" src="./assets/img/CUP0065824_P_Close-up-of-businesswomans-face.png" class="details_image_sizesmall"> </div>
+            <div class="contributors_image_detail"> <img alt="Contributors" src="./assets/img/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" class="details_image_sizesmall"> </div>
+            <div class="contributors_image_detail"> <img alt="Contributors" src="./assets/img/OCP0154256_P_Portrait-of-a-young-man.png" class="details_image_sizesmall"> </div>
+            <div class="contributors_image_detail"> <img alt="Contributors" src="./assets/img/1624747_P_Businesswoman-in-front-of-people.png" class="details_image_sizesmall"> </div>
+            <i class="sprite-thumbnail_title_icon"></i>
+          </div>
+        </div>
+      </div>
+      <div class="span11">
+        <%= show.description %>
+      </div>
+      <div class="span11">
+        <div class="pull-right font_weight_bold"> 1,234 views</div>
+      </div>
+    </div>
+  </div>
+</div>

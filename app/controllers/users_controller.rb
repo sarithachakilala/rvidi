@@ -73,6 +73,8 @@ class UsersController < ApplicationController
   end
 
   def dashboard
+    @show_notifications = Notification.where(:status => "contributed", :from_id=> session[:user_id]).order(:created_at).group_by(&:show_id)
+    # @show_notifications = Notification.where(:status => "contributed", :from_id=> session[:user_id]).order(:created_at)
     @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
     @cameo_invitations = Notification.where(:status => "contribute", :to_id=> session[:user_id])
     respond_to do |format|
@@ -86,7 +88,6 @@ class UsersController < ApplicationController
   end
 
   def friends_list
-    raise "hereee"
     @users = User.where("username like ? OR email like ?",'%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
   end
 

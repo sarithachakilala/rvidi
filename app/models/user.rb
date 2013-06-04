@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   attr_accessor :password, :password_confirmation, :terms_conditions
 
   attr_accessible :email, :password, :password_confirmation, :username, :city, :state, :country,
-                  :description, :uid, :terms_conditions, :first_name, :last_name
+                  :description, :uid, :terms_conditions, :first_name, :last_name, :image, :remote_image_url
     
   before_save :encrypt_password
 
@@ -33,7 +33,7 @@ class User < ActiveRecord::Base
   validates :terms_conditions, :acceptance => true,
                                :on => :create
 
-
+  mount_uploader :image, ImageUploader
   
   # CLASS METHODS
   def self.authenticate(login, password)

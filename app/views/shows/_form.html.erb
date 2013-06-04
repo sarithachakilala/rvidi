@@ -1,8 +1,8 @@
 
 <div class="main_class">
 <%= form_for @show, :html => {:class => "js-validated-form form-horizontal", :method => :put} do |f| %>
+  <%= hidden_field_tag :id, params[:id]%>
   <div class="login_container">
-
     <div class="accordion" id="accordion1">
       <div class="accordion-group plus-minus-container">
         <div class="accordion-heading">

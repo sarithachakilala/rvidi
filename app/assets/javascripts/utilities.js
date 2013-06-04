@@ -54,7 +54,7 @@ $(document).ready(function(){
     });  
     $.ajax({
       url: "/shows/invite_friend.js",
-      data: { checked_friends: child_id },
+      data: { checked_friends: child_id, page_id: $('#id').val() },
       cache: false,
       dataType: 'script'
     });
@@ -80,6 +80,15 @@ $(document).ready(function(){
       cache: false
     });
   });     
+
+  $(".links_container").on('click','.display_formats',function(){
+    $('.display_formats').removeClass('activeLink ');
+    $(this).addClass('activeLink ');
+    var req_detail = $(this).attr('id');
+    $(".showsformat").hide();
+    $("."+req_detail+"_formats").show();
+  });
+
 
 });
 

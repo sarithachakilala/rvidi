@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130603091222) do
+ActiveRecord::Schema.define(:version => 20130604060951) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -79,9 +79,10 @@ ActiveRecord::Schema.define(:version => 20130603091222) do
     t.integer  "to_id"
     t.text     "content"
     t.string   "status"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
     t.integer  "show_id"
+    t.string   "read_status"
   end
 
   create_table "shows", :force => true do |t|
@@ -116,6 +117,7 @@ ActiveRecord::Schema.define(:version => 20130603091222) do
     t.string   "last_name"
     t.string   "password_reset_token"
     t.datetime "password_reset_sent_at"
+    t.string   "image"
   end
 
 end

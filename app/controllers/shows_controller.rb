@@ -117,13 +117,13 @@ class ShowsController < ApplicationController
   end
 
   def invite_friend
-    @show = Show.find_by_user_id(current_user.id)
+    @show = Show.find(params[:page_id])
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
     @checkd_users = params[:checked_friends]
     if @checkd_users.present?
       @checkd_users.each do |each_friend|
         @user = User.find(each_friend) 
-        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>"You are Requested to contribute for a ")
+        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>"is Requested to contribute for ")
         notification.save!
       end
     end
