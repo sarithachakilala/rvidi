@@ -79,10 +79,10 @@ ActiveRecord::Schema.define(:version => 20130604060951) do
     t.integer  "to_id"
     t.text     "content"
     t.string   "status"
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+    t.datetime "created_at",                     :null => false
+    t.datetime "updated_at",                     :null => false
     t.integer  "show_id"
-    t.string   "read_status"
+    t.boolean  "read_status", :default => false
   end
 
   create_table "shows", :force => true do |t|

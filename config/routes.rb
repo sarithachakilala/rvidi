@@ -17,6 +17,7 @@ Rvidi::Application.routes.draw do
     collection do 
       get 'invite_friend'
       get 'friends_list'
+      get 'invite_friend_toshow'
     end
   end
   resources :sessions

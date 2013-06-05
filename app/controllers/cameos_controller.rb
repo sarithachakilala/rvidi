@@ -42,6 +42,13 @@ class CameosController < ApplicationController
   # POST /cameos
   # POST /cameos.json
   def create
+    # To find the contributed user. still need to verify
+    # @contributed_users = Cameo.where(:show_id=>params[:cameo]['show_id']).collect(&:user_id)
+    # @contributed_users.each do |each_contributer|
+    #   user= User.find(each_contributer)
+    #   notification = Notification.create(:show_id=>params[:cameo]['show_id'], :to_id=>user.id, :from_id => params[:cameo]['director_id'], :status => "others_contributed", :content =>"They also contributed", :read_status =>"unread")  unless (user.id == params[:cameo]['director_id'])
+    #   notification.save!
+    # end
     @cameo = Cameo.new(params[:cameo])
     media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
     @cameo.set_uploaded_video_details(media_entry)
@@ -52,6 +59,7 @@ class CameosController < ApplicationController
       notification = Notification.create(:show_id=>params[:cameo]['show_id'], :to_id=>params[:cameo]['user_id'], :from_id => params[:cameo]['director_id'], :status => "contributed", :content =>"Added a Cameo", :read_status =>"unread") 
       notification.save!
     end
+
     respond_to do |format|
       if @cameo.save
         @show = @cameo.show

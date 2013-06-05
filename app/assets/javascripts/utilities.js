@@ -66,7 +66,7 @@ $(document).ready(function(){
     var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     $.ajax({
       url: "/users/friends_list.js",
-      data: { search_val:$('#search_value').val() , email_valid: regex.test(email)  },
+      data: { search_val:$('#search_value').val() , email_valid: regex.test(email) },
       cache: false
     });
   }); 
@@ -76,7 +76,7 @@ $(document).ready(function(){
     var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     $.ajax({
       url: "/shows/friends_list.js",
-      data: { search_val:$('#search_value_to_invite').val() , email_valid: regex.test(email)  },
+      data: { search_val:$('#search_value_to_invite').val() , email_valid: regex.test(email), page_id: $('#id').val() },
       cache: false
     });
   });     

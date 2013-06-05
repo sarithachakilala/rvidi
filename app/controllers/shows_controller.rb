@@ -129,4 +129,11 @@ class ShowsController < ApplicationController
     end
   end
 
+  def invite_friend_toshow
+    @show = Show.find(params[:show_id])
+    @user = User.find(params[:email_from])
+    RvidiMailer.invite_friend_toshow(params[:email], @user, @show.id).deliver
+    redirect_to edit_show_path(:id=>@show.id)
+  end
+
 end
