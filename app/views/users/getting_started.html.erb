@@ -60,9 +60,9 @@
       </div>
       <div style="padding-left: 100px;margin-top: 15px;font-weight: bold;"> 
         <ul class=""  >
-          <li>Action</li>
-          <li>Another action</li>
-          <li>Something else here</li>
+          <li><%= link_to "Click here to set your profile picture", profile_user_path(current_user.id)%></li>
+          <li><%= link_to "Add Description about your self ", profile_user_path(current_user.id)%></li>
+          <li><%= link_to "Click here to add your profile video", profile_user_path(current_user.id)%></li>
         </ul>
       </div>
     </div>
@@ -73,8 +73,11 @@
         </div>
         <div style="padding-left: 100px;margin-top: 15px;font-weight: bold;"> 
           <ul class=""  >
-            <li class="leaf">Jane has invited you to contribute to her video <b> Title goes here. </b> <br> view the video and contribute!</li>
-            <li class="leaf">your watching <b> Title goes here. </b> Go back to the video and <br> contribute! </li>
+            <% if @notifications.count>0 %>
+              <li class="leaf">  <div class="font_weight_bold"> <%= @notifications.count %> new friend Requests are there in <%= link_to "Notifications", notification_user_path(current_user.id) %></div></li>
+            <% end %>
+              <li class="leaf">Jane has invited you to contribute to her video <b> Title goes here. </b> <br> view the video and contribute!</li>
+              <li class="leaf">your watching <b> Title goes here. </b> Go back to the video and <br> contribute! </li>
           </ul>
         </div>
       </div>

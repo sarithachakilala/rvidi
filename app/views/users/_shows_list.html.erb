@@ -11,12 +11,13 @@
           <div class="details_title"><%= link_to show.title, show_path(show) %></div>
           <div class="thumbnail_name"><%= show.director.username %></div>
         </div>
+        <% show_contributers = Cameo.where(:show_id=>show.id).collect(&:user_id)%>
         <div class="span8 text_align_right">
           <div style="padding-right: 4px;" class="pull-right">
-            <div class="contributors_image_detail"> <img alt="Contributors" src="./assets/img/CUP0065824_P_Close-up-of-businesswomans-face.png" class="details_image_sizesmall"> </div>
-            <div class="contributors_image_detail"> <img alt="Contributors" src="./assets/img/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" class="details_image_sizesmall"> </div>
-            <div class="contributors_image_detail"> <img alt="Contributors" src="./assets/img/OCP0154256_P_Portrait-of-a-young-man.png" class="details_image_sizesmall"> </div>
-            <div class="contributors_image_detail"> <img alt="Contributors" src="./assets/img/1624747_P_Businesswoman-in-front-of-people.png" class="details_image_sizesmall"> </div>
+            <% show_contributers.each do |each_contributer|%>
+              <% user = User.find(each_contributer)%>
+              <div class="contributors_image_detail"> <%= image_tag user.image_url, :class => "details_image_sizesmall"  %></div>
+            <%end %>
             <i class="sprite-thumbnail_title_icon"></i>
           </div>
         </div>

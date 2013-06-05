@@ -70,6 +70,7 @@ class UsersController < ApplicationController
   end
 
   def getting_started
+    @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
   end
 
   def dashboard
