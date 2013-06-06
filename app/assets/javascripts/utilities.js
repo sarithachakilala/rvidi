@@ -88,7 +88,14 @@ $(document).ready(function(){
     $(".showsformat").hide();
     $("."+req_detail+"_formats").show();
   });
-
+  
+  $(".ulinks_container").on('click','.display_format',function(){
+    $('.display_format').removeClass('activLink ');
+    $(this).addClass('activLink ');
+    var req_detail = $(this).attr('id');
+    $(".showsformats").hide();
+    $("."+req_detail+"_format").show();
+  });
 
 });
 

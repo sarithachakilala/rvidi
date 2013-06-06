@@ -1,5 +1,13 @@
+<% if params[:email].present?%>
+  <% user =  User.find(params[:from_id])%>
+  <div class="alert alert-success">
+   <button type="button" class="close" data-dismiss="alert">&times;</button>
+     "Hello, <%= user.first_name %>! <%= user.last_name %> has invited you to contribute to this video. <%= link_to "Click here".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from])%> or 'Add a cameo' below to contribute!" 
+  </div>
+<% end %>
 <div class="myvision_container padding_none">
   <div class="accordion-inner padding_none">
+
     <div class="row-fluid">
       <div class="span8 marging_none">
         <div class="edit_title_bg"> 
@@ -18,8 +26,8 @@
             <div class="row-fluid show-cameo-detail <%= cameo_div_class %>" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail">
               <div class="span3">
                 <div class="contributors_image">
+                  <div class="contributors_image_size"> <%= image_tag show_cameo.user.image_url, :class => "details_image_sizesmall", :alt =>"Contributors"%></div>
                   <% thumbnail = "/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" %>
-                  <img alt="Contributors" src="<%= thumbnail %>" class="contributors_image_size">
                 </div>
               </div>
               <div class="span8 cameo_friends_text">

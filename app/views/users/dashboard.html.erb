@@ -44,7 +44,6 @@
             </ul>
           </div>
 
-
           <% if current_user.shows.present? %>
             <% current_user.shows.each_slice(5) do|slice| %>
               <div class="thumb_formats showsformat">
@@ -73,17 +72,30 @@
 
         <div id="tab2" class="tab-pane">
           <div class="span text_align_right"> 
-            <a class="sprite-list-icon" href="#"> </a>
-            <a class="sprite-details-icon-lite" href="#"> </a>
+             <ul class='ulinks_container'>
+              <a id='thumb' class="sprite-list-icon display_format activLink " href="javascript:void(0);"> </a>
+              <a id='list' class="sprite-details-icon-lite display_format" href="#"> </a>
+            </ul>
           </div>
           <% if current_user.contributed_shows.present? %>
             <% current_user.contributed_shows.each_slice(5) do|contr_slice| %>
+              <div class="thumb_format showsformats">
               <div class="row-fluid">
                 <ul class="thumbnails margin_top_5">
                   <% contr_slice.each do|show| %>
                     <%= render :partial => "show_thumbnail", :locals => { :show => show } %>
                   <% end %>
                 </ul>
+              </div>
+            </div>
+              <div class="list_format showsformats hide">
+                <% contr_slice.each do|show| %>
+                  <ul class="thumbnails">
+                  <li class="span12">
+                      <%= render :partial => "shows_list", :locals => { :show => show } %>
+                  </li>
+                  </ul>
+                <% end %>
               </div>
             <% end %>
           <% else %>

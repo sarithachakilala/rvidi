@@ -25,7 +25,11 @@
         <div><%= f.text_field :username, :class => "span12 js-required", :placeholder => "Pick a Username" %></div>
         <div><%= f.text_field :first_name, :class => "span12 js-required", :placeholder => "Pick a Firstname" %></div>
         <div><%= f.text_field :last_name, :class => "span12 js-required", :placeholder => "Pick a Lastname" %></div>
-        <div><%= f.text_field :email, :class => "span12 js-required", :placeholder => "Email Address" %></div>
+        <% if params[:email].present?%>
+          <div><%= f.text_field :email, :class => "span12 js-required", :placeholder => "Email Address", :value => params[:email], :readonly=>true %></div>
+        <% else %>
+          <div><%= f.text_field :email, :class => "span12 js-required", :placeholder => "Email Address" %></div>
+        <% end %>
         <div><%= f.password_field :password, :class => "span12 js-required", :placeholder => "Choose a Password" %></div>
         <div><%= f.password_field :password_confirmation, :class => "span12 js-required", :placeholder => "Re-type Password" %></div>
         <div><%= f.text_field :city, :class => "span12", :placeholder => "City" %></div>

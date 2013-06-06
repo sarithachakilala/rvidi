@@ -13,6 +13,8 @@ class RvidiMailer < ActionMailer::Base
 
   def invite_friend_toshow(to_mail, user, show_id)
     @user = user
+    @show = show_id
+    @to_email = to_mail
     mail :to => to_mail, :subject => "Invited to Contribute"
   end
 end

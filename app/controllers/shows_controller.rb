@@ -1,19 +1,15 @@
 class ShowsController < ApplicationController
   before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
 
-  # GET /shows
-  # GET /shows.json
   def index
     @shows = Show.all
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html 
       format.json { render json: @shows }
     end
   end
 
-  # GET /shows/1
-  # GET /shows/1.json
   def show
     @show = Show.find(params[:id])
     @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
@@ -21,13 +17,11 @@ class ShowsController < ApplicationController
     @all_comments = @show.comments
 
     respond_to do |format|
-      format.html # show.html.erb
+      format.html 
       format.json { render json: @show }
     end
   end
 
-  # GET /shows/new
-  # GET /shows/new.json
   def new
     @show = Show.new(:display_preferences => "private", :contributor_preferences => "private")
     @cameo = @show.cameos.build
@@ -38,14 +32,11 @@ class ShowsController < ApplicationController
     end
   end
 
-  # GET /shows/1/edit
   def edit
     @show = Show.find(params[:id])
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
   end
 
-  # POST /shows
-  # POST /shows.json
   def create
     @show = Show.new(params[:show])
     @cameo = @show.cameos.first    
@@ -68,8 +59,6 @@ class ShowsController < ApplicationController
     end
   end
 
-  # PUT /shows/1
-  # PUT /shows/1.json
   def update
     @show = Show.find(params[:id])
 
@@ -84,8 +73,6 @@ class ShowsController < ApplicationController
     end
   end
 
-  # DELETE /shows/1
-  # DELETE /shows/1.json
   def destroy
     @show = Show.find(params[:id])
     @show.destroy
@@ -96,7 +83,7 @@ class ShowsController < ApplicationController
     end
   end
 
-  # To View the cameo Invitation of a Shwo
+  # To View the cameo Invitation of a Show
   def view_invitation
     # @show = Show.find(params[:id])
   end
@@ -129,10 +116,13 @@ class ShowsController < ApplicationController
     end
   end
 
+  # To invite friend via an email to contribute to show
   def invite_friend_toshow
     @show = Show.find(params[:show_id])
     @user = User.find(params[:email_from])
     RvidiMailer.invite_friend_toshow(params[:email], @user, @show.id).deliver
+    notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>"is Requested to contribute for ", :to_email=>params[:email])
+    notification.save!
     redirect_to edit_show_path(:id=>@show.id)
   end
 
