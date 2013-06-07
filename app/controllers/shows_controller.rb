@@ -127,11 +127,6 @@ class ShowsController < ApplicationController
         notification.save!
       end
     end
-  def test1
-  end
-
-  def test2
-    raise params.to_yaml
   end
 
 end
