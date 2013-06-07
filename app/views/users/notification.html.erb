@@ -24,19 +24,29 @@
               <% @user = User.find(each_user_detail.from_id)%>
               <div class="thumbnail frinds_thumbnail_padding">
                 <div class="row-fluid frinds_row_margin">
-                  <div class="span4"> 
+                  <div class="span8"> 
                     <div class="row-fluid"> 
                       <div class="span4">
                         <div class="friend_image">
                           <%= image_tag @user.image_url, :class => "details_image_sizesmall"  %>
                         </div> 
                       </div>
-                      <div class="span8">
+                      <div class="span6">
                         <div class="friend_name"><%= @user.username %></div>
                         <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
                          </div>
-                          <div class="btn-small btn-warning">
-                          <%= link_to "Confirm as friend", accept_friend_request_users_path(:friend_id => each_user_detail.from_id) %></div>
+                         <div class = "row-fluid">
+                          <div class = "span6">
+                            <div class="btn-small btn-warning">
+                              <%= link_to "Confirm as friend", accept_friend_request_users_path(:friend_id => each_user_detail.from_id) %>
+                            </div>
+                          </div>
+                          <div class = "span6">
+                            <div class="btn-small btn-info">
+                              <%= link_to "Ignore request ", accept_friend_request_users_path(:friend_id => each_user_detail.from_id) %>
+                            </div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -62,12 +72,11 @@
                       <div class="span4">
                         <div class="friend_image"> 
                           <%= image_tag @user.image_url, :class => "details_image_sizesmall"  %>
-
                         </div> 
                       </div>
                       <div class="span8">
                         <div class="friend_name"><%= @user.username %></div>
-                        <div><%= each_user_detail.content %><%= link_to " Show", show_path(:id=>each_user_detail.show_id,:from=>"contribute") %></div>
+                        <div><%= each_user_detail.content %><%= link_to " Show", show_path(:id=>each_user_detail.show_id, :to_contribute=>"yes") %></div>
                       </div>
                     </div>
                   </div>

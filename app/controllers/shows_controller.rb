@@ -15,7 +15,10 @@ class ShowsController < ApplicationController
     @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
-
+    if params[:to_contribute].present?
+      @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id, :from_id => @show.user_id).first
+      @notification.update_attributes(:read_status =>true) if @notification
+    end
     respond_to do |format|
       format.html 
       format.json { render json: @show }

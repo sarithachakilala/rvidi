@@ -3,6 +3,7 @@ class RvidiMailer < ActionMailer::Base
 
   def invite_new_friend(to_mail, from_user)
     @user_invited = from_user
+    @to_mail = to_mail
     mail(:to => to_mail, :subject => "Welcome to My rvidi Site")
   end
 

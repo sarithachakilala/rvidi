@@ -15,6 +15,11 @@ class UsersController < ApplicationController
       @success = true
       if params[:from_id].present?
         User.friendmapping_creation(params[:from_id], @user.id, "accepted")
+      elsif params[:from_email].present?
+        notifications = Notification.where(:to_email=>params[:from_email])
+        notifications.each do |each_notification|
+          each_notification.update_attributes(:to_id=> @user.id)
+        end
       end
     else
       @success = false
@@ -71,6 +76,7 @@ class UsersController < ApplicationController
 
   def getting_started
     @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
+    @show_notifications = Notification.where(:to_id=> session[:user_id])
   end
 
   def dashboard
@@ -97,14 +103,14 @@ class UsersController < ApplicationController
   end
 
   def notification
-    @friend_requests = Notification.where(:status => "pending", :to_id=> session[:user_id])
-    @cameo_invitations = Notification.where(:status => "contribute", :to_id=> session[:user_id])
+    @friend_requests = Notification.where(:status => "pending", :to_id=> session[:user_id], :read_status => false)
+    @cameo_invitations = Notification.where(:status => "contribute", :to_id=> session[:user_id], :read_status => false)
   end
   
   def send_friend_request
     @user = User.find(params[:friend_id])
     User.friendmapping_creation(session[:user_id], @user.id, "pending")
-    notification = Notification.new(:from_id=>session[:user_id], :to_id=> @user.id, :status => "pending", :content=>"Requested to add as friend")
+    notification = Notification.new(:from_id=>session[:user_id], :to_id=> @user.id, :status => "pending", :content=>"Requested to add as friend", :read_status => false)
     notification.save!
     redirect_to friends_user_path(:id => session[:user_id]), :notice => "Friend Request sent Successfully!" 
   end
@@ -122,6 +128,8 @@ class UsersController < ApplicationController
   def invite_friend_via_email
     @user = User.find(params[:email_from])
     RvidiMailer.delay.invite_new_friend(params[:email], @user)
+    notification = Notification.create(:to_email=> params[:email], :from_id => session[:user_id], :status => "pending", :content =>"Requested to add as friend", :read_status => false) 
+    notification.save!
     redirect_to friends_user_path(:id => session[:user_id])
   end
 

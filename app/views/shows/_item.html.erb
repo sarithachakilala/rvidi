@@ -2,8 +2,9 @@
   <% user =  User.find(params[:from_id])%>
   <div class="alert alert-success">
    <button type="button" class="close" data-dismiss="alert">&times;</button>
-     "Hello, <%= user.first_name %>! <%= user.last_name %> has invited you to contribute to this video. <%= link_to "Click here".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from])%> or 'Add a cameo' below to contribute!" 
+     "Hello, <%= user.first_name %>! <%= user.last_name %> has invited you to contribute to this video. <%= link_to "Click here".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email])%> or 'Add a cameo' below to contribute!" 
   </div>
+  <%= hidden_field_tag :through, params[:email] %>
 <% end %>
 <div class="myvision_container padding_none">
   <div class="accordion-inner padding_none">

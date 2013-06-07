@@ -22,6 +22,7 @@
       <div class="span4 text_align_center"> 
         <div class="login_title">Create a New Account</div>
         <%= hidden_field_tag :from_id, params[:from_id]%>
+        <%= hidden_field_tag :from_email, params[:email]%>
         <div><%= f.text_field :username, :class => "span12 js-required", :placeholder => "Pick a Username" %></div>
         <div><%= f.text_field :first_name, :class => "span12 js-required", :placeholder => "Pick a Firstname" %></div>
         <div><%= f.text_field :last_name, :class => "span12 js-required", :placeholder => "Pick a Lastname" %></div>

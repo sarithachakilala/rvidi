@@ -12,9 +12,13 @@ class ApplicationController < ActionController::Base
     unless current_user.present?   
       store_location
       respond_to do |format|
-        format.html{ redirect_to sign_in_path, :notice => "You need to Sign In / Register with rVidi to perform this Action" }
-        format.js{ render "/shared/redirect_to_a_new_page", :locals=>{:url=>sign_in_path} }
-        format.json { head :no_content }
+        if params[:through]
+          format.html{ redirect_to sign_up_path(:email =>params[:through]), :notice => "You need to Sign In / Register with rVidi to perform this Action" }
+        else
+          format.html{ redirect_to sign_in_path, :notice => "You need to Sign In / Register with rVidi to perform this Action" }
+          format.js{ render "/shared/redirect_to_a_new_page", :locals=>{:url=>sign_in_path} }
+          format.json { head :no_content }
+        end
       end
     end
   end

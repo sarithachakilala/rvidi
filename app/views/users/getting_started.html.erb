@@ -76,7 +76,13 @@
             <% if @notifications.count>0 %>
               <li class="leaf">  <div class="font_weight_bold"> <%= @notifications.count %> new friend Requests are there in <%= link_to "Notifications", notification_user_path(current_user.id) %></div></li>
             <% end %>
-              <li class="leaf">Jane has invited you to contribute to her video <b> Title goes here. </b> <br> view the video and contribute!</li>
+            <% if @show_notifications %>
+              <% @show_notifications.each do |each_notification| %>
+                <% show = Show.find(each_notification.show_id) %>
+                <% user = User.find(show.user_id) %>
+                <li class="leaf">  <div class="font_weight_bold"> <%= user.first_name %> has invited you to contribute to her video <%= link_to "#{show.title}", shows_path(:id => show.id,  :to_contribute=>"yes") %><br/>view the video and contribute!</div></li>
+              <% end %>
+            <% end %>
               <li class="leaf">your watching <b> Title goes here. </b> Go back to the video and <br> contribute! </li>
           </ul>
         </div>
