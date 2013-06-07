@@ -47,16 +47,25 @@ class CameosController < ApplicationController
       @notification.update_attributes(:status => "contributed") if @notification
     end
     @cameo = Cameo.new(params[:cameo])
-    media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
-    @cameo.set_uploaded_video_details(media_entry)
+
+    if params[:cameo][:video_file].present?
+      media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
+      @cameo.set_uploaded_video_details(media_entry)
+    elsif params[:cameo][:recorded_file].present?
+      media_entry = Cameo.upload_video_to_kaltura(@cameo.recorded_file, session[:client], session[:ks])
+      @cameo.set_uploaded_video_details(media_entry)
+    end
+    @success = @cameo.save
 
     respond_to do |format|
-      if @cameo.save
+      if @success
         @show = @cameo.show
         format.html { redirect_to @show, notice: 'Cameo was successfully Added.' }        
+        format.js {}
         format.json { render json: @cameo, status: :created, location: @cameo }
       else
         format.html { render action: "new" }
+        format.js {}       
         format.json { render json: @cameo.errors, status: :unprocessable_entity }
       end
     end

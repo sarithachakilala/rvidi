@@ -50,3 +50,7 @@ textarea.comment-body{ width:323px;}
 .width-75-percent{ width:75%; }
 .width-50-percent{ width:50%; }
 .width-25-percent{ width:25%; }
+
+/* Show / Hide Classes */
+.hide{ display:none; }
+.show{ display:block; }
