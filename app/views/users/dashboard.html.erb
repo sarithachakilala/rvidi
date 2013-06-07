@@ -13,15 +13,18 @@
       <div class="myvision_title">Welcome back, <%= @user.first_name.capitalize %>!</div>
       <div class="margin_top_10">
         <% if @cameo_invitations.count>0 %>
-          <div class="font_weight_bold">Your have <%= @cameo_invitations.count %>  <%= link_to "new cameo invitation", notification_user_path(current_user.id) %></div>
+          <div class="font_weight_bold">Your have <%= link_to " #{@cameo_invitations.count} new cameo invitation", notification_user_path(:id => current_user.id) %></div>
         <% end %>
         <% @show_notifications.each do |k,v| %>
           <% show = Show.find(k) %>
-          <div class="font_weight_bold"> Your show <%= link_to "#{show.title} ", show_path(:id=> k) %>has <%= v.length %><%= link_to " new cameos", show_path(:id=> k) %> </div>
+          <div class="font_weight_bold"> Your show <%= link_to "#{show.title} ", show_path(:id=> k) %>has <%= link_to "#{v.length} new cameos", show_path(:id=> k, :to_contribute => "read") %> </div>
         <%end%>
-        <div class="font_weight_bold"> 3 new cameos have been posted after your in <a href="#">Title</a></div>  
+        <% @cameo_contributors.each do |k,v| %>
+          <% show = Show.find(k) %>
+          <div class="font_weight_bold"> <%= v.length%> new cameos have been posted after your in show <%= link_to "#{show.title} ", show_path(:id=> k, :to_contribute => "read") %></div>  
+        <% end %>
         <% if @notifications.count>0 %>
-          <div class="font_weight_bold"> <%= @notifications.count %> new friend Requests are there in <%= link_to "Notifications", notification_user_path(current_user.id) %></div>
+          <div class="font_weight_bold">You have  <%= @notifications.count %> new <%= link_to "friend Requests", notification_user_path(current_user.id) %></div>
         <% end %>
       </div>
     </div>

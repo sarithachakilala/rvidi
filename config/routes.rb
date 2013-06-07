@@ -47,6 +47,7 @@ Rvidi::Application.routes.draw do
       get 'friends_list'
       get 'send_friend_request'
       get 'accept_friend_request'
+      get 'ignore_friend_request'
       get 'invite_friend_via_email'
       get 'add_twitter_friends'
       get 'add_facebook_friends'

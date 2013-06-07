@@ -17,6 +17,7 @@
               <li><%= link_to "My Friends", friends_user_path(current_user.id), :tabindex => "-1" %></li>
               <li><%= link_to "My Account", profile_user_path(current_user.id), :tabindex => "-1" %></li>
               <li><%= link_to "Notifications", notification_user_path(current_user.id), :tabindex => "-1" %></li>
+              <li><%= link_to "Public shows", root_url, :tabindex => "-1" %></li>
             </ul>
           </div>
           <%= link_to "Log Out", sign_out_path, :class => "btn btn-info login_btn_padding" %>

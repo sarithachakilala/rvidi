@@ -62,6 +62,9 @@
         <div class="span12 title">Share this video</div>
       </div>
       <div class="span5">
+        <div class="title"> <%= link_to "Edit show", edit_show_path(show.id), :class => "font_weight_bold"%></div><br/>
+        <div class="title">Tags</div>
+        <%= show.show_tag%><br />
         <div class="title">Comments</div>
         <div id="show_<%= show.id %>_show_comments_div" class='show-comments-container'>
           <%= render :partial => "comments/show_comments_list", :locals => { :show_comments => show_comments, :all_comments => all_comments, :show => show } %>

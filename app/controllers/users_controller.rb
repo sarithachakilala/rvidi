@@ -20,6 +20,7 @@ class UsersController < ApplicationController
         notifications.each do |each_notification|
           each_notification.update_attributes(:to_id=> @user.id)
         end
+        User.friendmapping_creation(params[:invited_from], @user.id, "accepted")
       end
     else
       @success = false
@@ -80,10 +81,10 @@ class UsersController < ApplicationController
   end
 
   def dashboard
-    @show_notifications = Notification.where(:status => "contributed", :from_id=> session[:user_id]).order(:created_at).group_by(&:show_id)
-    # @show_notifications = Notification.where(:status => "contributed", :from_id=> session[:user_id]).order(:created_at)
-    @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
-    @cameo_invitations = Notification.where(:status => "contribute", :to_id=> session[:user_id])
+    @show_notifications = Notification.where(:status => "contributed", :to_id=> session[:user_id], :read_status => false).order(:created_at).group_by(&:show_id)
+    @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id], :read_status => false)
+    @cameo_invitations = Notification.where(:status => "contribute", :to_id=> session[:user_id], :read_status => false)
+    @cameo_contributors = Notification.where(:status => "others_contributed", :to_id=> session[:user_id], :read_status => false).group_by(&:show_id)
     respond_to do |format|
       format.html 
       format.json { render json: @user}
@@ -123,6 +124,12 @@ class UsersController < ApplicationController
     friend_requst2.update_attributes(:status =>"accepted")
     notification.update_attributes(:status => "accepted")        
     redirect_to notification_user_path(:id => session[:user_id]), :notice => "confirmed as friend!"
+  end
+
+  def ignore_friend_request
+    notification = Notification.where(:to_id => session[:user_id], :from_id => params[:friend_id]).first
+    notification.update_attributes(:read_status => true)        
+    redirect_to notification_user_path(:id => session[:user_id]), :notice => "Ingnored friend Request!"
   end
 
   def invite_friend_via_email
