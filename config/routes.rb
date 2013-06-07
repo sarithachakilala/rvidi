@@ -14,7 +14,7 @@ Rvidi::Application.routes.draw do
       get 'view_invitation'
       get 'play_cameo'
     end
-    collection do 
+    collection do
       get 'invite_friend'
       get 'friends_list'
       get 'invite_friend_toshow'

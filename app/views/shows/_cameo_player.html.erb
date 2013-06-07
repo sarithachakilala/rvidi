@@ -1,7 +1,15 @@
 <% if cameo.nil? %>
   <img alt="" src="/assets/video_img.png">
 <% else %>
-  <div id="kaltura_player_<%= cameo.show_id %>" style="width:565px;height:353px;"></div> 
+  <div id="kaltura_player_<%= cameo.show_id %>" style="width:565px;height:353px;">
+    <video controls poster="<%= cameo.thumbnail_url %>" width="720" height="306">
+      <source type="video/mp4" src="<%= cameo.download_url %>">
+      <source type="video/ogg" src="<%= cameo.download_url %>">
+<!--       <track kind="subtitles" srclang="en" src="./media/sintel_en.srt"> 
+      <track kind="subtitles" srclang="ru" src="./media/sintel_ru.srt"> 
+ -->    
+    </video>
+  </div> 
   <% content_for :js_with_script_tags do %>
     <script src="http://cdnapi.kaltura.com/p/<%= configatron.kaltura_partner_id %>/sp/<%= configatron.kaltura_partner_id %>00/embedIframeJs/uiconf_id/14018252/partner_id/<%= configatron.kaltura_partner_id %>"></script>
     <script>

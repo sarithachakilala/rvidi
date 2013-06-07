@@ -10371,7 +10371,7 @@ module Kaltura
 
 		# Add new entry after the file was recored on the server and the token id exists
 		# 	 
-		def add_from_recorded_webcam(media_entry, webcam_token_id)
+		def add_from_recorded_webcam(media_entry, webcam_token_id, ks=KalturaNotImplemented)
 			kparams = {}
 			# Media entry metadata
 			client.add_param(kparams, 'mediaEntry', media_entry);

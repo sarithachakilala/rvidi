@@ -1,7 +1,7 @@
 class Cameo < ActiveRecord::Base
-  attr_accessor :video_file
+  attr_accessor :video_file, :recorded_file
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, :description,
-                  :thumbnail_url, :download_url, :duration, :video_file
+                  :thumbnail_url, :download_url, :duration, :video_file, :recorded_file
 
   # Validations
   validates :director_id, :presence => true, :numericality => true
@@ -48,9 +48,6 @@ class Cameo < ActiveRecord::Base
     video_token = client.media_service.list(media_entry_filter, filter_pager, ks)
   end
   # KALTURA METHODS TO CALL API METHODS ENDS
-
-  # =======================================.
-  # UNDER TEST DEVELOPMENT.
   # Request for Uploading a video
   def self.upload_video_to_kaltura(video, client, ks)
     media_entry = Kaltura::KalturaMediaEntry.new
