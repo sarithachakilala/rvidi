@@ -9,7 +9,7 @@
       <div class="row-fluid">
         <div class="span4">
           <div class="details_title"><%= link_to show.title, show_path(show) %></div>
-          <div class="thumbnail_name"><%= show.director.full_name %></div>
+          <div class="thumbnail_name"><%= show.director.full_name %> </div>
         </div>
         <% show_contributers = Cameo.where(:show_id=>show.id).collect(&:user_id)%>
         <div class="span8 text_align_right">
@@ -26,7 +26,7 @@
         <%= show.description %>
       </div>
       <div class="span11">
-        <div class="pull-right font_weight_bold"> 1,234 views</div>
+        <!--<div class="pull-right font_weight_bold"> 1,234 views</div>-->
       </div>
     </div>
   </div>

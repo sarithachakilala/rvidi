@@ -138,7 +138,11 @@ class User < ActiveRecord::Base
   def is_director?(show)
     (self.id == show.user_id)
   end
-
+  
+  def full_name
+    (first_name.to_s + " " + last_name.to_s).strip
+  end
+  
   def match_password?(password)
     self.password_hash == BCrypt::Engine.hash_secret(password, self.password_salt)
   end

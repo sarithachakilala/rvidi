@@ -85,7 +85,8 @@
                 <% show = Show.find(each_notification.show_id) if each_notification.show_id.present?%>
                 <% user = User.find(show.user_id) if show.present?%>
                 <% if user%>
-                 <li class="leaf">  <div class="font_weight_bold"> <%= user.first_name %> has invited you to contribute to her video <%= link_to "#{show.title}", shows_path(:id => show.id,  :to_contribute=>"yes") %><br/>view the video and contribute!</div></li>
+                 <li class="leaf">  <div class="font_weight_bold"> <%= user.full_name %> has invited you to contribute to video <%= link_to "#{show.title}", show_path(:id => show.id,  :to_contribute=>"yes") %><br/>view the video and contribute!</div>
+                 </li>
                 <% end %>
               <% end %>
             <% end %>

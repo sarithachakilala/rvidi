@@ -96,7 +96,7 @@ class UsersController < ApplicationController
   end
 
   def friends_list
-    @users = User.where("username like ? OR email like ?",'%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
+    @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
   end
 
   def friend_profile
