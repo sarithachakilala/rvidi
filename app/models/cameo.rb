@@ -1,7 +1,7 @@
 class Cameo < ActiveRecord::Base
-  attr_accessor :video_file, :recorded_file
+  attr_accessor :video_file, :audio_file, :recorded_file
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, :description,
-                  :thumbnail_url, :download_url, :duration, :video_file, :recorded_file
+                  :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file
 
   # Validations
   validates :director_id, :presence => true, :numericality => true
@@ -20,10 +20,8 @@ class Cameo < ActiveRecord::Base
   belongs_to :director, :class_name => "User", :foreign_key => "director_id"
 
   # Callbacks
-
   # METHODS
   # Class Methods
-
   # Methods to manage Videos using Kaltura Starts
   # KALTURA CONFIGURATION METHODS STARTS
   def self.get_kaltura_config

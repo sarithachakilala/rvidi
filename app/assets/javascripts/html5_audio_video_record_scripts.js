@@ -1,3 +1,54 @@
+// Script to record Audio Starts
+$(document).ready(function(){
+
+  $('.cameo-form').on("click", "#voice_record",function(){
+    $('.audio-record').removeClass('hide');
+  });
+
+});
+
+window.URL = window.URL || window.webkitURL;
+navigator.getUserMedia  = navigator.getUserMedia || 
+                          navigator.webkitGetUserMedia || 
+                          navigator.mozGetUserMedia || 
+                          navigator.msGetUserMedia;
+
+var recorder;
+var audio = document.querySelector('audio');
+var audioBlob = null;
+
+var onFail = function(e) {
+  console.log('Rejected!', e);
+};
+
+var onSuccess = function(s) {
+  var context = new webkitAudioContext();
+  var mediaStreamSource = context.createMediaStreamSource(s);
+  recorder = new Recorder(mediaStreamSource);
+  recorder.record();
+
+  // audio loopback
+  // mediaStreamSource.connect(context.destination);
+}
+
+function startRecording() {
+  if (navigator.getUserMedia) {
+    navigator.getUserMedia({audio: true, video: true}, onSuccess, onFail);
+  } else {
+    console.log('navigator.getUserMedia not present');
+  }
+}
+
+function stopRecording() {
+  recorder.stop();
+  recorder.exportWAV(function(s) {
+    audio.src = window.URL.createObjectURL(s);
+    audioBlob = s;
+  });
+}
+// Script to record Audio Ends
+
+// Script to record Video Starts
 // Content to show Recorder Starts, using HTML5
 // REF: http://ericbidelman.tumblr.com/post/31486670538/creating-webm-video-from-getusermedia
 (function(exports) {
@@ -12,9 +63,9 @@ exports.cancelAnimationFrame = exports.cancelAnimationFrame ||
     exports.webkitCancelAnimationFrame || exports.mozCancelAnimationFrame ||
     exports.msCancelAnimationFrame || exports.oCancelAnimationFrame;
 
-navigator.getUserMedia = navigator.getUserMedia ||
-    navigator.webkitGetUserMedia || navigator.mozGetUserMedia ||
-    navigator.msGetUserMedia;
+// navigator.getUserMedia = navigator.getUserMedia ||
+//     navigator.webkitGetUserMedia || navigator.mozGetUserMedia ||
+//     navigator.msGetUserMedia;
 
 var ORIGINAL_DOC_TITLE = document.title;
 var video = $$$('video');
@@ -23,11 +74,13 @@ var rafId = null;
 var startTime = null;
 var endTime = null;
 var frames = [];
-var videoBlob = [];
+var videoBlob = null;
 
-$(document).on('submit', 'form.cameo-form',function(e){
+// $(document).on('submit', 'form.cameo-form',function(e){
+$(document).on('click', 'button.publish-cameo-btn',function(e){
   e.preventDefault();
-  var current_form = $(this);
+  // alert('stopped -- ');
+  var current_form = $(this).parents('.cameo-form').first();
   submitFormWithBlob(current_form);
 });
 
@@ -63,7 +116,8 @@ function turnOnCamera(e) {
   };
 
   // navigator.getUserMedia('audio,video', function(stream) {
-  navigator.getUserMedia({video: true, audio: true}, function(stream) {
+  navigator.getUserMedia({video: true, audio: true, toString : function() {return "video,audio";}}, function(stream) {
+
     video.src = window.URL.createObjectURL(stream);
     finishVideoSetup_();
   }, function(e) {
@@ -77,6 +131,7 @@ function turnOnCamera(e) {
 function record() {
   var elapsedTime = $$$('#elasped-time');
   var ctx = canvas.getContext('2d');
+
   var CANVAS_HEIGHT = canvas.height;
   var CANVAS_WIDTH = canvas.width;
 
@@ -105,7 +160,6 @@ function record() {
     // ImageData
     //frames.push(ctx.getImageData(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT));
   };
-
   rafId = requestAnimationFrame(drawVideoFrame_);
 };
 
@@ -132,23 +186,30 @@ function submitFormWithBlob(form_elem){
   fd.append('cameo[show_id]', $$$(".cameo-show-id").value);
   fd.append('cameo[director_id]', $$$(".cameo-director-id").value);
 
-  var videoBlob = Whammy.fromImageArray(frames, 1000 / 60);
+  if(frames.length > 0){
+    var videoBlob = Whammy.fromImageArray(frames, 1000 / 60);    
+  }
   // fd.append('from', $$$(".cameo-from").value);
   // $$$('.recorded-video-input').valueideoBlob);
   console.log('blob obj is  -------> '+videoBlob);
-  fd.append('cameo[recorded_file]', videoBlob);
-  fd.append('cameo[video_file]', $$$(".cameo-video-file").value);
+  fd.append('cameo[recorded_file]', (videoBlob || ''));
+  fd.append('cameo[audio_file]', audioBlob);
+  fd.append('cameo[video_file]', ($$$(".cameo-video-file").value));
 
-  $.ajax({
-    type: 'POST',
-    url: target_url,
-    data: fd,
-    dataType: 'script',
-    processData: false,
-    contentType: false
-  }).done(function(data){
-    // console.log(data);
-  });
+  if(videoBlob){
+    $.ajax({
+      type: 'POST',
+      url: target_url,
+      data: fd,
+      dataType: 'script',
+      processData: false,
+      contentType: false
+    }).done(function(data){
+      // console.log(data);
+    });
+  }else{
+    form_elem.submit();
+  }
 }
 // Functions for saving form with blob objects ENDS
 
@@ -209,3 +270,4 @@ initEvents();
 exports.$$$ = $$$;
 
 })(window);
+// Script to record Video Starts
