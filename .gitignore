@@ -17,5 +17,5 @@
 # Ignore all System specific and Editor specific files
 *.DS_Store
 /nbproject
-/public/uploads/user
+/public/uploads/
 config/database.yml

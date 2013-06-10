@@ -10,10 +10,10 @@
       </div>
     </div>
     <div class="span10">
-      <div class="myvision_title">Welcome back, <%= @user.first_name.capitalize %>!</div>
+      <div class="myvision_title">Welcome back, <%= @user.full_name.capitalize %>!</div>
       <div class="margin_top_10">
         <% if @cameo_invitations.count>0 %>
-          <div class="font_weight_bold">Your have <%= link_to " #{@cameo_invitations.count} new cameo invitation", notification_user_path(:id => current_user.id) %></div>
+          <div class="font_weight_bold">Your have <%= @cameo_invitations.count %> <%= link_to "  new cameo invitation", notification_user_path(:id => current_user.id) %></div>
         <% end %>
         <% @show_notifications.each do |k,v| %>
           <% show = Show.find(k) %>
@@ -24,7 +24,7 @@
           <div class="font_weight_bold"> <%= v.length%> new cameos have been posted after your in show <%= link_to "#{show.title} ", show_path(:id=> k, :to_contribute => "read") %></div>  
         <% end %>
         <% if @notifications.count>0 %>
-          <div class="font_weight_bold">You have  <%= @notifications.count %> new <%= link_to "friend Requests", notification_user_path(current_user.id) %></div>
+          <div class="font_weight_bold">You have  <%= @notifications.count %> <%= link_to "new friend Requests", notification_user_path(current_user.id) %></div>
         <% end %>
       </div>
     </div>
@@ -39,17 +39,17 @@
         <li><a data-toggle="tab" href="#tab2">Cameos</a></li>
       </ul>
       <div class="tab-content">
-        <div id="tab1" class="tab-pane active">
+        <div id="tab1" class="tab-pane active tab-changeable">
           <div class="span text_align_right">
-            <ul class='links_container'>
-              <a id='thumb' class="sprite-list-icon display_formats activeLink " href="javascript:void(0);"> </a>
-              <a id='list' class="sprite-details-icon-lite display_formats" href="#"> </a>
-            </ul>
+              <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", 
+              :id => "showsthumb" %>
+              <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "showslist" %>
+    
           </div>
 
           <% if current_user.shows.present? %>
             <% current_user.shows.each_slice(5) do|slice| %>
-              <div class="thumb_formats showsformat">
+              <div class="showsthumb_formats showsformat">
                 <div class="row-fluid">
                   <ul class="thumbnails margin_top_5">
                     <% slice.each do|show| %>
@@ -58,31 +58,32 @@
                   </ul>
                 </div>
               </div>
-              <div class="list_formats showsformat hide">
+              <div class="showslist_formats showsformat hide">
                 <% slice.each do|show| %>
+                <div class="row-fluid">
                   <ul class="thumbnails">
                     <li class="span12">
                       <%= render :partial => "shows_list", :locals => { :show => show } %>
                     </li>
                   </ul>
+                </div>
                 <% end %>
               </div>
             <% end %>
           <% else %>
-            <div class="row-fluid">No Shows Exist for <%= current_user.username %></div>
+            <div class="row-fluid">No Shows Exist for <%= current_user.full_name %></div>
           <% end %>
         </div>
 
-        <div id="tab2" class="tab-pane">
+        <div id="tab2" class="tab-pane tab-changeable">
           <div class="span text_align_right"> 
-             <ul class='ulinks_container'>
-              <a id='thumb' class="sprite-list-icon display_format activLink " href="javascript:void(0);"> </a>
-              <a id='list' class="sprite-details-icon-lite display_format" href="#"> </a>
-            </ul>
+              <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", 
+              :id => "cameosthumb" %>
+              <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "cameoslist" %>
           </div>
           <% if current_user.contributed_shows.present? %>
             <% current_user.contributed_shows.each_slice(5) do|contr_slice| %>
-              <div class="thumb_format showsformats">
+              <div class="cameosthumb_formats showsformat">
               <div class="row-fluid">
                 <ul class="thumbnails margin_top_5">
                   <% contr_slice.each do|show| %>
@@ -91,7 +92,7 @@
                 </ul>
               </div>
             </div>
-              <div class="list_format showsformats hide">
+              <div class="cameoslist_formats showsformat hide">
                 <% contr_slice.each do|show| %>
                   <ul class="thumbnails">
                   <li class="span12">
@@ -102,7 +103,7 @@
               </div>
             <% end %>
           <% else %>
-            <div class="row-fluid">No Contributions Exist by <%= current_user.username %></div>
+            <div class="row-fluid">No Contributions Exist by <%= current_user.full_name %></div>
           <% end %>
           <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
         </div>

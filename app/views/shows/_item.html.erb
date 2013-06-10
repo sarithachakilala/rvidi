@@ -2,7 +2,7 @@
   <% user =  User.find(params[:from_id])%>
   <div class="alert alert-success">
    <button type="button" class="close" data-dismiss="alert">&times;</button>
-     "Hello, <%= user.first_name %>! <%= user.last_name %> has invited you to contribute to this video. <%= link_to "Click here".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email])%> or 'Add a cameo' below to contribute!" 
+     "Hello, <%= user.full_name %> has invited you to contribute to this video. Click <%= link_to "Add a cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email])%> to contribute!" 
   </div>
   <%= hidden_field_tag :through, params[:email] %>
 <% end %>
@@ -13,7 +13,7 @@
       <div class="span8 marging_none">
         <div class="edit_title_bg"> 
           <div class="edit_title"><%= show.title %></div>
-          <div class="font_weight_bold edit_subtitle"><%= show.director.username %></div>
+          <div class="font_weight_bold edit_subtitle"><%= show.director.full_name %></div>
         </div>
         <div id="show_<%= show.id %>_kaltura_player_container">
           <% selected_cameo = cameo.present? ? cameo : show.cameos('show_order asc').first %>          
@@ -33,7 +33,7 @@
               </div>
               <div class="span8 cameo_friends_text">
                 <%#= link_to show_cameo.user.username, show_path(show.id, :cameo_id => show_cameo.id) %>
-                <%= link_to show_cameo.user.username, play_cameo_show_path(:cameo_id => show_cameo.id), :remote => true %>
+                <%= link_to show_cameo.user.full_name, play_cameo_show_path(:cameo_id => show_cameo.id), :remote => true %>
               </div>
             </div>
           <% end %>

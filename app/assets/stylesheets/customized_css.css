@@ -156,6 +156,11 @@
     height: 26px;
     width: 24px;
 }
+.sprite-list-icon-lite.active{
+    background-position: -185px 0;
+    height: 26px;
+    width: 24px;
+}
 .sprite-list-icon:hover{
     background-position: -185px -33px;
     height: 25px;
@@ -172,6 +177,11 @@
     width: 24px;
 }
 .sprite-details-icon{
+    background-position:-209px 0px;
+    height: 25px;
+    width: 24px;
+}
+.sprite-details-icon-lite.active{
     background-position:-209px 0px;
     height: 25px;
     width: 24px;

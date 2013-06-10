@@ -14,7 +14,7 @@
                       </div> 
                     </div>
                     <div class="span8">
-                      <div class="friend_name"> <%= link_to "#{each_user_detail.username}", friend_profile_user_path(current_user.id, :friend_id => each_user_detail.id) %></div>
+                      <div class="friend_name"> <%= link_to "#{each_user_detail.full_name}", friend_profile_user_path(current_user.id, :friend_id => each_user_detail.id) %></div>
                       <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
                        </div>
                         <div class="btn-small btn-warning">

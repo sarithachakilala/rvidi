@@ -81,20 +81,14 @@ $(document).ready(function(){
     });
   });     
 
-  $(".links_container").on('click','.display_formats',function(){
-    $('.display_formats').removeClass('activeLink ');
-    $(this).addClass('activeLink ');
-    var req_detail = $(this).attr('id');
-    $(".showsformat").hide();
-    $("."+req_detail+"_formats").show();
-  });
-  
-  $(".ulinks_container").on('click','.display_format',function(){
-    $('.display_format').removeClass('activLink ');
-    $(this).addClass('activLink ');
-    var req_detail = $(this).attr('id');
-    $(".showsformats").hide();
-    $("."+req_detail+"_format").show();
+  $(document).on('click','.display_formats',function(){
+    var container = $(this).parents('.tab-changeable').first()
+    container.find('.display_formats').removeClass('active');
+    $(this).addClass('active');
+    // Script to toggle beetween List and Thumbnail Views
+    var req_detail = $(this).prop('id');
+    container.find(".showsformat").hide();
+    container.find("."+req_detail+"_formats").show();
   });
 
 });
