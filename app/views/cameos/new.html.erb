@@ -1,76 +1,87 @@
 <%= form_for @cameo, :html => {:class => "js-validated-form form-horizontal cameo-form", :multipart => true } do |f| %>
-  <!-- login container start here -->
-  <div class="login_container">
-    <div class="invite_friends_padding">
-      <div class="myvision_title line_height_40">
-        Record a Cameo <i class="sprite-question-small pull-right"> </i>
-      </div>
+<!-- login container start here -->
+<div class="login_container">
+  <div class="invite_friends_padding">
+    <div class="myvision_title line_height_40">
+      Record a Cameo <i class="sprite-question-small pull-right"> </i>
     </div>
+  </div>
 
-    <div class="row-fluid margin_top_10"> 
-      <div class="span3 text_align_center" id="camera-me">
-        <i class="sprite-camera-big"></i>
-        <div class="font_weight_bold">
-          Click here to record a video clip
-        </div>
-        <div> (15 seconds or less)</div>
+  <div class="row-fluid margin_top_10"> 
+    <div class="span3 text_align_center" id="camera-me">
+      <i class="sprite-camera-big"></i>
+      <div class="font_weight_bold">
+        Click here to record a video clip
       </div>
-      <div class="span2 text_align_center">
-        <i class="sprite-or-icon"></i>
-      </div>
-      <div class="span3 text_align_center">
-        <div class="font_weight_bold">Upload clip from your computer or Camera</div><br>
-        <%= f.hidden_field :user_id, :value => current_user.id, :class => "cameo-user-id" %>
-        <%= f.hidden_field :show_id, :value => @cameo.show_id, :class => "cameo-show-id" %>
-        <%= f.hidden_field :director_id, :value => @cameo.director_id, :class => "cameo-director-id" %>
-        <%= hidden_field_tag 'cameo[recorded_file]', '', :class => "recorded-video-input cameo-recorded-file" %>
-        <%= f.file_field :video_file, :class => "cameo-video-file" %>
-      </div>
+      <div> (15 seconds or less)</div>
     </div>
-
-    <!-- Content to show HTML5 Recorder Starts -->
-    <video class='video-record hide' autoplay></video>
-
-    <div id="video-preview" class='video-record hide'>
-      <%= link_to "Record", "javascript:void(0);",  :id => "record-me", :class => 'btn' %>
-      <%= link_to "◼", "javascript:void(0);",  :id => "stop-me", :class => 'btn' %>
-      <!--<button id="play-me" disabled>►</button>-->
-      <span id="elasped-time"></span>
+    <div class="span3 text_align_center" id="voice_record">
+      <div>Record Me</div>
     </div>
-    <!-- Content to show HTML5 Recorder Ends -->
+    <div class="span2 text_align_center">
+      <i class="sprite-or-icon"></i>
+    </div>
+    <div class="span3 text_align_center">
+      <div class="font_weight_bold">Upload clip from your computer or Camera</div><br>
+      <%= f.hidden_field :user_id, :value => current_user.id, :class => "cameo-user-id" %>
+      <%= f.hidden_field :show_id, :value => @cameo.show_id, :class => "cameo-show-id" %>
+      <%= f.hidden_field :director_id, :value => @cameo.director_id, :class => "cameo-director-id" %>
+      <%= hidden_field_tag 'cameo[audio_file]', '', :class => "recorded-audio-input cameo-recorded-audio-file" %>
+      <%= hidden_field_tag 'cameo[recorded_file]', '', :class => "recorded-video-input cameo-recorded-video-file" %>
+      <%= f.file_field :video_file, :class => "cameo-video-file" %>      
+    </div>
+  </div>
 
-    <div class="row-fluid"> 
-      <div class="myvision_title line_height_40 margin_top_30 ">
-        Review Shows
+  <!-- Content to show HTML5 Recorder Starts -->
+  <video class='video-record hide' autoplay></video>
+  <div id="video-preview" class='video-record hide'>
+    <%= link_to "Record", "javascript:void(0);",  :id => "record-me", :class => 'btn' %>
+    <%= link_to "◼", "javascript:void(0);",  :id => "stop-me", :class => 'btn' %>
+    <!--<button id="play-me" disabled>►</button>-->
+    <span id="elasped-time"></span>
+  </div>
+
+  <audio class='audio-record hide' controls autoplay></audio>
+  <div id='audio_record' class='audio-record hide'>
+    <input onclick="startRecording()" type="button" value="start recording" />
+    <input onclick="stopRecording()" type="button" value="stop recording and play" />
+  </div>
+
+  <!-- Content to show HTML5 Recorder Ends -->
+
+  <div class="row-fluid"> 
+    <div class="myvision_title line_height_40 margin_top_30 ">
+      Review Shows
+    </div>
+    <div class="span8 marging_none">
+      <div class="edit_title_bg" style="width:527px;"> 
+        <div class="edit_title"> Title of the Show</div>
+        <div class="font_weight_bold edit_subtitle">Director Name </div>
       </div>
-      <div class="span8 marging_none">
-        <div class="edit_title_bg" style="width:527px;"> 
-          <div class="edit_title"> Title of the Show</div>
-          <div class="font_weight_bold edit_subtitle">Director Name </div>
-        </div>
-        <div style="">
-          <img alt="" src="/assets/video_img.png">
-        </div>
+      <div style="">
+        <img alt="" src="/assets/video_img.png">
       </div>
     </div>
   </div>
-  <div>
+</div>
+<div>
   <% if current_user.id == @cameo.director_id %>
     <%= render :partial=> "invite_friends_at_cameo"%>
   <% end %>
-  </div>
-    <div class="buttons_height_100">
-      <div class="hr_bg_gettingstarted" style=""> 
-        <div class="text_align_center add_cameo_btn"> 
-          <%= button_tag( :class => "btn btn-info publish-cameo-btn") do %>
-            <i class='sprite-reel-white'></i> Publish Cameo
-          <% end %>
-        </div>
-      </div>
+</div>
+<div class="buttons_height_100">
+  <div class="hr_bg_gettingstarted" style=""> 
+    <div class="text_align_center add_cameo_btn"> 
+      <%= button_tag( :class => "btn btn-info publish-cameo-btn") do %>
+      <i class='sprite-reel-white'></i> Publish Cameo
+      <% end %>
     </div>
+  </div>
+</div>
 <% end %>
 
 <% content_for :js_with_script_tags do %>
+  <script src="/assets/recorder.js"> </script>
   <script src="/assets/whammy.js"></script>
-  <script src="/assets/html5_video_record_scripts.js"></script>
+  <script src="/assets/html5_audio_video_record_scripts.js"></script>
 <% end %>
