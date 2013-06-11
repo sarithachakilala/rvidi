@@ -1,3 +1,4 @@
+var status;
 // Generic Form Validations.
 $(document).ready(function(){
 
@@ -12,7 +13,50 @@ $(document).ready(function(){
     }
   });
 
+  $('#edit-password').on('click', function(event){
+    status = "true";
+    status = edit_password_validate();
+    if(status == "false") {
+      event.preventDefault();
+    }
+    else {
+      return;
+    }
+  });
 });
+
+function edit_password_validate()
+{
+  var password   = $('#user_password').val();
+  var confirmation_password  = $('#user_password_confirmation').val();
+ 
+  if(password == '' ) {
+    $('#PasswordError').show();
+    $('#PasswordError').html("Can't be blank")
+    status = "false";
+  }
+  else 
+  {
+    $('#PasswordError').hide();
+  }
+  if(confirmation_password == '')
+  {
+    $('#ConfirmationPasswordError').show();
+    $('#ConfirmationPasswordError').html("Can't be blank")
+    status = "false";
+  }
+  else if((password != '' && confirmation_password != '') && (password !=  confirmation_password ) )
+  {
+    $('#ConfirmationPasswordError').show();
+    $('#ConfirmationPasswordError').html("Password doesn't match")
+    status = "false";
+  }
+  else {
+    $('#ConfirmationPasswordError').hide();
+  }
+  return status;
+}
+
 
 function validateRequiredFields(form){  
   var error_count = 0;

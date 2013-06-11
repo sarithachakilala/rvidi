@@ -4,32 +4,36 @@
   </div>
   <div class="row-fluid">
     <%= form_for @user, :url => password_reset_path(params[:id]) do |f| %>
-    <div class="span6">
-    <% if @user.errors.any? %>
-      <div class="error_messages">
-        <h2>Form is invalid</h2>
-        <ul>
-          <% for message in @user.errors.full_messages %>
-            <li><%= message %></li>
-          <% end %>
-        </ul>
-      </div>
-    <% end %>
-     <div class="control-group">
-        <label class="control-label" for="inputEmail">password</label>
-        <div class="controls">
-          <%= f.password_field :password %>
+      <div class="span6">
+        <% if @user.errors.any? %>
+          <div class="error_messages">
+            <h2>Form is invalid</h2>
+            <ul>
+              <% for message in @user.errors.full_messages %>
+                <li><%= message %></li>
+              <% end %>
+            </ul>
+          </div>
+        <% end %>
+        <div class="control-group">
+          <label class="control-label" for="inputEmail">password</label>
+          <div class="controls">
+            <%= f.password_field :password %>
+          </div>
+          <p id="PasswordError" class="error-message" style="display:none;">&nbsp;</p><br/>
         </div>
-      </div>
-      <div class="control-group">
-        <label class="control-label" for="inputEmail">Password Confirmation</label>
-        <div class="controls">
-          <%= f.password_field :password_confirmation %>
+
+        <div class="control-group">
+          <label class="control-label" for="inputEmail">Password Confirmation</label>
+          <div class="controls">
+            <%= f.password_field :password_confirmation %>
+          </div>
+          <p id="ConfirmationPasswordError" class="error-message" style="display:none;">&nbsp;</p><br/>
         </div>
-      </div>
-      <%= link_to "Cancel", home_index_path, :class => ' btn' %>
-      <%= f.submit "Update Password", :class => "btn btn-warning" %>
-    <% end %>
+
+        <%= link_to "Cancel", home_index_path, :class => ' btn' %>
+        <%= f.submit "Update Password",:id => "edit-password" ,:class => "btn btn-warning" %>
+      <% end %>
+    </div>
   </div>
 </div>
-
