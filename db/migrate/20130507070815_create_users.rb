@@ -5,16 +5,17 @@ class CreateUsers < ActiveRecord::Migration
       t.string :username
       t.string :password_hash
       t.string :password_salt
-      t.string :name
-      t.string :provider      
-      t.string :uid
+      t.string :first_name
+      t.string :last_name
       t.string :city
       t.string :state
       t.string :country
       t.integer :profile_video_id
+      t.integer :sign_in_count, :default => 0
       t.text :description
-      t.string :oauth_token
-      t.datetime :oauth_expires_at
+      t.string :image
+      t.string :password_reset_token
+      t.datetime :password_reset_sent_at
 
       t.timestamps    
     end
