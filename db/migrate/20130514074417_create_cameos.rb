@@ -8,7 +8,6 @@ class CreateCameos < ActiveRecord::Migration
       t.string :status
       t.string :name
       t.string :description
-      t.string :tags
       t.string :thumbnail_url
       t.string :download_url
       t.string :duration
