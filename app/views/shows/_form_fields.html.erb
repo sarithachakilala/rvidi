@@ -53,11 +53,15 @@
         <label class="password_padding">
           <%= f.password_field :contributor_preferences_password, :class => "", :placeholder => "Password" %>
         </label>
-        <label class="password_padding">
-          <%= f.text_field :show_tag, :class => "", :placeholder => "Add a tag" %>
-        </label>
       </div>
     </div>
+    <div class="control-group">
+      <label class="control-label  blue_label" for="inputPassword">Tag the Show</label>
+      <div class="controls">
+        <%= f.text_field :show_tag, :class => "", :placeholder => "Add a tag" %>
+      </div>
+    </div>
+  </div>
 
     <div class="control-group">
       <div class="controls">
@@ -73,5 +77,4 @@
       <div class="span10"></div>
     </div> -->
 
-  </div>
 </div>

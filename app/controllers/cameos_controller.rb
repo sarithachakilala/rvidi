@@ -37,7 +37,7 @@ class CameosController < ApplicationController
     @contributed_users = Cameo.where(:show_id=>params[:cameo]['show_id']).collect(&:user_id)
     @contributed_users.each do |each_contributer|
       user= User.find(each_contributer)
-      notification = Notification.create(:show_id=>params[:cameo]['show_id'], :to_id=>user.id, :from_id => params[:cameo]['director_id'], :status => "others_contributed", :content =>"They also contributed", :read_status =>false)  unless (user.id == params[:cameo]['director_id'])
+      notification = Notification.create(:show_id=>params[:cameo]['show_id'], :to_id=> params[:cameo]['director_id'], :from_id => user.id, :status => "others_contributed", :content =>"They also contributed", :read_status =>false)  unless (user.id == params[:cameo]['director_id'])
       notification.save!
     end
     @cameo = Cameo.new(params[:cameo])

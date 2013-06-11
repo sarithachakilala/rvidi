@@ -8,11 +8,11 @@
               <div class="row-fluid frinds_row_margin">
                 <div class="span4"> 
                   <div class="row-fluid"> 
-                    <div class="span4">
+                   <div class="span4">
+                      <% thumbnail = each_user_detail.image_url.present? ? each_user_detail.image_url : "/assets/default_image.png"  %>
                       <div class="friend_image"> 
-                        <img  src="/assets/OCP0154256_P_Portrait-of-a-young-man.png" alt="300x200" >
+                         <%= image_tag thumbnail, :class => "details_image_sizesmall" %></div>
                       </div> 
-                    </div>
                     <div class="span8">
                       <div class="friend_name"> <%= link_to "#{each_user_detail.full_name}", friend_profile_user_path(current_user.id, :friend_id => each_user_detail.id) %></div>
                       <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>

@@ -13,7 +13,7 @@
       <div class="myvision_title">Welcome back, <%= @user.full_name.capitalize %>!</div>
       <div class="margin_top_10">
         <% if @cameo_invitations.count>0 %>
-          <div class="font_weight_bold">Your have <%= @cameo_invitations.count %> <%= link_to "  new cameo invitation", notification_user_path(:id => current_user.id) %></div>
+          <div class="font_weight_bold">You have <%= @cameo_invitations.count %> <%= link_to "  new cameo invitation", notification_user_path(:id => current_user.id) %></div>
         <% end %>
         <% @show_notifications.each do |k,v| %>
           <% show = Show.find(k) %>

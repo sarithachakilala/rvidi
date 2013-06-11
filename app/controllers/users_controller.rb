@@ -81,10 +81,10 @@ class UsersController < ApplicationController
   end
 
   def dashboard
-    @show_notifications = Notification.where(:status => "contributed", :to_id=> session[:user_id], :read_status => false).order(:created_at).group_by(&:show_id)
-    @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id], :read_status => false)
-    @cameo_invitations = Notification.where(:status => "contribute", :to_id=> session[:user_id], :read_status => false)
-    @cameo_contributors = Notification.where(:status => "others_contributed", :to_id=> session[:user_id], :read_status => false).group_by(&:show_id)
+    @show_notifications = Notification.where(:status => "contributed", :to_id=> current_user.id, :read_status => false).order(:created_at).group_by(&:show_id)
+    @notifications = Notification.where(:status => "pending", :to_id=> current_user.id, :read_status => false)
+    @cameo_invitations = Notification.where(:status => "contribute", :to_id=> current_user.id, :read_status => false)
+    @cameo_contributors = Notification.where(:status => "others_contributed", :to_id=> current_user.id, :read_status => false).group_by(&:show_id)
     respond_to do |format|
       format.html 
       format.json { render json: @user}
@@ -104,6 +104,7 @@ class UsersController < ApplicationController
   end
 
   def notification
+    @notifications =  Notification.where(:to_id => current_user.id).order(:updated_at)
     @friend_requests = Notification.where(:status => "pending", :to_id=> session[:user_id], :read_status => false)
     @cameo_invitations = Notification.where(:status => "contribute", :to_id=> session[:user_id], :read_status => false)
   end
