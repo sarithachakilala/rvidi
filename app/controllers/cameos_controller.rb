@@ -52,7 +52,7 @@ class CameosController < ApplicationController
     @success = @cameo.save
 
     #Creating a notification to the director
-    notification = Notification.create(:show_id=>params[:cameo]['show_id'], :to_id=>params[:cameo]['user_id'], :from_id => params[:cameo]['director_id'], :status => "contributed", :content =>"Added a Cameo", :read_status => false) 
+    notification = Notification.create(:show_id=>params[:cameo]['show_id'], :from_id=>params[:cameo]['user_id'], :to_id => params[:cameo]['director_id'], :status => "contributed", :content =>"Added a Cameo", :read_status => false) 
     notification.save!
 
     respond_to do |format|
