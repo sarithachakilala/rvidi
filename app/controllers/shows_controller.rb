@@ -125,7 +125,7 @@ class ShowsController < ApplicationController
   def invite_friend_toshow
     @show = Show.find(params[:show_id])
     @user = User.find(params[:email_from])
-    RvidiMailer.invite_friend_toshow(params[:email], @user, @show.id).deliver
+    RvidiMailer.delay.invite_friend_toshow(params[:email], @user, @show.id)
     notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>"is Requested to contribute for a Show", :to_email=>params[:email])
     notification.save!
     redirect_to edit_show_path(:id=>@show.id)
