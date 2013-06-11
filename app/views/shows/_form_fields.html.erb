@@ -3,14 +3,14 @@
     <div class="control-group">
       <label class="control-label blue_label" for="inputEmail">Title</label>
       <div class="controls">
-        <%= f.hidden_field :user_id, :value => current_user.id %>
-        <%= f.text_field :title, :class => "js-required", :placeholder => "Title" %>
+        <%= f.hidden_field :user_id, :value => current_user.id, :class => "show-user-id" %>
+        <%= f.text_field :title, :class => "js-required", :placeholder => "Title", :class => "show-title" %>
       </div>
     </div>
     <div class="control-group">
       <label class="control-label  blue_label" for="inputPassword">Description</label>
       <div class="controls">
-        <%= f.text_field :description, :class => "js-required", :placeholder => "Description" %>
+        <%= f.text_field :description, :class => "js-required", :placeholder => "Description", :class => "show-description" %>
       </div>
     </div>
 
@@ -18,19 +18,19 @@
       <label class="control-label blue_label" for="inputEmail">Display</label>
       <div class="controls radio-inputs-container">
         <label class="radio <%= radio_label_class(@show, 'display_preferences', 'public') %>">
-          <%= f.radio_button :display_preferences, "public", {:class => "radio-input" } %>
+          <%= f.radio_button :display_preferences, "public", {:class => "radio-input show-display-preferences" } %>
           Public-Anyone can watch
         </label>
         <label class="radio <%= radio_label_class(@show, 'display_preferences', 'private') %>">
-          <%= f.radio_button :display_preferences, "private", {:class => "radio-input"} %>                  
+          <%= f.radio_button :display_preferences, "private", {:class => "radio-input show-display-preferences"} %>                  
           Private-Only my friends can watch
         </label>
         <label class="radio <%= radio_label_class(@show, 'display_preferences', 'password_protected') %>">
-          <%= f.radio_button :display_preferences, "password_protected", {:class => "radio-input"} %>
+          <%= f.radio_button :display_preferences, "password_protected", {:class => "radio-input show-display-preferences"} %>
           Password Protected-Anyone with the password can watch
         </label>
         <label class="password_padding">
-          <%= f.password_field :display_preferences_password, :class => "", :placeholder => "Password" %>
+          <%= f.password_field :display_preferences_password, :class => "show-display-preferences-password", :placeholder => "Password" %>
         </label>
       </div>
     </div>
@@ -39,26 +39,26 @@
       <label class="control-label blue_label" for="inputEmail">Contributors</label>
       <div class="controls radio-inputs-container">
         <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'public') %>">
-          <%= f.radio_button :contributor_preferences, "public", {:class => "radio-input" } %>
+          <%= f.radio_button :contributor_preferences, "public", {:class => "radio-input show-contributor-preferences" } %>
           Public-Anyone can watch
         </label>
         <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'private') %>">
-          <%= f.radio_button :contributor_preferences, "private", {:class => "radio-input"} %>
+          <%= f.radio_button :contributor_preferences, "private", {:class => "radio-input show-contributor-preferences"} %>
           Private-Only my friends can watch
         </label>
         <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'password_protected') %>">
-          <%= f.radio_button :contributor_preferences, "password_protected", {:class => "radio-input"} %>
+          <%= f.radio_button :contributor_preferences, "password_protected", {:class => "radio-input show-contributor-preferences"} %>
           Password Protected-Anyone with the password can watch
         </label>
         <label class="password_padding">
-          <%= f.password_field :contributor_preferences_password, :class => "", :placeholder => "Password" %>
+          <%= f.password_field :contributor_preferences_password, :class => " show-contributor-preferences-password", :placeholder => "Password" %>
         </label>
       </div>
     </div>
     <div class="control-group">
       <label class="control-label  blue_label" for="inputPassword">Tag the Show</label>
       <div class="controls">
-        <%= f.text_field :show_tag, :class => "", :placeholder => "Add a tag" %>
+        <%= f.text_field :show_tag, :class => "show-show-tag", :placeholder => "Add a tag" %>
       </div>
     </div>
   </div>

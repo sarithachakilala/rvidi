@@ -1,0 +1,5 @@
+<% if @success %>
+  window.location.href = "<%= show_url(@show.id) %>";
+<% else %>
+  alert('errors : --- '+"<%= @show.errors.full_messages.join(',') %>");
+<% end %>
