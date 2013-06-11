@@ -18,6 +18,8 @@ class ShowsController < ApplicationController
     if params[:to_contribute].present?
       @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id, :from_id => @show.user_id).first
       @notification.update_attributes(:read_status =>true) if @notification
+      friends = FriendMapping.where(:user_id => current_user.id, :friend_id => @show.user_id, :status => 'accepted')
+      User.friendmapping_creation(current_user.id, @show.user_id, "accepted") unless friends.present?
     end
     respond_to do |format|
       format.html 
@@ -113,7 +115,7 @@ class ShowsController < ApplicationController
     if @checkd_users.present?
       @checkd_users.each do |each_friend|
         @user = User.find(each_friend) 
-        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>"is Requested to contribute for ")
+        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>"is Requested to contribute for a Show")
         notification.save!
       end
     end
@@ -124,7 +126,7 @@ class ShowsController < ApplicationController
     @show = Show.find(params[:show_id])
     @user = User.find(params[:email_from])
     RvidiMailer.invite_friend_toshow(params[:email], @user, @show.id).deliver
-    notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>"is Requested to contribute for ", :to_email=>params[:email])
+    notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>"is Requested to contribute for a Show", :to_email=>params[:email])
     notification.save!
     redirect_to edit_show_path(:id=>@show.id)
   end
