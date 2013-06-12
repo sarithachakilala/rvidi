@@ -11,13 +11,13 @@
     <%= csrf_meta_tags %>
 
     <!-- Fav and touch icons, Necessary for SEO Purpose. Images need to be Added.  -->
-<!-- 
-    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
-    <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
-    <link rel="shortcut icon" href="/assets/favicon.png">
- -->
+    <!--
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/ico/apple-touch-icon-72-precomposed.png">
+        <link rel="apple-touch-icon-precomposed" href="assets/ico/apple-touch-icon-57-precomposed.png">
+        <link rel="shortcut icon" href="/assets/favicon.png">
+    -->
   </head>
   <body>
     <div class="container body_bg" style="background-color:#e3e4e6;"> 
@@ -33,17 +33,16 @@
       <%= render :partial => "layouts/footer" %>
     </div>
 
-    <%##* Loading Javascripts. Loading in last, will load the page much faster. %>    
+<%##* Loading Javascripts. Loading in last, will load the page much faster. %>    
     <%= javascript_include_tag "application" %>
     <script type='text/javascript'>
       // Script for Carousel
-      !function ($) {
+        !function ($) {
         $(function(){
           // carousel demo
           $('#myCarousel').carousel()
         })
       }(window.jQuery)
-      <%= yield :js %>
     </script>
     <%= yield :js_with_script_tags %>
   </body>

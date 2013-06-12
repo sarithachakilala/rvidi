@@ -8,6 +8,54 @@
 //   });
 // });
 
+function get_facebook_friends() {
+  FB.api('/me/friends', {
+    fields: 'name,id,picture,location'
+  }, function(response) {
+    jQuery.ajax({
+      url: "/users/add_facebook_friends",
+      data: JSON.stringify(response),
+      type: 'POST',
+      dataType: 'script',
+      contentType: "application/json",
+      error : function(xhr, status, response) {
+        alert(response);
+      }
+
+    });
+  });
+}
+
+function login() {
+  FB.login(function(response) {
+    if (response.authResponse) {
+      // connected
+      get_facebook_friends();
+
+    } else {
+      alert("Something wrong");
+  }
+  });
+}
+  
+function invite_friends() {
+  FB.getLoginStatus(function(response)
+  {
+    if(response.status === 'connected') {
+      // connected
+      login();
+    } else if (response.status === 'not_authorized') {
+      // not_authorized
+      login();
+    } else {
+      // not_logged_in
+      //setTimeout(login, 1000);
+      login();
+    }
+  });
+
+}
+
 function facebookLogin(facebook_app_id){
   window.fbAsyncInit = function() {
     FB.init({
@@ -20,7 +68,9 @@ function facebookLogin(facebook_app_id){
         if (response.authResponse) {
           return window.location = '/auth/facebook/callback';
         }
-      }, {scope: 'email,user_likes'});
+      }, {
+        scope: 'email,user_likes'
+      });
     });
     return $('#sign_out').click(function(e) {
       FB.getLoginStatus(function(response) {
@@ -33,21 +83,23 @@ function facebookLogin(facebook_app_id){
     
     // Used to send request added for future reference.
     function sendRequestToRecipients() {
-        var user_ids = document.getElementsByName("user_ids")[0].value;
-        FB.ui({method: 'apprequests',
-          message: 'My Great Request',
-          to: user_ids, 
-        }, requestCallback);
-      }
+      var user_ids = document.getElementsByName("user_ids")[0].value;
+      FB.ui({
+        method: 'apprequests',
+        message: 'My Great Request',
+        to: user_ids
+      }, requestCallback);
+    }
  
-      function sendRequestViaMultiFriendSelector() {
-        FB.ui({method: 'apprequests',
-          message: 'My Great Request'
-        }, requestCallback);
-      }
+    function sendRequestViaMultiFriendSelector() {
+      FB.ui({
+        method: 'apprequests',
+        message: 'My Great Request'
+      }, requestCallback);
+    }
        
-      function requestCallback(response) {
-        // Handle callback here
-      }
+    function requestCallback(response) {
+    // Handle callback here
+    }
   };
 }
