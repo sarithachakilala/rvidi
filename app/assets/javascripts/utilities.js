@@ -112,3 +112,23 @@ function showMessageInThePopUp(heading, message){
   $('#div-modal-popup-message').modal('show');
   $(".btn").button('reset')
 }
+
+if($.browser.msie){ 
+   $('input[placeholder]').each(function(){  
+        var input = $(this);        
+        
+        $(input).val(input.attr('placeholder'));
+                
+        $(input).focus(function(){
+             if (input.val() == input.attr('placeholder')) {
+                 input.val('');
+             }
+        });
+        
+        $(input).blur(function(){
+            if (input.val() == '' || input.val() == input.attr('placeholder')) {
+                input.val(input.attr('placeholder'));
+            }
+        });
+    });
+};

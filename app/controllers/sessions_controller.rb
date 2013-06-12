@@ -19,9 +19,9 @@ class SessionsController < ApplicationController
       session[:user_id] = user.id
       user.increment_sign_in_count
       if (user.sign_in_count > 1)
-       user_login_path =  root_url     
+        user_login_path =  dashboard_user_path(user.id)     
       else
-       user_login_path = auth.present? ? root_url : getting_started_user_path(user.id)
+        user_login_path = auth.present? ? profile_user_path(user.id) : getting_started_user_path(user.id)
       end
     end
     @success = user.present? ? true :false

@@ -21,7 +21,7 @@
         <%end%>
         <% @cameo_contributors.each do |k,v| %>
           <% show = Show.find(k) %>
-          <div class="font_weight_bold"> <%= v.length%> new cameos have been posted after your in show <%= link_to "#{show.title} ", show_path(:id=> k, :to_contribute => "yes") %></div>  
+          <div class="font_weight_bold"> <%= v.length%> new cameos have been posted after you in show <%= link_to "#{show.title} ", show_path(:id=> k, :to_contribute => "yes") %></div>  
         <% end %>
         <% if @notifications.count>0 %>
           <div class="font_weight_bold">You have  <%= @notifications.count %> <%= link_to "new friend Requests", notification_user_path(current_user.id) %></div>

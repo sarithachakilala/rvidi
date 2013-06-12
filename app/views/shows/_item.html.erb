@@ -62,7 +62,9 @@
         <div class="span12 title">Share this video</div>
       </div>
       <div class="span5">
-        <div class="title"> <%= link_to "Edit show", edit_show_path(show.id), :class => "font_weight_bold"%></div><br/>
+        <% if current_user.is_director?(show) %>
+          <div class="title"> <%= link_to "Edit show", edit_show_path(show.id), :class => "font_weight_bold"%></div><br/>
+        <% end %>
         <div class="title">Tags</div>
         <%= show.show_tag%><br />
         <div class="title">Comments</div>

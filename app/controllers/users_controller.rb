@@ -128,7 +128,7 @@ class UsersController < ApplicationController
   end
 
   def ignore_friend_request
-    notification = Notification.where(:to_id => session[:user_id], :from_id => params[:friend_id]).first
+    notification = Notification.where(:to_id => session[:user_id], :from_id => params[:friend_id],:status=>"pending").first
     notification.update_attributes(:read_status => true)        
     redirect_to notification_user_path(:id => session[:user_id]), :notice => "Ingnored friend Request!"
   end
