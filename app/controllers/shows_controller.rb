@@ -16,8 +16,8 @@ class ShowsController < ApplicationController
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
     if params[:to_contribute].present?
-      @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id, :from_id => @show.user_id).first
-      @notification.update_attributes(:read_status =>true) if @notification
+      @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id)
+      @notification.update_all(:read_status =>true) if @notification
       friends = FriendMapping.where(:user_id => current_user.id, :friend_id => @show.user_id, :status => 'accepted')
       User.friendmapping_creation(current_user.id, @show.user_id, "accepted") unless friends.present?
     end
@@ -48,17 +48,23 @@ class ShowsController < ApplicationController
     if @cameo.video_file.present?
       media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
+    elsif @cameo.recorded_file.present?
+      media_entry = Cameo.upload_video_to_kaltura(@cameo.recorded_file, session[:client], session[:ks])
+      @cameo.set_uploaded_video_details(media_entry)
     else
       @show.cameos=[]
     end
+    @success = @show.save
 
     respond_to do |format|
-      if @show.save
+      if @success
         format.html { redirect_to @show, notice: 'Show was successfully created.' }
+        format.js {}
         format.json { render json: @show, status: :created, location: @show }
       else
         p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
         format.html { render action: "new" }
+        format.js {}
         format.json { render json: @show.errors, status: :unprocessable_entity }
       end
     end

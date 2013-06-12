@@ -115,7 +115,7 @@ class User < ActiveRecord::Base
   end
 
   def contributed_shows
-    Show.joins(:cameos).where("cameos.user_id = ? and shows.user_id != ?", self.id, self.id).order("created_at desc")    
+    Show.joins(:cameos).where("cameos.user_id = ? and shows.user_id != ?", self.id, self.id).select('distinct(shows.*)').order("created_at desc")
   end
 
   def encrypt_password

@@ -33,14 +33,12 @@ class CameosController < ApplicationController
   end
 
   def create
-    # To find the contributed user. 
-    @contributed_users = Cameo.where(:show_id=>params[:cameo]['show_id']).collect(&:user_id)
-    @contributed_users.each do |each_contributer|
-      user= User.find(each_contributer)
-      notification = Notification.create(:show_id=>params[:cameo]['show_id'], :to_id=> params[:cameo]['director_id'], :from_id => user.id, :status => "others_contributed", :content =>"They also contributed", :read_status =>false)  unless (user.id == params[:cameo]['director_id'])
-      notification.save!
-    end
+    # To find the contributed users. 
     @cameo = Cameo.new(params[:cameo])
+    @contributed_users = Cameo.where(:show_id=>@cameo.show_id).collect{|cameo| cameo.user_id if (cameo.user_id != @cameo.director_id) && (cameo.user_id != current_user.id)}.uniq
+    @contributed_users.each do |each_contributer|
+      notification = Notification.create(:show_id=>@cameo.show_id, :to_id=> each_contributer, :from_id => @cameo.director_id, :status => "others_contributed", :content =>"They also contributed", :read_status =>false)
+    end
 
     if params[:cameo][:video_file].present?
       media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
@@ -52,7 +50,7 @@ class CameosController < ApplicationController
     @success = @cameo.save
 
     #Creating a notification to the director
-    notification = Notification.create(:show_id=>params[:cameo]['show_id'], :to_id=>params[:cameo]['user_id'], :from_id => params[:cameo]['director_id'], :status => "contributed", :content =>"Added a Cameo", :read_status => false) 
+    notification = Notification.create(:show_id=>params[:cameo]['show_id'], :from_id=>params[:cameo]['user_id'], :to_id => params[:cameo]['director_id'], :status => "contributed", :content =>"Added a Cameo", :read_status => false) 
     notification.save!
 
     respond_to do |format|

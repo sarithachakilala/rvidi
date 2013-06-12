@@ -44,6 +44,7 @@ textarea.comment-body{ width:323px;}
 
 .clear-both{ clear:both; }
 
+.cursor-pointer{ cursor: pointer}
 
 /* Genreralized width classes */
 .width-100-percent{ width:100%; }

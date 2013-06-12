@@ -17,11 +17,11 @@
         <% end %>
         <% @show_notifications.each do |k,v| %>
           <% show = Show.find(k) %>
-          <div class="font_weight_bold"> Your show <%= link_to "#{show.title} ", show_path(:id=> k) %>has <%= link_to "#{v.length} new cameos", show_path(:id=> k, :to_contribute => "read") %> </div>
+          <div class="font_weight_bold"> Your show <%= link_to "#{show.title} ", show_path(:id=> k) %>has <%= link_to "#{v.length} new cameos", show_path(:id=> k, :to_contribute => "yes") %> </div>
         <%end%>
         <% @cameo_contributors.each do |k,v| %>
           <% show = Show.find(k) %>
-          <div class="font_weight_bold"> <%= v.length%> new cameos have been posted after your in show <%= link_to "#{show.title} ", show_path(:id=> k, :to_contribute => "read") %></div>  
+          <div class="font_weight_bold"> <%= v.length%> new cameos have been posted after you in show <%= link_to "#{show.title} ", show_path(:id=> k, :to_contribute => "yes") %></div>  
         <% end %>
         <% if @notifications.count>0 %>
           <div class="font_weight_bold">You have  <%= @notifications.count %> <%= link_to "new friend Requests", notification_user_path(current_user.id) %></div>
@@ -71,7 +71,7 @@
               </div>
             <% end %>
           <% else %>
-            <div class="row-fluid">No Shows Exist for <%= current_user.full_name %></div>
+            <div class="row-fluid">No Shows Exist for <%= current_user.full_name.capitalize %></div>
           <% end %>
         </div>
 
@@ -103,7 +103,7 @@
               </div>
             <% end %>
           <% else %>
-            <div class="row-fluid">No Contributions Exist by <%= current_user.full_name %></div>
+            <div class="row-fluid">No Contributions Exist by <%= current_user.full_name.capitalize %></div>
           <% end %>
           <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
         </div>

@@ -56,8 +56,8 @@
             </div>
 
 
-            <% if @all_shows.present? %>
-            <% @all_shows.each_slice(4) do|shows_slice| %>
+            <% if @latest_show.present? %>
+            <% @latest_show.each_slice(4) do|shows_slice| %>
             
             <div class="showsthumb_formats showsformat">
               <div class="row-fluid">

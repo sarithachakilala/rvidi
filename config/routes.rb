@@ -50,7 +50,7 @@ Rvidi::Application.routes.draw do
       get 'ignore_friend_request'
       get 'invite_friend_via_email'
       get 'add_twitter_friends'
-      get 'add_facebook_friends'
+      post 'add_facebook_friends'
     end
   end
   resources :home do

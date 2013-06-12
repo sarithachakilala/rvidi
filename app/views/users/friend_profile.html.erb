@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="span3">
-      <div class="myvision_title"><%= @friend.username %></div>
+      <div class="myvision_title"><%= @friend.full_name %></div>
       <div class="margin_top_10 profile_title">
         <%= @friend.city %>
         <%= "," if (@friend.city.present? && @friend.state.present?) %>     
@@ -18,7 +18,7 @@
       <div class="profile_title_blue"> 21 cameos</div>    
     </div>
     <div class="span7"> 
-      <div class="profile_title"> About <%= @friend.username %></div>
+      <div class="profile_title"> About <%= @friend.full_name %></div>
       <div class=""> 
         Lorem Ipsum is simply dummy text of the printing and typesetting industry.  
       </div>

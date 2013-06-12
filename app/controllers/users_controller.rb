@@ -128,7 +128,7 @@ class UsersController < ApplicationController
   end
 
   def ignore_friend_request
-    notification = Notification.where(:to_id => session[:user_id], :from_id => params[:friend_id]).first
+    notification = Notification.where(:to_id => session[:user_id], :from_id => params[:friend_id],:status=>"pending").first
     notification.update_attributes(:read_status => true)        
     redirect_to notification_user_path(:id => session[:user_id]), :notice => "Ingnored friend Request!"
   end
@@ -158,11 +158,12 @@ class UsersController < ApplicationController
   end
 
   def add_facebook_friends
-    if facebook = current_user.authentications.find_by_provider("facebook")
-      @facebook_friends = User.fetching_facebook
-    else
-      redirect_to "/auth/facebook"
-    end
+    @facebook_friends = params[:data]
+#    if facebook = current_user.authentications.find_by_provider("facebook")
+#      @facebook_friends = User.fetching_facebook
+#    else
+#      redirect_to "/auth/facebook"
+#    end
   end
 
   private
