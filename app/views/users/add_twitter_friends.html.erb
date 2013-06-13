@@ -18,7 +18,7 @@
           <div class="margin_bottom_si" > 
             <%#= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), invite_facebook_friends_home_index_path, :class=>"btn  btn-primary " %>
             <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), "#", :class=>"btn  btn-primary " %>
-             <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), add_twitter_friends_users_path, :class=>"btn   btn-info" %>
+             <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), '/auth/twitter?fetch_friends=true', :class=>"btn btn-info" %>
           </div>
 
           <div class="input-prepend input-append search_padding">

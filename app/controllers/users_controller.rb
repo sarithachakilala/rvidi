@@ -142,28 +142,19 @@ class UsersController < ApplicationController
   end
 
   def add_twitter_friends
-    if twitter = current_user.authentications.find_by_provider("twitter")
-      Twitter.configure do |tw|
-        tw.consumer_key = configatron.twitter_consumer_key
-        tw.consumer_secret = configatron.twitter_consumer_secret
-        tw.oauth_token = twitter.oauth_token
-        tw.oauth_token_secret = twitter.ouath_token_secret
-      end
-    @twitter_friends = Twitter.followers(current_user.username)
+    if session[:uid].present?
+      uid = session[:uid]
+      User.configure_twitter(session[:auth_token], session[:auth_secret])
+      session[:uid] = session[:auth_token] = session[:auth_secret] = nil
+      @twitter_friends = Twitter.followers(uid.to_i)
+      sleep(4)
     else
-      # TODO 
-      # should not create a new user -> add this to the present user.
-      redirect_to "/auth/twitter"
+      @twitter_friends = []
     end
   end
 
   def add_facebook_friends
     @facebook_friends = params[:data]
-#    if facebook = current_user.authentications.find_by_provider("facebook")
-#      @facebook_friends = User.fetching_facebook
-#    else
-#      redirect_to "/auth/facebook"
-#    end
   end
 
   private
