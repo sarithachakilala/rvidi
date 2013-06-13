@@ -46,12 +46,13 @@
           <div class="margin_bottom_si" > 
             <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), '#',
               :class => "btn  btn-primary add_from_facebook" %>
-            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), add_twitter_friends_users_path, :class=>"btn   btn-info" %>
+            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), '/auth/twitter?fetch_friends=true', :class=>"btn btn-info" %>
           </div>
 
           <div class="input-prepend input-append search_padding">
             <span class="add-on prepend_background" ><i class="icon-search"></i></span>
-            <input type="text" placeholder="Search by Name or Email"  class="input-xlarge" id = "search_value">
+            <input type="text" placeholder="Search by Name or Email"
+                   class="input-xlarge" id="search_value" />
             <span class="btn add-on btn-warning" id = "search_friends">Go</span>
           </div>
         </div>
