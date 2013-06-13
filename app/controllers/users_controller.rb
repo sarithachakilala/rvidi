@@ -146,8 +146,13 @@ class UsersController < ApplicationController
       uid = session[:uid]
       User.configure_twitter(session[:auth_token], session[:auth_secret])
       session[:uid] = session[:auth_token] = session[:auth_secret] = nil
-      @twitter_friends = Twitter.followers(uid.to_i)
-      sleep(4)
+      begin
+        @twitter_friends = Twitter.followers(uid.to_i)
+      rescue
+        flash[:alert] = 'Twitter rake limit exceeded'
+        redirect_to root_url
+      end
+      
     else
       @twitter_friends = []
     end

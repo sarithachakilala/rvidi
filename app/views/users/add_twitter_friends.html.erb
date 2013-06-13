@@ -1,6 +1,6 @@
 <div class="container" style="width: 800px;">
   <div class="jQueryFriends"></div>
-  </div>
+</div>
 <div class="myvision_container">
   <div class="row-fluid">
     <div class="span12 frinds_container_padding">
@@ -16,53 +16,53 @@
         </div>
         <div class="span8">
           <div class="margin_bottom_si" > 
-            <%#= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), invite_facebook_friends_home_index_path, :class=>"btn  btn-primary " %>
+<%#= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), invite_facebook_friends_home_index_path, :class=>"btn  btn-primary " %>
             <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), "#", :class=>"btn  btn-primary " %>
-             <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), '/auth/twitter?fetch_friends=true', :class=>"btn btn-info" %>
+            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), '/auth/twitter?fetch_friends=true', :class=>"btn btn-info" %>
           </div>
 
           <div class="input-prepend input-append search_padding">
             <span class="add-on prepend_background" ><i class="icon-search"></i></span>
-            <input type="text" placeholder="Search by Name or Email"  class="input-xlarge" id = "search_value">
+            <input type="text" placeholder="Search by Name or Email"  
+                   class="input-xlarge" id = "search_value" />
             <span class="btn add-on btn-warning" id = "search_friends">Go</span>
           </div>
         </div>
       </div>
       <div id= "main_frame">
-      <ul class="thumbnails">
-        <div class="">
+        <ul class="thumbnails">
+          <div class="">
             Here are the list of Twitter Friends.
           </div>
-        <li class="span12">
-          <% @twitter_friends.each do |each_user_detail| %>
-          <%#= debug each_user_detail%>
-            <div class="thumbnail frinds_thumbnail_padding">
-              <div class="row-fluid frinds_row_margin">
-                <div class="span4"> 
-                  <div class="row-fluid"> 
-                    <div class="span4">
-                      <div class="friend_image"> 
-                        <img  src="<%= each_user_detail.profile_image_url %>" alt="300x200" >
-                      </div> 
-                    </div>
-                    <div class="span8">
-                      <div class="friend_name"><%= each_user_detail.screen_name %></div>
-                      <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
-                        <div class="btn-small btn-warning">
-                            <%= link_to "Invite Friend", "#" %>
-                            <!-- send_twitter_friend_request_users_path(:friend_id => each_user_detail.id)> -->
+          <li class="span12">
+            <% @twitter_friends.each do |each_user_detail| %>
+              <div class="thumbnail frinds_thumbnail_padding">
+                <div class="row-fluid frinds_row_margin">
+                  <div class="span4">
+                    <div class="row-fluid">
+                      <div class="span4">
+                        <div class="friend_image">
+                          <img src="<%= each_user_detail.profile_image_url %>" alt="300x200" />
                         </div>
                       </div>
+                      <div class="span8">
+                        <div class="friend_name"><%= each_user_detail.screen_name %></div>
+                        <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
+                          <div class="btn-small btn-warning">
+                            <a href="https://twitter.com/intent/tweet?screen_name=<%= each_user_detail.screen_name %>" 
+                               class="twitter popup">Tweet</a>
+                          </div>
+                        </div>
                       </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          <% end %>
-        </li>
-      </ul>
-    </div>
-      <%#= render :partial=>"/users/friends_list"%>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+<%#= render :partial=>"/users/friends_list"%>
       <!-- Details view end here -->
     </div>
   </div>
