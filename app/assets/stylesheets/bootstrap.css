@@ -4259,8 +4259,9 @@ input[type="submit"].btn.btn-mini {
   height: auto;
   background: url("/assets/tp_bg.png") repeat;
   padding: 5px 20px 5px 20px;
-  margin: 0 0px 10px 0px;
+  margin: 0 0px 10px 17px;
 }
+
 
 .tab-content > .active,
 .pill-content > .active {

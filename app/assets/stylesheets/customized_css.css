@@ -758,3 +758,9 @@ padding-left: 20px;
 .search_input_bg{
     background-color: #ffffff !important;
 }
+.tab-content_margin{
+    margin-right: 42px;
+}
+.pill-pane-margin{
+    margin-left: -17px;
+}

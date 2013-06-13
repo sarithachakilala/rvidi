@@ -1,9 +1,12 @@
 <% if params[:email].present?%>
   <% user =  User.find(params[:from_id])%>
-  <div class="alert alert-success">
-   <button type="button" class="close" data-dismiss="alert">&times;</button>
-     "Hello, <%= user.full_name %> has invited you to contribute to this video. Click <%= link_to "Add a cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email])%> to contribute!" 
+ 
+  <div class="login_container">
+    <div class="font_weight_bold">
+      "Hello, <%= user.full_name %> has invited you to contribute to this video. Click <%= link_to "Add a cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email])%> to contribute!" 
+    </div>
   </div>
+
   <%= hidden_field_tag :through, params[:email] %>
 <% end %>
 <div class="myvision_container padding_none">
@@ -47,6 +50,22 @@
     </div>
 
     <div class="row-fluid invitation_padding">
+      <div class="span1">
+        <i class="sprite-camera-small"></i> <!-- number of contributors to the no of minutes.. -->
+      </div>
+      <div class="span2">
+        <div class="ratings_line">
+            <%= show.number_of_views %> views
+        </div>
+      </div>
+      <div class="span6 ratings_line">
+        <div class="ratings_line">
+            <!-- <img alt="Contributors" src="./assets/img/yelp_rating.png"> &nbsp;&nbsp;4.2 Ratings  -->
+        </div>
+      </div>
+    </div>
+
+    <div class="row-fluid invitation_padding">
       <div class="span6"> 
         <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p> 
         <div class="span12 margin_top_10"> 
@@ -62,7 +81,7 @@
         <div class="span12 title">Share this video</div>
       </div>
       <div class="span5">
-        <% if current_user.is_director?(show) %>
+        <% if current_user.present? && current_user.is_director?(show) %>
           <div class="title"> <%= link_to "Edit show", edit_show_path(show.id), :class => "font_weight_bold"%></div><br/>
         <% end %>
         <div class="title">Tags</div>
@@ -88,11 +107,10 @@
   <div class="buttons_height_100">
     <div class="hr_bg_gettingstarted" style=""> 
       <div class="text_align_center add_cameo_btn"> 
-        <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from]), :class => "btn btn-info" %>
+        <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
         <i class="sprite-or-icon_black" style=""></i>
         <%= link_to "<i class='sprite-camera-white'></i> Start a New Show".html_safe, new_show_path, :class => "btn btn-warning" %>
       </div>
     </div>
   </div>
-
 </div>

@@ -41,7 +41,7 @@
         <li><a data-toggle="tab" href="#tab3">Most Viewed</a></li>
         <li><a data-toggle="tab" href="#tab4">Newest</a></li>
       </ul>
-      <div class="tab-content">
+      <div class="tab-content tab-content_margin">
         <div id="tab1" class="tab-pane active tab-changeable">
           <div class="span text_align_right">
               <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", 
@@ -115,9 +115,10 @@
             <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", 
             :id => "showsthumb" %>
             <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "showslist" %>
+          </div>
             <% if @most_viewed.present? %>
               <% @most_viewed.each_slice(4) do|shows_slice| %>
-                <div class="showsthumbs_formats showsformat">
+                <div class="showsthumb_formats showsformat">
                   <div class="row-fluid">
                     <ul class="thumbnails">
                       <% shows_slice.each do|show| %>
@@ -126,7 +127,7 @@
                     </ul>
                   </div>
                 </div>
-                <div class="showslists_formats showsformat hide">
+                <div class="showslist_formats showsformat hide">
                 <% shows_slice.each do|show| %>
                   <div class="row-fluid">
                     <ul class="thumbnails">
@@ -141,6 +142,7 @@
             <% end %>
           <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
         </div>
+        
         <div id="tab4" class="tab-pane tab-changeable">
           <div class="span text_align_right">
             <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", 
