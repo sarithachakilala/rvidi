@@ -160,11 +160,12 @@ class UsersController < ApplicationController
   end
 
   def add_facebook_friends
-    if facebook = current_user.authentications.find_by_provider("facebook")
-      @facebook_friends = User.fetching_facebook
-    else
-      redirect_to "/auth/facebook"
-    end
+    @facebook_friends = params[:data]
+#    if facebook = current_user.authentications.find_by_provider("facebook")
+#      @facebook_friends = User.fetching_facebook
+#    else
+#      redirect_to "/auth/facebook"
+#    end
   end
 
   private

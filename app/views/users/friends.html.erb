@@ -1,6 +1,34 @@
-<div class="container" style="width: 800px;">
-  <div class="jQueryFriends"></div>
-</div>
+<% content_for :js_with_script_tags do %>
+  <div id="fb-root"></div>
+  <script>
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+  <script type="text/javascript">
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '<%= configatron.facebook_app_id %>', // App ID
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+      });
+    }
+      
+    //Facebook Send Message to a friend
+    $(document).on('click', '.button-facebook-friend-invite', function(e){
+      e.preventDefault();
+      facebook_send_message($(this).attr('id'), '<%= j current_user.full_name %>', '');
+    });
+  </script>
+<% end %>
+
 <div class="myvision_container">
   <div class="row-fluid">
     <div class="span12 frinds_container_padding">
@@ -16,8 +44,9 @@
         </div>
         <div class="span8">
           <div class="margin_bottom_si" > 
-            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), add_facebook_friends_users_path, :class=>"btn  btn-primary " %>
-             <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), add_twitter_friends_users_path, :class=>"btn   btn-info" %>
+            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), '#',
+              :class => "btn  btn-primary add_from_facebook" %>
+            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), add_twitter_friends_users_path, :class=>"btn   btn-info" %>
           </div>
 
           <div class="input-prepend input-append search_padding">
@@ -27,36 +56,49 @@
           </div>
         </div>
       </div>
-      <div id= "main_frame">
-      <ul class="thumbnails">
-        <li class="span12">
-          <% @friends.each do |each_user_detail| %>
-          <% @user = User.find(each_user_detail.friend_id)%>
-            <div class="thumbnail frinds_thumbnail_padding">
-              <div class="row-fluid frinds_row_margin">
-                <div class="span4"> 
-                  <div class="row-fluid"> 
-                    <div class="span4">
-                      <% thumbnail = @user.image_url.present? ? @user.image_url : "/assets/default_image.png"  %>
-                      <div class="friend_image"> 
-                         <%= image_tag thumbnail, :class => "details_image_sizesmall" %></div>
-                      </div> 
-                    <div class="span8">
-                      <div class="friend_name"><%= @user.full_name %></div>
-                      <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
+      <div id="main_frame">
+        <ul class="thumbnails">
+          <li class="span12">
+            <% @friends.each do |each_user_detail| %>
+              <% @user = User.find(each_user_detail.friend_id)%>
+              <div class="thumbnail frinds_thumbnail_padding">
+                <div class="row-fluid frinds_row_margin">
+                  <div class="span4">
+                    <div class="row-fluid">
+                      <div class="span4">
+                        <% thumbnail = @user.image_url.present? ? @user.image_url : "/assets/default_image.png"  %>
+                        <div class="friend_image">
+                          <%= image_tag thumbnail, :class => "details_image_sizesmall" %></div>
                       </div>
+                      <div class="span8">
+                        <div class="friend_name"><%= @user.full_name %></div>
+                        <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
+                        </div>
                       </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          <% end %>
-        </li>
-      </ul>
-    </div>
-      <%#= render :partial=>"/users/friends_list"%>
+            <% end %>
+          </li>
+        </ul>
+      </div>
+<%#= render :partial=>"/users/friends_list"%>
       <!-- Details view end here -->
     </div>
   </div>
 </div>
+  
+<% content_for :js_with_script_tags do %>
+  <script type="text/javascript">
+    jQuery(document).ready(function($){
+      $('.add_from_facebook').click(function(e){
+        e.preventDefault();
+        invite_friends();
+      });
+    });
+  </script>
 
+
+
+<% end %>

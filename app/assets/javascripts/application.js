@@ -18,3 +18,4 @@
 //= require js-validations
 //= require utilities
 //= require kaltura_scripts
+//= require rvidi
