@@ -85,6 +85,7 @@ class UsersController < ApplicationController
     @notifications = Notification.where(:status => "pending", :to_id=> current_user.id, :read_status => false)
     @cameo_invitations = Notification.where(:status => "contribute", :to_id=> current_user.id, :read_status => false)
     @cameo_contributors = Notification.where(:status => "others_contributed", :to_id=> current_user.id, :read_status => false).group_by(&:show_id)
+    @newest_shows =  Show.limit(6).order('created_at desc')
     respond_to do |format|
       format.html 
       format.json { render json: @user}

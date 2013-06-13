@@ -1,33 +1,40 @@
 <div class="carousel slide" id="myCarousel" style="margin-top: 20px;">
   <div class="carousel-inner">
-    <div class="item active">
-      <div class="container">
-        <div class="carousel-caption">
-          <div class="row-fluid"> 
-            <div class="span6">
-              <div class="slide1_snow_image"></div>
-            </div>
-            <div class="span1"></div>
-            <div class="span5"> 
-              <div class="slider_header">Title of the Show</div>
-              <div class="sub_title"> Director Name</div>
-              <div class="slider_text">
-                Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-              </div>
-              <div class="five_title">5 Contributors </div>
-
-              <div class=""> 
-                <div class="contributors_image"> <img alt="Contributors" src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" style="width: 44px;height: 44px;float: left;"> </div>
-                <div class="contributors_image"> <img alt="Contributors" src="/assets/OCP0154256_P_Portrait-of-a-young-man.png" style="width: 44px;height: 44px;float: left;"> </div>
-                <div class="contributors_image"> <img alt="Contributors" src="/assets/1624747_P_Businesswoman-in-front-of-people.png" style="width: 44px;height: 44px;float: left;"> </div>
-                <div class="contributors_image"> <img alt="Contributors" src="/assets/WFP0082857_P_Germany-Rheinland-Young-woman-smiling.png" style="width: 44px;height: 44px;float: left;"> </div>
+   
+    <% if @newest_shows.present? %>
+      <% @newest_shows.each_with_index do |show, index| %>
+            <div class="<%= index == 0 ? "active" : "" %> item ">
+          <div class="container">
+            <div class="carousel-caption">
+              <div class="row-fluid">
+                <div class="span6">
+                  <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
+                  <%= link_to "<img alt='300x200' src='#{thumbnail}' style= 'padding-left:60px;' class='thumbnail_image_widht'>".html_safe, show_path(show) %>
+                </div>
+                <div class="span1"></div>
+                <div class="span5">
+                  <div class="slider_header"><%= link_to show.title, show_path(show) %></div>
+                  <div class="sub_title"> <%= show.director.full_name %></div>
+                  <div class="slider_text">
+                    <%= show.description %>
+                  </div>
+                  <% show_contributers = Cameo.where(:show_id=>show.id).collect(&:user_id)%>
+                  <% if show_contributers.present? %>
+                    <div class="five_title">Contributors </div>
+                    <div class="">
+                      <% show_contributers.each do |each_contributer|%>
+                        <% user = User.find(each_contributer)%>
+                        <div class="contributors_image_detail"> <%= image_tag user.image_url %></div>
+                      <%  end %>
+                    </div>
+                  <% end %>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      
-    </div>
+      <% end %>
+    <% end %>
   </div>
   <a data-slide="prev" href="#myCarousel" class="left carousel-control sprite-leftarrow-icon" ></a>
   <a data-slide="next" href="#myCarousel" class="right carousel-control sprite-rightarrow-icon"></a>
@@ -35,8 +42,8 @@
 
 <div class="container"> 
   <div class="row-fluid">
-    <div class="span9" style="padding-left: 20px;"> 
-      <div class="tabbable"> 
+    <div class="span9" style="padding-left: 20px;">
+      <div class="tabbable">
         <ul class="nav nav-tabs">
           <!-- <li><a href="#tab1" data-toggle="tab">Channels</a></li> -->
           <li  class="active"><a href="#tab1" data-toggle="tab">Most Viewed</a></li>
@@ -50,36 +57,33 @@
           </div>
           <div class="tab-pane  active tab-changeable" id="tab2">
             <div class="span text_align_right">
-              <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", 
-              :id => "showsthumb" %>
+              <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active",
+                :id => "showsthumb" %>
               <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "showslist" %>
             </div>
-
-
-            <% if @latest_show.present? %>
-            <% @latest_show.each_slice(4) do|shows_slice| %>
-            
-            <div class="showsthumb_formats showsformat">
-              <div class="row-fluid">
-                <ul class="thumbnails">
+            <% if @newest_shows.present? %>
+              <% @newest_shows.each_slice(4) do|shows_slice| %>
+                <div class="showsthumb_formats showsformat">
+                  <div class="row-fluid">
+                    <ul class="thumbnails">
+                      <% shows_slice.each do|show| %>
+                        <%= render :partial => "home/show_thumbnail", :locals => { :show => show } %>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+                <div class="showslist_formats showsformat hide">
                   <% shows_slice.each do|show| %>
-                  <%= render :partial => "home/show_thumbnail", :locals => { :show => show } %>
+                    <div class="row-fluid">
+                      <ul class="thumbnails">
+                        <%= render :partial => "home/show_list", :locals => { :show => show } %>
+                      </ul>
+                    </div>
                   <% end %>
-                </ul>
-              </div>
-            </div>
-            <div class="showslist_formats showsformat hide">
-              <% shows_slice.each do|show| %>
-              <div class="row-fluid">
-                <ul class="thumbnails">
-                  <%= render :partial => "home/show_list", :locals => { :show => show } %>
-                </ul>
-              </div>
+                </div>
               <% end %>
-            </div>
-            <% end %>
             <% else %>
-            No Shows Added to the Application Yet
+              No Shows Added to the Application Yet
             <% end %>
             <!-- <div class="see_more text_align_right"> See more</div> -->
           </div>
@@ -99,22 +103,24 @@
       </div>
     </div>
     <!-- side bar -->
-    <div class="span3 text_align_center" style="">
-      <div class="text_align_center" style="width: 140px;margin-left: 22px;">
-        <div class="side_title text_align_center"> How It Works</div>
-        <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
-        <div class="text_align_center" > <i class='sprite-account-icon'> </i></div>
-        <div class="text_align_center acc_text"> Create An Account </div>
-        <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
-        <div class="text_align_center" > <i class="sprite-camera-big"> </i></div>
-        <div class="text_align_center show_text"> Start Your Show </div>
-        <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
-        <div class="text_align_center" > <i class="sprite-peoples-icon"> </i></div>
-        <div class="text_align_center Participate_text"> Invite Others To Participate</div>
-        <div class="text_align_center" style=""> <i class="sprite-or-icon"> </i></div>
-        <div class="text_align_center" > <i class="sprite-reel-icon"> </i></div>
-        <div class="text_align_center acc_text"> Contribute To An Existing Show</div>
+    <% unless current_user.present? %>
+      <div class="span3 text_align_center" style="">
+        <div class="text_align_center" style="width: 140px;margin-left: 22px;">
+          <div class="side_title text_align_center"> How It Works</div>
+          <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
+          <div class="text_align_center" > <i class='sprite-account-icon'> </i></div>
+          <div class="text_align_center acc_text"> Create An Account </div>
+          <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
+          <div class="text_align_center" > <i class="sprite-camera-big"> </i></div>
+          <div class="text_align_center show_text"> Start Your Show </div>
+          <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
+          <div class="text_align_center" > <i class="sprite-peoples-icon"> </i></div>
+          <div class="text_align_center Participate_text"> Invite Others To Participate</div>
+          <div class="text_align_center" style=""> <i class="sprite-or-icon"> </i></div>
+          <div class="text_align_center" > <i class="sprite-reel-icon"> </i></div>
+          <div class="text_align_center acc_text"> Contribute To An Existing Show</div>
+        </div>
       </div>
     </div>
-  </div>
+  <% end %>
 </div>
