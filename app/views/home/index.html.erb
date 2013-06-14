@@ -125,22 +125,24 @@
                 <div class="row-fluid">
                   <ul class="thumbnails">
                     <% shows_slice.each do|show| %>
+                      <% show = Show.find(show)%>
                       <%= render :partial => "home/show_thumbnail", :locals => { :show => show } %>
                     <% end %>
                   </ul>
                 </div>
               </div>
-              <div class="lists_formats showsformat hide">
-                <% shows_slice.each do|show| %>
-                  <div class="row-fluid">
-                    <ul class="thumbnails">
-                      <%= render :partial => "home/show_list", :locals => { :show => show } %>
-                    </ul>
-                  </div>
-                <% end %>
-              </div>
-            <%end%>
-          </div>
+            </div>
+            <div class="lists_formats showsformat hide">
+              <% shows_slice.each do|show| %>
+                <div class="row-fluid">
+                  <ul class="thumbnails">
+                    <%= render :partial => "home/show_list", :locals => { :show => show } %>
+                  </ul>
+                </div>
+              <% end %>
+            </div>
+          <%end%>
+
           <div class="tab-pane" id="tab4">
             <p>Most Commented</p>
           </div>
