@@ -107,9 +107,11 @@
   <div class="buttons_height_100">
     <div class="hr_bg_gettingstarted" style=""> 
       <div class="text_align_center add_cameo_btn"> 
-        <% unless show.contributor_preferences == "private" &&  show.user_id!=current_user.id%>
-          <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
-          <i class="sprite-or-icon_black" style=""></i>
+        <% unless show.contributor_preferences == "private" %>
+          <% if current_user.present? && show.user_id==current_user.id %>
+            <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
+            <i class="sprite-or-icon_black" style=""></i>
+          <% end %>
         <% end %>
         <%= link_to "<i class='sprite-camera-white'></i> Start a New Show".html_safe, new_show_path, :class => "btn btn-warning" %>
       </div>
@@ -119,22 +121,24 @@
 
 
 <!-- Modal -->
-<% if show.display_preferences == "password_protected" && show.user_id!=current_user.id%>
-  <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-      <h3 id="myModalLabel">Password Protected</h3>
-    </div>
-    <div class="modal-body">
-      <div class="control-group">
-          <label class="control-label" for="inputEmail">Password</label>
-          <div class="controls">
-            <%= password_field_tag :password %>
+<% if show.display_preferences == "password_protected" %>
+  <% if current_user.present? && show.user_id!=current_user.id %>
+    <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-header">
+        <h3 id="myModalLabel">Password Protected</h3>
+      </div>
+      <div class="modal-body">
+        <div class="control-group">
+            <label class="control-label" for="inputEmail">Password</label>
+            <div class="controls">
+              <%= password_field_tag :password %>
+            </div>
           </div>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <%= link_to "Close", root_url, :class => "btn data-dismiss='modal' aria-hidden='true'" %>
+        <button class="btn btn-primary">Submit</button>
+      </div>
     </div>
-    <div class="modal-footer">
-      <%= link_to "Close", root_url, :class => "btn data-dismiss='modal' aria-hidden='true'" %>
-      <button class="btn btn-primary">Submit</button>
-    </div>
-  </div>
+  <% end %>
 <% end %>
