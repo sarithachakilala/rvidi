@@ -55,7 +55,7 @@ class ShowsController < ApplicationController
     else
       @show.cameos=[]
     end
-    @success = @show.save
+    @success = @show.save!
 
     respond_to do |format|
       if @success

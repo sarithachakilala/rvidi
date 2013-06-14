@@ -16,4 +16,7 @@ class Show < ActiveRecord::Base
   accepts_nested_attributes_for :cameos
   has_many :comments, :dependent => :destroy
 
+  # Scope
+  scope :public_shows, where(:display_preferences => "public")  
+  scope :public_and_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'private')  
 end
