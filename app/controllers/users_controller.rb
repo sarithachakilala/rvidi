@@ -76,11 +76,13 @@ class UsersController < ApplicationController
   end
 
   def getting_started
-    @notifications = Notification.where(:status => "pending", :to_id=> session[:user_id])
-    @show_notifications = Notification.where(:to_id=> session[:user_id])
+    @notifications = Notification.where(:status => "pending", :to_id=> current_user.id)
+    @show_notifications = Notification.where(:to_id=> current_user.id)
   end
 
   def dashboard
+    @latest_show =  Show.limit(6).order('created_at desc')
+    @most_viewed =  Show.order('number_of_views desc')
     @show_notifications = Notification.where(:status => "contributed", :to_id=> current_user.id, :read_status => false).order(:created_at).group_by(&:show_id)
     @notifications = Notification.where(:status => "pending", :to_id=> current_user.id, :read_status => false)
     @cameo_invitations = Notification.where(:status => "contribute", :to_id=> current_user.id, :read_status => false)
@@ -93,7 +95,7 @@ class UsersController < ApplicationController
   end
 
   def friends
-    @friends = FriendMapping.where(:user_id => session[:user_id], :status =>"accepted")
+    @friends = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
   end
 
   def friends_list
@@ -106,65 +108,61 @@ class UsersController < ApplicationController
 
   def notification
     @notifications =  Notification.where(:to_id => current_user.id).order(:updated_at)
-    @friend_requests = Notification.where(:status => "pending", :to_id=> session[:user_id], :read_status => false)
-    @cameo_invitations = Notification.where(:status => "contribute", :to_id=> session[:user_id], :read_status => false)
+    @friend_requests = Notification.where(:status => "pending", :to_id=> current_user.id, :read_status => false)
+    @cameo_invitations = Notification.where(:status => "contribute", :to_id=> current_user.id, :read_status => false)
   end
   
   def send_friend_request
     @user = User.find(params[:friend_id])
-    User.friendmapping_creation(session[:user_id], @user.id, "pending")
-    notification = Notification.new(:from_id=>session[:user_id], :to_id=> @user.id, :status => "pending", :content=>"Requested to add as friend", :read_status => false)
+    User.friendmapping_creation(current_user.id, @user.id, "pending")
+    notification = Notification.new(:from_id=>current_user.id, :to_id=> @user.id, :status => "pending", :content=>"Requested to add as friend", :read_status => false)
     notification.save!
-    redirect_to friends_user_path(:id => session[:user_id]), :notice => "Friend Request sent Successfully!" 
+    redirect_to friends_user_path(:id => current_user.id), :notice => "Friend Request sent Successfully!" 
   end
 
   def accept_friend_request
-    friend_requst1 = FriendMapping.where(:user_id =>session[:user_id], :friend_id=> params[:friend_id]).first
-    friend_requst2 = FriendMapping.where(:user_id =>params[:friend_id], :friend_id=> session[:user_id]).first
-    notification = Notification.where(:to_id => session[:user_id], :from_id => params[:friend_id]).first
+    friend_requst1 = FriendMapping.where(:user_id =>current_user.id, :friend_id=> params[:friend_id]).first
+    friend_requst2 = FriendMapping.where(:user_id =>params[:friend_id], :friend_id=> current_user.id).first
+    notification = Notification.where(:to_id => current_user.id, :from_id => params[:friend_id]).first
     friend_requst1.update_attributes(:status =>"accepted")
     friend_requst2.update_attributes(:status =>"accepted")
     notification.update_attributes(:status => "accepted")        
-    redirect_to notification_user_path(:id => session[:user_id]), :notice => "confirmed as friend!"
+    redirect_to notification_user_path(:id => current_user.id), :notice => "confirmed as friend!"
   end
 
   def ignore_friend_request
-    notification = Notification.where(:to_id => session[:user_id], :from_id => params[:friend_id],:status=>"pending").first
+    notification = Notification.where(:to_id => current_user.id, :from_id => params[:friend_id],:status=>"pending").first
     notification.update_attributes(:read_status => true)        
-    redirect_to notification_user_path(:id => session[:user_id]), :notice => "Ingnored friend Request!"
+    redirect_to notification_user_path(:id => current_user.id), :notice => "Ignored friend Request!"
   end
 
   def invite_friend_via_email
     @user = User.find(params[:email_from])
     RvidiMailer.delay.invite_new_friend(params[:email], @user)
-    notification = Notification.create(:to_email=> params[:email], :from_id => session[:user_id], :status => "pending", :content =>"Requested to add as friend", :read_status => false) 
+    notification = Notification.create(:to_email=> params[:email], :from_id => current_user.id, :status => "pending", :content =>"Requested to add as friend", :read_status => false) 
     notification.save!
     redirect_to friends_user_path(:id => session[:user_id])
   end
 
   def add_twitter_friends
-    if twitter = current_user.authentications.find_by_provider("twitter")
-      Twitter.configure do |tw|
-        tw.consumer_key = configatron.twitter_consumer_key
-        tw.consumer_secret = configatron.twitter_consumer_secret
-        tw.oauth_token = twitter.oauth_token
-        tw.oauth_token_secret = twitter.ouath_token_secret
+    if session[:uid].present?
+      uid = session[:uid]
+      User.configure_twitter(session[:auth_token], session[:auth_secret])
+      session[:uid] = session[:auth_token] = session[:auth_secret] = nil
+      begin
+        @twitter_friends = Twitter.followers(uid.to_i)
+      rescue
+        flash[:alert] = 'Twitter rake limit exceeded'
+        redirect_to root_url
       end
-    @twitter_friends = Twitter.followers(current_user.username)
+      
     else
-      # TODO 
-      # should not create a new user -> add this to the present user.
-      redirect_to "/auth/twitter"
+      @twitter_friends = []
     end
   end
 
   def add_facebook_friends
     @facebook_friends = params[:data]
-#    if facebook = current_user.authentications.find_by_provider("facebook")
-#      @facebook_friends = User.fetching_facebook
-#    else
-#      redirect_to "/auth/facebook"
-#    end
   end
 
   private

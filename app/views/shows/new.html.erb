@@ -100,6 +100,7 @@
               </div>
               <div class="span5"> 
                 <div style="padding: 5px;background-color: #d1d2d4;" class="selects-container">
+                  <% if @friend_mappings.present? %>
                     <% @friend_mappings.each_slice(2) do|friends_slice| %>
                       <div class="row-fluid">
                         <% friends_slice.each do|friend_mapping| %>
@@ -113,6 +114,7 @@
                         <%end%>
                       </div>
                     <%end%>
+                  <% end %>  
                     <div class="row-fluid">
                       <div class="span4"></div>
                       <div class="span4"></div>

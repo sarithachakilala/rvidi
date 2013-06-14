@@ -30,14 +30,17 @@
     </div>
   </div>
 </div>
+
 <div class="row-fluid">
   <div style="padding-left: 20px;" class="span12"> 
     <div class="tabbable"> 
       <ul class="nav nav-tabs" style="padding-left:17px;">
         <li class="active"><a data-toggle="tab" href="#tab1">My Shows</a></li>
-        <li><a data-toggle="tab" href="#tab2">Cameos</a></li>
+        <li><a data-toggle="tab" href="#tab2">My Cameos</a></li>
+        <li><a data-toggle="tab" href="#tab3">Most Viewed</a></li>
+        <li><a data-toggle="tab" href="#tab4">Newest</a></li>
       </ul>
-      <div class="tab-content">
+     <div class="tab-content tab-content_margin">
         <div id="tab1" class="tab-pane active tab-changeable">
           <div class="span text_align_right">
             <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active",
@@ -45,7 +48,7 @@
             <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "showslist" %>
 
           </div>
-
+     
           <% if current_user.shows.present? %>
             <% current_user.shows.each_slice(5) do|slice| %>
               <div class="showsthumb_formats showsformat">
@@ -106,6 +109,73 @@
           <% end %>
           <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
         </div>
+
+        <div id="tab3" class="tab-pane tab-changeable">
+          <div class="span text_align_right">
+            <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", 
+            :id => "showsthumb" %>
+            <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "showslist" %>
+          </div>
+            <% if @most_viewed.present? %>
+              <% @most_viewed.each_slice(5) do|shows_slice| %>
+                <div class="showsthumb_formats showsformat">
+                  <div class="row-fluid">
+                    <ul class="thumbnails margin_top_5">
+                      <% shows_slice.each do|show| %>
+                        <%= render :partial => "show_thumbnail", :locals => { :show => show } %>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+                <div class="showslist_formats showsformat hide">
+                <% shows_slice.each do|show| %>
+                  <div class="row-fluid">
+                    <ul class="thumbnails">
+                      <%= render :partial => "shows_list", :locals => { :show => show } %>
+                    </ul>
+                  </div>
+                <% end %>
+                </div>
+              <% end %>
+            <% else %>
+              No Shows Added to the Application Yet
+            <% end %>
+          <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
+        </div>
+        
+        <div id="tab4" class="tab-pane tab-changeable">
+          <div class="span text_align_right">
+            <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", 
+            :id => "showsthumb" %>
+            <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "showslist" %>
+          </div>
+            <% if @latest_show.present? %>
+              <% @latest_show.each_slice(5) do|shows_slice| %>
+                <div class="showsthumb_formats showsformat">
+                  <div class="row-fluid">
+                    <ul class="thumbnails margin_top_5">
+                      <% shows_slice.each do|show| %>
+                        <%= render :partial => "show_thumbnail", :locals => { :show => show } %>
+                      <% end %>
+                    </ul>
+                  </div>
+                </div>
+                <div class="showslist_formats showsformat hide">
+                <% shows_slice.each do|show| %>
+                  <div class="row-fluid">
+                    <ul class="thumbnails">
+                      <%= render :partial => "shows_list", :locals => { :show => show } %>
+                    </ul>
+                  </div>
+                <% end %>
+                </div>
+              <% end %>
+            <% else %>
+              No Shows Added to the Application Yet
+            <% end %>
+          <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
+        </div>
+
       </div>
     </div>
     <div class="span3 text_align_center"></div>

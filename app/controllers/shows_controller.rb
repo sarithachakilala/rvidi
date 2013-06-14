@@ -12,6 +12,7 @@ class ShowsController < ApplicationController
 
   def show
     @show = Show.find(params[:id])
+    @show.update_attribute(:number_of_views, (@show.number_of_views.to_i+1))
     @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
@@ -54,7 +55,7 @@ class ShowsController < ApplicationController
     else
       @show.cameos=[]
     end
-    @success = @show.save
+    @success = @show.save!
 
     respond_to do |format|
       if @success
