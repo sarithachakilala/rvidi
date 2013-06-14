@@ -17,8 +17,10 @@
         <div class="span8">
           <div class="margin_bottom_si" > 
 <%#= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), invite_facebook_friends_home_index_path, :class=>"btn  btn-primary " %>
-            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), "#", :class=>"btn  btn-primary " %>
-            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), '/auth/twitter?fetch_friends=true', :class=>"btn btn-info" %>
+            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), "#",
+                        :class => "btn  btn-primary add_from_facebook" %>
+            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"),
+                    '/auth/twitter?fetch_friends=true', :class => "btn btn-info" %>
           </div>
 
           <div class="input-prepend input-append search_padding">
@@ -50,7 +52,7 @@
                         <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
                           <div class="btn-small btn-warning">
                             <a href="https://twitter.com/intent/tweet?screen_name=<%= each_user_detail.screen_name %>" 
-                               class="twitter popup">Tweet</a>
+                               class="">Tweet</a>
                           </div>
                         </div>
                       </div>
@@ -67,4 +69,7 @@
     </div>
   </div>
 </div>
-
+<script>!function(d,s,id)
+  {var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+    if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+</script>

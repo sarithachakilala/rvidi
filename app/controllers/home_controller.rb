@@ -1,7 +1,6 @@
 class HomeController < ApplicationController
 
   def index
-
     @all_shows = Show.public_protected_shows
     @latest_show =  Show.public_protected_shows.limit(6).order('created_at desc')
     @most_viewed =  Show.public_protected_shows.order('number_of_views desc')
