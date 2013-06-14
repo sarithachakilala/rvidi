@@ -3,7 +3,7 @@ class User < ActiveRecord::Base
   attr_accessor :password, :password_confirmation, :terms_conditions
 
   attr_accessible :email, :password, :password_confirmation, :username, :city, :state, :country,
-                  :description, :uid, :terms_conditions, :first_name, :last_name, :image, :remote_image_url
+    :description, :uid, :terms_conditions, :first_name, :last_name, :image, :remote_image_url
     
   before_save :encrypt_password
 
@@ -13,25 +13,25 @@ class User < ActiveRecord::Base
   # VALIDATIONS
   validates :first_name, :last_name, :presence => true
   validates :username, :presence => true,
-                       :uniqueness => true,
-                       :if => :provider_does_not_exist?
+    :uniqueness => true,
+    :if => :provider_does_not_exist?
 
   validates :email, :format => {:with => /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i,
-                    :message => 'format is Invalid' },
-                    :uniqueness => true,
-                    :if => Proc.new { |user| user.email.present? }
+    :message => 'format is Invalid' },
+    :uniqueness => true,
+    :if => Proc.new { |user| user.email.present? }
 
   validates :password, :presence => true, 
-                       :on => :create
+    :on => :create
 
   validates :password_confirmation, :presence => true,
-                                    :on => :create
+    :on => :create
 
   validate :check_password_confirmation, :on => :create,
-           :if => Proc.new { |user| user.password.present? && user.password_confirmation.present? }
+    :if => Proc.new { |user| user.password.present? && user.password_confirmation.present? }
 
   validates :terms_conditions, :acceptance => true,
-                               :on => :create
+    :on => :create
 
   mount_uploader :image, ImageUploader
   
@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
     authentication.save!
   end
   
-  def self.from_omniauth(auth)
+  def self.from_omniauth(auth, options)
     user = User.new
     user = (auth.provider == "facebook") ? user_facebook_details(auth,user) : user_twitter_details(auth,user)
   end
@@ -106,6 +106,14 @@ class User < ActiveRecord::Base
     friend_requst2.save!
   end
 
+  def self.configure_twitter(auth_token, auth_secret)
+    Twitter.configure do |tw|
+      tw.consumer_key = configatron.twitter_consumer_key
+      tw.consumer_secret = configatron.twitter_consumer_secret
+      tw.oauth_token = auth_token
+      tw.oauth_token_secret = auth_secret
+    end
+  end
 
   # INSTANCE METHODS
   def check_password_confirmation
