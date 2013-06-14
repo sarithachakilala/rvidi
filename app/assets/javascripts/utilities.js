@@ -1,4 +1,6 @@
 $(document).ready(function(){
+  $('#myModal').modal('show')
+
   //    To Change the + / - icon on click
   $('.plus-minus-container').on('click','.changeable-plus-minus',function(){
     var icon_elem = $(this).find('.plus-minus-i').first()

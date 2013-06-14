@@ -20,6 +20,8 @@
               <div class="contributors_image_detail"> <%= image_tag thumbnail, :class => "details_image_sizesmall"  %></div>
             <%end %>
             <i class="sprite-thumbnail_title_icon"></i>
+            <% preference = (show.display_preferences == "public") ? "sprite2-unlockorrange-icon" : "sprite2-lockgrey-icon" %>
+            <i class= <%= preference %> ></i>
           </div>
         </div>
       </div>

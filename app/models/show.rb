@@ -18,5 +18,6 @@ class Show < ActiveRecord::Base
 
   # Scope
   scope :public_shows, where(:display_preferences => "public")  
-  scope :public_and_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'private')  
+  scope :public_private_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'private')  
+  scope :public_protected_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'password_protected')  
 end
