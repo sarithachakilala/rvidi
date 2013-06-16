@@ -10499,10 +10499,11 @@ module Kaltura
 
 		# Delete a media entry.
 		# 	 
-		def delete(entry_id)
+		def delete(entry_id, ks)
 			kparams = {}
 			# Media entry id to delete
 			client.add_param(kparams, 'entryId', entry_id);
+			client.add_param(kparams, 'ks', ks);			
 			client.queue_service_action_call('media', 'delete', kparams);
 			if (client.is_multirequest)
 				return nil;

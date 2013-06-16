@@ -83,10 +83,11 @@ class CameosController < ApplicationController
 
   def destroy
     @cameo = Cameo.find(params[:id])
-    @cameo.destroy
+    @success = @cameo.destroy
 
     respond_to do |format|
       format.html { redirect_to cameos_url }
+      format.js {}
       format.json { head :no_content }
     end
   end

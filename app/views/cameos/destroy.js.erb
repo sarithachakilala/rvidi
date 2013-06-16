@@ -1,0 +1,5 @@
+<% if @success %>
+  $("#show_<%= @cameo.show_id %>_cameo_<%= @cameo.id %>_detail").remove();
+<% else %>
+  alert('cameo not destroyed --- ');
+<% end %>

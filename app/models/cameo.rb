@@ -20,6 +20,8 @@ class Cameo < ActiveRecord::Base
   belongs_to :director, :class_name => "User", :foreign_key => "director_id"
 
   # Callbacks
+  after_destroy :delete_kaltura_video
+
   # METHODS
   # Class Methods
   # Methods to manage Videos using Kaltura Starts
@@ -60,6 +62,10 @@ class Cameo < ActiveRecord::Base
     
     media_entry = get_kaltura_video(client, created_entry.id)
     media_entry
+  end
+
+  def delete_kaltura_video(kaltura_entry_id, client, ks)
+    media_entry = client.base_entry_service.delete(kaltura_entry_id, ks)
   end
 
   def self.get_kaltura_video(client, kaltura_entry_id)
