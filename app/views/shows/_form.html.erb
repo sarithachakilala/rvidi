@@ -46,12 +46,14 @@
                   <% @show.cameos.order('show_order asc').each do|show_cameo| %>
                     <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
                     <div class="row-fluid show-cameo-detail <%= cameo_div_class %>" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail">
-                      <div class="span1"> 
-                        <%= check_box_tag :preference, "checked", {:class => "checkbox-input show-display-preferences" } %>
-                      </div>
-                      <div class="span1">
-                        <%= link_to "<i class='sprite-into-icon'></i>".html_safe, cameo_path(show_cameo), :method => :delete, :confirm => "Are you sure to remove this Cameo?", :remote => true %>
-                      </div>
+                      <% unless show_cameo.user_id == show_cameo.director_id%>
+                        <div class="span1"> 
+                          <%= check_box_tag :preference, "checked", {:class => "checkbox-input show-display-preferences" } %>
+                        </div>
+                        <div class="span1">
+                          <%= link_to "<i class='sprite-into-icon'></i>".html_safe, cameo_path(show_cameo), :method => :delete, :confirm => "Are you sure to remove this Cameo?", :remote => true %>
+                        </div>
+                      <% end %>
                       <div class="span4">
                         <div class="contributors_image">
                           <% thumbnail = show_cameo.user.image_url.present? ? show_cameo.user.image_url : "/assets/default_image.png"  %>

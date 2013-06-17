@@ -125,7 +125,7 @@
 
 <!-- Modal -->
 <% if @display_prefernce == "password_protected" %>
-  <% if current_user.present? && show.user_id!=current_user.id %>
+  <% if current_user.present? && show.user_id!=current_user.id || !current_user.present? %>
     <%= form_tag check_password_shows_path do %>
       <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
