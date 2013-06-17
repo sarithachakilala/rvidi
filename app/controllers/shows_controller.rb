@@ -17,7 +17,7 @@ class ShowsController < ApplicationController
     @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
-    @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" )
+    @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
     
     if params[:to_contribute].present?
       @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id)

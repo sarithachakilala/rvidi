@@ -47,7 +47,7 @@
                     <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
                     <div class="row-fluid show-cameo-detail <%= cameo_div_class %>" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail">
                       <div class="span1"> 
-                        <i class="sprite-right-icon"> </i>
+                        <%= check_box_tag :preference, "checked", {:class => "checkbox-input show-display-preferences" } %>
                       </div>
                       <div class="span1">
                         <%= link_to "<i class='sprite-into-icon'></i>".html_safe, cameo_path(show_cameo), :method => :delete, :confirm => "Are you sure to remove this Cameo?", :remote => true %>
