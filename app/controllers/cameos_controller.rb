@@ -23,7 +23,7 @@ class CameosController < ApplicationController
     @cameo = Cameo.new(:show_id => params[:show_id], :director_id => params[:director_id])
     @show = Show.find(params[:show_id])
     @contribution_prefernce = params[:preference].present? ? params[:preference] : @show.contributor_preferences 
-
+    @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" )
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @cameo }
