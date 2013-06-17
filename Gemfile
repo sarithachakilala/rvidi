@@ -54,6 +54,7 @@ group :development, :test do
   gem 'launchy'                                      # capybara dependency
   gem 'simplecov', :require => false                 # for providing test coverage statistics
   gem 'capybara-webkit', :git => "git://github.com/thoughtbot/capybara-webkit.git" # Capybara driver for headless WebKit so you can test Javascript web apps
+  gem 'rb-readline', '~> 0.4.2'
 end
 
 group :development do
