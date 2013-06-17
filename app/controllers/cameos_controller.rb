@@ -21,6 +21,8 @@ class CameosController < ApplicationController
 
   def new
     @cameo = Cameo.new(:show_id => params[:show_id], :director_id => params[:director_id])
+    @show = Show.find(params[:show_id])
+    @contribution_prefernce = params[:preference].present? ? params[:preference] : @show.contributor_preferences 
 
     respond_to do |format|
       format.html # new.html.erb
@@ -90,4 +92,15 @@ class CameosController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def check_password
+    @show = Show.find(params[:show_id])
+    if @show.contributor_preferences_password == params[:password]
+      @contribution_prefernce = "checked"
+      redirect_to new_cameo_path(:preference => @contribution_prefernce, :show_id => params[:show_id], :director_id => @show.user_id)
+    else
+      redirect_to new_cameo_path(:show_id => params[:show_id], :director_id => @show.user_id)
+    end
+  end
+
 end

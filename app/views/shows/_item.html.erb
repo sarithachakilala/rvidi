@@ -107,11 +107,12 @@
   <div class="buttons_height_100">
     <div class="hr_bg_gettingstarted" style=""> 
       <div class="text_align_center add_cameo_btn"> 
-        <% unless show.contributor_preferences == "private" %>
-          <% if current_user.present? && show.user_id==current_user.id %>
-            <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
+        <% if show.contributor_preferences != "private" %>
+          <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
             <i class="sprite-or-icon_black" style=""></i>
-          <% end %>
+        <% elsif show.contributor_preferences == "private" && current_user.present? && show.user_id==current_user.id %>
+             <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
+            <i class="sprite-or-icon_black" style=""></i>
         <% end %>
         <%= link_to "<i class='sprite-camera-white'></i> Start a New Show".html_safe, new_show_path, :class => "btn btn-warning" %>
       </div>

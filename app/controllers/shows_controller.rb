@@ -56,7 +56,7 @@ class ShowsController < ApplicationController
     else
       @show.cameos=[]
     end
-    @success = @show.save!
+    @success = @show.save
 
     respond_to do |format|
       if @success
@@ -147,7 +147,6 @@ class ShowsController < ApplicationController
     else
       redirect_to show_path(:id=>@show.id)
     end
-
   end
 
 end

@@ -8,7 +8,11 @@ Rvidi::Application.routes.draw do
     end
   end
   resources :videos
-  resources :cameos
+  resources :cameos do
+    collection do 
+      post 'check_password'
+    end
+  end
   resources :shows do
     member do
       get 'view_invitation'
