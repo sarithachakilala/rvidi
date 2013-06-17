@@ -8,7 +8,7 @@ function jsCallbackReady(objectId){
 }
 
 function loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID){
-  var UICONF_ID = '14018252'
+  var UICONF_ID = '13376072'
   kWidget.embed({
     'targetId': TARGET_DIV_ID,
     'wid': '_'+PARTNER_ID,

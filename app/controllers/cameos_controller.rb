@@ -84,10 +84,13 @@ class CameosController < ApplicationController
 
   def destroy
     @cameo = Cameo.find(params[:id])
-    @cameo.destroy
+    kaltura_entry_id = @cameo.kaltura_entry_id
+    @success = @cameo.destroy
+    Cameo.delete_kaltura_video(kaltura_entry_id, session[:client], session[:ks]) if @success
 
     respond_to do |format|
       format.html { redirect_to cameos_url }
+      format.js {}
       format.json { head :no_content }
     end
   end

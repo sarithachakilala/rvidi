@@ -29,155 +29,49 @@
             <div class="row-fluid">
               <div class="span8 marging_none">
                 <div class="edit_title_bg"> 
-                  <div class="edit_title"> Title of the Show</div>
-                  <div class="font_weight_bold edit_subtitle">Director Name </div>
+                  <div class="edit_title"><%= @show.title.capitalize %></div>
+                  <div class="font_weight_bold edit_subtitle"><%= @show.director.full_name %></div>
+                 
                 </div>
-                <div style="">
-                  <img src="/assets/video_img.png" alt="">
-                </div>
+                <div id="show_<%= @show.id %>_kaltura_player_container">
+                  <!-- <img src="/assets/video_img.png" alt=""> -->
+                  <% selected_cameo = @show.cameos('show_order asc').first %>          
+                  <%= render :partial => "shows/cameo_player", :locals => { :cameo => selected_cameo } %>
+               </div>
               </div>
+
+
               <div class="span4 marging_none cameo_friends">
-                <div class="row-fluid">
-                  <div class="span1"> 
-                    <i class="sprite-right-icon"> </i>
+                <% if @show.cameos.present? %>
+                  <% @show.cameos.order('show_order asc').each do|show_cameo| %>
+                    <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
+                    <div class="row-fluid show-cameo-detail <%= cameo_div_class %>" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail">
+                      <div class="span1"> 
+                        <i class="sprite-right-icon"> </i>
+                      </div>
+                      <div class="span1">
+                        <%= link_to "<i class='sprite-into-icon'></i>".html_safe, cameo_path(show_cameo), :method => :delete, :confirm => "Are you sure to remove this Cameo?", :remote => true %>
+                      </div>
+                      <div class="span4">
+                        <div class="contributors_image">
+                          <% thumbnail = show_cameo.user.image_url.present? ? show_cameo.user.image_url : "/assets/default_image.png"  %>
+                          <div class="contributors_image_size"> <%= image_tag thumbnail, :class => "details_image_sizesmall" %></div>
+                        </div>
+                      </div>
+                      <div class="span6 cameo_friends_text">
+                        <%#= link_to show_cameo.user.username, show_path(@show.id, :cameo_id => show_cameo.id) %>
+                        <%= link_to show_cameo.user.full_name, play_cameo_show_path(:cameo_id => show_cameo.id), :remote => true %>
+                      </div>
+                    </div>
+                  <% end %>
+                <% else %>  
+                  <div class="row-fluid">
+                    <div class="span12">No Contributions Added to this Show.</div>
                   </div>
-                  <div class="span1">
-                    <i class="sprite-into-icon"> </i>
-                  </div>
-                  <div class="span4">
-                    <div class="contributors_image"> <img class="contributors_image_size" src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" alt="Contributors"> </div>
-                  </div>
-                  <div class="span6 cameo_friends_text"> 
-                    First contributor
-                  </div>
-                </div>
-                <div class="row-fluid">
-                  <div class="span1"> 
-                    <i class="sprite-right-icon"> </i>
-                  </div>
-                  <div class="span1">
-                    <i class="sprite-into-icon"> </i>
-                  </div>
-                  <div class="span4">
-                    <div class="contributors_image"> <img class="contributors_image_size" src="/assets/CUP0065824_P_Close-up-of-businesswomans-face.png" alt="Contributors"> </div>
-                  </div>
-                  <div class="span6 cameo_friends_text"> 
-                    Another User
-                  </div>
-                </div>
-                <div class="row-fluid">
-                  <div class="span1"> 
-                    <i class="sprite-right-icon"> </i>
-                  </div>
-                  <div class="span1">
-                    <i class="sprite-into-icon"> </i>
-                  </div>
-                  <div class="span4">
-                    <div class="contributors_image"> <img class="contributors_image_size" src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" alt="Contributors"> </div>
-                  </div>
-                  <div class="span6 cameo_friends_text"> 
-                    Contributor Number Three
-                  </div>
-                </div>
-                <div class="row-fluid">
-                  <div class="span1"> 
-                    <i class="sprite-right-icon"> </i>
-                  </div>
-                  <div class="span1">
-                    <i class="sprite-into-icon"> </i>
-                  </div>
-                  <div class="span4">
-                    <div class="contributors_image"> <img class="contributors_image_size" src="/assets/Coworkers-concentrating-on-pictures-CUP0014013.jpeg" alt="Contributors"> </div>
-                  </div>
-                  <div class="span6 cameo_friends_text"> 
-                    user Four
-                  </div>
-                </div>
-                <div class="row-fluid">
-                  <div class="span1"> 
-                    <i class="sprite-right-icon"> </i>
-                  </div>
-                  <div class="span1">
-                    <i class="sprite-into-icon"> </i>
-                  </div>
-                  <div class="span4">
-                    <div class="contributors_image"> <img class="contributors_image_size" src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" alt="Contributors"> </div>
-                  </div>
-                  <div class="span6 cameo_friends_text"> 
-                    cameo the Fifth
-                  </div>
-                </div>
-                <div class="row-fluid">
-                  <div class="span1"> 
-                    <i class="sprite-right-icon"> </i>
-                  </div>
-                  <div class="span1">
-                    <i class="sprite-into-icon"> </i>
-                  </div>
-                  <div class="span4">
-                    <div class="contributors_image"> <img class="contributors_image_size" src="/assets/CUP0065824_P_Close-up-of-businesswomans-face.png" alt="Contributors"> </div>
-                  </div>
-                  <div class="span6 cameo_friends_text"> 
-                    Sixth person goes here
-                  </div>
-                </div>
-                <div class="row-fluid">
-                  <div class="span1"> 
-                    <i class="sprite-right-icon"> </i>
-                  </div>
-                  <div class="span1">
-                    <i class="sprite-into-icon"> </i>
-                  </div>
-                  <div class="span4">
-                    <div class="contributors_image"> <img class="contributors_image_size" src="/assets/AYP1251924_P_USA-California-Los-Angeles-Portrait.png" alt="Contributors"> </div>
-                  </div>
-                  <div class="span6 cameo_friends_text"> 
-                    Cameo the seven
-                  </div>
-                </div>
-                <div class="row-fluid">
-                  <div class="span1"> 
-                    <i class="sprite-right-icon"> </i>
-                  </div>
-                  <div class="span1">
-                    <i class="sprite-into-icon"> </i>
-                  </div>
-                  <div class="span4">
-                    <div class="contributors_image"> <img class="contributors_image_size" src="/assets/Coworkers-concentrating-on-pictures-CUP0014013.jpeg" alt="Contributors"> </div>
-                  </div>
-                  <div class="span6 cameo_friends_text"> 
-                    Eight Cameo
-                  </div>
-                </div>
-                <div class="row-fluid">
-                  <div class="span1"> 
-                    <i class="sprite-right-icon"> </i>
-                  </div>
-                  <div class="span1">
-                    <i class="sprite-into-icon"> </i>
-                  </div>
-                  <div class="span4">
-                    <div class="contributors_image"> <img class="contributors_image_size" src="/assets/Coworkers-concentrating-on-pictures-CUP0014013.jpeg" alt="Contributors"> </div>
-                  </div>
-                  <div class="span6 cameo_friends_text"> 
-                    Eight Cameo
-                  </div>
-                </div>
-                <div class="row-fluid">
-                  <div class="span1"> 
-                    <i class="sprite-right-icon"> </i>
-                  </div>
-                  <div class="span1">
-                    <i class="sprite-into-icon"> </i>
-                  </div>
-                  <div class="span4">
-                    <div class="contributors_image"> <img class="contributors_image_size" src="/assets/Coworkers-concentrating-on-pictures-CUP0014013.jpeg" alt="Contributors"> </div>
-                  </div>
-                  <div class="span6 cameo_friends_text"> 
-                    Eight Cameo
-                  </div>
-                </div>
+                <% end %>
+
               </div>
+
               <div class="row-fluid">
                 <div class="span12">
                   <div class="edit_contributor_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </div>
@@ -272,3 +166,13 @@
   </div>
 <% end %>
 </div>
+
+<% content_for :js_with_script_tags do %>
+ <script src="http://cdnapi.kaltura.com/p/<%= configatron.kaltura_partner_id %>/sp/<%= configatron.kaltura_partner_id %>00/embedIframeJs/uiconf_id/13376072/partner_id/<%= configatron.kaltura_partner_id %>"></script>
+  <script>
+    var PARTNER_ID = "<%= configatron.kaltura_partner_id %>"
+    var ENTRY_ID = "<%= @show.cameos('show_order asc').first.kaltura_entry_id %>"
+    var TARGET_DIV_ID = "kaltura_player_<%= @show.id %>"
+    loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID);
+  </script>
+<% end %>

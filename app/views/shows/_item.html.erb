@@ -15,8 +15,8 @@
     <div class="row-fluid">
       <div class="span8 marging_none">
         <div class="edit_title_bg"> 
-          <div class="edit_title"><%= show.title %></div>
-          <div class="font_weight_bold edit_subtitle"><%= show.director.full_name %></div>
+          <div class="edit_title"><%= show.title.capitalize %></div>
+          <div class="font_weight_bold edit_subtitle"><%= show.director.full_name.capitalize %></div>
         </div>
         <div id="show_<%= show.id %>_kaltura_player_container">
           <% selected_cameo = cameo.present? ? cameo : show.cameos('show_order asc').first %>          
