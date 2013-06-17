@@ -12,6 +12,7 @@ class ShowsController < ApplicationController
 
   def show
     @show = Show.find(params[:id])
+    @display_prefernce = params[:preference].present? ? params[:preference] : @show.display_preferences 
     @show.update_attribute(:number_of_views, (@show.number_of_views.to_i+1))
     @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
@@ -136,6 +137,17 @@ class ShowsController < ApplicationController
     notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>"is Requested to contribute for a Show", :to_email=>params[:email])
     notification.save!
     redirect_to edit_show_path(:id=>@show.id)
+  end
+
+  def check_password
+    @show = Show.find(params[:show_id])
+    if @show.display_preferences_password == params[:password]
+      @display_prefernce = "checked"
+      redirect_to show_path(:id=>@show.id, :preference => @display_prefernce)
+    else
+      redirect_to show_path(:id=>@show.id)
+    end
+
   end
 
 end
