@@ -67,7 +67,7 @@ class ShowsController < ApplicationController
         format.json { render json: @show, status: :created, location: @show }
       else
         p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
-        format.html { render action: "new" }
+        format.html { redirect_to new_show_path, :notice => @show.errors.full_messages}
         format.js {}
         format.json { render json: @show.errors, status: :unprocessable_entity }
       end
@@ -106,7 +106,7 @@ class ShowsController < ApplicationController
   def play_cameo
     @show = Show.find(params[:id])    
     @cameo = Cameo.find(params[:cameo_id])    
-
+    
     respond_to do |format|
       format.html { redirect_to show_url(@cameo.show_id, :cameo_id => @cameo.id) }
       format.js {}
@@ -126,7 +126,7 @@ class ShowsController < ApplicationController
       @checkd_users.each do |each_friend|
         @user = User.find(each_friend) 
         InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
-        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>"is Requested to contribute for a Show")
+        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>" has Requested you to contribute for his Show")
         notification.save!
       end
     end
@@ -138,7 +138,7 @@ class ShowsController < ApplicationController
     @user = User.find(params[:email_from])
     RvidiMailer.delay.invite_friend_toshow(params[:email], @user, @show.id)
     InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
-    notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>"is Requested to contribute for a Show", :to_email=>params[:email])
+    notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>" has Requested you to contribute for his Show", :to_email=>params[:email])
     notification.save!
     redirect_to edit_show_path(:id=>@show.id)
   end

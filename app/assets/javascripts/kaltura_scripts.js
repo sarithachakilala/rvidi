@@ -7,7 +7,7 @@ function jsCallbackReady(objectId){
   // kdp.setKDPAttribute("configProxy.flashvars","autoPlay","true")
 }
 
-function loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID){
+function loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, autoPlay){
   var UICONF_ID = '13376072'
   kWidget.embed({
     'targetId': TARGET_DIV_ID,
@@ -15,7 +15,7 @@ function loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID){
     'uiconf_id' : UICONF_ID,
     'entry_id' : ENTRY_ID,
     'flashvars':{ // flashvars allows you to set runtime uiVar configuration overrides. 
-        'autoPlay': true,
+        'autoPlay': autoPlay,
         'loop': false
     },
     'params':{ // params allows you to set flash embed params such as wmode, allowFullScreen etc

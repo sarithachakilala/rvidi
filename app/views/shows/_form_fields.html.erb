@@ -10,7 +10,7 @@
     <div class="control-group">
       <label class="control-label  blue_label" for="inputPassword">Description</label>
       <div class="controls">
-        <%= f.text_field :description, :class => "js-required", :placeholder => "Description", :class => "show-description" %>
+        <%= f.text_field :description, :class => "js-required", :placeholder => "Description", :class => "show-description", :maxlength=>"100"%>
       </div>
     </div>
 
@@ -44,7 +44,7 @@
         </label>
         <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'private') %>">
           <%= f.radio_button :contributor_preferences, "private", {:class => "radio-input show-contributor-preferences"} %>
-          Private-Only my friends who have invitations can contribute
+          Private-Only my friends who have received invitations can contribute
         </label>
         <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'password_protected') %>">
           <%= f.radio_button :contributor_preferences, "password_protected", {:class => "radio-input show-contributor-preferences"} %>

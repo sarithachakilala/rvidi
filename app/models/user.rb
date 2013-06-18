@@ -48,7 +48,7 @@ class User < ActiveRecord::Base
     authentication.save!
   end
   
-  def self.from_omniauth(auth, options)
+  def self.from_omniauth(auth)
     user = User.new
     user = (auth.provider == "facebook") ? user_facebook_details(auth,user) : user_twitter_details(auth,user)
   end

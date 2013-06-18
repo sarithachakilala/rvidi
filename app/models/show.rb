@@ -9,6 +9,8 @@ class Show < ActiveRecord::Base
   validates :description, :presence => true
   validates :display_preferences, :presence => true
   validates :contributor_preferences, :presence => true
+  validates :display_preferences_password, :presence => true, :if => Proc.new {|dpp| dpp.display_preferences == "password_protected" }
+  validates :contributor_preferences_password, :presence => true, :if => Proc.new {|cpp| cpp.contributor_preferences == "password_protected" }
 
   # Associations
   belongs_to :director, :class_name => "User", :foreign_key => "user_id"

@@ -55,10 +55,10 @@
                     <% if show_contributers.present? %>
                       <div class="five_title">Contributors </div>
                       <div class="">
-                        <% show_contributers.each do |each_contributer|%>
+                        <% show_contributers.take(5).each do |each_contributer|%>
                           <% user = User.find(each_contributer)%>
                           <% thumbnail = user.image_url.present? ? user.image_url : "/assets/default_image.png"  %>
-                          <div class="contributors_image_detail"> <%= image_tag thumbnail %></div>
+                          <div class="contributors_image_detail"> <%= image_tag thumbnail , :class => "details_image_sizesmall", :style => "height:32px;"%></div>
                         <%  end %>
                       </div>
                     <% end %>
