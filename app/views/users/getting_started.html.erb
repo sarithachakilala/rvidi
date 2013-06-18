@@ -7,7 +7,7 @@
     <div class="span7">
       <div class="blue_title"> How it works</div> 
       <div> 
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        Make videos with other people – anyone, anywhere, anytime.  All you need is an idea. Record or upload an opening clip. Then invite others to contribute by using Facebook, Twitter or email.  It’s free, fun and extremely useful to businesses, non-profits, educators, students and creative people everywhere.
       </div>
     </div>
     <div class="span4"> 
@@ -23,7 +23,7 @@
     <div class="span7">
       <div class="orange_title">Starting your first show</div> 
       <div> 
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        Anyone can play the role of video director! Just name your video, add a description and record a clip (we like to call them “cameos”) or upload some footage from your personal video files. Your show grows automatically as others get your invitations and add clips of their own. As the director, you decide on a time limit for cameos, rearrange their order and add more cameos of your own.
       </div>
     </div>
     <div class="span4"> 
@@ -39,7 +39,7 @@
     <div class="span7">
       <div class="green_title"> Invite others to participate</div> 
       <div> 
-        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+        Invite anyone you know to add cameos to your show or allow the public to view and join in. Just plug in email addresses or select Facebook or Twitter friends. Let your show grow instantly as others add their cameos -- or elect to view and edit their contributions first.  It’s the quickest, most convenient way to create videos with people all over the world.
       </div>
       <div class="margin_top_10"> 
         <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), friends_user_path(current_user.id), :class=>"btn btn-primary" %>
@@ -85,12 +85,12 @@
                 <% show = Show.find(each_notification.show_id) if each_notification.show_id.present?%>
                 <% user = User.find(show.user_id) if show.present?%>
                 <% if user%>
-                 <li class="leaf">  <div class="font_weight_bold"> <%= user.full_name %> has invited you to contribute to video <%= link_to "#{show.title}", show_path(:id => show.id,  :to_contribute=>"yes") %><br/>view the video and contribute!</div>
-                 </li>
+                  <li class="leaf">  <div class="font_weight_bold"> <%= user.full_name %> has invited you to contribute to video <%= link_to "#{show.title}", show_path(:id => show.id,  :to_contribute=>"yes") %><br/>view the video and contribute!</div>
+                  </li>
                 <% end %>
               <% end %>
             <% end %>
-              <!-- <li class="leaf">your watching <b> Title goes here. </b> Go back to the video and <br> contribute! </li> -->
+            <!-- <li class="leaf">your watching <b> Title goes here. </b> Go back to the video and <br> contribute! </li> -->
           </ul>
         </div>
       </div>
@@ -100,9 +100,9 @@
         <div class="register_hr_bg"> 
           <div class="text_align_center login_and_account"> 
             <%= link_to raw("<i class=\"sprite-camera-white \"></i>Start a new show"), new_show_path, :class=>"btn btn-warning " %>
-         </div>
-       </div>
-     </div>
-   </div>
- </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
