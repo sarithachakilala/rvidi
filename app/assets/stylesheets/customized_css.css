@@ -127,16 +127,16 @@
     color: #5f5f61;
 }
 .slider_text{
-    margin: 25px 0px 25px 0px;
-    font-size: 15px;
-    line-height: 18px;
+    margin: 11px 0px 25px 0px;
+    font-size: 13px;
+    line-height: 11px;
 }
 .five_title{
     font-size: 12px;
     font-weight: bold;
     color: #f7941f;
-    margin-bottom: 10px;
-    padding-left: 7px;
+    margin-bottom: 0px;
+    padding-left: 0px;
 }
 .contributors_image{
     float: left;margin: 2px;

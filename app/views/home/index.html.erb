@@ -14,13 +14,13 @@
                 <div class="span1"></div>
                 <div class="span5">
                   <div class="slider_header"><%= link_to show.title.capitalize, show_path(show) %></div>
-                  <div class="sub_title"> <%= show.director.full_name.capitalize %></div>
+                  <div class="sub_title"><%= show.director.full_name.capitalize %></div>
                   <div class="slider_text">
                     <%= show.description %>
                   </div>
                   <% show_contributers = Cameo.where(:show_id=>show.id).collect(&:user_id)%>
                   <% if show_contributers.present? %>
-                    <div class="five_title">Contributors </div>
+                    <div class="five_title">Contributors</div>
                     <div class="">
                       <% show_contributers.take(5).each do |each_contributer|%>
                         <% user = User.find(each_contributer)%>
