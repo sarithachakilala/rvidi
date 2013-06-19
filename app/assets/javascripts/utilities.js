@@ -280,7 +280,7 @@ function check_file(){
     str.indexOf(suffix7, str.length - suffix7.length) !== -1 ||
     str.indexOf(suffix8, str.length - suffix8.length) !== -1 ||
     str.indexOf(suffix9, str.length - suffix9.length) !== -1)){
-    alert('File type not allowed,\nAllowed file: mp4,mov,avi,flv,wmv,3gp,asf,swf,webm');
+    alert('File type not allowed\n');
     document.getElementById('fileToUpload').value='';
   }
 }

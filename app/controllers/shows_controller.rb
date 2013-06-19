@@ -1,6 +1,6 @@
 class ShowsController < ApplicationController
   before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
-
+ 
   def index
     @shows = Show.all
 
@@ -58,15 +58,14 @@ class ShowsController < ApplicationController
     else
       @show.cameos=[]
     end
+    
     @success = @show.save
-
     respond_to do |format|
-      if @success && @cameo.video_file.content_type == "video"
+      if @success
         format.html { redirect_to @show, notice: 'Show was successfully created.' }
         format.js {}
         format.json { render json: @show, status: :created, location: @show }
       else
-        @show.errors.add(:base, "Invalid video format")
         p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
         format.html { redirect_to new_show_path, :notice => @show.errors.full_messages.to_sentence}
         format.js {}
@@ -153,5 +152,7 @@ class ShowsController < ApplicationController
       redirect_to show_path(:id=>@show.id)
     end
   end
+  
+ 
 
 end
