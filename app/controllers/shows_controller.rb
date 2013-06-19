@@ -68,7 +68,7 @@ class ShowsController < ApplicationController
       else
         @show.errors.add(:base, "Invalid video format")
         p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
-        format.html { redirect_to new_show_path, :notice => @show.errors.full_messages}
+        format.html { redirect_to new_show_path, :notice => @show.errors.full_messages.to_sentence}
         format.js {}
         format.json { render json: @show.errors, status: :unprocessable_entity }
       end
@@ -127,7 +127,7 @@ class ShowsController < ApplicationController
       @checkd_users.each do |each_friend|
         @user = User.find(each_friend) 
         InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
-        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>" has Requested you to contribute for his Show")
+        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>" has Requested you to contribute for their Show ")
         notification.save!
       end
     end
@@ -139,7 +139,7 @@ class ShowsController < ApplicationController
     @user = User.find(params[:email_from])
     RvidiMailer.delay.invite_friend_toshow(params[:email], @user, @show.id)
     InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
-    notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>" has Requested you to contribute for his Show", :to_email=>params[:email])
+    notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>" has Requested you to contribute for their Show ", :to_email=>params[:email])
     notification.save!
     redirect_to edit_show_path(:id=>@show.id)
   end

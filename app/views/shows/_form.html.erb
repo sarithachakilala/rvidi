@@ -1,5 +1,6 @@
 
 <div class="main_class">
+
 <%= form_for @show, :html => {:class => "js-validated-form form-horizontal", :method => :put} do |f| %>
   <%= hidden_field_tag :id, params[:id]%>
   <div class="login_container">
@@ -63,7 +64,7 @@
                       </div>
                       <div class="span6 cameo_friends_text">
                         <%#= link_to show_cameo.user.username, show_path(@show.id, :cameo_id => show_cameo.id) %>
-                        <%= link_to show_cameo.user.full_name, play_cameo_show_path(:cameo_id => show_cameo.id), :remote => true %>
+                        <%= link_to show_cameo.user.full_name, play_cameo_show_path(:cameo_id => show_cameo.id, :id => @show.id)%>
                       </div>
                     </div>
                   <% end %>
@@ -123,6 +124,7 @@
               
               <div class="span5"> 
                 <div style="padding: 5px;background-color: #d1d2d4;" class="selects-container">
+                  <% if @friend_mappings.present? %>
                     <% @friend_mappings.each_slice(2) do|friends_slice| %>
                       <div class="row-fluid">
                         <% friends_slice.each do|friend_mapping| %>
@@ -136,6 +138,7 @@
                         <%end%>
                       </div>
                     <%end%>
+                  <%end%>
                     <div class="row-fluid">
                       <div class="span4"></div>
                       <div class="span4"></div>

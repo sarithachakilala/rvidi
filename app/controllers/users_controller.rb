@@ -15,6 +15,12 @@ class UsersController < ApplicationController
       @success = true
       if params[:from_id].present?
         User.friendmapping_creation(params[:from_id], @user.id, "accepted")
+        notifications = Notification.where(:to_email=>params[:from_email])
+        notifications.each do |each_notification|
+          each_notification.update_attributes(:to_id=> @user.id) unless (@user.id == params[:from_id])
+        end
+        notification_update = Notification.where(:to_id => @user.id, :from_id => params[:from_id], :status=> "pending").firstx
+        notification_update.update_attributes(:status => "accepted")
       elsif params[:from_email].present?
         notifications = Notification.where(:to_email=>params[:from_email])
         notifications.each do |each_notification|
