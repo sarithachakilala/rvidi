@@ -67,7 +67,7 @@ class ShowsController < ApplicationController
         format.json { render json: @show, status: :created, location: @show }
       else
         p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
-        format.html { redirect_to new_show_path, :notice => @show.errors.full_messages}
+        format.html { redirect_to new_show_path, :notice => @show.errors.full_messages.to_sentence}
         format.js {}
         format.json { render json: @show.errors, status: :unprocessable_entity }
       end
