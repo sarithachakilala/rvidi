@@ -22,8 +22,8 @@ class ShowsController < ApplicationController
     if params[:to_contribute].present?
       @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id)
       @notification.update_all(:read_status =>true) if @notification
-      friends = FriendMapping.where(:user_id => current_user.id, :friend_id => @show.user_id, :status => 'accepted')
-      User.friendmapping_creation(current_user.id, @show.user_id, "accepted") unless friends.present?
+      #friends = FriendMapping.where(:user_id => current_user.id, :friend_id => @show.user_id, :status => 'accepted')
+      #User.friendmapping_creation(current_user.id, @show.user_id, "accepted") unless friends.present?
     end
     respond_to do |format|
       format.html 
@@ -149,8 +149,14 @@ class ShowsController < ApplicationController
       @display_prefernce = "checked"
       redirect_to show_path(:id=>@show.id, :preference => @display_prefernce)
     else
-      redirect_to show_path(:id=>@show.id)
+      redirect_to show_path(:id=>@show.id), :notice => "Password Mismatch"
     end
   end
 
+  def status_update
+    @show = Show.find(params[:show_id])
+    end_set_val = params[:status] == "end" ? Time.now : ""
+    @show.update_attributes(:end_set => end_set_val) 
+    redirect_to edit_show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
+  end
 end
