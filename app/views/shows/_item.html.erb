@@ -133,11 +133,11 @@
       <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-header">
           <% if notice.present? %><div class="alert alert-error"><%= notice%></div><% end %>
-          <h3 id="myModalLabel">Password Protected</h3>
+          <h3 id="myModalLabel">This Show is Password Protected</h3>
         </div>
         <div class="modal-body">
           <div class="control-group">
-              <label class="control-label" for="inputEmail">Password</label>
+              <label class="control-label" for="inputEmail">Please enter the password to view the show:</label>
               <div class="controls">
                 <%= password_field_tag :password %>
                 <%= hidden_field_tag :show_id, params[:id] %>
@@ -145,7 +145,7 @@
             </div>
         </div>
         <div class="modal-footer">
-          <%= link_to "Close", root_url, :class => "btn data-dismiss='modal' aria-hidden='true'" %>
+          <%= link_to "Cancel", root_url, :class => "btn data-dismiss='modal' aria-hidden='true'" %>
           <%= submit_tag "Submit", :class => "btn btn-warning" %>
         </div>
       </div>

@@ -18,12 +18,12 @@ class ShowsController < ApplicationController
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
     @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
-    
     if params[:to_contribute].present?
       @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id)
       @notification.update_all(:read_status =>true) if @notification
-      #friends = FriendMapping.where(:user_id => current_user.id, :friend_id => @show.user_id, :status => 'accepted')
-      #User.friendmapping_creation(current_user.id, @show.user_id, "accepted") unless friends.present?
+      friends = FriendMapping.where(:user_id => current_user.id, :friend_id => @show.user_id, :status => 'accepted')
+      friends ||= FriendMapping.where(:user_id => @show.user_id, :friend_id => current_user.id, :status => 'accepted')
+      User.friendmapping_creation(current_user.id, @show.user_id, "accepted") unless friends.present?
     end
     respond_to do |format|
       format.html 
@@ -118,6 +118,7 @@ class ShowsController < ApplicationController
      @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
   end
 
+  # Collect all the friends and Invite friends to contribute to the show if checked users or present
   def invite_friend
     @show = Show.find(params[:page_id])
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
@@ -149,7 +150,7 @@ class ShowsController < ApplicationController
       @display_prefernce = "checked"
       redirect_to show_path(:id=>@show.id, :preference => @display_prefernce)
     else
-      redirect_to show_path(:id=>@show.id), :notice => "Password Mismatch"
+      redirect_to show_path(:id=>@show.id), :notice => "Invalid Password: Please enter the correct password! "
     end
   end
 
