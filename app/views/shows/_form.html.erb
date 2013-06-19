@@ -166,7 +166,11 @@
       <div class="text_align_center login_and_account"> 
         <%= f.submit "Update Show", :class => "btn" %>
         <i style="" class="sprite-or-icon_black"></i>
-        <a class="btn  btn-warning " href="#">End Show</a>
+        <% if @show.try(:end_set) && (@show.end_set < Time.now) %>
+          <%= link_to "Start Show", status_update_shows_path(:show_id => params[:id], :status => "start"), :class => "btn  btn-info " %>
+        <% else %>
+          <%= link_to "End Show", status_update_shows_path(:show_id => params[:id], :status => "end"), :class => "btn  btn-warning " %>
+        <% end %>
       </div>
     </div>
   </div>
