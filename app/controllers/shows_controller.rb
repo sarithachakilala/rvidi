@@ -61,11 +61,12 @@ class ShowsController < ApplicationController
     @success = @show.save
 
     respond_to do |format|
-      if @success
+      if @success && @cameo.video_file.content_type == "video"
         format.html { redirect_to @show, notice: 'Show was successfully created.' }
         format.js {}
         format.json { render json: @show, status: :created, location: @show }
       else
+        @show.errors.add(:base, "Invalid video format")
         p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
         format.html { redirect_to new_show_path, :notice => @show.errors.full_messages}
         format.js {}
@@ -115,7 +116,7 @@ class ShowsController < ApplicationController
   end
 
   def friends_list
-     @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
+    @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
   end
 
   def invite_friend
