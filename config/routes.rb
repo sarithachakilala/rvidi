@@ -23,6 +23,7 @@ Rvidi::Application.routes.draw do
       get 'friends_list'
       get 'invite_friend_toshow'
       post 'check_password'
+      get 'status_update'
     end
   end
   resources :sessions
