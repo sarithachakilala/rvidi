@@ -100,7 +100,7 @@ class CameosController < ApplicationController
       @contribution_prefernce = "checked"
       redirect_to new_cameo_path(:preference => @contribution_prefernce, :show_id => params[:show_id], :director_id => @show.user_id)
     else
-      redirect_to new_cameo_path(:show_id => params[:show_id], :director_id => @show.user_id)
+      redirect_to new_cameo_path(:show_id => params[:show_id], :director_id => @show.user_id), :notice => "Invalid Password: Please enter the correct password! "
     end
   end
   
