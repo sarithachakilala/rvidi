@@ -42,7 +42,7 @@
                   <!-- <a class="btn btn-info " href="#">Choose</a> -->
                   <%= cameo_builder.hidden_field :user_id, :value => current_user.id, :class => "show-cameo-user-id" %>
                   <%= cameo_builder.hidden_field :director_id, :value => current_user.id, :class => "show-cameo-director-id" %>
-                  <%= cameo_builder.hidden_field :status, :value => "approved", :class => "show-cameo-status" %>
+                  <%= cameo_builder.hidden_field :status, :value => "enabled", :class => "show-cameo-status" %>
                   <%= hidden_field_tag 'show[cameos_attributes][0][audio_file]', '', :class => "recorded-audio-input cameo-recorded-audio-file" %>
                   <%= hidden_field_tag 'show[cameos_attributes][0][recorded_file]', '', :class => "recorded-video-input cameo-recorded-video-file" %>
                   <%= cameo_builder.file_field :video_file,:id => "fileToUpload", :class => "show-cameo-video-file",:onchange => "check_file()" %>
