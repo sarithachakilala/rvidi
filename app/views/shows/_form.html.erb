@@ -168,7 +168,7 @@
         <%= f.submit "Update Show", :class => "btn " , :id=> "update_cameo"%>
         <i style="" class="sprite-or-icon_black"></i>
         <% if @show.try(:end_set) && (@show.end_set < Time.now) %>
-          <%= link_to "Start Show", status_update_shows_path(:show_id => params[:id], :status => "start"), :class => "btn  btn-info " %>
+          <%= link_to "Re-open Show", status_update_shows_path(:show_id => params[:id], :status => "start"), :class => "btn  btn-info " %>
         <% else %>
           <%= link_to "End Show", status_update_shows_path(:show_id => params[:id], :status => "end"), :class => "btn  btn-warning " %>
         <% end %>
