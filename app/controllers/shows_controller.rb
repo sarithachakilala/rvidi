@@ -1,6 +1,6 @@
 class ShowsController < ApplicationController
   before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
-
+ 
   def index
     @shows = Show.all
 
@@ -58,8 +58,8 @@ class ShowsController < ApplicationController
     else
       @show.cameos=[]
     end
+    
     @success = @show.save
-
     respond_to do |format|
       if @success
         format.html { redirect_to @show, notice: 'Show was successfully created.' }
@@ -115,7 +115,7 @@ class ShowsController < ApplicationController
   end
 
   def friends_list
-     @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
+    @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
   end
 
   # Collect all the friends and Invite friends to contribute to the show if checked users or present
@@ -153,6 +153,8 @@ class ShowsController < ApplicationController
       redirect_to show_path(:id=>@show.id), :notice => "Invalid Password: Please enter the correct password! "
     end
   end
+  
+ 
 
   def status_update
     @show = Show.find(params[:show_id])
