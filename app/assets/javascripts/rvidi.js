@@ -19,13 +19,13 @@ jQuery(document).ready(function($){
 });
 
 // Send message to facebook user
-function facebook_send_message(element_id, name, profile_picture) {
+function facebook_send_message(element_id, name, profile_picture, site_address,from_id) {
   FB.ui(
   {
     method: 'send',
     to: element_id,
     name: 'Sign up for rvidi - Just like '+name+'!',
-    link: 'http://rvidi.qwinixtech.com',
+    link: 'http://rvidi.qwinixtech.com/users/new?from_id='+from_id,
     picture: profile_picture,
     description: 'Join '+name+' on rvidi.'
   },
