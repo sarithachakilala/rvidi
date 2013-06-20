@@ -1,6 +1,6 @@
 class ShowsController < ApplicationController
   before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
-
+ 
   def index
     @shows = Show.all
 
@@ -12,14 +12,17 @@ class ShowsController < ApplicationController
 
   def show
     @show = Show.find(params[:id])
+    @display_prefernce = params[:preference].present? ? params[:preference] : @show.display_preferences 
     @show.update_attribute(:number_of_views, (@show.number_of_views.to_i+1))
     @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
+    @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
     if params[:to_contribute].present?
       @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id)
       @notification.update_all(:read_status =>true) if @notification
       friends = FriendMapping.where(:user_id => current_user.id, :friend_id => @show.user_id, :status => 'accepted')
+      friends ||= FriendMapping.where(:user_id => @show.user_id, :friend_id => current_user.id, :status => 'accepted')
       User.friendmapping_creation(current_user.id, @show.user_id, "accepted") unless friends.present?
     end
     respond_to do |format|
@@ -55,8 +58,8 @@ class ShowsController < ApplicationController
     else
       @show.cameos=[]
     end
-    @success = @show.save!
-
+    
+    @success = @show.save
     respond_to do |format|
       if @success
         format.html { redirect_to @show, notice: 'Show was successfully created.' }
@@ -64,7 +67,7 @@ class ShowsController < ApplicationController
         format.json { render json: @show, status: :created, location: @show }
       else
         p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
-        format.html { render action: "new" }
+        format.html { redirect_to new_show_path, :notice => @show.errors.full_messages.to_sentence}
         format.js {}
         format.json { render json: @show.errors, status: :unprocessable_entity }
       end
@@ -103,7 +106,7 @@ class ShowsController < ApplicationController
   def play_cameo
     @show = Show.find(params[:id])    
     @cameo = Cameo.find(params[:cameo_id])    
-
+    
     respond_to do |format|
       format.html { redirect_to show_url(@cameo.show_id, :cameo_id => @cameo.id) }
       format.js {}
@@ -112,9 +115,10 @@ class ShowsController < ApplicationController
   end
 
   def friends_list
-     @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
+    @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
   end
 
+  # Collect all the friends and Invite friends to contribute to the show if checked users or present
   def invite_friend
     @show = Show.find(params[:page_id])
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
@@ -122,7 +126,8 @@ class ShowsController < ApplicationController
     if @checkd_users.present?
       @checkd_users.each do |each_friend|
         @user = User.find(each_friend) 
-        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>"is Requested to contribute for a Show")
+        InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
+        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>" has Requested you to contribute for their Show ")
         notification.save!
       end
     end
@@ -133,9 +138,28 @@ class ShowsController < ApplicationController
     @show = Show.find(params[:show_id])
     @user = User.find(params[:email_from])
     RvidiMailer.delay.invite_friend_toshow(params[:email], @user, @show.id)
-    notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>"is Requested to contribute for a Show", :to_email=>params[:email])
+    InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
+    notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>" has Requested you to contribute for their Show ", :to_email=>params[:email])
     notification.save!
     redirect_to edit_show_path(:id=>@show.id)
   end
 
+  def check_password
+    @show = Show.find(params[:show_id])
+    if @show.display_preferences_password == params[:password]
+      @display_prefernce = "checked"
+      redirect_to show_path(:id=>@show.id, :preference => @display_prefernce)
+    else
+      redirect_to show_path(:id=>@show.id), :notice => "Invalid Password: Please enter the correct password! "
+    end
+  end
+  
+ 
+
+  def status_update
+    @show = Show.find(params[:show_id])
+    end_set_val = params[:status] == "end" ? Time.now : ""
+    @show.update_attributes(:end_set => end_set_val) 
+    redirect_to edit_show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
+  end
 end

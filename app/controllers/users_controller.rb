@@ -15,6 +15,12 @@ class UsersController < ApplicationController
       @success = true
       if params[:from_id].present?
         User.friendmapping_creation(params[:from_id], @user.id, "accepted")
+        notifications = Notification.where(:to_email=>params[:from_email])
+        notifications.each do |each_notification|
+          each_notification.update_attributes(:to_id=> @user.id) unless (@user.id == params[:from_id])
+        end
+        notification_update = Notification.where(:to_id => @user.id, :from_id => params[:from_id], :status=> "pending").first
+        notification_update.update_attributes(:status => "accepted", :read_status => true)
       elsif params[:from_email].present?
         notifications = Notification.where(:to_email=>params[:from_email])
         notifications.each do |each_notification|
@@ -84,7 +90,7 @@ class UsersController < ApplicationController
     @latest_show =  Show.limit(6).order('created_at desc')
     @most_viewed =  Show.order('number_of_views desc')
     @show_notifications = Notification.where(:status => "contributed", :to_id=> current_user.id, :read_status => false).order(:created_at).group_by(&:show_id)
-    @notifications = Notification.where(:status => "pending", :to_id=> current_user.id, :read_status => false)
+    @notifications = Notification.where(:to_id=> current_user.id, :status => "pending", :read_status => false)
     @cameo_invitations = Notification.where(:status => "contribute", :to_id=> current_user.id, :read_status => false)
     @cameo_contributors = Notification.where(:status => "others_contributed", :to_id=> current_user.id, :read_status => false).group_by(&:show_id)
     @newest_shows =  Show.limit(6).order('created_at desc')
@@ -124,9 +130,9 @@ class UsersController < ApplicationController
     friend_requst1 = FriendMapping.where(:user_id =>current_user.id, :friend_id=> params[:friend_id]).first
     friend_requst2 = FriendMapping.where(:user_id =>params[:friend_id], :friend_id=> current_user.id).first
     notification = Notification.where(:to_id => current_user.id, :from_id => params[:friend_id]).first
-    friend_requst1.update_attributes(:status =>"accepted")
-    friend_requst2.update_attributes(:status =>"accepted")
-    notification.update_attributes(:status => "accepted")        
+    friend_requst1.update_attributes(:status =>"accepted") if friend_requst1.present?
+    friend_requst2.update_attributes(:status =>"accepted") if friend_requst2.present?
+    notification.update_attributes(:status => "accepted", :read_status => true)        
     redirect_to notification_user_path(:id => current_user.id), :notice => "confirmed as friend!"
   end
 

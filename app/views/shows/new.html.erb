@@ -45,7 +45,7 @@
                   <%= cameo_builder.hidden_field :status, :value => "approved", :class => "show-cameo-status" %>
                   <%= hidden_field_tag 'show[cameos_attributes][0][audio_file]', '', :class => "recorded-audio-input cameo-recorded-audio-file" %>
                   <%= hidden_field_tag 'show[cameos_attributes][0][recorded_file]', '', :class => "recorded-video-input cameo-recorded-video-file" %>
-                  <%= cameo_builder.file_field :video_file, :class => "show-cameo-video-file" %>
+                  <%= cameo_builder.file_field :video_file,:id => "fileToUpload", :class => "show-cameo-video-file",:onchange => "check_file()" %>
                 </div>
               </div>
 
@@ -138,7 +138,7 @@
 
       </div>
     </div>
-  </div>
+ 
   <div class="buttons_height">
     <div class=" hr_bg" style=""> 
       <div class="text_align_center newshow_btn"> 
@@ -147,9 +147,7 @@
       </div>
     </div>
   </div>
-
 <% end %>
-
 <% content_for :js_with_script_tags do %>
   <script src="/assets/recorder.js"> </script>
   <script src="/assets/whammy.js"></script>

@@ -8,7 +8,12 @@ Rvidi::Application.routes.draw do
     end
   end
   resources :videos
-  resources :cameos
+  resources :cameos do
+    collection do 
+      post 'check_password'
+      get 'cameo_status'
+    end
+  end
   resources :shows do
     member do
       get 'view_invitation'
@@ -18,6 +23,8 @@ Rvidi::Application.routes.draw do
       get 'invite_friend'
       get 'friends_list'
       get 'invite_friend_toshow'
+      post 'check_password'
+      get 'status_update'
     end
   end
   resources :sessions

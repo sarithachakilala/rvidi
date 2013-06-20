@@ -1,3 +1,4 @@
+<%= params[:errors]%>
 <div id="collapseOne" class="accordion-body collapse in">
   <div class="accordion-inner">
     <div class="control-group">
@@ -10,7 +11,7 @@
     <div class="control-group">
       <label class="control-label  blue_label" for="inputPassword">Description</label>
       <div class="controls">
-        <%= f.text_field :description, :class => "js-required", :placeholder => "Description", :class => "show-description" %>
+        <%= f.text_field :description, :class => "js-required", :placeholder => "Description", :class => "show-description", :maxlength=>"100"%>
       </div>
     </div>
 
@@ -40,15 +41,15 @@
       <div class="controls radio-inputs-container">
         <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'public') %>">
           <%= f.radio_button :contributor_preferences, "public", {:class => "radio-input show-contributor-preferences" } %>
-          Public-Anyone can watch
+          Public-Anyone can contribute
         </label>
         <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'private') %>">
           <%= f.radio_button :contributor_preferences, "private", {:class => "radio-input show-contributor-preferences"} %>
-          Private-Only my friends can watch
+          Private-Only my friends who have received invitations can contribute
         </label>
         <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'password_protected') %>">
           <%= f.radio_button :contributor_preferences, "password_protected", {:class => "radio-input show-contributor-preferences"} %>
-          Password Protected-Anyone with the password can watch
+          Password Protected-Anyone with the password can contribute
         </label>
         <label class="password_padding">
           <%= f.password_field :contributor_preferences_password, :class => " show-contributor-preferences-password", :placeholder => "Password" %>

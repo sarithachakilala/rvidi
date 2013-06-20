@@ -1,6 +1,5 @@
 <% if params[:email].present?%>
   <% user =  User.find(params[:from_id])%>
- 
   <div class="login_container">
     <div class="font_weight_bold">
       "Hello, <%= user.full_name %> has invited you to contribute to this video. Click <%= link_to "Add a cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email])%> to contribute!" 
@@ -16,10 +15,10 @@
       <div class="span8 marging_none">
         <div class="edit_title_bg"> 
           <div class="edit_title"><%= show.title.capitalize %></div>
-          <div class="font_weight_bold edit_subtitle"><%= show.director.full_name %></div>
+          <div class="font_weight_bold edit_subtitle"><%= show.director.full_name.capitalize %></div>
         </div>
         <div id="show_<%= show.id %>_kaltura_player_container">
-          <% selected_cameo = cameo.present? ? cameo : show.cameos('show_order asc').first %>          
+          <% selected_cameo = (cameo.present? && cameo.status =="enabled") ? cameo :  show.cameos('show_order asc').first%> 
           <%= render :partial => "shows/cameo_player", :locals => { :cameo => selected_cameo } %>
         </div>
       </div>
@@ -27,6 +26,7 @@
       <div class="span4 marging_none cameo_friends">
         <% if show.cameos.present? %>
           <% show.cameos.order('show_order asc').each do|show_cameo| %>
+          <% if show_cameo.status!= "disabled" %>
             <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
             <div class="row-fluid show-cameo-detail <%= cameo_div_class %>" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail">
               <div class="span3">
@@ -36,10 +36,10 @@
                 </div>
               </div>
               <div class="span8 cameo_friends_text">
-                <%#= link_to show_cameo.user.username, show_path(show.id, :cameo_id => show_cameo.id) %>
-                <%= link_to show_cameo.user.full_name, play_cameo_show_path(:cameo_id => show_cameo.id), :remote => true %>
+                <%= link_to show_cameo.user.full_name, play_cameo_show_path(:id => show.id, :cameo_id => show_cameo.id), :remote => true %>
               </div>
             </div>
+          <% end %>
           <% end %>
         <% else %>  
           <div class="row-fluid">
@@ -109,34 +109,47 @@
   <div class="buttons_height_100">
     <div class="hr_bg_gettingstarted" style=""> 
       <div class="text_align_center add_cameo_btn"> 
-        <% unless show.contributor_preferences == "private" &&  show.user_id!=current_user.id%>
-          <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
-          <i class="sprite-or-icon_black" style=""></i>
+        <% unless @show.try(:end_set) && (@show.end_set < Time.now) %>
+          <% if show.contributor_preferences != "private" %>
+            <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
+              <i class="sprite-or-icon_black" style=""></i>
+          <% elsif show.contributor_preferences == "private" && current_user.present? && show.user_id==current_user.id %>
+            <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
+            <i class="sprite-or-icon_black" style=""></i>
+          <% elsif show.contributor_preferences == "private" && @invited.present? %>
+            <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
+              <i class="sprite-or-icon_black" style=""></i>
+          <% end %>
         <% end %>
-        <%= link_to "<i class='sprite-camera-white'></i> Start a New Show".html_safe, new_show_path, :class => "btn btn-warning" %>
+          <%= link_to "<i class='sprite-camera-white'></i> Start a New Show".html_safe, new_show_path, :class => "btn btn-warning" %>
       </div>
     </div>
   </div>
 </div>
 
-
 <!-- Modal -->
-<% if show.display_preferences == "password_protected" && show.user_id!=current_user.id%>
-  <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-    <div class="modal-header">
-      <h3 id="myModalLabel">Password Protected</h3>
-    </div>
-    <div class="modal-body">
-      <div class="control-group">
-          <label class="control-label" for="inputEmail">Password</label>
-          <div class="controls">
-            <%= password_field_tag :password %>
-          </div>
+<% if @display_prefernce == "password_protected" %>
+  <% if current_user.present? && show.user_id!=current_user.id || !current_user.present? %>
+    <%= form_tag check_password_shows_path do %>
+      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-header">
+          <% if notice.present? %><div class="alert alert-error"><%= notice%></div><% end %>
+          <h3 id="myModalLabel">This Show is Password Protected</h3>
         </div>
-    </div>
-    <div class="modal-footer">
-      <%= link_to "Close", root_url, :class => "btn data-dismiss='modal' aria-hidden='true'" %>
-      <button class="btn btn-primary">Submit</button>
-    </div>
-  </div>
+        <div class="modal-body">
+          <div class="control-group">
+              <label class="control-label" for="inputEmail">Please enter the password to view the show:</label>
+              <div class="controls">
+                <%= password_field_tag :password %>
+                <%= hidden_field_tag :show_id, params[:id] %>
+              </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <%= link_to "Cancel", root_url, :class => "btn data-dismiss='modal' aria-hidden='true'" %>
+          <%= submit_tag "Submit", :class => "btn btn-warning" %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
 <% end %>

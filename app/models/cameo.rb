@@ -88,6 +88,10 @@ class Cameo < ActiveRecord::Base
     media_entry = client.base_entry_service.get(kaltura_entry_id)        
   end
 
+  def self.delete_kaltura_video(kaltura_entry_id, client, ks)
+    media_entry = client.media_service.delete(kaltura_entry_id, ks)
+  end
+  
   # Methods to manage Videos using Kaltura Ends
   # INSTANCE METHODS
   def set_uploaded_video_details(media_entry)

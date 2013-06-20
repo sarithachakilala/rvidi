@@ -7,9 +7,9 @@ function jsCallbackReady(objectId){
   // kdp.setKDPAttribute("configProxy.flashvars","autoPlay","true")
 }
 
-function loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID){
+function loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, autoPlay){
+  alert(autoPlay);
   var UICONF_ID = '13376072'
-  // var UICONF_ID = '14604752'
   kWidget.embed({
     'targetId': TARGET_DIV_ID,
     'wid': '_'+PARTNER_ID,
@@ -18,11 +18,9 @@ function loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID){
     // 'forceMobileHTML5': true,
     // 'Kaltura.LeadWithHTML5': true,
     'flashvars':{ // flashvars allows you to set runtime uiVar configuration overrides. 
-      'autoPlay': true,
-      'loop': false
-      // 'playlist.visible': false, // need to configure palylist attributes, not yet working.
-      // 'playlist.includeInLayout': false
-  },
+        'autoPlay': autoPlay,
+        'loop': false
+    },
     'params':{ // params allows you to set flash embed params such as wmode, allowFullScreen etc
       'wmode': 'transparent',
     },

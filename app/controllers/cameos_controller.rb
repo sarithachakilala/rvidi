@@ -21,7 +21,8 @@ class CameosController < ApplicationController
 
   def new
     @cameo = Cameo.new(:show_id => params[:show_id], :director_id => params[:director_id])
-
+    @show = Show.find(params[:show_id])
+    @contribution_prefernce = params[:preference].present? ? params[:preference] : @show.contributor_preferences 
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @cameo }
@@ -48,7 +49,6 @@ class CameosController < ApplicationController
       @cameo.set_uploaded_video_details(media_entry)
     end
     @success = @cameo.save
-
     #Creating a notification to the director
     notification = Notification.create(:show_id=>params[:cameo]['show_id'], :from_id=>params[:cameo]['user_id'], :to_id => params[:cameo]['director_id'], :status => "contributed", :content =>"Added a Cameo", :read_status => false) 
     notification.save!
@@ -83,7 +83,9 @@ class CameosController < ApplicationController
 
   def destroy
     @cameo = Cameo.find(params[:id])
+    kaltura_entry_id = @cameo.kaltura_entry_id
     @success = @cameo.destroy
+    Cameo.delete_kaltura_video(kaltura_entry_id, session[:client], session[:ks]) if @success
 
     respond_to do |format|
       format.html { redirect_to cameos_url }
@@ -91,4 +93,28 @@ class CameosController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  def check_password
+    @show = Show.find(params[:show_id])
+    if @show.contributor_preferences_password == params[:password]
+      @contribution_prefernce = "checked"
+      redirect_to new_cameo_path(:preference => @contribution_prefernce, :show_id => params[:show_id], :director_id => @show.user_id)
+    else
+      redirect_to new_cameo_path(:show_id => params[:show_id], :director_id => @show.user_id), :notice => "Invalid Password: Please enter the correct password! "
+    end
+  end
+  
+  def cameo_status
+    @show = Show.find(params[:show_id])
+    @cameos = Cameo.where(:show_id => @show.id)
+    @cameos.each do |each_cameo|
+      if params[:checked_cameos].include?(each_cameo.id.to_s)  
+        each_cameo.update_attributes(:status => "enabled") 
+      else
+        each_cameo.update_attributes(:status => "disabled") 
+      end unless (each_cameo.director_id == each_cameo.user_id)
+    end 
+    redirect_to edit_show_path(:id=>@show.id)
+  end
+
 end

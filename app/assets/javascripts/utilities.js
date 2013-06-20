@@ -45,8 +45,30 @@ $(document).ready(function(){
   });  
 
   $(".selects-container").on('click','#invite_friend', function(){
-  var child_id = [];
+    var child_id = [];
     $(".child_ckeck").each(function()
+    {   
+      var each_id = '#'+this.id;        
+      if($('#' + this.id).is(":checked"))
+      {
+        child_id.push(this.id);
+      }
+    });  
+    $.ajax({
+      url: "/shows/invite_friend.js",
+      data: {
+        checked_friends: child_id,
+        page_id: $('#id').val()
+      },
+      cache: false,
+      dataType: 'script'
+    });
+  }); 
+
+  // To get only Checked cameos
+  $('#update_cameo').on('click',function(){
+    var child_id = [];
+    $(".cameo_check").each(function()
     {   
       var each_id = '#'+this.id;        
        if($('#' + this.id).is(":checked"))
@@ -55,10 +77,9 @@ $(document).ready(function(){
         }           
     });  
     $.ajax({
-      url: "/shows/invite_friend.js",
-      data: { checked_friends: child_id, page_id: $('#id').val() },
-      cache: false,
-      dataType: 'script'
+      url: "/cameos/cameo_status",
+      data: { checked_cameos: child_id, show_id: $('#id').val()  },
+      cache: false
     });
   }); 
 
@@ -68,7 +89,10 @@ $(document).ready(function(){
     var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     $.ajax({
       url: "/users/friends_list.js",
-      data: { search_val:$('#search_value').val() , email_valid: regex.test(email) },
+      data: {
+        search_val:$('#search_value').val() ,
+        email_valid: regex.test(email)
+      },
       cache: false
     });
   }); 
@@ -78,7 +102,11 @@ $(document).ready(function(){
     var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     $.ajax({
       url: "/shows/friends_list.js",
-      data: { search_val:$('#search_value_to_invite').val() , email_valid: regex.test(email), page_id: $('#id').val() },
+      data: {
+        search_val:$('#search_value_to_invite').val() ,
+        email_valid: regex.test(email),
+        page_id: $('#id').val()
+      },
       cache: false
     });
   });     
@@ -103,7 +131,11 @@ function loadANewPage(url){
 // sendAjaxRequest is used to send an xml http request using javascript to a url using a method / get, put, post, delete
 function sendAjaxRequest(url, mType){
   methodType = mType || "GET";
-  jQuery.ajax({type: methodType, dataType:"script", url:url});
+  jQuery.ajax({
+    type: methodType,
+    dataType:"script",
+    url:url
+  });
 }
 
 // Call this function by passing a heading and a body message.
@@ -115,42 +147,42 @@ function showMessageInThePopUp(heading, message){
   $(".btn").button('reset')
 }
 
-  var _debug = false;
-  var _placeholderSupport = function() {
+var _debug = false;
+var _placeholderSupport = function() {
   var t = document.createElement("input");
   t.type = "text";
   return (typeof t.placeholder !== "undefined");
 }();
 
 window.onload = function() {
-    var arrInputs = document.getElementsByTagName("input");
-    for (var i = 0; i < arrInputs.length; i++) {
-        var curInput = arrInputs[i];
-        if (!curInput.type || curInput.type == "" || curInput.type == "text")
-            HandlePlaceholder(curInput);
-        else if (curInput.type == "password")
-            ReplaceWithText(curInput);
+  var arrInputs = document.getElementsByTagName("input");
+  for (var i = 0; i < arrInputs.length; i++) {
+    var curInput = arrInputs[i];
+    if (!curInput.type || curInput.type == "" || curInput.type == "text")
+      HandlePlaceholder(curInput);
+    else if (curInput.type == "password")
+      ReplaceWithText(curInput);
+  }
+
+  if (!_placeholderSupport) {
+    for (var i = 0; i < document.forms.length; i++) {
+      var oForm = document.forms[i];
+      if (oForm.attachEvent) {
+        oForm.attachEvent("onsubmit", function() {
+          PlaceholderFormSubmit(oForm);
+        });
+      }
+      else if (oForm.addEventListener)
+        oForm.addEventListener("submit", function() {
+          PlaceholderFormSubmit(oForm);
+        }, false);
     }
-
-    if (!_placeholderSupport) {
-        for (var i = 0; i < document.forms.length; i++) {
-            var oForm = document.forms[i];
-            if (oForm.attachEvent) {
-                oForm.attachEvent("onsubmit", function() {
-                    PlaceholderFormSubmit(oForm);
-                });
-            }
-            else if (oForm.addEventListener)
-                oForm.addEventListener("submit", function() {
-                    PlaceholderFormSubmit(oForm);
-                }, false);
-        }
-    }
+  }
 
 
-function ReplaceWithText(oPasswordTextbox) {
+  function ReplaceWithText(oPasswordTextbox) {
     if (_placeholderSupport)
-        return;
+      return;
     var oTextbox = document.createElement("input");
     oTextbox.type = "text";
     oTextbox.id = oPasswordTextbox.id;
@@ -158,91 +190,117 @@ function ReplaceWithText(oPasswordTextbox) {
     //oTextbox.style = oPasswordTextbox.style;
     oTextbox.className = oPasswordTextbox.className;
     for (var i = 0; i < oPasswordTextbox.attributes.length; i++) {
-        var curName = oPasswordTextbox.attributes.item(i).nodeName;
-        var curValue = oPasswordTextbox.attributes.item(i).nodeValue;
-        if (curName !== "type" && curName !== "name") {
-            oTextbox.setAttribute(curName, curValue);
-        }
+      var curName = oPasswordTextbox.attributes.item(i).nodeName;
+      var curValue = oPasswordTextbox.attributes.item(i).nodeValue;
+      if (curName !== "type" && curName !== "name") {
+        oTextbox.setAttribute(curName, curValue);
+      }
     }
     oTextbox.originalTextbox = oPasswordTextbox;
     oPasswordTextbox.parentNode.replaceChild(oTextbox, oPasswordTextbox);
     HandlePlaceholder(oTextbox);
     if (!_placeholderSupport) {
-        oPasswordTextbox.onblur = function() {
-            if (this.dummyTextbox && this.value.length === 0) {
-                this.parentNode.replaceChild(this.dummyTextbox, this);
-            }
-        };
+      oPasswordTextbox.onblur = function() {
+        if (this.dummyTextbox && this.value.length === 0) {
+          this.parentNode.replaceChild(this.dummyTextbox, this);
+        }
+      };
     }
-}
+  }
 
-function HandlePlaceholder(oTextbox) {
+  function HandlePlaceholder(oTextbox) {
     if (!_placeholderSupport) {
-        var curPlaceholder = oTextbox.getAttribute("placeholder");
-        if (curPlaceholder && curPlaceholder.length > 0) {
-            Debug("Placeholder found for input box '" + oTextbox.name + "': " + curPlaceholder);
-            oTextbox.value = curPlaceholder;
-            oTextbox.setAttribute("old_color", oTextbox.style.color);
-            oTextbox.style.color = "#c0c0c0";
-            oTextbox.onfocus = function() {
-                var _this = this;
-                if (this.originalTextbox) {
-                    _this = this.originalTextbox;
-                    _this.dummyTextbox = this;
-                    this.parentNode.replaceChild(this.originalTextbox, this);
-                    _this.focus();
-                }
-                Debug("input box '" + _this.name + "' focus");
-                _this.style.color = _this.getAttribute("old_color");
-                if (_this.value === curPlaceholder)
-                    _this.value = "";
-            };
-            oTextbox.onblur = function() {
-                var _this = this;
-                Debug("input box '" + _this.name + "' blur");
-                if (_this.value === "") {
-                    _this.style.color = "#c0c0c0";
-                    _this.value = curPlaceholder;
-                }
-            };
-        }
-        else {
-            Debug("input box '" + oTextbox.name + "' does not have placeholder attribute");
-        }
+      var curPlaceholder = oTextbox.getAttribute("placeholder");
+      if (curPlaceholder && curPlaceholder.length > 0) {
+        Debug("Placeholder found for input box '" + oTextbox.name + "': " + curPlaceholder);
+        oTextbox.value = curPlaceholder;
+        oTextbox.setAttribute("old_color", oTextbox.style.color);
+        oTextbox.style.color = "#c0c0c0";
+        oTextbox.onfocus = function() {
+          var _this = this;
+          if (this.originalTextbox) {
+            _this = this.originalTextbox;
+            _this.dummyTextbox = this;
+            this.parentNode.replaceChild(this.originalTextbox, this);
+            _this.focus();
+          }
+          Debug("input box '" + _this.name + "' focus");
+          _this.style.color = _this.getAttribute("old_color");
+          if (_this.value === curPlaceholder)
+            _this.value = "";
+        };
+        oTextbox.onblur = function() {
+          var _this = this;
+          Debug("input box '" + _this.name + "' blur");
+          if (_this.value === "") {
+            _this.style.color = "#c0c0c0";
+            _this.value = curPlaceholder;
+          }
+        };
+      }
+      else {
+        Debug("input box '" + oTextbox.name + "' does not have placeholder attribute");
+      }
     }
     else {
-        Debug("browser has native support for placeholder");
+      Debug("browser has native support for placeholder");
     }
-}
+  }
 
-function Debug(msg) {
+  function Debug(msg) {
     if (typeof _debug !== "undefined" && _debug) {
-        var oConsole = document.getElementById("Console");
-        if (!oConsole) {
-            oConsole = document.createElement("div");
-            oConsole.id = "Console";
-            document.body.appendChild(oConsole);
-        }
-        oConsole.innerHTML += msg + "<br />";
+      var oConsole = document.getElementById("Console");
+      if (!oConsole) {
+        oConsole = document.createElement("div");
+        oConsole.id = "Console";
+        document.body.appendChild(oConsole);
+      }
+      oConsole.innerHTML += msg + "<br />";
     }
-}
+  }
 };
 
 function PlaceholderFormSubmit(oForm) {    
-    for (var i = 0; i < oForm.elements.length; i++) {
-        var curElement = oForm.elements[i];
-        HandlePlaceholderItemSubmit(curElement);
-    }
+  for (var i = 0; i < oForm.elements.length; i++) {
+    var curElement = oForm.elements[i];
+    HandlePlaceholderItemSubmit(curElement);
+  }
 }
 
 function HandlePlaceholderItemSubmit(element) {
-    if (element.name) {
-        var curPlaceholder = element.getAttribute("placeholder");
-        if (curPlaceholder && curPlaceholder.length > 0 && element.value === curPlaceholder) {
-            element.value = "";
-            window.setTimeout(function() {
-                element.value = curPlaceholder;
-            }, 100);
-        }
+  if (element.name) {
+    var curPlaceholder = element.getAttribute("placeholder");
+    if (curPlaceholder && curPlaceholder.length > 0 && element.value === curPlaceholder) {
+      element.value = "";
+      window.setTimeout(function() {
+        element.value = curPlaceholder;
+      }, 100);
     }
+  }
 }
+function check_file(){
+  str=document.getElementById('fileToUpload').value.toUpperCase();
+  suffix=".MP4";
+  suffix2=".MOV";
+  suffix3=".AVI";
+  suffix4=".FLV";
+  suffix5=".WMV";
+  suffix6=".3GP";
+  suffix7=".ASF";
+  suffix8=".SWF";
+  suffix9=".WEBM";
+  if(!(str.indexOf(suffix, str.length - suffix.length) !== -1||
+    str.indexOf(suffix2, str.length - suffix2.length) !== -1 ||
+    str.indexOf(suffix3, str.length - suffix3.length) !== -1 ||
+    str.indexOf(suffix4, str.length - suffix4.length) !== -1 ||
+    str.indexOf(suffix5, str.length - suffix5.length) !== -1 ||
+    str.indexOf(suffix6, str.length - suffix6.length) !== -1 ||
+    str.indexOf(suffix7, str.length - suffix7.length) !== -1 ||
+    str.indexOf(suffix8, str.length - suffix8.length) !== -1 ||
+    str.indexOf(suffix9, str.length - suffix9.length) !== -1)){
+    alert('File type not allowed\n');
+    document.getElementById('fileToUpload').value='';
+  }
+}
+
+

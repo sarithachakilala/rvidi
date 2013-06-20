@@ -11,8 +11,8 @@
         <div class="thumbnail_contributor"><%= show.cameos.size %> Contributors </div>
       </div>
       <div class="span3"><i class="sprite-thumbnail_title_icon"></i></div>
-      <% preference = (show.display_preferences == "public") ? "sprite2-unlockorrange-icon" : "sprite2-lockgrey-icon" %>
-       <div> <i class= <%= preference %> ></i></div>
+      <% preference = (show.display_preferences == "public") ? "sprite2-unlockgrey-icon" : "sprite2-lockorrange-icon" %>
+      <div class="span3"><i class= <%= preference %> ></i></div>
     </div>
   </div>
 </li>
