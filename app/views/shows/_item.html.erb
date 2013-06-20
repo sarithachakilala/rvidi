@@ -18,14 +18,14 @@
           <div class="font_weight_bold edit_subtitle"><%= show.director.full_name.capitalize %></div>
         </div>
         <div id="show_<%= show.id %>_kaltura_player_container">
-          <% selected_cameo = (cameo.present? && cameo.status =="enabled") ? cameo :  show.cameos('show_order asc').first%> 
+          <% selected_cameo = (cameo.present? && cameo.status =="enabled") ? cameo :  show.cameos('show_order asc').where(:status=> "enabled").first%> 
           <%= render :partial => "shows/cameo_player", :locals => { :cameo => selected_cameo } %>
         </div>
       </div>
       <div class="span4 marging_none cameo_friends">
         <% if show.cameos.present? %>
           <% show.cameos.order('show_order asc').each do|show_cameo| %>
-          <% if show_cameo.status!= "disabled" %>
+          <% if show_cameo.status== "enabled" %>
             <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
             <div class="row-fluid show-cameo-detail <%= cameo_div_class %>" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail">
               <div class="span3">
@@ -130,12 +130,12 @@
 <% if @display_prefernce == "password_protected" %>
   <% if current_user.present? && show.user_id!=current_user.id || !current_user.present? %>
     <%= form_tag check_password_shows_path do %>
-      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
         <div class="modal-header">
           <% if notice.present? %><div class="alert alert-error"><%= notice%></div><% end %>
           <h3 id="myModalLabel">This Show is Password Protected</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body"> 
           <div class="control-group">
               <label class="control-label" for="inputEmail">Please enter the password to view the show:</label>
               <div class="controls">

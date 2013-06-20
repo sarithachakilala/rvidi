@@ -8,7 +8,7 @@ class Cameo < ActiveRecord::Base
   validates :user_id, :presence => true, :numericality => true
   # validates :show_id, :presence => true, :numericality => true # Need t o be added in after_save, to avoid being added from Terminal.
   validates :status, :presence => true, 
-                      :inclusion => { :in => %w(pending approved disabled enabled),
+                      :inclusion => { :in => %w(pending disabled enabled),
                                       :message => "%{value} is not a valid status" }
   validates :name, :presence => true
   validates :thumbnail_url, :presence => true

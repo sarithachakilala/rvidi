@@ -48,8 +48,9 @@
                     <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
                     <div class="row-fluid show-cameo-detail <%= cameo_div_class %>" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail">
                       <% unless show_cameo.user_id == show_cameo.director_id %>
-                        <div class="span1 selects-container"> 
-                          <%= check_box_tag(show_cameo.id, '', checked = true, :class => 'cameo_check')  %> 
+                        <div class="span1 selects-container">
+                          <% status = show_cameo.status== "enabled" ? true : false%> 
+                          <%= check_box_tag(show_cameo.id, '', checked = status, :class => 'cameo_check')  %> 
                           <!-- <input type="checkbox" id="<%= show_cameo.id%>" class="checkbox-input" value="<%= show_cameo.id%>", checked ="true">  -->
                         </div>
                         <div class="span1">
@@ -167,7 +168,7 @@
         <%= f.submit "Update Show", :class => "btn " , :id=> "update_cameo"%>
         <i style="" class="sprite-or-icon_black"></i>
         <% if @show.try(:end_set) && (@show.end_set < Time.now) %>
-          <%= link_to "Start Show", status_update_shows_path(:show_id => params[:id], :status => "start"), :class => "btn  btn-info " %>
+          <%= link_to "Re-open Show", status_update_shows_path(:show_id => params[:id], :status => "start"), :class => "btn  btn-info " %>
         <% else %>
           <%= link_to "End Show", status_update_shows_path(:show_id => params[:id], :status => "end"), :class => "btn  btn-warning " %>
         <% end %>
