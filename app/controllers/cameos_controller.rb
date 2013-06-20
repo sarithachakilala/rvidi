@@ -48,6 +48,7 @@ class CameosController < ApplicationController
       media_entry = Cameo.upload_video_to_kaltura(@cameo.recorded_file, session[:client], session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
     end
+    @cameo.status = (@cameo.show.need_review == true) ? "pending" : "enabled"
     @success = @cameo.save
     #Creating a notification to the director
     notification = Notification.create(:show_id=>params[:cameo]['show_id'], :from_id=>params[:cameo]['user_id'], :to_id => params[:cameo]['director_id'], :status => "contributed", :content =>"Added a Cameo", :read_status => false) 

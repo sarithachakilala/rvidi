@@ -159,7 +159,7 @@ window.onload = function() {
   for (var i = 0; i < arrInputs.length; i++) {
     var curInput = arrInputs[i];
     if (!curInput.type || curInput.type == "" || curInput.type == "text")
-      HandlePlaceholder(curInput);
+      ReplaceWithText(curInput);
     else if (curInput.type == "password")
       ReplaceWithText(curInput);
   }
