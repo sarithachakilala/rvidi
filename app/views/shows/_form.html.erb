@@ -41,12 +41,11 @@
                </div>
               </div>
 
-
-              <div class="span4 marging_none cameo_friends">
+              <div class="span4 marging_none cameo_friends" id="sortable">
                 <% if @show.cameos.present? %>
                   <% @show.cameos.order('show_order asc').each do|show_cameo| %>
                     <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
-                    <div class="row-fluid show-cameo-detail <%= cameo_div_class %>" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail">
+                    <div class="row-fluid show-cameo-detail <%= cameo_div_class %> ui-state-default" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail" data-id="<%=show_cameo.id %>" >
                       <% unless show_cameo.user_id == show_cameo.director_id %>
                         <div class="span1 selects-container">
                           <% status = show_cameo.status== "enabled" ? true : false%> 
@@ -68,6 +67,8 @@
                       </div>
                     </div>
                   <% end %>
+                  <%#= link_to 'Click here to Fix Order', "#", :onClick=>"sortList()" %>
+
                 <% else %>  
                   <div class="row-fluid">
                     <div class="span12">No Contributions Added to this Show.</div>
@@ -93,6 +94,7 @@
       </div>
     </div>
   </div>
+  <%= hidden_field_tag :order_list%>
 
   <div class="myvision_container">
     <div class="accordion" id="accordion3">

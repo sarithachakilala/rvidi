@@ -77,6 +77,10 @@ class ShowsController < ApplicationController
 
   def update
     @show = Show.find(params[:id])
+    params[:order_list].split(',').each do |each_cameo_by_order|
+      camoe  = Cameo.find each_cameo_by_order
+      camoe.update_attributes(:show_order => params[:order_list].index(each_cameo_by_order))
+    end
     respond_to do |format|
       if @show.update_attributes(params[:show])
         @show.update_active_cameos(params[:active_cameos]) if params[:active_cameos].present?

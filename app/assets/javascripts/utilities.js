@@ -1,6 +1,9 @@
 $(document).ready(function(){
-  $('#myModal').modal('show')
-
+  if($("#myModal").length>0){
+    $('#myModal').modal('show');
+  }
+   $( "#sortable" ).sortable();
+    $( "#sortable" ).disableSelection();
   //    To Change the + / - icon on click
   $('.plus-minus-container').on('click','.changeable-plus-minus',function(){
     var icon_elem = $(this).find('.plus-minus-i').first()
@@ -285,4 +288,33 @@ function check_file(){
   }
 }
 
+
+$(function() {
+  $( "#sortable" ).sortable({
+    stop: function(){
+      var listItem = $("div#sortable div.ui-state-default")
+      var listLength = listItem.length;
+      var list = [];
+      for(var i=0; i<listLength; i++){
+        // list[i] = listItem[i].id;}
+        list[i] = $(listItem[i]).attr('data-id');
+      }
+      document.getElementById("order_list").value = list
+    }
+  });
+  $( "#sortable" ).disableSelection();
+});
+
+
+// Presently not using.
+function sortList() {
+  var listItem = $("div#sortable div.ui-state-default")
+  var listLength = listItem.length;
+  var list = [];
+  for(var i=0; i<listLength; i++){
+    // list[i] = listItem[i].id;}
+    list[i] = $(listItem[i]).attr('data-id');
+  }
+  document.getElementById("order_list").value = list
+}
 
