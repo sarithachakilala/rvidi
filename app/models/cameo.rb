@@ -122,4 +122,18 @@ class Cameo < ActiveRecord::Base
     "#{build_stream_name current_user}.flv"
   end
 
+
+  #Class Methods
+  class << self
+    def get_cameo_file cameo, current_user
+      if Rais.env == 'development'
+        File.open(File.join(Rails.root, 'tmp', 'streams',
+            cameo.get_stream_name(current_user)))
+      else
+        File.open("/var/www/apps/rvidi/shared/streams/#{cameo.get_stream_name(current_user)}")
+      end
+    end
+
+  end
+
 end
