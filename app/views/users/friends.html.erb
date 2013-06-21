@@ -24,7 +24,7 @@
     //Facebook Send Message to a friend
     $(document).on('click', '.button-facebook-friend-invite', function(e){
       e.preventDefault();
-      facebook_send_message($(this).attr('id'), '<%= j current_user.full_name %>', '');
+      facebook_send_message($(this).attr('id'), '<%= j current_user.full_name %>', '', '<%= j configatron.site_address %>','<%= current_user.id %>');
     });
   </script>
 <% end %>

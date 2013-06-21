@@ -467,11 +467,14 @@
     height: 100px;
     width: 120px;
 }
+
 .myvision_title{
     color: #6e6d73;
     font-size: 34px;
     font-weight: bold;
+    line-height: 40px;
 }
+
 .font_weight_bold{
     font-weight: bold;
 }
