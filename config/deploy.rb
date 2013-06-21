@@ -22,6 +22,7 @@ set :application, 'rvidi.qwinixtech.com'
 set :shared_children, shared_children + %w{public/uploads}
 
 before "deploy:assets:precompile", "deploy:copy_database_yml"
+before "deploy:assets:precompile", "deploy:copy_streams_folder"
 
 after 'deploy', 'deploy:migrate'
 after 'deploy', 'deploy:cleanup'
@@ -46,6 +47,10 @@ namespace :deploy do
     # run "ln -nfs #{shared_path}/private #{release_path}/private"
   end
 
+  desc "Copy folder named streams_temp to /tmp folder to store streams from red5 server"
+  task :copy_streams_folder do
+    run "cp -rf #{release_path}/assets/streams_temp #{release_path}/tmp/streams"
+  end
   # To reset database connection, while deploying
   # desc 'kill pgsql users so database can be dropped'
   # task :kill_postgres_connections do
