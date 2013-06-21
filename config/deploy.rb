@@ -22,12 +22,11 @@ set :application, 'rvidi.qwinixtech.com'
 set :shared_children, shared_children + %w{public/uploads}
 
 before "deploy:assets:precompile", "deploy:copy_database_yml"
-before "deploy:assets:precompile", "deploy:copy_streams_folder"
 
 after 'deploy', 'deploy:migrate'
 after 'deploy', 'deploy:cleanup'
 after 'deploy', 'delayed_job:restart' # To Restart delayed_job after deploying the code
-
+after "deploy", "deploy:copy_streams_folder"
 ## Necessary only to drop,create and reseed database. Not necessary other wise
 # after 'deploy:update_code', 'deploy:kill_postgres_connections'
 
