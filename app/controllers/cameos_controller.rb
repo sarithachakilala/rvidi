@@ -58,7 +58,12 @@ class CameosController < ApplicationController
         return
       end
     end
-    @cameo.status = (@cameo.show.need_review == true) ? "pending" : "enabled"
+    if @cameo.user_id == @cameo.director_id
+      @cameo.status = "enabled"
+    else
+      @cameo.status = (@cameo.show.need_review == true) ? "pending" : "enabled"
+    end
+
     @success = @cameo.save
     #Creating a notification to the director
     notification = Notification.create(:show_id=>params[:cameo]['show_id'], :from_id=>params[:cameo]['user_id'], :to_id => params[:cameo]['director_id'], :status => "contributed", :content =>"Added a Cameo", :read_status => false) 

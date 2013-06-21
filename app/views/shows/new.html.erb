@@ -24,7 +24,7 @@
           </div>
           <div id="collapseTwo" class="accordion-body collapse in">
             <div class="accordion-inner">
-              <div class="row-fluid"> 
+              <div class="row-fluid">
                 <div class="span3 text_align_center cursor-pointer" id="camera-me">
                   <i class="sprite-camera-big"></i>
                   <div class="font_weight_bold">
@@ -36,7 +36,7 @@
                   <i class="sprite-or-icon_black"></i>
                 </div>
                 <div class="span3 text_align_center">
-                  <div class="font_weight_bold"> 
+                  <div class="font_weight_bold">
                     Upload clip from your computer or Camera
                   </div><br>
                   <!-- <a class="btn btn-info " href="#">Choose</a> -->
@@ -49,13 +49,50 @@
                 </div>
               </div>
 
+              <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="300" height="290"
+                      id="camera" data="/assets/CameraDemo.swf" align="middle">
+                <param name=FlashVars value="myVariable=<%= URI::escape(@cameo.build_stream_name(current_user)) %>&railsEnv=<%= URI::escape(Rails.env) %>" />
+                <param name="movie" value="/assets/CameraDemo.swf" />
+                <param name="quality" value="high" />
+                <param name="bgcolor" value="#ffffff" />
+                <param name="play" value="true" />
+                <param name="loop" value="true" />
+                <param name="wmode" value="window" />
+                <param name="scale" value="showall" />
+                <param name="menu" value="true" />
+                <param name="devicefont" value="false" />
+                <param name="salign" value="" />
+                <param name="allowScriptAccess" value="sameDomain" />
+                <!--[if !IE]>-->
+                <object type="application/x-shockwave-flash" data="/assets/CameraDemo.swf"
+                        width="300" height="290" id="camera">
+                  <param name=FlashVars value="myVariable=<%= URI::escape(@cameo.build_stream_name(current_user)) %>&railsEnv=<%= URI::escape(Rails.env) %>" />
+                  <param name="movie" value="/assets/CameraDemo.swf" />
+                  <param name="quality" value="high" />
+                  <param name="bgcolor" value="#ffffff" />
+                  <param name="play" value="true" />
+                  <param name="loop" value="true" />
+                  <param name="wmode" value="window" />
+                  <param name="scale" value="showall" />
+                  <param name="menu" value="true" />
+                  <param name="devicefont" value="false" />
+                  <param name="salign" value="" />
+                  <param name="allowScriptAccess" value="sameDomain" />
+                  <!--<![endif]-->
+                  <a href="http://www.adobe.com/go/getflash">
+                    <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+                  </a>
+                  <!--[if !IE]>-->
+                </object>
+                <!--<![endif]-->
+              </object>
               <!-- Content to show HTML5 Recorder Starts -->
-              <video class='video-record hide' autoplay></video>
-              <div id="video-preview" class='video-record hide'>
-                <%= link_to "Record", "javascript:void(0);",  :id => "record-me", :class => 'btn' %>
-                <%= link_to "◼", "javascript:void(0);",  :id => "stop-me", :class => 'btn' %>
+              <!--<video class='video-record hide' autoplay></video>
+              <div id="video-preview" class='video-record hide'> -->
+                <%#= link_to "Record", "javascript:void(0);",  :id => "record-me", :class => 'btn' %>
+                <%#= link_to "◼", "javascript:void(0);",  :id => "stop-me", :class => 'btn' %>
                 <!--<button id="play-me" disabled>►</button>-->
-                <span id="elasped-time"></span>
+                <!--<span id="elasped-time"></span>
               </div>
 
               <audio class='audio-record hide' controls autoplay></audio>
@@ -68,7 +105,7 @@
           </div>
         </div>
       </div>
-    <% end %>  
+    <% end %>
   </div>
 
   <div class="myvision_container">
@@ -81,10 +118,10 @@
         </div>
         <div id="collapseThree" class="accordion-body collapse in">
           <div class="accordion-inner">
-            <div class="row-fluid"> 
+            <div class="row-fluid">
               <div class="span6">
                 <div class="title"> Invite some friends to contribute to this show!</div>
-                <div class="margin_top_10"> 
+                <div class="margin_top_10">
                   <a class="btn  btn-primary " href="#"><i class="sprite-facebook-white"></i>Add from Facebook</a>
                   <a class="btn  btn-info " href="#"><i class="sprite-twitter-white"></i>Add from Twitter</a>
                 </div>
@@ -98,7 +135,7 @@
                   </div>
                 </div>
               </div>
-              <div class="span5"> 
+              <div class="span5">
                 <div style="padding: 5px;background-color: #d1d2d4;" class="selects-container">
                   <% if @friend_mappings.present? %>
                     <% @friend_mappings.each_slice(2) do|friends_slice| %>
@@ -106,42 +143,42 @@
                         <% friends_slice.each do|friend_mapping| %>
                           <% friend = User.find(friend_mapping.friend_id) %>
                           <% position_class = (friends_slice.index(friend_mapping)==0) ? "padding_left" : "" %>
-                           <div class="span6 <%= position_class %>" style="margin-left:-1px">
-                             <label class="checkbox inline width-100-percent ">
+                          <div class="span6 <%= position_class %>" style="margin-left:-1px">
+                            <label class="checkbox inline width-100-percent ">
                               <input type="checkbox" id="<%= friend.id%>" class="checkbox-input" value="<%= friend.id%>"> <%= "#{friend.first_name}  #{friend.last_name}"%>
-                              </label>
+                            </label>
                           </div>
                         <%end%>
                       </div>
                     <%end%>
-                  <% end %>  
-                    <div class="row-fluid">
-                      <div class="span4"></div>
-                      <div class="span4"></div>
-                      <div class="span4">
-                        <label class="checkbox inline select-all-label">
-                          Select all
-                        </label>
-                      </div>
+                  <% end %>
+                  <div class="row-fluid">
+                    <div class="span4"></div>
+                    <div class="span4"></div>
+                    <div class="span4">
+                      <label class="checkbox inline select-all-label">
+                        Select all
+                      </label>
                     </div>
                   </div>
-                  <!-- </form> -->
                 </div>
+                <!-- </form> -->
               </div>
-                      
             </div>
 
           </div>
+
         </div>
       </div>
-      <div id= "main_frame" class = "selects-container">
-
-      </div>
     </div>
- 
+    <div id= "main_frame" class = "selects-container">
+
+    </div>
+  </div>
+
   <div class="buttons_height">
-    <div class=" hr_bg" style=""> 
-      <div class="text_align_center newshow_btn"> 
+    <div class=" hr_bg" style="">
+      <div class="text_align_center newshow_btn">
         <!-- <a class="btn  btn-warning " href="#">Publish show</a> -->
         <%= f.submit "Publish Show", :class => "btn btn-warning publish-show-btn" %>
       </div>

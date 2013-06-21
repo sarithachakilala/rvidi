@@ -53,11 +53,16 @@ class ShowsController < ApplicationController
     if @cameo.video_file.present?
       media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
-    elsif @cameo.recorded_file.present?
-      media_entry = Cameo.upload_video_to_kaltura(@cameo.recorded_file, session[:client], session[:ks])
-      @cameo.set_uploaded_video_details(media_entry)
     else
-      @show.cameos=[]
+      begin
+        sleep(4);
+        stream_file = Cameo.get_cameo_file(@cameo, current_user)
+        media_entry = Cameo.upload_video_to_kaltura(stream_file,
+          session[:client], session[:ks])
+        @cameo.set_uploaded_video_details(media_entry)
+      rescue
+        @show.cameos = []
+      end
     end
     
     @success = @show.save
