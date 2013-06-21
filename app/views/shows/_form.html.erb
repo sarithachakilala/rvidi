@@ -47,8 +47,7 @@
                       <% unless show_cameo.user_id == show_cameo.director_id %>
                         <div class="span1 selects-container">
                           <% status = show_cameo.status== "enabled" ? true : false%> 
-                          <%= check_box_tag(show_cameo.id, '', checked = status, :class => 'cameo_check')  %> 
-                          <!-- <input type="checkbox" id="<%= show_cameo.id%>" class="checkbox-input" value="<%= show_cameo.id%>", checked ="true">  -->
+                          <%= check_box_tag('active_cameos[]', show_cameo.id, checked = status, :class => 'cameo_check')  %> 
                         </div>
                         <div class="span1">
                           <%= link_to "<i class='sprite-into-icon'></i>".html_safe, cameo_path(show_cameo), :method => :delete, :confirm => "Are you sure to remove this Cameo?", :remote => true %>

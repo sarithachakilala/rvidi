@@ -77,9 +77,9 @@ class ShowsController < ApplicationController
 
   def update
     @show = Show.find(params[:id])
-
     respond_to do |format|
       if @show.update_attributes(params[:show])
+        @show.update_active_cameos(params[:active_cameos]) if params[:active_cameos].present?
         format.html { redirect_to @show, notice: 'Show was successfully updated.' }
         format.json { head :no_content }
       else
