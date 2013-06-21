@@ -65,24 +65,6 @@ $(document).ready(function(){
     });
   }); 
 
-  // To get only Checked cameos
-  $('#update_cameo').on('click',function(){
-    var child_id = [];
-    $(".cameo_check").each(function()
-    {   
-      var each_id = '#'+this.id;        
-       if($('#' + this.id).is(":checked"))
-        {
-          child_id.push(this.id);
-        }           
-    });  
-    $.ajax({
-      url: "/cameos/cameo_status",
-      data: { checked_cameos: child_id, show_id: $('#id').val()  },
-      cache: false
-    });
-  }); 
-
   // Get the list of friends list based on search criteria
   $('#search_friends').on('click',function(){
     email = $('#search_value').val()

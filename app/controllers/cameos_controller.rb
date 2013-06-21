@@ -104,18 +104,5 @@ class CameosController < ApplicationController
       redirect_to new_cameo_path(:show_id => params[:show_id], :director_id => @show.user_id), :notice => "Invalid Password: Please enter the correct password! "
     end
   end
-  
-  def cameo_status
-    @show = Show.find(params[:show_id])
-    @cameos = Cameo.where(:show_id => @show.id)
-    @cameos.each do |each_cameo|
-      if params[:checked_cameos].include?(each_cameo.id.to_s)  
-        each_cameo.update_attributes(:status => "enabled") 
-      else
-        each_cameo.update_attributes(:status => "disabled") 
-      end unless (each_cameo.director_id == each_cameo.user_id)
-    end 
-    redirect_to edit_show_path(:id=>@show.id)
-  end
 
 end
