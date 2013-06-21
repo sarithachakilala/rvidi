@@ -87,4 +87,16 @@ class Cameo < ActiveRecord::Base
     Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.try(:show_order) || 0
   end
 
+  def build_stream_name current_user
+    if Cameo.count > 0
+    "#{id + 1}_#{current_user.id}"
+    else
+     "#{1}_#{current_user.id}"
+    end
+  end
+
+  def get_stream_name current_user
+    "#{build_stream_name current_user}.flv"
+  end
+
 end

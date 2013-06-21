@@ -42,10 +42,14 @@ class CameosController < ApplicationController
     end
 
     if params[:cameo][:video_file].present?
-      media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
+      media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client],
+                                                    session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
-    elsif params[:cameo][:recorded_file].present?
-      media_entry = Cameo.upload_video_to_kaltura(@cameo.recorded_file, session[:client], session[:ks])
+    else
+      stream_file = File.open(File.join(Rails.root, 'tmp', 'streams',
+                                        @cameo.get_stream_name(current_user)))
+      media_entry = Cameo.upload_video_to_kaltura(stream_file,
+                                                  session[:client], session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
     end
     @cameo.status = (@cameo.show.need_review == true) ? "pending" : "enabled"
