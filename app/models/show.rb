@@ -23,4 +23,18 @@ class Show < ActiveRecord::Base
   scope :public_shows, where(:display_preferences => "public")  
   scope :public_private_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'private')  
   scope :public_protected_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'password_protected')  
+
+
+  # CLASS METHODS
+  # INSTANCE METHODS
+  def update_active_cameos(cameos_arr)
+    cameos.each do|cameo|
+      if cameos_arr.include?(cameo.id.to_s)
+        cameo.update_attributes(:status => "enabled") 
+      else
+        cameo.update_attributes(:status => "disabled") 
+      end unless (cameo.director_id == cameo.user_id)
+    end
+  end
+
 end

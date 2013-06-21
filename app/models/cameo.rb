@@ -20,6 +20,8 @@ class Cameo < ActiveRecord::Base
   belongs_to :director, :class_name => "User", :foreign_key => "director_id"
 
   # Callbacks
+  after_destroy :delete_kaltura_video
+
   # METHODS
   # Class Methods
   # Methods to manage Videos using Kaltura Starts
@@ -32,7 +34,7 @@ class Cameo < ActiveRecord::Base
 
   def self.get_kaltura_client(user_id)
     kaltura_config = get_kaltura_config    
-    kaltura_client = Kaltura::KalturaClient.new( kaltura_config )
+    kaltura_client = Kaltura::KalturaClient.new( kaltura_config )    
     ks = kaltura_client.session_service.start( configatron.administrator_secret, user_id, Kaltura::KalturaSessionType::ADMIN )
     kaltura_client.ks = ks
     kaltura_client
@@ -60,6 +62,26 @@ class Cameo < ActiveRecord::Base
     
     media_entry = get_kaltura_video(client, created_entry.id)
     media_entry
+  end
+
+  # To be called from rake task to, Add Videos to kaltura directly Console
+  def self.save_cameo_with_video_in_kaltura(video, client, ks, director_id, user_id)
+    cameo = Cameo.new
+    media_entry = upload_video_to_kaltura(video, client, ks)
+    cameo.set_uploaded_video_details(media_entry)
+    cameo.director_id = director_id
+    cameo.user_id = user_id
+    saved = cameo.save
+    if saved
+      p "cameo saved with kaltura entry id: #{cameo.kaltura_entry_id}"
+    else
+      p "cameo not saved because of errors: #{cameo.errors.messages}"
+    end
+    cameo
+  end
+
+  def delete_kaltura_video(kaltura_entry_id, client, ks)
+    media_entry = client.base_entry_service.delete(kaltura_entry_id, ks)
   end
 
   def self.get_kaltura_video(client, kaltura_entry_id)
