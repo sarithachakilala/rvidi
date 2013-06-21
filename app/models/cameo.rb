@@ -126,7 +126,7 @@ class Cameo < ActiveRecord::Base
   #Class Methods
   class << self
     def get_cameo_file cameo, current_user
-      if Rais.env == 'development'
+      if Rails.env == 'development'
         File.open(File.join(Rails.root, 'tmp', 'streams',
             cameo.get_stream_name(current_user)))
       else

@@ -43,13 +43,19 @@ class CameosController < ApplicationController
 
     if params[:cameo][:video_file].present?
       media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client],
-                                                    session[:ks])
+        session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
     else
-      stream_file = Cameo.get_cameo_file(@cameo)
-      media_entry = Cameo.upload_video_to_kaltura(stream_file,
-                                                  session[:client], session[:ks])
-      @cameo.set_uploaded_video_details(media_entry)
+      begin
+        stream_file = Cameo.get_cameo_file(@cameo, current_user)
+        media_entry = Cameo.upload_video_to_kaltura(stream_file,
+          session[:client], session[:ks])
+        @cameo.set_uploaded_video_details(media_entry)
+      rescue 
+        flash[:notice] = "No stream to publish!!"
+        redirect_to root_url
+        return
+      end
     end
     @cameo.status = (@cameo.show.need_review == true) ? "pending" : "enabled"
     @success = @cameo.save
