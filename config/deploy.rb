@@ -26,7 +26,6 @@ before "deploy:assets:precompile", "deploy:copy_database_yml"
 after 'deploy', 'deploy:migrate'
 after 'deploy', 'deploy:cleanup'
 after 'deploy', 'delayed_job:restart' # To Restart delayed_job after deploying the code
-
 ## Necessary only to drop,create and reseed database. Not necessary other wise
 # after 'deploy:update_code', 'deploy:kill_postgres_connections'
 
@@ -45,7 +44,6 @@ namespace :deploy do
     # run "mkdir -p #{shared_path}/private"
     # run "ln -nfs #{shared_path}/private #{release_path}/private"
   end
-
   # To reset database connection, while deploying
   # desc 'kill pgsql users so database can be dropped'
   # task :kill_postgres_connections do

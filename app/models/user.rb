@@ -9,6 +9,7 @@ class User < ActiveRecord::Base
 
   has_many :authentications
   has_many :shows
+  has_many :cameos
 
   # VALIDATIONS
   validates :first_name, :last_name, :presence => true

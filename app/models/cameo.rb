@@ -1,15 +1,15 @@
 class Cameo < ActiveRecord::Base
   attr_accessor :video_file, :audio_file, :recorded_file
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, :description,
-                  :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file
+    :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file
 
   # Validations
   validates :director_id, :presence => true, :numericality => true
   validates :user_id, :presence => true, :numericality => true
   # validates :show_id, :presence => true, :numericality => true # Need t o be added in after_save, to avoid being added from Terminal.
   validates :status, :presence => true, 
-                      :inclusion => { :in => %w(pending disabled enabled),
-                                      :message => "%{value} is not a valid status" }
+    :inclusion => { :in => %w(pending disabled enabled),
+    :message => "%{value} is not a valid status" }
   validates :name, :presence => true
   validates :thumbnail_url, :presence => true
   validates :download_url, :presence => true
@@ -20,6 +20,8 @@ class Cameo < ActiveRecord::Base
   belongs_to :director, :class_name => "User", :foreign_key => "director_id"
 
   # Callbacks
+  after_destroy :delete_kaltura_video
+
   # METHODS
   # Class Methods
   # Methods to manage Videos using Kaltura Starts
@@ -32,7 +34,7 @@ class Cameo < ActiveRecord::Base
 
   def self.get_kaltura_client(user_id)
     kaltura_config = get_kaltura_config    
-    kaltura_client = Kaltura::KalturaClient.new( kaltura_config )
+    kaltura_client = Kaltura::KalturaClient.new( kaltura_config )    
     ks = kaltura_client.session_service.start( configatron.administrator_secret, user_id, Kaltura::KalturaSessionType::ADMIN )
     kaltura_client.ks = ks
     kaltura_client
@@ -62,6 +64,26 @@ class Cameo < ActiveRecord::Base
     media_entry
   end
 
+  # To be called from rake task to, Add Videos to kaltura directly Console
+  def self.save_cameo_with_video_in_kaltura(video, client, ks, director_id, user_id)
+    cameo = Cameo.new
+    media_entry = upload_video_to_kaltura(video, client, ks)
+    cameo.set_uploaded_video_details(media_entry)
+    cameo.director_id = director_id
+    cameo.user_id = user_id
+    saved = cameo.save
+    if saved
+      p "cameo saved with kaltura entry id: #{cameo.kaltura_entry_id}"
+    else
+      p "cameo not saved because of errors: #{cameo.errors.messages}"
+    end
+    cameo
+  end
+
+  def delete_kaltura_video(kaltura_entry_id, client, ks)
+    media_entry = client.base_entry_service.delete(kaltura_entry_id, ks)
+  end
+
   def self.get_kaltura_video(client, kaltura_entry_id)
     media_entry = client.base_entry_service.get(kaltura_entry_id)        
   end
@@ -85,6 +107,33 @@ class Cameo < ActiveRecord::Base
 
   def latest_cameo_order
     Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.try(:show_order) || 0
+  end
+
+  def build_stream_name current_user
+    cameo = Cameo.last
+    if cameo.present?
+      "#{cameo.id + 1}_#{current_user.id}"
+    else
+      "#{1}_#{current_user.id}"
+    end
+  end
+
+  def get_stream_name current_user
+    "#{build_stream_name current_user}.flv"
+  end
+
+
+  #Class Methods
+  class << self
+    def get_cameo_file cameo, current_user
+      if Rails.env == 'development'
+        File.open(File.join(Rails.root, 'tmp', 'streams',
+            cameo.get_stream_name(current_user)))
+      else
+        File.open("/var/www/apps/rvidi/shared/streams/#{cameo.get_stream_name(current_user)}")
+      end
+    end
+
   end
 
 end
