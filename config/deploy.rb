@@ -48,7 +48,7 @@ namespace :deploy do
 
   desc "Copy folder named streams_temp to /tmp folder to store streams from red5 server"
   task :copy_streams_folder do
-    run "cp -rf #{release_path}/assets/streams_temp #{release_path}/tmp/streams"
+    run "cp -rf #{release_path}/app/assets/javascripts/streams_temp #{release_path}/tmp"
   end
   # To reset database connection, while deploying
   # desc 'kill pgsql users so database can be dropped'
