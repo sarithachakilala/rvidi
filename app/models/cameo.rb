@@ -1,15 +1,15 @@
 class Cameo < ActiveRecord::Base
   attr_accessor :video_file, :audio_file, :recorded_file
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, :description,
-                  :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file
+    :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file
 
   # Validations
   validates :director_id, :presence => true, :numericality => true
   validates :user_id, :presence => true, :numericality => true
   # validates :show_id, :presence => true, :numericality => true # Need t o be added in after_save, to avoid being added from Terminal.
   validates :status, :presence => true, 
-                      :inclusion => { :in => %w(pending disabled enabled),
-                                      :message => "%{value} is not a valid status" }
+    :inclusion => { :in => %w(pending disabled enabled),
+    :message => "%{value} is not a valid status" }
   validates :name, :presence => true
   validates :thumbnail_url, :presence => true
   validates :download_url, :presence => true
@@ -110,10 +110,11 @@ class Cameo < ActiveRecord::Base
   end
 
   def build_stream_name current_user
-    if Cameo.count > 0
-    "#{id + 1}_#{current_user.id}"
+    cameo = Cameo.last
+    if cameo.present?
+      "#{cameo.id + 1}_#{current_user.id}"
     else
-     "#{1}_#{current_user.id}"
+      "#{1}_#{current_user.id}"
     end
   end
 
