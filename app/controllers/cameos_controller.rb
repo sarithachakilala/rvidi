@@ -47,6 +47,7 @@ class CameosController < ApplicationController
       @cameo.set_uploaded_video_details(media_entry)
     else
       begin
+        sleep(4);
         stream_file = Cameo.get_cameo_file(@cameo, current_user)
         media_entry = Cameo.upload_video_to_kaltura(stream_file,
           session[:client], session[:ks])
