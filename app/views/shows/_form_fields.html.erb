@@ -30,7 +30,7 @@
           Password Protected-Anyone with the password can watch
         </label>
         <label class="password_padding">
-          <%= f.password_field :display_preferences_password, :class => "show-display-preferences-password", :placeholder => "Password" %>
+          <%= f.password_field :display_preferences_password, :class => "show-display-preferences-password", :placeholder => "Password", :value => @show.display_preferences_password %>
         </label>
       </div>
     </div>
@@ -51,7 +51,7 @@
           Password Protected-Anyone with the password can contribute
         </label>
         <label class="password_padding">
-          <%= f.password_field :contributor_preferences_password, :class => " show-contributor-preferences-password", :placeholder => "Password" %>
+          <%= f.password_field :contributor_preferences_password, :class => " show-contributor-preferences-password", :placeholder => "Password", :value => @show.contributor_preferences_password %>
         </label>
       </div>
     </div>

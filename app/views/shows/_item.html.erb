@@ -22,6 +22,7 @@
           <%= render :partial => "shows/cameo_player", :locals => { :cameo => selected_cameo } %>
         </div>
       </div>
+
       <div class="span4 marging_none cameo_friends">
         <% if show.cameos.present? %>
           <% show.cameos.order('show_order asc').each do|show_cameo| %>
@@ -34,9 +35,11 @@
                   <div class="contributors_image_size"> <%= image_tag thumbnail, :class => "details_image_sizesmall" %></div>
                 </div>
               </div>
-              <div class="span8 cameo_friends_text">
-                <%#= link_to show_cameo.user.username, show_path(show.id, :cameo_id => show_cameo.id) %>
-                <%= link_to show_cameo.user.full_name, play_cameo_show_path(:cameo_id => show_cameo.id), :remote => true %>
+              <div class="span7 cameo_friends_text">
+                <%= link_to show_cameo.user.full_name, play_cameo_show_path(:id => show.id, :cameo_id => show_cameo.id), :remote => true %>
+              </div>
+              <div class="span1 cameo_friends_text">
+                <%= link_to "<i class= downloadsprite-dorrange ></i>".html_safe, "#{show_cameo.download_url}", :class=> "span6"%>
               </div>
             </div>
           <% end %>
