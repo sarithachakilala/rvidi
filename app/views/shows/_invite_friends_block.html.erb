@@ -1,0 +1,67 @@
+<div class="myvision_container">
+  <div class="accordion" id="accordion3">
+    <div class="accordion-group plus-minus-container">
+      <div class="accordion-heading invite_friends_padding">
+        <div class="accordion-toggle myvision_title line_height_40 changeable-plus-minus" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
+          Invite Friends <i class="sprite-minus-small plus-minus-i pull-right"> </i>
+        </div>
+      </div>
+      <div id="collapseThree" class="accordion-body collapse in">
+        <div class="accordion-inner">
+          <div class="row-fluid"> 
+            <div class="span6">
+              <div class="title"> Invite some friends to contribute to this show!</div>
+              <div class="margin_top_10"> 
+                <a class="btn  btn-primary " href="#"><i class="sprite-facebook-white"></i>Add from Facebook</a>
+                <a class="btn  btn-info " href="#"><i class="sprite-twitter-white"></i>Add from Twitter</a>
+              </div>
+              <div class="margin_top_10">
+                <div class="input-append">
+                  <div class="input-prepend input-append search_padding">
+                    <span class="add-on prepend_background"><i class="icon-search"></i></span>
+                    <input type="text" placeholder="Search by Name or Email"  class="search_input_bg input-xlarge" id = "search_value_to_invite">
+                    <span class="btn add-on btn-warning" id = "search_friends_to_invite">Go</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="span5"> 
+              <div style="padding: 5px;background-color: #d1d2d4;" class="selects-container">
+                <% if @friend_mappings.present? %>
+                  <% @friend_mappings.each_slice(2) do|friends_slice| %>
+                    <div class="row-fluid">
+                      <% friends_slice.each do|friend_mapping| %>
+                        <% friend = User.find(friend_mapping.friend_id) %>
+                        <% position_class = (friends_slice.index(friend_mapping)==0) ? "padding_left" : "" %>
+                         <div class="span6 <%= position_class %>" style="margin-left:-1px">
+                           <label class="checkbox inline width-100-percent ">
+                            <%= check_box_tag('selected_friends[]', friend.id, checked = false, :class => 'checkbox-input')  %> <%= "#{friend.full_name}"%> 
+                            <!-- <input type="checkbox" id="inlineCheckbox1" class="checkbox-input" value="option1"> -->
+                            </label>
+                        </div>
+                      <%end%>
+                    </div>
+                  <%end%>
+                <%end%>
+                  <div class="row-fluid">
+                    <div class="span4"></div>
+                    <div class="span4"></div>
+                    <div class="span4">
+                      <label class="checkbox inline select-all-label">
+                        Select all
+                      </label>
+                    </div>
+                  </div>
+                </div>
+                <!-- </form> -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div id= "main_frame" class = "selects-container">
+    </div>
+</div>

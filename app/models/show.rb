@@ -36,5 +36,5 @@ class Show < ActiveRecord::Base
       end unless (cameo.director_id == cameo.user_id)
     end
   end
-
+  
 end
