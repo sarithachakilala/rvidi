@@ -60,7 +60,7 @@
       </div>
       <div class="span2">
         <div class="ratings_line">
-            <%= show.number_of_views %> views
+          <%= show.number_of_views %> views 
         </div>
       </div>
       <div class="span6 ratings_line">
@@ -74,14 +74,9 @@
       <div class="span6"> 
         <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p> 
         <div class="span12 margin_top_10"> 
-          <div class="social_media_icons"><a href="#"> <i class="sprite-su-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-linkedin-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-google-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-di-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-twitter-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-facebook-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-yahoo-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-mail-icon"></i></a> </div>
+          <%#= social_share_button_tag("Share this video", :url => "rvidi.qwinixtech.com/shows/45") %>
+          <%= social_share_button_tag("Share this video", :url => "#{configatron.site_address_full}/shows/#{show.id}") %>
+
         </div>
         <div class="span12 title">Share this video</div>
       </div>

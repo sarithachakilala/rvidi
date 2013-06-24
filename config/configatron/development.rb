@@ -5,6 +5,7 @@ configatron.host = 'localhost:3000'
 configatron.site_name = 'development-rvidi'
 configatron.site_address = 'localhost:3000'
 configatron.site_address_full = 'http://localhost:3000'
+configatron.website_url = "'http://192.168.2.108:3000"
 
 # Facebook Registration Values:
 configatron.facebook_app_id = '443407499077841'
