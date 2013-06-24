@@ -2,8 +2,21 @@ $(document).ready(function(){
   if($("#myModal").length>0){
     $('#myModal').modal('show');
   }
-   $( "#sortable" ).sortable();
-    $( "#sortable" ).disableSelection();
+  $( "#sortable" ).sortable();
+  $( "#sortable" ).disableSelection();
+
+  
+  checking_display_pwd_field();
+  checking_contributor_pwd_field();
+  
+  $(".show-display-preferences").on('click',function(){
+    checking_display_pwd_field();
+  });
+
+  $(".show-contributor-preferences").on('click',function(){
+    checking_contributor_pwd_field();
+  });
+
   //    To Change the + / - icon on click
   $('.plus-minus-container').on('click','.changeable-plus-minus',function(){
     var icon_elem = $(this).find('.plus-minus-i').first()
@@ -318,3 +331,16 @@ function sortList() {
   document.getElementById("order_list").value = list
 }
 
+function checking_display_pwd_field(){
+  if ($("#show_display_preferences_password_protected").is(":checked")) 
+    $("#show_display_preferences_password").css("display","block");        
+  else
+    $("#show_display_preferences_password").css("display","none");   
+}
+
+function checking_contributor_pwd_field(){
+  if ($("#show_contributor_preferences_password_protected").is(":checked")) 
+    $("#show_contributor_preferences_password").css("display","block");        
+  else
+    $("#show_contributor_preferences_password").css("display","none");        
+}

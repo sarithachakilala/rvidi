@@ -20,7 +20,7 @@ class UsersController < ApplicationController
           each_notification.update_attributes(:to_id=> @user.id) unless (@user.id == params[:from_id])
         end
         notification_update = Notification.where(:to_id => @user.id, :from_id => params[:from_id], :status=> "pending").first
-        notification_update.update_attributes(:status => "accepted", :read_status => true)
+        notification_update.update_attributes(:status => "accepted", :read_status => true) if notification_update.present?
       elsif params[:from_email].present?
         notifications = Notification.where(:to_email=>params[:from_email])
         notifications.each do |each_notification|

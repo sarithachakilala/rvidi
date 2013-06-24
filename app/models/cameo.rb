@@ -1,7 +1,7 @@
 class Cameo < ActiveRecord::Base
   attr_accessor :video_file, :audio_file, :recorded_file
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, :description,
-    :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file
+                  :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file
 
   # Validations
   validates :director_id, :presence => true, :numericality => true

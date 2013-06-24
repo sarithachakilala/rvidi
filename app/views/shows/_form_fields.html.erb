@@ -29,7 +29,7 @@
           <%= f.radio_button :display_preferences, "password_protected", {:class => "radio-input show-display-preferences"} %>
           Password Protected-Anyone with the password can watch
         </label>
-        <label class="password_padding">
+        <label class="password_padding" >
           <%= f.password_field :display_preferences_password, :class => "show-display-preferences-password", :placeholder => "Password", :value => @show.display_preferences_password %>
         </label>
       </div>
@@ -51,7 +51,7 @@
           Password Protected-Anyone with the password can contribute
         </label>
         <label class="password_padding">
-          <%= f.password_field :contributor_preferences_password, :class => " show-contributor-preferences-password", :placeholder => "Password", :value => @show.contributor_preferences_password %>
+          <%= f.password_field :contributor_preferences_password, :class => " show-contributor-preferences-password", :placeholder => "Password", :value => @show.contributor_preferences_password, :style=>"display:none"  %>
         </label>
       </div>
     </div>
