@@ -51,14 +51,17 @@ class Show < ActiveRecord::Base
     else
       ""
     end
+    logger.debug "********"
+    logger.debug playlist.playlist_content
+    logger.debug "********"
     playlist = client.playlist_service.add(playlist)
     self.kaltura_playlist_id = playlist.id
     self.save
   end
   
   def create_playlist
-    if cameos.present? && cameos.enabled.present?
-      client = Cameo.get_kaltura_client(director.id)
+    if cameos.present? 
+      client = Cameo.get_kaltura_client(user_id)
       if kaltura_playlist_id.present?
         playlist = client.playlist_service.get(kaltura_playlist_id)
         client.playlist_service.delete(playlist.id) if playlist.present?

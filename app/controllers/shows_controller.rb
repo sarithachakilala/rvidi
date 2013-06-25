@@ -65,7 +65,7 @@ class ShowsController < ApplicationController
     end
     
     @success = @show.save
-    @show.create_playlist if @show.cameos.present? && @show.cameos.enabled.present?
+    @show.create_playlist if @show.cameos.present? 
     
     respond_to do |format|
       if @success
