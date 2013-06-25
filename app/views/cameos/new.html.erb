@@ -29,12 +29,13 @@
         <%= hidden_field_tag 'cameo[audio_file]', '', :class => "recorded-audio-input cameo-recorded-audio-file" %>
         <%= hidden_field_tag 'cameo[recorded_file]', '', :class => "recorded-video-input cameo-recorded-video-file" %>
         <%= f.file_field :video_file, :class => "cameo-video-file" %>
+        <%= hidden_field_tag 'tstamp', @tstamp %>
       </div>
     </div>
 
     <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="300" height="290"
             id="camera" data="/assets/CameraDemo.swf" align="middle">
-      <param name=FlashVars value="myVariable=<%= URI::escape(@cameo.build_stream_name(current_user)) %>&railsEnv=<%= URI::escape(Rails.env) %>" />
+      <param name=FlashVars value="myVariable=<%= URI::escape(Cameo.get_stream_name(current_user, @tstamp)) %>&railsEnv=<%= URI::escape(Rails.env) %>" />
       <param name="movie" value="/assets/CameraDemo.swf" />
       <param name="quality" value="high" />
       <param name="bgcolor" value="#ffffff" />
@@ -49,7 +50,7 @@
       <!--[if !IE]>-->
       <object type="application/x-shockwave-flash" data="/assets/CameraDemo.swf"
               width="300" height="290" id="camera">
-        <param name=FlashVars value="myVariable=<%= URI::escape(@cameo.build_stream_name(current_user)) %>&railsEnv=<%= URI::escape(Rails.env) %>" />
+        <param name=FlashVars value="myVariable=<%= URI::escape(Cameo.get_stream_name(current_user, @tstamp)) %>&railsEnv=<%= URI::escape(Rails.env) %>" />
         <param name="movie" value="/assets/CameraDemo.swf" />
         <param name="quality" value="high" />
         <param name="bgcolor" value="#ffffff" />

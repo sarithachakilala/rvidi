@@ -11,7 +11,8 @@ class ShowsController < ApplicationController
 
   def show
     @show = Show.find(params[:id])
-    @display_prefernce = params[:preference].present? ? params[:preference] : @show.display_preferences 
+    @show.create_playlist
+    @display_prefernce = params[:preference].present? ? params[:preference] : @show.display_preferences
     @show.update_attribute(:number_of_views, (@show.number_of_views.to_i+1))
     @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
@@ -32,6 +33,7 @@ class ShowsController < ApplicationController
   end
 
   def new
+    @tstamp = Time.now.to_i
     @show = Show.new(:display_preferences => "private", :contributor_preferences => "private")
     @cameo = @show.cameos.build
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
@@ -48,14 +50,15 @@ class ShowsController < ApplicationController
 
   def create
     @show = Show.new(params[:show])
-    @cameo = @show.cameos.first    
+    @cameo = @show.cameos.first
+    @cameo.status = Cameo::Status::Enabled
     if @cameo.video_file.present?
       media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
     else
       begin
         sleep(4);
-        stream_file = Cameo.get_cameo_file(@cameo, current_user)
+        stream_file = Cameo.get_cameo_file(current_user, params[:tstamp])
         media_entry = Cameo.upload_video_to_kaltura(stream_file,
           session[:client], session[:ks])
         @cameo.set_uploaded_video_details(media_entry)
@@ -65,7 +68,7 @@ class ShowsController < ApplicationController
     end
     
     @success = @show.save
-    @show.create_playlist 
+    #@show.create_playlist
     
     respond_to do |format|
       if @success
@@ -92,7 +95,7 @@ class ShowsController < ApplicationController
     respond_to do |format|
       if @show.update_attributes(params[:show])
         @show.update_active_cameos(params[:active_cameos]) if params[:active_cameos].present?
-        @show.create_playlist if @show.cameos.present? && @show.cameos.enabled.present?
+        #@show.create_playlist if @show.cameos.present? && @show.cameos.enabled.present?
         format.html { redirect_to @show, notice: 'Show was successfully updated.' }
         format.json { head :no_content }
       else

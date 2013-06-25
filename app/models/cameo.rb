@@ -121,27 +121,18 @@ class Cameo < ActiveRecord::Base
     Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.try(:show_order) || 0
   end
 
-  def build_stream_name current_user
-    cameo = Cameo.last
-    if cameo.present?
-      "#{cameo.id + 1}_#{current_user.id}"
-    else
-      "#{1}_#{current_user.id}"
-    end
-  end
-
-  def get_stream_name current_user
-    "#{build_stream_name current_user}.flv"
-  end
-
   #Class Methods
   class << self
-    def get_cameo_file cameo, current_user
+    def get_stream_name current_user, tstamp
+      "#{current_user.id}_#{tstamp}" 
+    end
+    
+    def get_cameo_file current_user, tstamp
       if Rails.env == 'development'
         File.open(File.join(Rails.root, 'tmp', 'streams',
-            cameo.get_stream_name(current_user)))
+            get_stream_name(current_user, tstamp) +'.flv'))
       else
-        File.open("/var/www/apps/rvidi/shared/streams/#{cameo.get_stream_name(current_user)}")
+        File.open("/var/www/apps/rvidi/shared/streams/#{get_stream_name(current_user, tstamp)}.flv")
       end
     end
 
