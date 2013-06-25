@@ -8,9 +8,12 @@
         <% if current_user.present? %>
           <div class="btn-group">
             <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#" style="line-height: 14px;">
-              Hi <%= current_user.first_name %><br>
-              Your Account
-              <i class="sprite-downarrow-white caret_margin"></i>
+              <span class="pull-left" style="margin-right:10px;">
+                Hi <%= current_user.first_name %><br>
+                <span style="font-size:11px;color:whitesmoke;">Your Account</span>
+              </span>
+              <i class="sprite-downarrow-white pull-right"></i>
+              <div class="clearfix"></div>
             </a>
             <ul class="dropdown-menu">
               <li><%= link_to "Home", dashboard_user_path(current_user.id), :tabindex => "-1" %></li>

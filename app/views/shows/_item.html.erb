@@ -11,9 +11,9 @@
 <div class="myvision_container padding_none">
   <div class="accordion-inner padding_none">
 
-    <div class="row-fluid">
+    <div class="row-fluid" style="background-color:#d1d2d4;">
       <div class="span8 marging_none">
-        <div class="edit_title_bg"> 
+        <div class="edit_title_bg" style="margin-right:2px;"> 
           <div class="edit_title"><%= show.title.capitalize %></div>
           <div class="font_weight_bold edit_subtitle"><%= show.director.full_name.capitalize %></div>
         </div>
@@ -23,7 +23,7 @@
         </div>
       </div>
 
-      <div class="span4 marging_none cameo_friends">
+      <div class="span4 cameo_friends" style="margin-left:10px;">
         <% if show.cameos.present? %>
           <% show.cameos.order('show_order asc').each do|show_cameo| %>
           <% if show_cameo.status== "enabled" %>

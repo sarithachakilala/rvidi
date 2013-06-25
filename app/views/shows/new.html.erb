@@ -18,24 +18,24 @@
       <div class="accordion" id="accordion2">
         <div class="accordion-group plus-minus-container">
           <div class="accordion-heading edit_contributor_title_padding">
-            <div class="accordion-toggle myvision_title line_height_40 changeable-plus-minus" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+            <div class="accordion-toggle myvision_title_dark line_height_40 changeable-plus-minus" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
               Record the Opening Cameo  <i class="sprite-minus-small plus-minus-i pull-right "> </i>
             </div>
           </div>
           <div id="collapseTwo" class="accordion-body collapse in">
             <div class="accordion-inner">
-              <div class="row-fluid">
-                <div class="span3 text_align_center cursor-pointer" id="camera-me">
+              <div class="row-fluid" style="margin:30px 0px 50px 0px;">
+                <div class="span4 text_align_center cursor-pointer" id="camera-me">
                   <i class="sprite-camera-big"></i>
                   <div class="font_weight_bold">
                     Click here to record a video clip
                   </div>
                   <div> (15 seconds or less)</div>
                 </div>
-                <div class="span2 text_align_center">
+                <div class="span4 text_align_center">
                   <i class="sprite-or-icon_black"></i>
                 </div>
-                <div class="span3 text_align_center">
+                <div class="span4 text_align_center">
                   <div class="font_weight_bold">
                     Upload clip from your computer or Camera
                   </div><br>
@@ -49,7 +49,7 @@
                 </div>
               </div>
 
-              <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="300" height="290"
+              <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="400" height="300"
                       id="camera" data="/assets/CameraDemo.swf" align="middle">
                 <param name=FlashVars value="myVariable=<%= URI::escape(@cameo.build_stream_name(current_user)) %>&railsEnv=<%= URI::escape(Rails.env) %>" />
                 <param name="movie" value="/assets/CameraDemo.swf" />
