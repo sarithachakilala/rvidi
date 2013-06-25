@@ -72,6 +72,7 @@ class CameosController < ApplicationController
     respond_to do |format|
       if @success
         @show = @cameo.show
+        invite_friend(params[:selected_friends]) if params[:selected_friends].present?
         format.html { redirect_to @show, notice: 'Cameo was successfully Added.' }        
         format.js {}
         format.json { render json: @cameo, status: :created, location: @cameo }
@@ -117,6 +118,17 @@ class CameosController < ApplicationController
       redirect_to new_cameo_path(:preference => @contribution_prefernce, :show_id => params[:show_id], :director_id => @show.user_id)
     else
       redirect_to new_cameo_path(:show_id => params[:show_id], :director_id => @show.user_id), :notice => "Invalid Password: Please enter the correct password! "
+    end
+  end
+
+  def invite_friend(friends)
+    @show = Show.find(params[:show_id])
+    @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
+    friends.each do |each_friend|
+      @user = User.find(each_friend) 
+      InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
+      notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>" has Requested you to contribute for their Show ")
+      notification.save!
     end
   end
 

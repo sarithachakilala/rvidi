@@ -170,5 +170,21 @@ class ShowsController < ApplicationController
     redirect_to edit_show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
   end
 
-
+  def add_twitter_invities
+    if session[:uid].present?
+      uid = session[:uid]
+      User.configure_twitter(session[:auth_token], session[:auth_secret])
+      session[:uid] = session[:auth_token] = session[:auth_secret] = nil
+      begin
+        @twitter_friends = Twitter.followers(uid.to_i)
+        redirect_to edit_show_path(params[:id])
+      rescue
+        flash[:alert] = 'Twitter rake limit exceeded'
+        redirect_to root_url
+      end
+      
+    else
+      @twitter_friends = []
+    end
+  end
 end

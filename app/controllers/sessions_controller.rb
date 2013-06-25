@@ -9,7 +9,15 @@ class SessionsController < ApplicationController
   end
 
   def create
-    if (params[:fetch_friends].present? && params[:fetch_friends] == 'true')
+    if (params[:fetch_invities].present? && params[:fetch_invities] == 'true')
+      auth = env["omniauth.auth"]
+      session[:uid] = auth['uid']
+      session[:auth_token] = auth.credentials.token
+      session[:auth_secret] = auth.credentials.secret
+      logger.debug session[:uid]
+      redirect_to add_twitter_invities_shows_path
+
+    elsif (params[:fetch_friends].present? && params[:fetch_friends] == 'true')
       # Create Authentication recorda and map with current user
       auth = env["omniauth.auth"]
       # Redirect to appropriate add_friends page
