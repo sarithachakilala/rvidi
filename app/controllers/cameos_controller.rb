@@ -37,12 +37,12 @@ class CameosController < ApplicationController
     # To find the contributed users. 
     @cameo = Cameo.new(params[:cameo])
     @contributed_users = Cameo.where(:show_id=>@cameo.show_id).collect{|cameo| cameo.user_id if (cameo.user_id != @cameo.director_id) && (cameo.user_id != current_user.id)}.uniq
-#    @contributed_users.each do |each_contributer|
-#      notification = Notification.create!(:show_id => @cameo.show_id,
-#        :to_id => each_contributer, :from_id => @cameo.director_id,
-#        :status => "others_contributed", :content =>"They also contributed",
-#        :read_status => false)
-    #end
+    @contributed_users.compact!.each do |each_contributer|
+      notification = Notification.create!(:show_id => @cameo.show_id,
+        :to_id => each_contributer, :from_id => @cameo.director_id,
+        :status => "others_contributed", :content =>"They also contributed",
+        :read_status => false)
+    end 
 
     if params[:cameo][:video_file].present?
       media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client],
@@ -112,7 +112,7 @@ class CameosController < ApplicationController
     @cameo = Cameo.find(params[:id])
     kaltura_entry_id = @cameo.kaltura_entry_id
     @success = @cameo.destroy
-    Cameo.delete_kaltura_video(kaltura_entry_id, session[:client], session[:ks]) if @success
+    #Cameo.delete_kaltura_video(kaltura_entry_id, session[:client], session[:ks]) if @success
 
     respond_to do |format|
       format.html { redirect_to cameos_url }

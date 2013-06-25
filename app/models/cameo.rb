@@ -7,7 +7,7 @@ class Cameo < ActiveRecord::Base
   end
   attr_accessor :video_file, :audio_file, :recorded_file
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, :description,
-                  :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file
+    :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file
 
   # Validations
   validates :director_id, :presence => true, :numericality => true
@@ -28,7 +28,7 @@ class Cameo < ActiveRecord::Base
   # Callbacks
   after_destroy :delete_kaltura_video
 
- # Scopes
+  # Scopes
  
   scope :enabled, where("status like ?", Cameo::Status::Enabled )
 
@@ -91,8 +91,9 @@ class Cameo < ActiveRecord::Base
     cameo
   end
 
-  def delete_kaltura_video(kaltura_entry_id, client, ks)
-    media_entry = client.base_entry_service.delete(kaltura_entry_id, ks)
+  def delete_kaltura_video
+    client = Cameo.get_kaltura_client(self.user_id)
+    media_entry = client.base_entry_service.delete(kaltura_entry_id, client.ks)
   end
 
   def self.get_kaltura_video(client, kaltura_entry_id)

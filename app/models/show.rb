@@ -20,7 +20,7 @@ class Show < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
 
   # Callbacks
-  before_create :create_playlist
+  #before_create :create_playlist
 
   # Scope
   scope :public_shows, where(:display_preferences => "public")  
@@ -57,14 +57,16 @@ class Show < ActiveRecord::Base
   end
   
   def create_playlist
-    client = Cameo.get_kaltura_client(director.id)
-    if kaltura_playlist_id.present?
-      playlist = client.playlist_service.get(kaltura_playlist_id)
-      client.playlist_service.delete(playlist.id) if playlist.present?
-      self.kaltura_playlist_id = nil
-      build_playlist
-    else
-      build_playlist
+    if cameos.present? && cameos.enabled.present?
+      client = Cameo.get_kaltura_client(director.id)
+      if kaltura_playlist_id.present?
+        playlist = client.playlist_service.get(kaltura_playlist_id)
+        client.playlist_service.delete(playlist.id) if playlist.present?
+        self.kaltura_playlist_id = nil
+        build_playlist
+      else
+        build_playlist
+      end
     end
   end
 
