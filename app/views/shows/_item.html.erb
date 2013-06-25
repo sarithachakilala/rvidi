@@ -1,4 +1,4 @@
-<% if params[:email].present?%>
+<% if params[:email].present? || params[:from_id].present? %>
   <% user =  User.find(params[:from_id])%>
   <div class="login_container">
     <div class="font_weight_bold">

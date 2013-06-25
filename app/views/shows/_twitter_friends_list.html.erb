@@ -1,0 +1,31 @@
+<div id= "main_frame">
+  <ul class="thumbnails">
+    <div class="">
+      Here are the list of Twitter Friends.
+    </div>
+    <li class="span12">
+      <% @twitter_friends.each do |each_user_detail| %>
+        <div class="thumbnail frinds_thumbnail_padding">
+          <div class="row-fluid frinds_row_margin">
+            <div class="span4">
+              <div class="row-fluid">
+                <div class="span4">
+                  <div class="friend_image">
+                    <img src="<%= each_user_detail.profile_image_url %>" alt="300x200" />
+                  </div>
+                </div>
+                <div class="span8">
+                  <div class="friend_name"><%= each_user_detail.screen_name %></div>
+                    <div class="btn-small btn-warning">
+                      <a href="https://twitter.com/intent/tweet?screen_name=<%= each_user_detail.screen_name %>&text=rvidi.qwinixtech.com/shows/<%= params[:id] %>?from_id=<%= current_user.id%>" class="">Tweet</a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </li>
+  </ul>
+</div>

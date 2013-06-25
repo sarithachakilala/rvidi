@@ -43,7 +43,7 @@ $(document).ready(function(){
     label_elem.addClass('radiobtn_active_text');
   });
        
-  //    To Select All Chack Boxes
+  //    To Select All Check Boxes
   $('.selects-container').on('click','.select-all-label',function(){
     var selects_container = $(this).parents('.selects-container').first();
     var all_selects = selects_container.find('.checkbox-input');

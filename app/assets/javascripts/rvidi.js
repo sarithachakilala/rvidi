@@ -38,3 +38,27 @@ function facebook_send_message(element_id, name, profile_picture, site_address,f
   }
   );
 }
+
+
+
+function facebook_send_message_to_invite(element_id, name, profile_picture, site_address,from_id,show_id) {
+  FB.ui(
+  {
+    method: 'send',
+    to: element_id,
+    name: 'Sign up for rvidi - Just like '+name+'!',
+    link: 'http://rvidi.qwinixtech.com/shows/'+show_id+'?from_id='+from_id,
+    picture: profile_picture,
+    description: 'Join '+name+' on rvidi.'
+  },
+  function(response) {
+    if (response) {
+      alert('Post was published.');
+    } else {
+      alert('Post was not published.');
+    }
+  }
+  );
+}
+
+

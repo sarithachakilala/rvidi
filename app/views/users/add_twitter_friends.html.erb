@@ -49,7 +49,6 @@
                       </div>
                       <div class="span8">
                         <div class="friend_name"><%= each_user_detail.screen_name %></div>
-                        <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
                           <div class="btn-small btn-warning">
                             <a href="https://twitter.com/intent/tweet?screen_name=<%= each_user_detail.screen_name %>&text=rvidi.qwinixtech.com/users/new?from_id=<%= current_user.id%>" class="">Tweet</a>
                           </div>
@@ -63,7 +62,7 @@
           </li>
         </ul>
       </div>
-<%#= render :partial=>"/users/friends_list"%>
+      <%#= render :partial=>"/users/friends_list"%>
       <!-- Details view end here -->
     </div>
   </div>
