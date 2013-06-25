@@ -66,6 +66,8 @@ class ShowsController < ApplicationController
     end
     
     @success = @show.save
+    @show.create_playlist if @show.cameos.present? && @show.cameos.enabled.present?
+    
     respond_to do |format|
       if @success
         format.html { redirect_to @show, notice: 'Show was successfully created.' }
@@ -89,6 +91,7 @@ class ShowsController < ApplicationController
     respond_to do |format|
       if @show.update_attributes(params[:show])
         @show.update_active_cameos(params[:active_cameos]) if params[:active_cameos].present?
+        @show.create_playlist if @show.cameos.present? && @show.cameos.enabled.present?
         format.html { redirect_to @show, notice: 'Show was successfully updated.' }
         format.json { head :no_content }
       else

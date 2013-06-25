@@ -1,8 +1,8 @@
 class Show < ActiveRecord::Base
 
   attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password, 
-                  :contributor_preferences, :contributor_preferences_password, :need_review,
-                  :cameos_attributes, :show_tag, :end_set
+    :contributor_preferences, :contributor_preferences_password, :need_review,
+    :cameos_attributes, :show_tag, :end_set
 
   # Validations
   validates :user_id, :presence => true
@@ -18,6 +18,9 @@ class Show < ActiveRecord::Base
   has_many :cameos, :dependent => :destroy
   accepts_nested_attributes_for :cameos
   has_many :comments, :dependent => :destroy
+
+  # Callbacks
+  before_create :create_playlist
 
   # Scope
   scope :public_shows, where(:display_preferences => "public")  
@@ -36,5 +39,35 @@ class Show < ActiveRecord::Base
       end unless (cameo.director_id == cameo.user_id)
     end
   end
+
+  def build_playlist
+    client = Cameo.get_kaltura_client(user_id)
+    playlist = Kaltura::KalturaPlaylist.new
+    playlist.name = "#{title}"
+    playlist.playlist_type = Kaltura::KalturaPlaylistType::STATIC_LIST
+    playlist.type = Kaltura::KalturaEntryType::AUTOMATIC
+    playlist.playlist_content = if cameos.present?
+      "#{cameos.enabled.order('show_order ASC').map(&:kaltura_entry_id).join(',')}"
+    else
+      ""
+    end
+    playlist = client.playlist_service.add(playlist)
+    self.kaltura_playlist_id = playlist.id
+    self.save
+  end
+  
+  def create_playlist
+    client = Cameo.get_kaltura_client(director.id)
+    if kaltura_playlist_id.present?
+      playlist = client.playlist_service.get(kaltura_playlist_id)
+      client.playlist_service.delete(playlist.id) if playlist.present?
+      self.kaltura_playlist_id = nil
+      build_playlist
+    else
+      build_playlist
+    end
+  end
+
+
 
 end

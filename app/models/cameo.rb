@@ -1,4 +1,10 @@
 class Cameo < ActiveRecord::Base
+
+  module Status
+    Enabled   = 'enabled'
+    Pending   = 'pending'
+    Disabled  = 'disabled'
+  end
   attr_accessor :video_file, :audio_file, :recorded_file
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, :description,
     :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file
@@ -22,10 +28,15 @@ class Cameo < ActiveRecord::Base
   # Callbacks
   after_destroy :delete_kaltura_video
 
+ # Scopes
+ 
+  scope :enabled, where("status like ?", Cameo::Status::Enabled )
+
   # METHODS
   # Class Methods
   # Methods to manage Videos using Kaltura Starts
   # KALTURA CONFIGURATION METHODS STARTS
+
   def self.get_kaltura_config
     kaltura_config = Kaltura::KalturaConfiguration.new(configatron.kaltura_partner_id, configatron.service_url)
     # kaltura_config.format = 1 # for json response (default: 2 - xml response)
@@ -121,7 +132,6 @@ class Cameo < ActiveRecord::Base
   def get_stream_name current_user
     "#{build_stream_name current_user}.flv"
   end
-
 
   #Class Methods
   class << self

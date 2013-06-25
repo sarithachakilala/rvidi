@@ -37,9 +37,12 @@ class CameosController < ApplicationController
     # To find the contributed users. 
     @cameo = Cameo.new(params[:cameo])
     @contributed_users = Cameo.where(:show_id=>@cameo.show_id).collect{|cameo| cameo.user_id if (cameo.user_id != @cameo.director_id) && (cameo.user_id != current_user.id)}.uniq
-    @contributed_users.each do |each_contributer|
-      notification = Notification.create(:show_id=>@cameo.show_id, :to_id=> each_contributer, :from_id => @cameo.director_id, :status => "others_contributed", :content =>"They also contributed", :read_status =>false)
-    end
+#    @contributed_users.each do |each_contributer|
+#      notification = Notification.create!(:show_id => @cameo.show_id,
+#        :to_id => each_contributer, :from_id => @cameo.director_id,
+#        :status => "others_contributed", :content =>"They also contributed",
+#        :read_status => false)
+    #end
 
     if params[:cameo][:video_file].present?
       media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client],
@@ -52,19 +55,26 @@ class CameosController < ApplicationController
         media_entry = Cameo.upload_video_to_kaltura(stream_file,
           session[:client], session[:ks])
         @cameo.set_uploaded_video_details(media_entry)
-      rescue 
+      rescue Exception => e
+        logger.debug "**********"
+        logger.debug e.message
+        logger.debug "**********"
         flash[:notice] = "No stream to publish!!"
         redirect_to root_url
         return
       end
     end
     if @cameo.user_id == @cameo.director_id
-      @cameo.status = "enabled"
+      @cameo.status = Cameo::Status::Enabled
     else
-      @cameo.status = (@cameo.show.need_review == true) ? "pending" : "enabled"
+      @cameo.status = (@cameo.show.need_review == true) ? Cameo::Status::Pending : Cameo::Status::Enabled
     end
 
-    @success = @cameo.save
+    if @cameo.save
+      @success = true
+      @cameo.show.create_playlist if @cameo.status == Cameo::Status::Enabled
+    end
+
     #Creating a notification to the director
     notification = Notification.create(:show_id=>params[:cameo]['show_id'], :from_id=>params[:cameo]['user_id'], :to_id => params[:cameo]['director_id'], :status => "contributed", :content =>"Added a Cameo", :read_status => false) 
     notification.save!
