@@ -161,8 +161,6 @@ class ShowsController < ApplicationController
     end
   end
   
- 
-
   def status_update
     @show = Show.find(params[:show_id])
     end_set_val = params[:status] == "end" ? Time.now : ""
@@ -171,16 +169,23 @@ class ShowsController < ApplicationController
   end
 
   def add_twitter_invities
+    params[:id] = 4
+    @show = Show.find(params[:id])
     if session[:uid].present?
       uid = session[:uid]
       User.configure_twitter(session[:auth_token], session[:auth_secret])
       session[:uid] = session[:auth_token] = session[:auth_secret] = nil
       begin
         @twitter_friends = Twitter.followers(uid.to_i)
+        # @twitter_friends|| = [1,2,3]
         redirect_to edit_show_path(params[:id])
       rescue
+        @twitter_friends = [1,2,3]
+        redirect_to edit_show_path(params[:id])
+
         flash[:alert] = 'Twitter rake limit exceeded'
-        redirect_to root_url
+        # redirect_to add_twitter_invities_shows_path
+        # redirect_to root_url
       end
       
     else
