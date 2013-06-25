@@ -4,6 +4,8 @@
       <% if @users.present? %>
         <% @users.each do |each_user_detail| %>
           <% if each_user_detail.id != session[:user_id] %>
+          <% shows = Show.where(:user_id => each_user_detail.id).count %>
+          <% cameos = Cameo.where(:director_id => each_user_detail.id).count %>
           <div class="thumbnail frinds_thumbnail_padding">
               <div class="row-fluid frinds_row_margin">
                 <div class="span4"> 
@@ -15,8 +17,8 @@
                       </div> 
                     <div class="span8">
                       <div class="friend_name"> <%= link_to "#{each_user_detail.full_name}", friend_profile_user_path(current_user.id, :friend_id => each_user_detail.id) %></div>
-                      <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
-                       </div>
+                     <div class="friends_show"> <%= shows %> shows,&nbsp;<a class="frinds_cameos"><%= cameos %> cameos </a>
+                     </div>
                         <div class="btn-small btn-warning">
                           <% @friend_detail = FriendMapping.where(:user_id => each_user_detail.id, :friend_id =>session[:user_id]).first%>
                           <% if @friend_detail.present? && @friend_detail.status == "pending" && @friend_detail.request_from == each_user_detail.id%>

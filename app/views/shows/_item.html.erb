@@ -1,4 +1,4 @@
-<% if params[:email].present?%>
+<% if params[:email].present? || params[:from_id].present? %>
   <% user =  User.find(params[:from_id])%>
   <div class="login_container">
     <div class="font_weight_bold">
@@ -11,9 +11,9 @@
 <div class="myvision_container padding_none">
   <div class="accordion-inner padding_none">
 
-    <div class="row-fluid">
+    <div class="row-fluid" style="background-color:#d1d2d4;">
       <div class="span8 marging_none">
-        <div class="edit_title_bg" style="width:860px;">
+        <div class="edit_title_bg" style="margin-right:1px;width:860px;">
           <div class="edit_title"><%= show.title.capitalize %></div>
           <div class="font_weight_bold edit_subtitle"><%= show.director.full_name.capitalize %></div>
         </div>
@@ -28,7 +28,7 @@
       </div>
 
       <% if params[:controller] == 'shows' && params[:action] != 'show' %>
-        <div class="span4 marging_none cameo_friends">
+        <div class="span4 marging_none cameo_friends" style="margin-left:10px;">
           <% if show.cameos.present? %>
             <% show.cameos.order('show_order asc').each do|show_cameo| %>
               <% if show_cameo.status== "enabled" %>
@@ -46,6 +46,7 @@
                   <div class="span1 cameo_friends_text">
                     <%= link_to "<i class= downloadsprite-dorrange ></i>".html_safe, "#{show_cameo.download_url}", :class=> "span6"%>
                   </div>
+
                 </div>
               <% end %>
             <% end %>
@@ -66,6 +67,7 @@
       </div>
       <div class="span2">
         <div class="ratings_line">
+
           <%= show.number_of_views %> views
         </div>
       </div>
@@ -77,17 +79,13 @@
     </div>
 
     <div class="row-fluid invitation_padding">
-      <div class="span6">
-        <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p>
-        <div class="span12 margin_top_10">
-          <div class="social_media_icons"><a href="#"> <i class="sprite-su-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-linkedin-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-google-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-di-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-twitter-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-facebook-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-yahoo-icon"></i></a> </div>
-          <div class="social_media_icons"><a href="#"> <i class="sprite-mail-icon"></i></a> </div>
+
+      <div class="span6"> 
+        <p> Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, </p> 
+        <div class="span12 margin_top_10"> 
+<%#= social_share_button_tag("Share this video", :url => "rvidi.qwinixtech.com/shows/45") %>
+          <%= social_share_button_tag("Share this video", :url => "#{configatron.site_address_full}/shows/#{show.id}") %>
+
         </div>
         <div class="span12 title">Share this video</div>
       </div>

@@ -1,6 +1,5 @@
 class ShowsController < ApplicationController
   before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
- 
   def index
     @shows = Show.all
 
@@ -21,7 +20,7 @@ class ShowsController < ApplicationController
     if params[:to_contribute].present?
       @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id)
       @notification.update_all(:read_status =>true) if @notification
-      # commenting because pulica users cant be friends and this code is missing friend id
+      # commenting because users cant be friends and this code is missing friend id
       # friends = FriendMapping.where(:user_id => current_user.id, :friend_id => @show.user_id, :status => 'accepted')
       # friends ||= FriendMapping.where(:user_id => @show.user_id, :friend_id => current_user.id, :status => 'accepted')
       # User.friendmapping_creation(current_user.id, @show.user_id, "accepted") unless friends.present?
@@ -70,6 +69,7 @@ class ShowsController < ApplicationController
     
     respond_to do |format|
       if @success
+        invite_friend(params[:selected_friends]) if params[:selected_friends].present?
         format.html { redirect_to @show, notice: 'Show was successfully created.' }
         format.js {}
         format.json { render json: @show, status: :created, location: @show }
@@ -84,6 +84,7 @@ class ShowsController < ApplicationController
 
   def update
     @show = Show.find(params[:id])
+    invite_friend(params[:selected_friends]) if params[:selected_friends].present?
     params[:order_list].split(',').each do |each_cameo_by_order|
       camoe  = Cameo.find each_cameo_by_order
       camoe.update_attributes(:show_order => params[:order_list].index(each_cameo_by_order))
@@ -132,17 +133,13 @@ class ShowsController < ApplicationController
   end
 
   # Collect all the friends and Invite friends to contribute to the show if checked users or present
-  def invite_friend
-    @show = Show.find(params[:page_id])
+  def invite_friend(friends)
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
-    @checkd_users = params[:checked_friends]
-    if @checkd_users.present?
-      @checkd_users.each do |each_friend|
-        @user = User.find(each_friend) 
-        InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
-        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>" has Requested you to contribute for their Show ")
-        notification.save!
-      end
+    friends.each do |each_friend|
+      @user = User.find(each_friend) 
+      InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
+      notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>" has Requested you to contribute for their Show ")
+      notification.save!
     end
   end
 
@@ -167,12 +164,35 @@ class ShowsController < ApplicationController
     end
   end
   
- 
-
   def status_update
     @show = Show.find(params[:show_id])
     end_set_val = params[:status] == "end" ? Time.now : ""
     @show.update_attributes(:end_set => end_set_val) 
     redirect_to edit_show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
+  end
+
+  def add_twitter_invities
+    params[:id] = 4
+    @show = Show.find(params[:id])
+    if session[:uid].present?
+      uid = session[:uid]
+      User.configure_twitter(session[:auth_token], session[:auth_secret])
+      session[:uid] = session[:auth_token] = session[:auth_secret] = nil
+      begin
+        @twitter_friends = Twitter.followers(uid.to_i)
+        # @twitter_friends|| = [1,2,3]
+        redirect_to edit_show_path(params[:id])
+      rescue
+        @twitter_friends = [1,2,3]
+        redirect_to edit_show_path(params[:id])
+
+        flash[:alert] = 'Twitter rake limit exceeded'
+        # redirect_to add_twitter_invities_shows_path
+        # redirect_to root_url
+      end
+      
+    else
+      @twitter_friends = []
+    end
   end
 end

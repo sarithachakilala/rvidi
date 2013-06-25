@@ -20,15 +20,15 @@
       <div class="accordion" id="accordion2">
         <div class="accordion-group plus-minus-container">
           <div class="accordion-heading edit_contributor_title_padding">
-            <div class="accordion-toggle myvision_title line_height_40 changeable-plus-minus" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
+            <div class="accordion-toggle myvision_title_dark line_height_40 changeable-plus-minus" data-toggle="collapse" data-parent="#accordion2" href="#collapseTwo">
               Edit Contributors  <i class="sprite-minus-small plus-minus-i pull-right "> </i>
             </div>
           </div>
           <div id="collapseTwo" class="accordion-body collapse in">
             <div class="accordion-inner padding_none">
-              <div class="row-fluid">
+              <div class="row-fluid" style="background-color:#d1d2d4;">
                 <div class="span8 marging_none">
-                  <div class="edit_title_bg">
+                  <div class="edit_title_bg" style="margin-right:1px;">
                     <div class="edit_title"><%= @show.title.capitalize %></div>
                     <div class="font_weight_bold edit_subtitle"><%= @show.director.full_name %></div>
                   </div>
@@ -43,11 +43,12 @@
                   </div>
                 </div>
 
-                <div class="span4 marging_none cameo_friends" id="sortable">
+                <div class="span4 cameo_friends" style="margin-left:10px;overflow: auto;height: 392px;" id="sortable">
                   <% if @show.cameos.present? %>
                     <% @show.cameos.order('show_order asc').each do|show_cameo| %>
                       <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
-                      <div class="row-fluid show-cameo-detail <%= cameo_div_class %> ui-state-default" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail" data-id="<%=show_cameo.id %>" >
+                      <div class="row-fluid show-cameo-detail <%= cameo_div_class %> ui-state-default" 
+                           id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail" data-id="<%=show_cameo.id %>">
                         <% unless show_cameo.user_id == show_cameo.director_id %>
                           <div class="span1 selects-container">
                             <% status = show_cameo.status== "enabled" ? true : false%>
@@ -68,8 +69,6 @@
                         </div>
                       </div>
                     <% end %>
-    <%#= link_to 'Click here to Fix Order', "#", :onClick=>"sortList()" %>
-
                   <% else %>
                     <div class="row-fluid">
                       <div class="span12">No Contributions Added to this Show.</div>
@@ -96,73 +95,8 @@
     </div>
     <%= hidden_field_tag :order_list%>
 
-    <div class="myvision_container">
-      <div class="accordion" id="accordion3">
-        <div class="accordion-group plus-minus-container">
-          <div class="accordion-heading invite_friends_padding">
-            <div class="accordion-toggle myvision_title line_height_40 changeable-plus-minus" data-toggle="collapse" data-parent="#accordion3" href="#collapseThree">
-              Invite Friends <i class="sprite-minus-small plus-minus-i pull-right"> </i>
-            </div>
-          </div>
-          <div id="collapseThree" class="accordion-body collapse in">
-            <div class="accordion-inner">
-              <div class="row-fluid">
-                <div class="span6">
-                  <div class="title"> Invite some friends to contribute to this show!</div>
-                  <div class="margin_top_10">
-                    <a class="btn  btn-primary " href="#"><i class="sprite-facebook-white"></i>Add from Facebook</a>
-                    <a class="btn  btn-info " href="#"><i class="sprite-twitter-white"></i>Add from Twitter</a>
-                  </div>
-                  <div class="margin_top_10">
-                    <div class="input-append">
-                      <div class="input-prepend input-append search_padding">
-                        <span class="add-on prepend_background"><i class="icon-search"></i></span>
-                        <input type="text" placeholder="Search by Name or Email"  class="search_input_bg input-xlarge" id = "search_value_to_invite" />
-                        <span class="btn add-on btn-warning" id = "search_friends_to_invite">Go</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
-                <div class="span5">
-                  <div style="padding: 5px;background-color: #d1d2d4;" class="selects-container">
-                    <% if @friend_mappings.present? %>
-                      <% @friend_mappings.each_slice(2) do|friends_slice| %>
-                        <div class="row-fluid">
-                          <% friends_slice.each do|friend_mapping| %>
-                            <% friend = User.find(friend_mapping.friend_id) %>
-                            <% position_class = (friends_slice.index(friend_mapping)==0) ? "padding_left" : "" %>
-                            <div class="span6 <%= position_class %>" style="margin-left:-1px">
-                              <label class="checkbox inline width-100-percent ">
-                                <input type="checkbox" id="inlineCheckbox1" class="checkbox-input" value="option1"/> <%= "#{friend.first_name}  #{friend.last_name}"%>
-                              </label>
-                            </div>
-                          <%end%>
-                        </div>
-                      <%end%>
-                    <%end%>
-                    <div class="row-fluid">
-                      <div class="span4"></div>
-                      <div class="span4"></div>
-                      <div class="span4">
-                        <label class="checkbox inline select-all-label">
-                          Select all
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- </form> -->
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </div>
-      <div id= "main_frame" class = "selects-container">
-      </div>
-    </div>
-
+    <%= render :partial=> "invite_friends_block", :locals =>{ :f => f } %>
     <div class="buttons_height">
       <div class=" hr_bg" style="">
         <div class="text_align_center login_and_account">
@@ -175,8 +109,8 @@
           <% end %>
         </div>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
 
 <% if @show.cameos.present? %>
@@ -187,11 +121,10 @@
       var ENTRY_ID = "<%= @show.cameos('show_order asc').first.kaltura_entry_id %>"
       var TARGET_DIV_ID = "kaltura_player_<%= @show.id %>"
     <% if params[:controller] == 'shows' && params[:action] == 'show' %>
-      loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, true, '<%= @show.kaltura_playlist_id %>' );
-      <% else %>
+        loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, true, '<%= @show.kaltura_playlist_id %>' );
+    <% else %>
         loadKalturaPlayerWithoutPlaylist(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, true);
     <% end %>
-
     </script>
   <% end %>
 <% end %>

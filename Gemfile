@@ -16,7 +16,7 @@ gem 'koala'
 # koala dependencies
 gem 'twitter'
 gem 'linkedin', :git => "git://github.com/pengwynn/linkedin.git"
-
+gem 'social-share-button'
 
 # DB Related
 gem 'pg'
@@ -31,6 +31,9 @@ group :assets do
   gem 'therubyracer',  '0.11.3', :platforms => :ruby # Necessary, to Provide Javascrtpt Runtime.
   gem 'uglifier', '>= 1.0.3'
   gem 'thin'                              # To avoid content-type warning messages caused by webrick, except in production.
+  gem 'coffee-rails'
+  gem 'sass-rails'
+
 end
 
 gem 'jquery-rails'
