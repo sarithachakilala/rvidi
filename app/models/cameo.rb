@@ -100,6 +100,10 @@ class Cameo < ActiveRecord::Base
     media_entry = client.base_entry_service.get(kaltura_entry_id)        
   end
 
+  def self.get_kaltura_video(client, kaltura_entry_id)
+    media_entry = client.base_entry_service.get(kaltura_entry_id)        
+  end
+
   def self.delete_kaltura_video(kaltura_entry_id, client, ks)
     media_entry = client.media_service.delete(kaltura_entry_id, ks)
   end

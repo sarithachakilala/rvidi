@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130624094219) do
+ActiveRecord::Schema.define(:version => 20130624120822796) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -34,7 +34,7 @@ ActiveRecord::Schema.define(:version => 20130624094219) do
     t.string   "description"
     t.string   "thumbnail_url"
     t.string   "download_url"
-    t.string   "duration"
+    t.float    "duration"
     t.string   "kaltura_entry_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
@@ -111,6 +111,7 @@ ActiveRecord::Schema.define(:version => 20130624094219) do
     t.datetime "updated_at",                                         :null => false
     t.datetime "end_set"
     t.string   "kaltura_playlist_id"
+    t.float    "duration"
   end
 
   create_table "users", :force => true do |t|
