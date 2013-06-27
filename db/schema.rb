@@ -38,6 +38,9 @@ ActiveRecord::Schema.define(:version => 20130624120822796) do
     t.string   "kaltura_entry_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.string   "title"
+    t.string   "start_time"
+    t.string   "end_time"
   end
 
   create_table "comments", :force => true do |t|

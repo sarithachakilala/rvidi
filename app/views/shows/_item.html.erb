@@ -116,7 +116,7 @@
   <div class="buttons_height_100">
     <div class="hr_bg_gettingstarted" style="">
       <div class="text_align_center add_cameo_btn">
-        <% unless @sum_duration_of_cameos > @show.duration%> 
+        <% unless @sum_duration_of_cameos > @show.duration.to_i%> 
           <% unless @show.try(:end_set) && (@show.end_set < Time.now) %>
             <% if show.contributor_preferences != "private" %>
               <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>

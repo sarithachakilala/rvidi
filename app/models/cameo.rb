@@ -100,10 +100,6 @@ class Cameo < ActiveRecord::Base
     media_entry = client.base_entry_service.get(kaltura_entry_id)        
   end
 
-  def self.get_kaltura_video(client, kaltura_entry_id)
-    media_entry = client.base_entry_service.get(kaltura_entry_id)        
-  end
-
   def self.delete_kaltura_video(kaltura_entry_id, client, ks)
     media_entry = client.media_service.delete(kaltura_entry_id, ks)
   end
@@ -121,6 +117,10 @@ class Cameo < ActiveRecord::Base
     self.show_order = (latest_cameo_order+1)
   end
 
+  def get_kaltura_video(client, kaltura_entry_id)
+    media_entry = client.base_entry_service.get(kaltura_entry_id)        
+  end
+  
   def latest_cameo_order
     Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.try(:show_order) || 0
   end
