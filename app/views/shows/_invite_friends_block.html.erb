@@ -24,11 +24,15 @@
     //Facebook Send Message to a friend
     $(document).on('click', '.button-facebook-friend-invite', function(e){
       e.preventDefault();
-      facebook_send_message_to_invite($(this).attr('id'), '<%= j current_user.full_name %>', '', '<%= j configatron.site_address %>','<%= current_user.id %>', '<%= params[:id]%>');
+      facebook_send_message_to_invite($(this).attr('id'), '<%= j current_user.full_name %>',
+                                      '<%= j configatron.site_address_full %>',
+                                      '<%= current_user.id %>', '<%= params[:id] %>');
     });
   </script>
+
 <% end %>
-<div class="myvision_container">
+
+  <div class="myvision_container">
   <div class="accordion" id="accordion3">
     <div class="accordion-group plus-minus-container">
       <div class="accordion-heading invite_friends_padding">
@@ -52,7 +56,7 @@
                 <div class="input-append">
                   <div class="input-prepend input-append search_padding">
                     <span class="add-on prepend_background"><i class="icon-search"></i></span>
-                    <input type="text" placeholder="Search by Name or Email"  class="search_input_bg input-xlarge" id = "search_value_to_invite">
+                    <input type="text" placeholder="Search by Name or Email"  class="search_input_bg input-xlarge" id = "search_value_to_invite" />
                     <span class="btn add-on btn-warning" id = "search_friends_to_invite">Go</span>
                   </div>
                 </div>
