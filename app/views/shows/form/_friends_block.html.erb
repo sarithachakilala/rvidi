@@ -1,0 +1,45 @@
+<div id="collapseThree" class="accordion-body collapse in">
+  <div class="accordion-inner">
+    
+    <div class="border-bottom-black"></div>
+    
+    <div class="row-fluid margin-bottom-10">
+      <div class="title"> Invite some friends to contribute to this show!</div>
+    </div>
+    
+    <div class="row-fluid margin-bottom-20">
+      
+      <!-- Show LinkedIn Facebook Buttons -->
+      <div class="span6" > 
+        <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), 
+              '#', :class => "btn  btn-primary add_from_facebook" %>
+        <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), "/auth/twitter?fetch_invities=true&show_id=#{params[:id]}", :class=>"btn btn-info" %>
+      </div>
+    
+      <!-- Show Search rVidi Users Buttons -->
+      <div class="span6">
+        <div class="input-append pull-right">
+          <div class="input-prepend input-append search_padding">
+            <span class="add-on prepend_background"><i class="icon-search"></i></span>
+            <input type="text" placeholder="Search by Name or Email"  class="search_input_bg input-xlarge" id = "search_value_to_invite">
+            <span class="btn add-on btn-warning" id = "search_friends_to_invite">Go</span>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+    
+    <div class="border-bottom-black"></div>
+    
+    <div id="div_show_friends" class="margin-bottom-10 selects-container">
+      <%= render :partial=>"friends/friend_mappings", :locals=>{:friend_mappings=>@friend_mappings} %>
+    </div>
+    
+    <div class="">
+      <% if @twitter_friends.present? %>
+        <%= render :partial=>"twitter_friends_list"%>
+      <% end %>
+    </div>
+    
+  </div>
+</div>

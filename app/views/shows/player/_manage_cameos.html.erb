@@ -1,0 +1,40 @@
+<div id="collapseTwo" class="accordion-body collapse in">
+  
+  <div class="accordion-inner">
+    
+    <div class="border-bottom-black"></div>
+    
+    <div class="player-contributors-box">
+      
+      <div class="padding-left-10">
+        <div class="font-size-16 bold"><%= @show.title.capitalize %></div>
+        <div class="font-size-12"><%= @show.director.full_name.capitalize %></div>
+      </div>
+        
+      <div class="row-fluid">
+        <% selected_cameo = @show.cameos('show_order asc').first %>
+        <!-- Show Player -->
+        <div id="show_<%= @show.id %>_kaltura_player_container" class="span7">
+          <!-- <img src="/assets/video_img.png" alt=""> -->
+          <% if params[:controller] == 'shows' && params[:action] == 'show' %>
+            <%= render :partial => "shows/player/cameo_player", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
+          <% else %>
+            <%= render :partial => "shows/player/cameo_player_without_playlist", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
+          <% end %>
+        </div>
+      
+        <div class="span5">
+          <%= render :partial=>"shows/player/cameo_contributors", :locals=>{:show => @show, :selected_cameo=>selected_cameo} %>
+        </div>
+      </div>
+  
+    </div>
+    
+    <div class="row-fluid">
+      <div class="span12">
+        <div class="edit_contributor_text">Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum. </div>
+      </div>
+    </div>
+    
+  </div>
+</div>

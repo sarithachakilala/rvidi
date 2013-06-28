@@ -252,13 +252,13 @@ function embedVideoPreview(opt_url) {
   downloadLink.href = url;
 }
 
-function initEvents() {
-  $$$('#camera-me').addEventListener('click', turnOnCamera);
-  $$$('#record-me').addEventListener('click', record);
-  $$$('#stop-me').addEventListener('click', stop);
-}
+// function initEvents() {
+//   $$$('#camera-me').addEventListener('click', turnOnCamera);
+//   $$$('#record-me').addEventListener('click', record);
+//   $$$('#stop-me').addEventListener('click', stop);
+// }
 
-initEvents();
+//initEvents();
 
 exports.$$$ = $$$;
 

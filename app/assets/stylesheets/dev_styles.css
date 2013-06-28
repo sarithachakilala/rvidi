@@ -23,10 +23,10 @@
 .active-cameo{ background-color: #6d6e72; }
 .active-cameo a, .active-cameo a:hover{ color:#ffffff; }
 
-.show-comments-container{ height:250px; overflow-y:auto; overflow-x:hidden; }
+.show-comments-container{ height:auto; overflow-y:auto; overflow-x:hidden; margin-bottom:20px; }
 .width-343{ width:343px; }
 .comment-padding{ padding:0px 17px 0px 5px;}
-textarea.comment-body{ width:323px;}
+textarea.comment-body{ width:390px;}
 
 /* Borders for testing div occupancies */
 .bg-grey{ background-color: #ccc }

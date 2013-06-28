@@ -1,0 +1,37 @@
+<% thumbnail = user.image_url.present? ? user.image_url : "/assets/default_image.png"  %>
+
+<div class="friend-box row-fluid">
+  
+  <div class="span4">
+    <div style="width:80px;height:80px;background-color:#c1c1c1;" class="friend_image">
+      <%= image_tag thumbnail, :class => "details_image_sizesmall" %>
+    </div>
+  </div>
+  
+  <div class="span8">
+    
+    <!-- Full Name of the Friend -->
+    <%= content_tag :span, user.full_name, :class=>"font-size-14 bold text-color-blue" %> 
+    
+    <!-- City -->
+    <%= content_tag :div, user.city, :class=>"text-color-red font-size-12" unless user.city.blank? %>
+    
+    <!-- Show Shows and Cameos   -->
+    <% shows = Show.where(:user_id => user.id).count %>
+    <% cameos = Cameo.where(:director_id => user.id).count %>
+    <div class="friends_show"> 
+      <%= shows %> shows,&nbsp;
+      <a class="frinds_cameos"><%= cameos %> cameos </a>
+    </div>
+    
+    <!-- Check Box to select the friend -->
+    <label class="checkbox inline width-100-percent ">
+      <%= check_box_tag('selected_friends[]', user.id, checked = false, :class => 'checkbox-input')  %> 
+      <%= content_tag :span, "Select", :class=>"font-size-11 margin-top-5" %>
+    </label>
+    
+    
+    
+  </div>
+  
+</div>

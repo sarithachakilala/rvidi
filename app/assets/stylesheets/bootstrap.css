@@ -1961,7 +1961,7 @@ legend + .control-group {
 
 .form-horizontal .control-label {
   float: left;
-  width: 100px;
+  width: 160px;
   padding-top: 5px;
   text-align: right;
 }
@@ -1969,7 +1969,7 @@ legend + .control-group {
 .form-horizontal .controls {
   *display: inline-block;
   *padding-left: 20px;
-  margin-left: 120px;
+  margin-left: 200px;
   *margin-left: 0;
 }
 
@@ -5973,8 +5973,7 @@ a.badge:focus {
 }
 
 .accordion-inner {
-  padding: 9px 15px;
- /* border-top: 1px solid #e5e5e5; */
+  padding: 10px 5px;
 }
 
 .carousel {

@@ -98,7 +98,7 @@
           </div>
           <div id="show_<%= params[:id] %>_kaltura_player_container">
             <% selected_cameo = Cameo.find(params[:id])%>
-              <%= render :partial => "cameos/cameo_player", :locals => { :cameo => selected_cameo } %>
+              <%= render :partial => "cameos/black-box", :locals => { :cameo => selected_cameo, :width=>"100%", :height=>"400px" } %>
           </div>
         </div>
       </div>
@@ -115,7 +115,7 @@
   </div>
 
     <% if current_user.id == @cameo.director_id %>
-      <%= render :partial=> "shows/invite_friends_block" %>
+      <%= render :partial=> "shows/form/invite_friends_block" %>
     <% end %>
   </div>
   <div class="buttons_height_100">
@@ -154,10 +154,4 @@
       </div>
     <% end %>
   <% end %>
-<% end %>
-<% content_for :js_with_script_tags do %>
-  <script src="/assets/recorder.js"> </script>
-  <script src="/assets/whammy.js"></script>
-  <script src="/assets/html5_audio_video_record_scripts.js"></script>
-  
 <% end %>

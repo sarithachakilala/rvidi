@@ -1,1 +1,5 @@
-$("#main_frame").html("<%= j(render :partial=>"/shows/friends_list",:locals => {:users=>@users, :search_val => params[:search_value]} ) %>")
+<% if @users.any? %>
+  $("#div_show_friends").html("<%= j(render :partial=>"/friends/rvidi_users",:locals => {:users=>@users, :search_val => params[:search_value]} ) %>")
+<% else %>
+  $("#div_show_friends").html("<%= j(render :partial=>"/friends/invite_user") %>")
+<% end %>

@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
     :uniqueness => true,
     :if => Proc.new { |user| user.email.present? }
 
-  validates :password, :presence => true, 
+  validates :password, :presence => true,:length => {:within => 8..40},
     :on => :create
 
   validates :password_confirmation, :presence => true,

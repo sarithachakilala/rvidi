@@ -1,1 +1,49 @@
-<%=  render :partial=> 'form' %>
+
+<%= form_for @show, :html => {:class => "js-validated-form form-horizontal", :method => :put} do |f| %>
+  
+  <!-- Form fields (Black Box) -->
+  <%= render :partial => "shows/form/show_details", :locals => { :f => f, :title=>"Edit Show Details" } %>
+  
+  <!-- Record the Opening Cameo (White Box) -->
+  <%= render :partial => "shows/form/edit_contributors", :locals => { :f => f } %>
+  
+  <!-- Invite Friends from Facebook and Twitter (White Box) -->
+  <%= render :partial=> "shows/form/invite_friends_block", :locals =>{ :f => f } %>
+  
+  <%= hidden_field_tag :id, params[:id] %>
+  <%= hidden_field_tag :order_list %>
+  
+  <!-- Show Re-Open & End Show Button which submits the form -->
+  <div class="buttons_height">
+    <div class=" hr_bg" style="">
+      <div class="text_align_center login_and_account">
+        <%= f.submit "Update Show", :class => "btn " , :id=> "update_cameo" %>
+        <i style="" class="sprite-or-icon_black"></i>
+        <% if @show.try(:end_set) && (@show.end_set < Time.now) %>
+          <%= link_to "Re-open Show", status_update_shows_path(:show_id => params[:id], :status => "start"), :class => "btn  btn-info " %>
+        <% else %>
+          <%= link_to "End Show", status_update_shows_path(:show_id => params[:id], :status => "end"), :class => "btn  btn-warning " %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  
+<% end %>
+
+##################
+
+<% if @show.cameos.present? %>
+  <% content_for :js_with_script_tags do %>
+    <script src="http://cdnapi.kaltura.com/p/<%= configatron.kaltura_partner_id %>/sp/<%= configatron.kaltura_partner_id %>00/embedIframeJs/uiconf_id/13376072/partner_id/<%= configatron.kaltura_partner_id %>"></script>
+    <script>
+      var PARTNER_ID = "<%= configatron.kaltura_partner_id %>"
+      var ENTRY_ID = "<%= @show.cameos('show_order asc').first.kaltura_entry_id %>"
+      var TARGET_DIV_ID = "kaltura_player_<%= @show.id %>"
+    <% if params[:controller] == 'shows' && params[:action] == 'show' %>
+        loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, true, '<%= @show.kaltura_playlist_id %>' );
+    <% else %>
+        loadKalturaPlayerWithoutPlaylist(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, true);
+    <% end %>
+    </script>
+  <% end %>
+<% end %>

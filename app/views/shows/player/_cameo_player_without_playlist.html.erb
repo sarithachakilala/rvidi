@@ -1,8 +1,16 @@
+<%
+  unless defined?(height)
+    height = "360px"
+  end
+  unless defined?(width)
+    width = "565px"
+  end
+%>
 <% if cameo.nil? %>
   <img alt="" src="/assets/video_img.png" />
 <% else %>
-  <div id="kaltura_player_<%= cameo.show_id %>" style="width:565px;height:353px;">
-    <video controls poster="<%= cameo.thumbnail_url %>" width="565" height="353">
+  <div id="kaltura_player_<%= cameo.show_id %>" style="width:<%= width %>;height:<%= height %>;">
+    <video controls poster="<%= cameo.thumbnail_url %>" width="<%= width %>" height="<%= height %>">
       <source type="video/webm" src="<%= cameo.download_url %>">
       <source type="video/mp4" src="<%= cameo.download_url %>">
       <source type="video/ogg" src="<%= cameo.download_url %>">
