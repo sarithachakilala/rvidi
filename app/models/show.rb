@@ -2,7 +2,7 @@ class Show < ActiveRecord::Base
 
   attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password, 
     :contributor_preferences, :contributor_preferences_password, :need_review,
-    :cameos_attributes, :show_tag, :end_set
+    :cameos_attributes, :show_tag, :end_set, :duration  
 
   # Validations
   validates :user_id, :presence => true

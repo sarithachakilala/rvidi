@@ -15,12 +15,26 @@ class ShowsController < ApplicationController
   def show
     @show = Show.find(params[:id])
     @show.create_playlist
+    
+    # to update the duration by getting the video duration from kaltura...
+    show_cameo = @show.cameos.where(:duration=> 0.0)
+    show_cameo.each do |each_cameo|
+      new_media_entry = Cameo.get_kaltura_video(session[:client], each_cameo.kaltura_entry_id)
+      each_cameo.update_attributes(:duration => new_media_entry.duration)
+    end
+
+    # finding the duration of sum of all cameos
+    array_of_cameo_duration = @show.cameos.where(:status=> "enabled").collect(&:duration)
+    @sum_duration_of_cameos = array_of_cameo_duration.inject{|sum,x| sum + x }
+
     @display_prefernce = params[:preference].present? ? params[:preference] : @show.display_preferences
     @show.update_attribute(:number_of_views, (@show.number_of_views.to_i+1))
+    
     @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
     @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
+   
     if params[:to_contribute].present?
       @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id)
       @notification.update_all(:read_status =>true) if @notification
@@ -81,7 +95,7 @@ class ShowsController < ApplicationController
         @show.cameos = []
       end
     end
-    
+    @show.duration = @show.duration*60
     @success = @show.save
     #@show.create_playlist
     
@@ -107,6 +121,7 @@ class ShowsController < ApplicationController
       camoe  = Cameo.find each_cameo_by_order
       camoe.update_attributes(:show_order => params[:order_list].index(each_cameo_by_order))
     end
+    params[:show][:duration] = params[:show][:duration].to_i*60
     respond_to do |format|
       if @show.update_attributes(params[:show])
         @show.update_active_cameos(params[:active_cameos]) if params[:active_cameos].present?
@@ -206,23 +221,18 @@ class ShowsController < ApplicationController
   end
 
   def add_twitter_invities
-    params[:id] = 4
-    @show = Show.find(params[:id])
+    # @show = Show.find(params[:id])
     if session[:uid].present?
       uid = session[:uid]
       User.configure_twitter(session[:auth_token], session[:auth_secret])
       session[:uid] = session[:auth_token] = session[:auth_secret] = nil
       begin
         @twitter_friends = Twitter.followers(uid.to_i)
-        # @twitter_friends|| = [1,2,3]
         redirect_to edit_show_path(params[:id])
       rescue
-        @twitter_friends = [1,2,3]
-        redirect_to edit_show_path(params[:id])
-
         flash[:alert] = 'Twitter rake limit exceeded'
         # redirect_to add_twitter_invities_shows_path
-        # redirect_to root_url
+        redirect_to root_url
       end
       
     else

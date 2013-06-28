@@ -11,7 +11,8 @@
         <div class="thumbnail_name"><%= show.director.full_name%></div>
         <div class="thumbnail_contributor"><%= show.cameos.size %> Contributors </div>
         <% if current_user.is_director?(show) %>
-          <div class="thumbnail_contributor"><%= link_to "Edit Show", edit_show_path(show) %> </div>
+          <div class="thumbnail_contributor">
+            <%= link_to "Edit Show", edit_show_path(show) , :class=>" btn btn-mini btn-primary"%> </div>
         <% end %>
       </div>
       <div class="span3"> 

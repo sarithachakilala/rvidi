@@ -1,41 +1,163 @@
-<%= form_for(@cameo) do |f| %>
-  <% if @cameo.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@cameo.errors.count, "error") %> prohibited this cameo from being saved:</h2>
-
-      <ul>
-      <% @cameo.errors.full_messages.each do |msg| %>
-        <li><%= msg %></li>
-      <% end %>
-      </ul>
+<%= form_for @cameo, :html => {:class => "js-validated-form form-horizontal cameo-form", :multipart => true } do |f| %>
+  <!-- login container start here -->
+  <div class="login_container">
+    <div class="invite_friends_padding">
+      <div class="control-group">
+        <label class="control-label  blue_label" for="inputPassword">Cameo Title</label>
+        <div class="controls">
+          <%= f.text_field :title, :class => "show-show-tag", :placeholder => "Enter the cameo title" %>
+        </div>
+      </div>
+      <div class="myvision_title line_height_40">
+        Record a Cameo <i class="sprite-question-small pull-right"> </i>
+      </div>
     </div>
-  <% end %>
 
-  <div class="field">
-    <%= f.label :video_id %><br />
-    <%= f.number_field :video_id %>
+    <div class="row-fluid" style="margin:30px 0px 50px;">
+      <div class="span4 text_align_center cursor-pointer" id="camera-me">
+        <i class="sprite-camera-big"></i>
+        <div class="font_weight_bold">
+          Click here to record a video clip
+        </div>
+        <div> (15 seconds or less)</div>
+      </div>
+      <!-- <div class="span3 text_align_center hide" id="voice_record">
+        <div>Record Me</div>
+      </div> -->
+      <div class="span4 text_align_center">
+        <i class="sprite-or-icon"></i>
+      </div>
+      <div class="span4 text_align_center">
+        <div class="font_weight_bold">Upload clip from your computer or Camera</div><br />
+        <%= f.hidden_field :user_id, :value => current_user.id, :class => "cameo-user-id" %>
+        <%= f.hidden_field :show_id, :value => @cameo.show_id, :class => "cameo-show-id" %>
+        <%= f.hidden_field :director_id, :value => @cameo.director_id, :class => "cameo-director-id" %>
+        <%= hidden_field_tag 'cameo[audio_file]', '', :class => "recorded-audio-input cameo-recorded-audio-file" %>
+        <%= hidden_field_tag 'cameo[recorded_file]', '', :class => "recorded-video-input cameo-recorded-video-file" %>
+        <%= f.file_field :video_file, :class => "cameo-video-file" %>
+        <%= hidden_field_tag 'tstamp', @tstamp %>
+      </div>
+    </div>
+
+    <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" width="300" height="290"
+            id="camera" data="/assets/CameraDemo.swf" align="middle">
+      <param name=FlashVars value="myVariable=<%= URI::escape(Cameo.get_stream_name(current_user, @tstamp)) %>&railsEnv=<%= URI::escape(Rails.env) %>" />
+      <param name="movie" value="/assets/CameraDemo.swf" />
+      <param name="quality" value="high" />
+      <param name="bgcolor" value="#ffffff" />
+      <param name="play" value="true" />
+      <param name="loop" value="true" />
+      <param name="wmode" value="window" />
+      <param name="scale" value="showall" />
+      <param name="menu" value="true" />
+      <param name="devicefont" value="false" />
+      <param name="salign" value="" />
+      <param name="allowScriptAccess" value="sameDomain" />
+      <!--[if !IE]>-->
+      <object type="application/x-shockwave-flash" data="/assets/CameraDemo.swf"
+              width="300" height="290" id="camera">
+        <param name=FlashVars value="myVariable=<%= URI::escape(Cameo.get_stream_name(current_user, @tstamp)) %>&railsEnv=<%= URI::escape(Rails.env) %>" />
+        <param name="movie" value="/assets/CameraDemo.swf" />
+        <param name="quality" value="high" />
+        <param name="bgcolor" value="#ffffff" />
+        <param name="play" value="true" />
+        <param name="loop" value="true" />
+        <param name="wmode" value="window" />
+        <param name="scale" value="showall" />
+        <param name="menu" value="true" />
+        <param name="devicefont" value="false" />
+        <param name="salign" value="" />
+        <param name="allowScriptAccess" value="sameDomain" />
+        <!--<![endif]-->
+        <a href="http://www.adobe.com/go/getflash">
+          <img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="Get Adobe Flash player" />
+        </a>
+        <!--[if !IE]>-->
+      </object>
+      <!--<![endif]-->
+    </object>
+    <!-- Content to show HTML5 Recorder Starts -->
+    <!-- <video class='video-record hide' autoplay></video>
+    <div id="video-preview" class='video-record hide'>
+    <%#= link_to "Record", "javascript:void(0);",  :id => "record-me", :class => 'btn' %>
+    <%#= link_to "◼", "javascript:void(0);",  :id => "stop-me", :class => 'btn' %>
+    <!--<button id="play-me" disabled>►</button>-->
+    <!-- <span id="elasped-time"></span>
+   </div> -->
+
+    <audio class='audio-record hide' controls autoplay></audio>
+    <div id='audio_record' class='audio-record hide'>
+      <input onclick="startRecording()" type="button" value="start recording" />
+      <input onclick="stopRecording()" type="button" value="stop recording and play" />
+    </div>
+    <!-- Content to show HTML5 Recorder Ends -->
+    <% if params[:id].present? %>
+      <div class="row-fluid">
+        <div class="span8 marging_none">
+          <div class="edit_title_bg" style="margin-right:1px;width:860px;">
+          </div>
+          <div id="show_<%= params[:id] %>_kaltura_player_container">
+            <% selected_cameo = Cameo.find(params[:id])%>
+              <%= render :partial => "cameos/cameo_player", :locals => { :cameo => selected_cameo } %>
+          </div>
+        </div>
+      </div>
+      <div class="row-fluid">
+        <div class="control-group">
+          <label class="control-label  blue_label" for="inputPassword">Clip the show</label>
+          <div class="controls">
+            <%= f.text_field :start_time, :class => "show-show-tag", :placeholder => "Start Time", :style=>"width:66px;" %>
+            <%= f.text_field :end_time, :class => "show-show-tag", :placeholder => "End Time" , :style=>"width:66px;" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
   </div>
-  <div class="field">
-    <%= f.label :user_id %><br />
-    <%= f.number_field :user_id %>
+
+    <% if current_user.id == @cameo.director_id %>
+      <%= render :partial=> "shows/invite_friends_block" %>
+    <% end %>
   </div>
-  <div class="field">
-    <%= f.label :director_id %><br />
-    <%= f.number_field :director_id %>
+  <div class="buttons_height_100">
+    <div class="hr_bg_welcome" style="">
+      <div class="text_align_center add_cameo_btn">
+        <%= button_tag( :class => "btn btn-info publish-cameo-btn") do %>
+          <i class='sprite-reel-white'></i> Publish Cameo
+        <% end %>
+      </div>
+    </div>
   </div>
-  <div class="field">
-    <%= f.label :status %><br />
-    <%= f.text_field :status %>
-  </div>
-  <div class="field">
-    <%= f.label :show_id %><br />
-    <%= f.number_field :show_id %>
-  </div>
-  <div class="field">
-    <%= f.label :show_order %><br />
-    <%= f.number_field :show_order %>
-  </div>
-  <div class="actions">
-    <%= f.submit %>
-  </div>
+<% end %>
+
+
+<% if @contribution_prefernce == "password_protected" %>
+  <% if current_user.present? && @cameo.user_id!=current_user.id %>
+    <%= form_tag check_password_cameos_path do %>
+      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-header">
+          <% if notice.present? %><div class="alert alert-error"><%= notice%></div><% end %>
+          <h3 id="myModalLabel">This Show is Password Protected</h3>
+        </div>
+        <div class="modal-body">
+          <div class="control-group">
+            <label class="control-label" for="inputEmail">Password</label>
+            <div class="controls">
+              <%= password_field_tag :password %>
+              <%= hidden_field_tag :show_id, params[:show_id] %>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <%= link_to "Close", root_url, :class => "btn data-dismiss='modal' aria-hidden='true'" %>
+          <%= submit_tag "Submit", :class => "btn btn-warning" %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>
+<% content_for :js_with_script_tags do %>
+  <script src="/assets/recorder.js"> </script>
+  <script src="/assets/whammy.js"></script>
+  <script src="/assets/html5_audio_video_record_scripts.js"></script>
+  
 <% end %>

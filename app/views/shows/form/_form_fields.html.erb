@@ -65,21 +65,29 @@
       </div>
     </div>
     
-    <!-- Tag the Show -->
+    <!-- Duration -->
     <div class="control-group">
-      <label class="control-label  blue_label" for="inputPassword">Tag the Show</label>
+      <label class="control-label  blue_label" for="inputPassword">Limit the Show</label>
       <div class="controls">
-        <%= f.text_field :show_tag, :class => "show-show-tag", :placeholder => "Add a tag" %>
+        <%= f.number_field :duration, :class => "show-show-tag", :placeholder => "Limit the Show", :min=>0, :max=>10 %>
       </div>
     </div>
     
-    <!-- Check Box -->
+    <!-- Let me review Checkbox -->
     <div class="control-group">
       <div class="controls">
         <label class="checkbox radiobtn_active_text">
           <%= f.check_box :need_review, {:class => ""} %>
           Let me review cameos before they're posted
         </label>
+      </div>
+    </div>
+    
+    <!-- Tag the Show -->
+    <div class="control-group">
+      <label class="control-label  blue_label" for="inputPassword">Tag the Show</label>
+      <div class="controls">
+        <%= f.text_field :show_tag, :class => "show-show-tag", :placeholder => "Add a tag" %>
       </div>
     </div>
   
