@@ -1,0 +1,32 @@
+<div id="sortable">
+  <% if @show.cameos.present? %>
+    <% @show.cameos.order('show_order asc').each do|show_cameo| %>
+      <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
+      <div class="row-fluid show-cameo-detail <%= cameo_div_class %> ui-state-default" 
+           id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail" data-id="<%=show_cameo.id %>">
+        <% unless show_cameo.user_id == show_cameo.director_id %>
+          <div class="span1 selects-container">
+            <% status = show_cameo.status== "enabled" ? true : false%>
+            <%= check_box_tag('active_cameos[]', show_cameo.id, checked = status, :class => 'cameo_check')  %>
+          </div>
+          <div class="span1">
+            <%= link_to "<i class='sprite-into-icon'></i>".html_safe, cameo_path(show_cameo), :method => :delete, :confirm => "Are you sure to remove this Cameo?", :remote => true %>
+          </div>
+        <% end %>
+        <div class="span4">
+          <div class="contributors_image">
+            <% thumbnail = show_cameo.user.image_url.present? ? show_cameo.user.image_url : "/assets/default_image.png"  %>
+            <div class="contributors_image_size"> <%= image_tag thumbnail, :class => "details_image_sizesmall" %></div>
+          </div>
+        </div>
+        <div class="span6 cameo_friends_text">
+          <%= link_to show_cameo.user.full_name, play_cameo_show_path(:cameo_id => show_cameo.id, :id => @show.id), :remote => true %>
+        </div>
+      </div>
+    <% end %>
+  <% else %>
+    <div class="row-fluid">
+      <div class="span12">No Contributions Added to this Show.</div>
+    </div>
+  <% end %>
+</div>

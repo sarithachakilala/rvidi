@@ -2,7 +2,22 @@ class ApplicationController < ActionController::Base
   include SessionsHelper
   helper_method :current_user
   before_filter :set_locale, :get_kaltura_session
+  
+  ## this function can be called in before filter of any controllers 
+  ## helpfull for paginating
+  def parse_filters_from_url
+    @current_page = params[:page] || "1"
+    @per_page = params[:per_page] || "10"
 
+    if @per_page && @per_page.to_i > 250
+      @per_page = "10"
+    end
+
+    @offset = (@current_page.to_i - 1) * (@per_page.to_i)
+    @query = params['query']
+
+  end
+  
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
   end

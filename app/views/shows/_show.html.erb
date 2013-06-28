@@ -1,0 +1,55 @@
+<div class="player-box">
+  
+  <div class="padding-left-10">
+    <div class="font-size-16 bold"><%= show.title.capitalize %></div>
+    <div class="font-size-12"><%= show.director.full_name.capitalize %></div>
+  </div>
+  
+  <!-- Kaltura Playlist -->
+  <div id="show_<%= show.id %>_kaltura_player_container">
+    <% selected_cameo = (cameo.present? && cameo.status =="enabled") ? cameo :  show.cameos('show_order asc').where(:status=> "enabled").first%>
+    <% if params[:controller] == 'shows' && params[:action] == 'show' %>
+      <%= render :partial => "shows/player/cameo_player", :locals => { :cameo => selected_cameo } %>
+    <% else %>
+      <%= render :partial => "shows/player/cameo_player_without_playlist", :locals => { :cameo => selected_cameo } %>
+    <% end %>
+  </div>
+  
+  <% if params[:controller] == 'shows' && params[:action] != 'show' %>
+    <%= render :partial=>"edit/players_and_contributers", :locals=>{:show => show} %>
+  <% end %>
+
+</div>
+
+<!-- Show Details -->
+<%= render :partial=>"shows/show/details", :locals=>{:show => show, 
+                                            :cameo => cameo, 
+                                            :show_comments => show_comments, 
+                                            :all_comments => all_comments} %>
+
+<!-- If the sow is protected show an overlay -->
+<% if @display_prefernce == "password_protected" %>
+  <% if current_user.present? && show.user_id!=current_user.id || !current_user.present? %>
+    <%= form_tag check_password_shows_path do %>
+      <div id="myModal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" data-backdrop="static">
+        <div class="modal-header">
+          <% if notice.present? %><div class="alert alert-error"><%= notice%></div><% end %>
+          <h3 id="myModalLabel">This Show is Password Protected</h3>
+        </div>
+        <div class="modal-body">
+          <div class="control-group">
+            <label class="control-label" for="inputEmail">Please enter the password to view the show:</label>
+            <div class="controls">
+              <%= password_field_tag :password %>
+              <%= hidden_field_tag :show_id, params[:id] %>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <%= link_to "Cancel", root_url, :class => "btn data-dismiss='modal' aria-hidden='true'" %>
+          <%= submit_tag "Submit", :class => "btn btn-warning" %>
+        </div>
+      </div>
+    <% end %>
+  <% end %>
+<% end %>

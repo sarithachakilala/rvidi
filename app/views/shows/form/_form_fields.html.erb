@@ -1,5 +1,10 @@
 <div id="collapseOne" class="accordion-body collapse in">
+  
   <div class="accordion-inner">
+    
+    <div class="border-bottom-white"></div>
+    
+    <!-- Title -->
     <div class="control-group">
       <label class="control-label blue_label" for="inputEmail">Title</label>
       <div class="controls">
@@ -7,6 +12,8 @@
         <%= f.text_field :title, :class => "js-required", :placeholder => "Title", :class => "show-title" %>
       </div>
     </div>
+    
+    <!-- Description -->
     <div class="control-group">
       <label class="control-label  blue_label" for="inputPassword">Description</label>
       <div class="controls">
@@ -14,6 +21,7 @@
       </div>
     </div>
 
+    <!-- Display -->
     <div class="control-group">
       <label class="control-label blue_label" for="inputEmail">Display</label>
       <div class="controls radio-inputs-container">
@@ -34,7 +42,8 @@
         </label>
       </div>
     </div>
-
+    
+    <!-- Contributors -->
     <div class="control-group">
       <label class="control-label blue_label" for="inputEmail">Contributors</label>
       <div class="controls radio-inputs-container">
@@ -55,27 +64,25 @@
         </label>
       </div>
     </div>
+    
+    <!-- Tag the Show -->
     <div class="control-group">
       <label class="control-label  blue_label" for="inputPassword">Tag the Show</label>
       <div class="controls">
         <%= f.text_field :show_tag, :class => "show-show-tag", :placeholder => "Add a tag" %>
       </div>
     </div>
-  </div>
-  
-  
+    
+    <!-- Check Box -->
     <div class="control-group">
       <div class="controls">
-        <label class="checkbox radiobtn_active_text" style="margin-left:15px;">
+        <label class="checkbox radiobtn_active_text">
           <%= f.check_box :need_review, {:class => ""} %>
           Let me review cameos before they're posted
         </label>
       </div>
     </div>
+  
+  </div>
  
-<!--    <div class="row-fluid"> 
-      <div class="span2"></div>
-      <div class="span10"></div>
-    </div> -->
-
 </div>

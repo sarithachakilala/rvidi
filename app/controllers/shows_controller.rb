@@ -1,5 +1,8 @@
 class ShowsController < ApplicationController
+  
   before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
+  before_filter :parse_filters_from_url
+  
   def index
     @shows = Show.all
 
@@ -32,13 +35,25 @@ class ShowsController < ApplicationController
     end
   end
 
+  ## GET /show/new
   def new
+    
+    ## Get a time stamp and store it in hidden field of the form .
+    ## This time stamp is used for generating the file name 
+    ## This helps the create action to find the exact file uploaded by the user, (doesn't matter if 2 or more users are recording concurrently.)
     @tstamp = Time.now.to_i
+    
+    ## Get the object.
     @show = Show.new(:display_preferences => "private", :contributor_preferences => "private")
+    
+    ## Buidling the cameo
     @cameo = @show.cameos.build
+    
+    ## Get the friend list
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
+    
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.json { render json: @show }
     end
   end
@@ -73,7 +88,7 @@ class ShowsController < ApplicationController
     respond_to do |format|
       if @success
         invite_friend(params[:selected_friends]) if params[:selected_friends].present?
-        format.html { redirect_to @show, notice: 'Show was successfully created.' }
+        format.html { redirect_to @show, notice: 'Show was successfully created. The system will take few minutes to convert the video. Please check back after few minutes.' }
         format.js {}
         format.json { render json: @show, status: :created, location: @show }
       else
@@ -132,7 +147,23 @@ class ShowsController < ApplicationController
   end
 
   def friends_list
+    
+    #@query = params[:search_val]
+    
+    #if !@query.blank?
+    #  relation = User.where("LOWER(username) LIKE LOWER('%#{@query}%') OR 
+    #      LOWER(first_name) LIKE LOWER('%#{@query}%') OR 
+    #      LOWER(last_name) LIKE LOWER('%#{@query}%') OR 
+    #      LOWER(email) LIKE LOWER('%#{@query}%')
+    #      ")
+    #  @users = relation.order("created_at desc").page(@current_page).per(@per_page)
+    #else
+    #  @users = []
+    #end
+    
     @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
+    
+    
   end
 
   # Collect all the friends and Invite friends to contribute to the show if checked users or present
@@ -198,4 +229,5 @@ class ShowsController < ApplicationController
       @twitter_friends = []
     end
   end
+
 end

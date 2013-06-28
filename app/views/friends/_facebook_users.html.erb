@@ -1,0 +1,13 @@
+<div class="row-fluid text-color-grey margin-top-10 margin-bottom-10">
+  Here are the list of Facebook Friends.
+</div>
+
+<% facebook_friends.each_slice(3).each do |friends_slice| %>
+  <div class="row-fluid margin-top-5">
+    <% friends_slice.each do|friend| %>
+      <div class="span4">
+        <%= render :partial=>"friends/facebook_user", :locals=>{:friend => friend} %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
