@@ -81,7 +81,7 @@ class CameosController < ApplicationController
       if @success
         @show = @cameo.show
         invite_friend(params[:selected_friends]) if params[:selected_friends].present?
-        format.html { redirect_to @show, notice: 'Cameo was successfully Added.' }        
+        format.html { redirect_to edit_cameo_path(@cameo), notice: 'Cameo was successfully Added.'} 
         format.js {}
         format.json { render json: @cameo, status: :created, location: @cameo }
       else
@@ -94,10 +94,14 @@ class CameosController < ApplicationController
 
   def update
     @cameo = Cameo.find(params[:id])
-
+    
+    if params[:cameo][:start_time].present? && params[:cameo][:end_time].present?
+      @sucess = Cameo.clipping_video(@cameo, session[:client], session[:ks])
+    end 
     respond_to do |format|
+      @show = @cameo.show
       if @cameo.update_attributes(params[:cameo])
-        format.html { redirect_to @cameo, notice: 'Cameo was successfully updated.' }
+        format.html { redirect_to @show, notice: 'Cameo was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

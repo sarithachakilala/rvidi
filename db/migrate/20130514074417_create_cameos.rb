@@ -10,7 +10,7 @@ class CreateCameos < ActiveRecord::Migration
       t.string :description
       t.string :thumbnail_url
       t.string :download_url
-      t.string :duration
+      t.float :duration
       t.string :kaltura_entry_id
 
       t.timestamps

@@ -61,6 +61,12 @@
         <%= f.text_field :show_tag, :class => "show-show-tag", :placeholder => "Add a tag" %>
       </div>
     </div>
+    <div class="control-group">
+      <label class="control-label  blue_label" for="inputPassword">Limit the Show</label>
+      <div class="controls">
+        <%= f.number_field :duration, :class => "show-show-tag", :placeholder => "Limit the Show", :min=>0, :max=>10 %>
+      </div>
+    </div>
   </div>
   
   
