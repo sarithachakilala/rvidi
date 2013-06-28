@@ -7,7 +7,7 @@ class Cameo < ActiveRecord::Base
   end
   attr_accessor :video_file, :audio_file, :recorded_file
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, :description,
-    :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file
+    :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file, :title, :start_time, :end_time
 
   # Validations
   validates :director_id, :presence => true, :numericality => true
@@ -125,6 +125,10 @@ class Cameo < ActiveRecord::Base
     Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.try(:show_order) || 0
   end
 
+  
+
+  
+
   #Class Methods
   class << self
     def get_stream_name current_user, tstamp
@@ -137,6 +141,20 @@ class Cameo < ActiveRecord::Base
             get_stream_name(current_user, tstamp) +'.flv'))
       else
         File.open("/var/www/apps/rvidi/shared/streams/#{get_stream_name(current_user, tstamp)}.flv")
+      end
+    end
+    
+    def clipping_video(cameo, client, ks)
+      donwload = `wget -O "#{cameo.id}.avi" "#{cameo.download_url}"`
+      output = `avconv -i "#{cameo.id}.avi" -ss #{cameo.start_time} -t #{cameo.end_time} -vcodec copy -acodec copy #{cameo.id}#{cameo.show_id}.avi`
+      new_file = File.open("#{cameo.id}#{cameo.show_id}.avi") if File.exists?("#{cameo.id}.avi")
+      if new_file.present?
+        existing_kaltura_id = cameo.kaltura_entry_id
+        delete = Cameo.delay.delete_kaltura_video(existing_kaltura_id, client, ks) 
+        media_entry = Cameo.upload_video_to_kaltura(new_file, client, ks)
+        cameo.set_uploaded_video_details(media_entry)
+        File.delete("#{cameo.id}.avi") 
+        File.delete("#{cameo.id}#{cameo.show_id}.avi") 
       end
     end
 
