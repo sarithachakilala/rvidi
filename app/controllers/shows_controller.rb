@@ -86,13 +86,13 @@ class ShowsController < ApplicationController
     @cameo = @show.cameos.first
     @cameo.status = Cameo::Status::Enabled
     if @cameo.video_file.present?
-      media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
+      media_entry = @cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
     else
       begin
         sleep(4);
         stream_file = Cameo.get_cameo_file(current_user, params[:tstamp])
-        media_entry = Cameo.upload_video_to_kaltura(stream_file,
+        media_entry = @cameo.upload_video_to_kaltura(stream_file,
           session[:client], session[:ks])
         @cameo.set_uploaded_video_details(media_entry)
       rescue

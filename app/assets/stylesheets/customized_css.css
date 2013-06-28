@@ -129,7 +129,10 @@
 .slider_text{
     margin: 11px 0px 25px 0px;
     font-size: 13px;
-    line-height: 11px;
+    line-height: 20px;
+    width: 90%;
+    height: 40px;
+    overflow-y:hidden;
 }
 .five_title{
     font-size: 12px;

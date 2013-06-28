@@ -60,10 +60,10 @@ class Cameo < ActiveRecord::Base
   end
   # KALTURA METHODS TO CALL API METHODS ENDS
   # Request for Uploading a video
-  def self.upload_video_to_kaltura(video, client, ks)
+  def upload_video_to_kaltura(video, client, ks)
     media_entry = Kaltura::KalturaMediaEntry.new
-    media_entry.name = "test upload video 01"
-    media_entry.description = "test upload video 01 description"
+    media_entry.name = user.full_name
+    media_entry.description = title
 
     media_entry.media_type = Kaltura::KalturaMediaType::VIDEO
 
@@ -78,10 +78,10 @@ class Cameo < ActiveRecord::Base
   # To be called from rake task to, Add Videos to kaltura directly Console
   def self.save_cameo_with_video_in_kaltura(video, client, ks, director_id, user_id)
     cameo = Cameo.new
-    media_entry = upload_video_to_kaltura(video, client, ks)
-    cameo.set_uploaded_video_details(media_entry)
     cameo.director_id = director_id
-    cameo.user_id = user_id
+    cameo.user = User.find(user_id)
+    media_entry = cameo.upload_video_to_kaltura(video, client, ks)
+    cameo.set_uploaded_video_details(media_entry)
     saved = cameo.save
     if saved
       p "cameo saved with kaltura entry id: #{cameo.kaltura_entry_id}"
@@ -151,7 +151,7 @@ class Cameo < ActiveRecord::Base
       if new_file.present?
         existing_kaltura_id = cameo.kaltura_entry_id
         delete = Cameo.delay.delete_kaltura_video(existing_kaltura_id, client, ks) 
-        media_entry = Cameo.upload_video_to_kaltura(new_file, client, ks)
+        media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
         cameo.set_uploaded_video_details(media_entry)
         File.delete("#{cameo.id}.avi") 
         File.delete("#{cameo.id}#{cameo.show_id}.avi") 
