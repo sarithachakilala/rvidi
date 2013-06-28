@@ -21,15 +21,15 @@ class ShowsController < ApplicationController
     @show.create_playlist
     
     # to update the duration by getting the video duration from kaltura...
-    show_cameo = @show.cameos.where(:duration=> 0.0)
+    show_cameo = @show.cameos.where(:duration => 0.0)
     show_cameo.each do |each_cameo|
       new_media_entry = Cameo.get_kaltura_video(session[:client], each_cameo.kaltura_entry_id)
       each_cameo.update_attributes(:duration => new_media_entry.duration)
     end
 
     # finding the duration of sum of all cameos
-    array_of_cameo_duration = @show.cameos.where(:status=> "enabled").collect(&:duration)
-    @sum_duration_of_cameos = array_of_cameo_duration.inject{|sum,x| sum + x }
+    array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration)
+    @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
 
     @display_prefernce = params[:preference].present? ? params[:preference] : @show.display_preferences
     @show.update_attribute(:number_of_views, (@show.number_of_views.to_i+1))

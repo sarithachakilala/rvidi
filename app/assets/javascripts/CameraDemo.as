@@ -14,7 +14,6 @@
 			import flash.display.Loader;
 			import flash.display.LoaderInfo;
 			import flash.utils.Timer;
-			import lib.buttons.CustomButton;
 
 
 		//System.security.allowDomain("*");				

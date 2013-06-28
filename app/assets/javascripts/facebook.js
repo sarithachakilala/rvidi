@@ -10,7 +10,7 @@
 
 function get_facebook_friends() {
   FB.api('/me/friends', {
-    fields: 'name,id,picture,location'
+    fields: 'name,id,picture'
   }, function(response) {
     jQuery.ajax({
       url: "/users/add_facebook_friends",
