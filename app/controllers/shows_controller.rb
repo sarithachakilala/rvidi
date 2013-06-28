@@ -13,7 +13,11 @@ class ShowsController < ApplicationController
   end
 
   def show
-    @show = Show.find(params[:id])
+    if params[:id].split("-").size > 1
+      @show = Show.find(params[:id].split("-").last)
+    else
+      @show = Show.find(params[:id])
+    end
     @show.create_playlist
     
     # to update the duration by getting the video duration from kaltura...
@@ -207,9 +211,9 @@ class ShowsController < ApplicationController
     @show = Show.find(params[:show_id])
     if @show.display_preferences_password == params[:password]
       @display_prefernce = "checked"
-      redirect_to show_path(:id=>@show.id, :preference => @display_prefernce)
+      redirect_to show_path(:id=>@show.permalink, :preference => @display_prefernce)
     else
-      redirect_to show_path(:id=>@show.id), :notice => "Invalid Password: Please enter the correct password! "
+      redirect_to show_path(:id=>@show.permalink), :notice => "Invalid Password: Please enter the correct password! "
     end
   end
   
