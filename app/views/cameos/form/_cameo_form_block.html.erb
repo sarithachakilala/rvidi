@@ -1,0 +1,64 @@
+<div class="black-box accordion" id="accordion1">
+  <div class="accordion-group plus-minus-container">
+    <div class="accordion-heading">
+      
+      <div class="accordion-toggle changeable-plus-minus" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
+        
+        <!-- Heading -->
+        <%= content_tag :h2, title, :class=>"pull-left" %>
+        
+        <!-- Help Icon -->
+        <i class="sprite-question-small pull-left margin-top-20 margin-left-20"> </i>
+        
+        <!-- Toggle Icon -->
+        <i class="sprite-minus-small plus-minus-i pull-right margin-top-10"> </i>
+        
+        <div class="cl"></div>
+        
+      </div>
+    </div>
+    
+    <div id="collapseOne" class="accordion-body collapse in">
+  
+      <div class="accordion-inner">
+    
+        <div class="border-bottom-white"></div>
+    
+        <!-- Title -->
+        <div class="control-group">
+          <label class="control-label  blue_label" for="inputPassword">Cameo Title</label>
+          <div class="controls">
+            <%= f.text_field :title, :class => "show-show-tag", :placeholder => "Enter the cameo title" %>
+          </div>
+        </div>
+        
+        <%= f.hidden_field :user_id, :value => current_user.id, :class => "cameo-user-id" %>
+        <%= f.hidden_field :show_id, :value => @cameo.show_id, :class => "cameo-show-id" %>
+        <%= f.hidden_field :director_id, :value => @cameo.director_id, :class => "cameo-director-id" %>
+        
+        <!-- Content to show HTML5 Recorder Ends -->
+        <% if params[:id].present? %>
+          
+          <!-- Start and End time for clipping the cameo -->
+          <div class="control-group">
+            <label class="control-label  blue_label" for="inputPassword">Clip the show</label>
+            <div class="controls">
+              <%= f.text_field :start_time, :class => "show-show-tag", :placeholder => "Start Time", :style=>"width:66px;" %>
+              <%= f.text_field :end_time, :class => "show-show-tag", :placeholder => "End Time" , :style=>"width:66px;" %>
+            </div>
+          </div>
+        
+          <div id="show_<%= params[:id] %>_kaltura_player_container">
+            <% selected_cameo = Cameo.find(params[:id])%>
+            <%= render :partial => "shows/player/cameo_player_without_playlist", :locals => { :cameo => selected_cameo, :width=>"100%", :height=>"400px" } %>
+          </div>
+              
+        <% end %>
+        
+      </div>
+    
+    </div>
+    
+  </div>
+</div>
+

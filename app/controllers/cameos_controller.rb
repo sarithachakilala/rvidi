@@ -24,6 +24,10 @@ class CameosController < ApplicationController
     @cameo = Cameo.new(:show_id => params[:show_id], :director_id => params[:director_id])
     @show = Show.find(params[:show_id])
     @contribution_prefernce = params[:preference].present? ? params[:preference] : @show.contributor_preferences 
+    
+    ## Get the friend list
+    @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
+    
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @cameo }
@@ -45,8 +49,9 @@ class CameosController < ApplicationController
         :read_status => false)
     end 
 
-    if params[:cameo][:video_file].present?
-      media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client],
+    if params[:cameo][:cameos][:video_file].present?
+      #@cameo.video_file = File.open(params[:cameo][:cameos][:video_file])
+      media_entry = Cameo.upload_video_to_kaltura(params[:cameo][:cameos][:video_file], session[:client],
         session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
     else

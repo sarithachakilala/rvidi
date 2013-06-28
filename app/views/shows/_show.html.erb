@@ -9,9 +9,9 @@
   <div id="show_<%= show.id %>_kaltura_player_container">
     <% selected_cameo = (cameo.present? && cameo.status =="enabled") ? cameo :  show.cameos('show_order asc').where(:status=> "enabled").first%>
     <% if params[:controller] == 'shows' && params[:action] == 'show' %>
-      <%= render :partial => "shows/player/cameo_player", :locals => { :cameo => selected_cameo } %>
+      <%= render :partial => "shows/player/cameo_player", :locals => { :cameo => selected_cameo, :width=>"100%", :height=>"400px" } %>
     <% else %>
-      <%= render :partial => "shows/player/cameo_player_without_playlist", :locals => { :cameo => selected_cameo } %>
+      <%= render :partial => "shows/player/cameo_player_without_playlist", :locals => { :cameo => selected_cameo, :width=>"100%", :height=>"400px" } %>
     <% end %>
   </div>
   

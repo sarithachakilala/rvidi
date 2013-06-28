@@ -1,5 +1,12 @@
 <div id="sortable">
   <% if @show.cameos.present? %>
+    <%= render :partial => "/cameos/cameo_contributors", :locals=>{:show => @show, :selected_cameo => selected_cameo} %>
+  <% end %>
+</div>
+
+
+<!-- <div id="sortable">
+  <% if @show.cameos.present? %>
     <% @show.cameos.order('show_order asc').each do|show_cameo| %>
       <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
       <div class="row-fluid show-cameo-detail <%= cameo_div_class %> ui-state-default" 
@@ -29,4 +36,4 @@
       <div class="span12">No Contributions Added to this Show.</div>
     </div>
   <% end %>
-</div>
+</div> -->

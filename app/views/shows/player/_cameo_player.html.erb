@@ -1,22 +1,22 @@
 <%
   unless defined?(height)
-    height = 360
+    height = "360px"
   end
   unless defined?(width)
-    width = 100
+    width = "100%"
   end
 %>
 
 <% if cameo.nil? %>
   <img alt="" src="/assets/video_img.png" />
 <% else %>
-  <div id="kaltura_player_<%= cameo.show_id %>" style="width:<%= width %>px;height:<%= height %>px;">
+  <div id="kaltura_player_<%= cameo.show_id %>" style="width:<%= width %>;height:<%= height %>;">
     <span itemprop="name" content=""></span>
     <span itemprop="description" content=""></span>
     <span itemprop="duration" content=""></span>
     <span itemprop="thumbnail" content=""></span>
-    <span itemprop="width" content="<%= width %>"></span>
-    <span itemprop="height" content="<%= height %>"></span>
+    <span itemprop="width" content="720"></span>
+    <span itemprop="height" content="500"></span>
     <a href="http://corp.kaltura.com/products/video-platform-features">Video Platform</a>
     <a href="http://corp.kaltura.com/Products/Features/Video-Management">Video Management</a>
     <a href="http://corp.kaltura.com/Video-Solutions">Video Solutions</a>

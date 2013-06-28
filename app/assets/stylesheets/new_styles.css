@@ -40,6 +40,10 @@
   margin-top: 10px;
 }
 
+.friend-box:hover {
+  background: url("/assets/tp_bg.png") repeat;
+}
+
 .friend-box h1, .friend-box h2, .friend-box h3, .friend-box h4, .friend-box h5, .friend-box h6 {
   color: #4b4b4b;
 }

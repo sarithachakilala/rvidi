@@ -1,0 +1,41 @@
+<% cameo_div_class = (cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
+
+<div class="friend-box margin-5 padding-5 <%= cameo_div_class %> ui-state-default" id="show_<%= cameo.show_id %>_cameo_<%= cameo.id %>_detail" data-id="<%=cameo.id %>">
+  
+  <div class="row-fluid margin-bottom-10">
+    
+    <div class="span1">
+      <!-- Checkbox -->
+      <% unless cameo.user_id == cameo.director_id %>
+        <div class="selects-container margin-left-3">
+          <% status = cameo.status== "enabled" ? true : false%>
+          <%= check_box_tag('active_cameos[]', cameo.id, checked = status, :class => 'cameo_check')  %>
+        </div>
+      <% end %>
+    
+      <!-- Delete Button -->
+      <% unless cameo.user_id == cameo.director_id %>
+        <%= link_to "<i class='sprite-into-icon'></i>".html_safe, cameo_path(cameo), :method => :delete, :confirm => "Are you sure to remove this Cameo?", :remote => true %>
+      <% end %>
+    
+    </div>
+  
+    <div class="span4">
+      <!-- Thumbnail of Video -->
+      <% thumbnail = cameo.thumbnail_url.present? ? cameo.thumbnail_url : "/assets/default_image.png"  %>
+      <%= image_tag thumbnail, :class => "pull-left margin-right-10 height-40" %>
+    </div>
+  
+    <div class="span7">
+      <!-- Cameo title -->
+      <%= link_to (cameo.title || "No Title"), play_cameo_show_path(:cameo_id => cameo.id, :id => show.id), :remote => true, :class=>"font-size-14 pull-left text-color-blue" %>
+    
+      <div class="cl"></div>
+  
+      <!-- User Name -->
+      <%= content_tag :span, cameo.user.full_name, :class=>"font-size-11 text-color-white pull-right" %>
+    
+    </div>
+  
+  </div>
+</div>
