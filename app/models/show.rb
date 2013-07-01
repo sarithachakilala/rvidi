@@ -3,7 +3,10 @@ class Show < ActiveRecord::Base
   attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password, 
     :contributor_preferences, :contributor_preferences_password, :need_review,
     :cameos_attributes, :show_tag, :end_set, :duration  
-
+    
+    
+  after_create :create_permalink
+    
   # Validations
   validates :user_id, :presence => true
   validates :title, :presence => true
@@ -72,7 +75,13 @@ class Show < ActiveRecord::Base
       end
     end
   end
-
+  
+  def create_permalink
+    if self.title
+      self.permalink = self.title.to_permalink + "-#{self.id}"
+      self.save
+    end
+  end
 
 
 end

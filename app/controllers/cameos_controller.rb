@@ -51,14 +51,14 @@ class CameosController < ApplicationController
 
     if params[:cameo][:cameos][:video_file].present?
       #@cameo.video_file = File.open(params[:cameo][:cameos][:video_file])
-      media_entry = Cameo.upload_video_to_kaltura(params[:cameo][:cameos][:video_file], session[:client],
+      media_entry = @cameo.upload_video_to_kaltura(params[:cameo][:cameos][:video_file], session[:client],
         session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
     else
       begin
         sleep(4);
-        stream_file = Cameo.get_cameo_file(current_user, params[:tstamp])
-        media_entry = Cameo.upload_video_to_kaltura(stream_file,
+        stream_file = @cameo.get_cameo_file(current_user, params[:tstamp])
+        media_entry = @cameo.upload_video_to_kaltura(stream_file,
           session[:client], session[:ks])
         @cameo.set_uploaded_video_details(media_entry)
       rescue Exception => e

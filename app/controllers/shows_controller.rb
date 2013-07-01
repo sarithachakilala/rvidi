@@ -13,7 +13,11 @@ class ShowsController < ApplicationController
   end
 
   def show
-    @show = Show.find(params[:id])
+    if params[:id].split("-").size > 1
+      @show = Show.find(params[:id].split("-").last)
+    else
+      @show = Show.find(params[:id])
+    end
     @show.create_playlist
     
     # to update the duration by getting the video duration from kaltura...
@@ -82,13 +86,13 @@ class ShowsController < ApplicationController
     @cameo = @show.cameos.first
     @cameo.status = Cameo::Status::Enabled
     if @cameo.video_file.present?
-      media_entry = Cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
+      media_entry = @cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
     else
       begin
         sleep(4);
         stream_file = Cameo.get_cameo_file(current_user, params[:tstamp])
-        media_entry = Cameo.upload_video_to_kaltura(stream_file,
+        media_entry = @cameo.upload_video_to_kaltura(stream_file,
           session[:client], session[:ks])
         @cameo.set_uploaded_video_details(media_entry)
       rescue
@@ -207,9 +211,9 @@ class ShowsController < ApplicationController
     @show = Show.find(params[:show_id])
     if @show.display_preferences_password == params[:password]
       @display_prefernce = "checked"
-      redirect_to show_path(:id=>@show.id, :preference => @display_prefernce)
+      redirect_to show_path(:id=>@show.permalink, :preference => @display_prefernce)
     else
-      redirect_to show_path(:id=>@show.id), :notice => "Invalid Password: Please enter the correct password! "
+      redirect_to show_path(:id=>@show.permalink), :notice => "Invalid Password: Please enter the correct password! "
     end
   end
   
