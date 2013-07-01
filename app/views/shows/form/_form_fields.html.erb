@@ -1,26 +1,28 @@
 <div id="collapseOne" class="accordion-body collapse in">
-  
+
   <div class="accordion-inner">
-    
+
     <div class="border-bottom-white"></div>
-    
+
     <!-- Title -->
     <div class="control-group">
       <label class="control-label blue_label" for="inputEmail">Title</label>
       <div class="controls">
         <%= f.hidden_field :user_id, :value => current_user.id, :class => "show-user-id" %>
-        <%= f.text_field :title, :class => "js-required", :placeholder => "Title", :class => "show-title" %>
-      </div>
-    </div>
-    
-    <!-- Description -->
-    <div class="control-group">
-      <label class="control-label  blue_label" for="inputPassword">Description</label>
-      <div class="controls">
-        <%= f.text_field :description, :class => "js-required", :placeholder => "Description", :class => "show-description", :maxlength=>"100"%>
+        <%= f.text_field :title, :placeholder => "Title", 
+                         :class => "show-title js-required span6" %>
       </div>
     </div>
 
+    <!-- Description -->
+    <div class="control-group">
+      <label class="control-label blue_label" for="inputPassword">Topic</label>
+      <div class="controls">
+        <%= f.text_field :show_tag, :class => "show-show-tag span6",
+          :placeholder =>  "Give your cameo a Vid-tag or #Topic" %>
+      </div>
+    </div>
+    
     <!-- Display -->
     <div class="control-group">
       <label class="control-label blue_label" for="inputEmail">Display</label>
@@ -30,7 +32,7 @@
           Public-Anyone can watch
         </label>
         <label class="radio <%= radio_label_class(@show, 'display_preferences', 'private') %>">
-          <%= f.radio_button :display_preferences, "private", {:class => "radio-input show-display-preferences"} %>                  
+          <%= f.radio_button :display_preferences, "private", {:class => "radio-input show-display-preferences"} %>
           Private-Only my friends can watch
         </label>
         <label class="radio <%= radio_label_class(@show, 'display_preferences', 'password_protected') %>">
@@ -42,7 +44,7 @@
         </label>
       </div>
     </div>
-    
+
     <!-- Contributors -->
     <div class="control-group">
       <label class="control-label blue_label" for="inputEmail">Contributors</label>
@@ -64,7 +66,7 @@
         </label>
       </div>
     </div>
-    
+
     <!-- Duration -->
     <div class="control-group">
       <label class="control-label  blue_label" for="inputPassword">Limit the Show</label>
@@ -72,7 +74,7 @@
         <%= f.number_field :duration, :class => "show-show-tag", :placeholder => "Limit the Show", :min=>0, :max=>10 %>
       </div>
     </div>
-    
+
     <!-- Let me review Checkbox -->
     <div class="control-group">
       <div class="controls">
@@ -82,15 +84,19 @@
         </label>
       </div>
     </div>
+
     
-    <!-- Tag the Show -->
+
     <div class="control-group">
-      <label class="control-label  blue_label" for="inputPassword">Tag the Show</label>
+      <label class="control-label  blue_label" for="inputPassword">Instructions/Comments</label>
       <div class="controls">
-        <%= f.text_field :show_tag, :class => "show-show-tag", :placeholder => "Add a tag" %>
+        <%= f.text_field :description, 
+          :placeholder => "Tell viewers and contributors what your show’s about",
+          :class => "js-required show-description span6", :maxlength=>"100"%>
       </div>
     </div>
-  
+
+
   </div>
- 
+
 </div>
