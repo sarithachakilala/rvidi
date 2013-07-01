@@ -1,11 +1,11 @@
 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
-        width="300" 
-        height="240"
-        id="camera" 
-        data="/assets/CameraDemo.swf" 
+        width="400"
+        height="300"
+        id="red5recorder"
+        data="/assets/recorder/red5recorder.swf"
         align="middle">
-  <param name=FlashVars value="myVariable=<%= URI::escape(Cameo.get_stream_name(current_user, @tstamp)) %>&railsEnv=<%= URI::escape(Rails.env) %>" />
-  <param name="movie" value="/assets/CameraDemo.swf" />
+  <param name=FlashVars value="fileName=<%= URI::escape(Cameo.get_stream_name(current_user, @tstamp)) %>&serverPath=<%= URI::escape(streaming_server_path) %>&width=400&height=300" />
+  <param name="movie" value="/assets/recorder/red5recorder.swf" />
   <param name="quality" value="high" />
   <param name="bgcolor" value="#ffffff" />
   <param name="play" value="true" />
@@ -19,12 +19,12 @@
   
   <!--[if !IE]>-->
   <object type="application/x-shockwave-flash" 
-          data="/assets/CameraDemo.swf"
-          width="300" 
-          height="240" 
-          id="camera">
-    <param name=FlashVars value="myVariable=<%= URI::escape(Cameo.get_stream_name(current_user, @tstamp)) %>&railsEnv=<%= URI::escape(Rails.env) %>" />
-    <param name="movie" value="/assets/CameraDemo.swf" />
+          data="/assets/recorder/red5recorder.swf"
+          width="400"
+          height="300"
+          id="red5recorder">
+    <param name=FlashVars value="fileName=<%= URI::escape(Cameo.get_stream_name(current_user, @tstamp)) %>&serverPath=<%= URI::escape(streaming_server_path) %>&width=400&height=300" />
+    <param name="movie" value="/assets/recorder/red5recorder.swf" />
     <param name="quality" value="high" />
     <param name="bgcolor" value="#ffffff" />
     <param name="play" value="true" />

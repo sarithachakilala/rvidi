@@ -42,6 +42,8 @@
 
 <%##* Loading Javascripts. Loading in last, will load the page much faster. %>    
     <%= javascript_include_tag "application" %>
+    <script src="/assets/recorder/AC_OETags.js" language="javascript"></script>
+    <script src="/assets/recorder/history/history.js" language="javascript"></script>
     <script type='text/javascript'>
       // Script for Carousel
         !function ($) {
@@ -52,7 +54,7 @@
       }(window.jQuery)
     </script>
     <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-   <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
     <%= yield :js_with_script_tags %>
   </body>
 </html>
