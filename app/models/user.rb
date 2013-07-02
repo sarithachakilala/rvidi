@@ -167,6 +167,10 @@ class User < ActiveRecord::Base
     RvidiMailer.delay.password_reset(self)
   end
 
+  def is_friend?(director)
+   FriendMapping.is_my_friend?(self, director).first
+  end
+
 
 
 end
