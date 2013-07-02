@@ -101,7 +101,7 @@ class CameosController < ApplicationController
     @cameo = Cameo.find(params[:id])
     
     if params[:cameo][:start_time].present? && params[:cameo][:end_time].present?
-      @sucess = Cameo.clipping_video(@cameo, session[:client], session[:ks])
+      @sucess = Cameo.clipping_video(@cameo, session[:client], session[:ks], params[:cameo][:start_time], params[:cameo][:end_time] )
     end 
     respond_to do |format|
       @show = @cameo.show

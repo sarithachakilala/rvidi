@@ -424,7 +424,7 @@ BrowserHistory = (function() {
             var rememberDiv = document.createElement("div");
             rememberDiv.id = 'safari_rememberDiv';
             document.body.appendChild(rememberDiv);
-            rememberDiv.innerHTML = '<input type="text" id="safari_remember_field" style="width: 500px;">';
+            rememberDiv.innerHTML = '<input type="hidden" id="safari_remember_field" style="width: 500px;">';
 
             var formDiv = document.createElement("div");
             formDiv.id = 'safari_formDiv';

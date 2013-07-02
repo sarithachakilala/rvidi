@@ -8,8 +8,8 @@ class Show < ActiveRecord::Base
   
   attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password,
     :contributor_preferences, :contributor_preferences_password, :need_review,
-    :cameos_attributes, :show_tag, :end_set, :duration, :enable_download, :download_preference
-    
+    :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
+    :download_preference, :download_url
     
   after_create :create_permalink
     
@@ -93,6 +93,24 @@ class Show < ActiveRecord::Base
     self.enable_download = false
     self.download_preference = nil
     save
+  end
+  
+  def self.download_complete_show(show, client, ks, cameo)
+    val =""
+    show.cameos.each do |each_cameo|
+      `wget -O "#{each_cameo.id}.avi" "#{each_cameo.download_url}"` #downloading each cameo
+      `avconv -i "#{each_cameo.id}.avi" -qscale:v 1 "#{each_cameo.id}".mpg`   #for processing the input stream
+      # `cat "#{show.id}#{show.title}.mpg" "#{each_cameo.id}".mpg > "#{show.id}#{show.title}.mpg"`  #concatinating the cameos
+      val = val <<  "#{each_cameo.id}.mpg "
+      File.delete("#{each_cameo.id}.avi")   if File.exists?("#{each_cameo.id}.avi")
+      File.delete("#{each_cameo.id}.mpg")    if File.exists?("#{each_cameo.id}.mpg")
+    end
+    `cat #{val} > "#{@show.id}#{@show.title}.mpg"`  #concatinating the cameos
+    new_file = File.open("#{show.id}#{show.title}.mpg") if File.exists?("#{show.id}#{show.title}.mpg")
+    media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
+    cameo.set_uploaded_video_details(media_entry)
+    File.delete("#{show.id}#{show.title}.mpg") 
+    show.update_attributes(:download_url =>  media_entry.download_url)
   end
 
 end

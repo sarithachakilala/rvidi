@@ -6,7 +6,12 @@
       <div class="span1">
         <i class="sprite-camera-small"></i> <!-- number of contributors to the no of minutes.. -->
       </div>
-      
+      <!-- To Download complete show -->
+      <div class="span1">
+         <%= link_to "<i class='downloadsprite-dorrange'></i>".html_safe, show.download_url %>
+         <%#= link_to "<i class='sprite-camera-white'></i> download Show".html_safe, download_complete_show_shows_path(:id=> show), :class => "btn btn-info pull-right" %>
+
+      </div>
       <div class="span2 ratings_line">
         <%= show.number_of_views %> views
       </div>

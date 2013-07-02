@@ -12,7 +12,6 @@
 # It's strongly recommended to check this file into your version control system.
 
 ActiveRecord::Schema.define(:version => 20130702060459) do
-
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
     t.string   "uid"
@@ -118,6 +117,7 @@ ActiveRecord::Schema.define(:version => 20130702060459) do
     t.string   "permalink",                        :limit => 128
     t.boolean  "enable_download",                                 :default => false
     t.integer  "download_preference"
+    t.string   "download_url"
   end
 
   create_table "users", :force => true do |t|
