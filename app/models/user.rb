@@ -149,7 +149,7 @@ class User < ActiveRecord::Base
   end
   
   def full_name
-    (first_name.to_s + " " + last_name.to_s).strip
+    (first_name.to_s + " " + last_name.to_s).strip.titlecase
   end
   
   def match_password?(password)

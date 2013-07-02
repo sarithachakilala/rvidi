@@ -97,7 +97,7 @@
                                       </div>
                                       <div class="span8">
                                         <div><b><%= @user.full_name.capitalize %></b>
-                                        <%= each_user_detail.content %><%= link_to "#{show.title}", show_path(:id=>each_user_detail.show_id, :to_contribute=>"yes") %></div>
+                                        <%= each_user_detail.content %><%= link_to "#{show.title}".capitalize, show_path(:id=>each_user_detail.show_id, :to_contribute=>"yes") %></div>
                                       </div>
                                     </div>
                                   </div>
