@@ -287,6 +287,9 @@ function check_file(){
   suffix7=".ASF";
   suffix8=".SWF";
   suffix9=".WEBM";
+  suffix10=".MMKV";
+  suffix11=".M4V";
+  suffix12=".VOB";
   if(!(str.indexOf(suffix, str.length - suffix.length) !== -1||
     str.indexOf(suffix2, str.length - suffix2.length) !== -1 ||
     str.indexOf(suffix3, str.length - suffix3.length) !== -1 ||
@@ -295,7 +298,10 @@ function check_file(){
     str.indexOf(suffix6, str.length - suffix6.length) !== -1 ||
     str.indexOf(suffix7, str.length - suffix7.length) !== -1 ||
     str.indexOf(suffix8, str.length - suffix8.length) !== -1 ||
-    str.indexOf(suffix9, str.length - suffix9.length) !== -1)){
+    str.indexOf(suffix9, str.length - suffix9.length) !== -1 ||
+    str.indexOf(suffix10, str.length - suffix10.length) !== -1 ||
+    str.indexOf(suffix11, str.length - suffix11.length) !== -1 ||
+    str.indexOf(suffix12, str.length - suffix12.length) !== -1)){
     alert('File type not allowed\n');
     document.getElementById('fileToUpload').value='';
   }
