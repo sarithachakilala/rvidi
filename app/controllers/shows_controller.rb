@@ -222,8 +222,7 @@ class ShowsController < ApplicationController
     @show = Show.find(params[:show_id])
     end_set_val = params[:status] == "end" ? Time.now : ""
     @show.update_attributes(:end_set => end_set_val) 
-    @cameo = Cameo.new
-    Show.download_complete_show(@show, session[:client], session[:ks], @cameo) if params[:status] == "end" 
+    @show.download_complete_show(session[:client], session[:ks]) if params[:status] == "end"
     redirect_to edit_show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
   end
 
