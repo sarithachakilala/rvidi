@@ -209,7 +209,11 @@ class ShowsController < ApplicationController
   end
 
   def check_password
-    @show = Show.find(params[:show_id])
+    if params[:show_id].split("-").size > 1
+      @show = Show.find(params[:show_id].split("-").last)
+    else
+      @show = Show.find(params[:show_id])
+    end
     if @show.display_preferences_password == params[:password]
       @display_prefernce = "checked"
       redirect_to show_path(:id=>@show.permalink, :preference => @display_prefernce)
