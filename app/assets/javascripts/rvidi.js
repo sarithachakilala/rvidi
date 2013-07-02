@@ -16,6 +16,16 @@ jQuery(document).ready(function($){
 
     return false;
   });
+
+  $('#input-enable-show-download').click(function() {
+    var status = $(this).is(':checked');
+    if(status) {
+      $(this).closest('label').siblings('div.download-pref-section').css('display','block');
+    }
+    else {
+      $(this).closest('label').siblings('div.download-pref-section').css('display','none');
+    }
+  });
 });
 
 // Send message to facebook user

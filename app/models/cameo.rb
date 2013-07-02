@@ -124,9 +124,6 @@ class Cameo < ActiveRecord::Base
   def latest_cameo_order
     Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.try(:show_order) || 0
   end
-
-  
-
   
 
   #Class Methods

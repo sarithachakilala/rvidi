@@ -128,6 +128,7 @@ class ShowsController < ApplicationController
     params[:show][:duration] = params[:show][:duration].to_i*60
     respond_to do |format|
       if @show.update_attributes(params[:show])
+        @show.disable_download if params[:show][:enable_download].blank?
         @show.update_active_cameos(params[:active_cameos]) if params[:active_cameos].present?
         #@show.create_playlist if @show.cameos.present? && @show.cameos.enabled.present?
         format.html { redirect_to @show, notice: 'Show was successfully updated.' }
@@ -221,8 +222,7 @@ class ShowsController < ApplicationController
     @show = Show.find(params[:show_id])
     end_set_val = params[:status] == "end" ? Time.now : ""
     @show.update_attributes(:end_set => end_set_val) 
-    @cameo = Cameo.new
-    Show.download_complete_show(@show, session[:client], session[:ks], @cameo) if params[:status] == "end" 
+    @show.download_complete_show(session[:client], session[:ks]) if params[:status] == "end"
     redirect_to edit_show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
   end
 

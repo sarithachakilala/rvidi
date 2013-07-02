@@ -1,9 +1,15 @@
 class Show < ActiveRecord::Base
 
-  attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password, 
+  module Download_Preferences
+    ME = 1
+    FRIENDS = 2
+    PUBLIC = 3
+  end
+  
+  attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password,
     :contributor_preferences, :contributor_preferences_password, :need_review,
-    :cameos_attributes, :show_tag, :end_set, :duration, :download_url
-    
+    :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
+    :download_preference, :download_url
     
   after_create :create_permalink
     
@@ -83,23 +89,42 @@ class Show < ActiveRecord::Base
     end
   end
 
-  def self.download_complete_show(show, client, ks, cameo)
-    val =""
-    show.cameos.each do |each_cameo|
-      `wget -O "#{each_cameo.id}.avi" "#{each_cameo.download_url}"` #downloading each cameo
-      `avconv -i "#{each_cameo.id}.avi" -qscale:v 1 "#{each_cameo.id}".mpg`   #for processing the input stream
+  def disable_download
+    self.enable_download = false
+    self.download_preference = nil
+    save
+  end
+  
+  def download_complete_show(client, ks)
+    cameo = self.cameos.build
+    val = ''
+    timestamp = Time.now.to_i
+    cameos.each do |each_cameo|
+      `wget -O "#{steam_download_path}/#{each_cameo.id}.avi" "#{each_cameo.download_url}"` #downloading each cameo
+      `avconv -i "#{steam_download_path}/#{each_cameo.id}.avi" -qscale:v 1 "#{steam_download_path}/#{each_cameo.id}".mpg`   #for processing the input stream
       # `cat "#{show.id}#{show.title}.mpg" "#{each_cameo.id}".mpg > "#{show.id}#{show.title}.mpg"`  #concatinating the cameos
-      val = val <<  "#{each_cameo.id}.mpg "
-      File.delete("#{each_cameo.id}.avi")   if File.exists?("#{each_cameo.id}.avi")
-      File.delete("#{each_cameo.id}.mpg")    if File.exists?("#{each_cameo.id}.mpg")
+      val = val <<  "#{steam_download_path}/#{each_cameo.id}.mpg "
+      #File.delete("#{steam_download_path}.avi")  if File.exists?("#{steam_download_path}.avi")
+      #File.delete("#{steam_download_path}.mpg")  if File.exists?("#{steam_download_path}.mpg")
     end
-    `cat #{val} > "#{@show.id}#{@show.title}.mpg"`  #concatinating the cameos
-    new_file = File.open("#{show.id}#{show.title}.mpg") if File.exists?("#{show.id}#{show.title}.mpg")
-    media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
-    cameo.set_uploaded_video_details(media_entry)
-    File.delete("#{show.id}#{show.title}.mpg") 
-    show.update_attributes(:download_url =>  media_entry.download_url)
+    `cat #{val} > "#{steam_download_path}/#{id}_#{timestamp}.mpg"`  #concatinating the cameos
+    delay.push_stitched_video_to_kaltura(id, timestamp, client, ks, cameo)
   end
 
+  def steam_download_path
+    if Rails.env == 'development'
+      File.join(Rails.root, 'tmp', 'downloaded_streams')
+    else
+      "var/www/apps/rvidi/shared/streams/downloaded_streams"
+    end
+  end
+
+  def push_stitched_video_to_kaltura(id, timestamp, client, ks, cameo)
+    new_file = File.open("#{steam_download_path}/#{id}_#{timestamp}.mpg") if File.exists?("#{steam_download_path}/#{id}_#{timestamp}.mpg")
+    media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
+    cameo.set_uploaded_video_details(media_entry)
+    File.delete("#{steam_download_path}/#{id}_#{timestamp}.mpg")
+    update_attributes(:download_url =>  media_entry.download_url)
+  end
 
 end
