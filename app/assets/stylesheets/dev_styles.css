@@ -3,7 +3,7 @@
   margin: 0px;
   font-size: 12px;
   font-weight: normal;
-  color: #FF0000;
+  color: #FF0000 !important;
   text-align: left;
   float: left; 
   clear: both;

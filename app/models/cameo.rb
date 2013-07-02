@@ -62,8 +62,8 @@ class Cameo < ActiveRecord::Base
   # Request for Uploading a video
   def upload_video_to_kaltura(video, client, ks)
     media_entry = Kaltura::KalturaMediaEntry.new
-    media_entry.name = user.full_name
-    media_entry.description = title
+    media_entry.name = user.present? ? user.full_name : "downloading_user"
+    media_entry.description = title.present? ? title : "complete show"
 
     media_entry.media_type = Kaltura::KalturaMediaType::VIDEO
 
@@ -144,10 +144,10 @@ class Cameo < ActiveRecord::Base
       end
     end
     
-    def clipping_video(cameo, client, ks)
+    def clipping_video(cameo, client, ks, start_time, end_time )
       donwload = `wget -O "#{cameo.id}.avi" "#{cameo.download_url}"`
-      output = `avconv -i "#{cameo.id}.avi" -ss #{cameo.start_time} -t #{cameo.end_time} -vcodec copy -acodec copy #{cameo.id}#{cameo.show_id}.avi`
-      new_file = File.open("#{cameo.id}#{cameo.show_id}.avi") if File.exists?("#{cameo.id}.avi")
+      stripped_output = `avconv -i "#{cameo.id}.avi" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{cameo.id}#{cameo.show_id}.avi`
+      new_file = File.open("#{cameo.id}#{cameo.show_id}.avi") if File.exists?("#{cameo.id}#{cameo.show_id}.avi")
       if new_file.present?
         existing_kaltura_id = cameo.kaltura_entry_id
         delete = Cameo.delay.delete_kaltura_video(existing_kaltura_id, client, ks) 

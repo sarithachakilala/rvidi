@@ -25,6 +25,7 @@ Rvidi::Application.routes.draw do
       post 'check_password'
       get 'status_update'
       get 'add_twitter_invities'
+      get 'download_complete_show'
     end
   end
   resources :sessions

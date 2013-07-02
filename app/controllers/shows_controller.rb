@@ -221,6 +221,8 @@ class ShowsController < ApplicationController
     @show = Show.find(params[:show_id])
     end_set_val = params[:status] == "end" ? Time.now : ""
     @show.update_attributes(:end_set => end_set_val) 
+    @cameo = Cameo.new
+    Show.download_complete_show(@show, session[:client], session[:ks], @cameo) if params[:status] == "end" 
     redirect_to edit_show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
   end
 
@@ -243,5 +245,25 @@ class ShowsController < ApplicationController
       @twitter_friends = []
     end
   end
+
+  # def download_complete_show
+  #   @show = Show.find(params[:id])
+  #   val =""
+  #   @show.cameos.each do |each_cameo|
+  #     `wget -O "#{each_cameo.id}.avi" "#{each_cameo.download_url}"` #downloading each cameo
+  #     `avconv -i "#{each_cameo.id}.avi" -qscale:v 1 "#{each_cameo.id}".mpg`   #for processing the input stream
+  #     val = val <<  "#{each_cameo.id}.mpg "
+  #     File.delete("#{each_cameo.id}.avi")   if File.exists?("#{each_cameo.id}.avi")
+  #     File.delete("#{each_cameo.id}.mpg")    if File.exists?("#{each_cameo.id}.mpg")
+  #   end
+  #     `cat #{val} > "#{@show.id}#{@show.title}.mpg"`  #concatinating the cameos
+  #   @cameo = Cameo.new
+  #   new_file = File.open("#{@show.id}#{@show.title}.mpg") if File.exists?("#{@show.id}#{@show.title}.mpg")
+  #   media_entry = @cameo.upload_video_to_kaltura(new_file, session[:client], session[:ks])
+  #   @cameo.set_uploaded_video_details(media_entry)
+  #   File.delete("#{@show.id}#{@show.title}.mpg") 
+  #   @show.update_attributes(:download_url =>  media_entry.download_url)
+  #   redirect_to edit_show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
+  # end
 
 end
