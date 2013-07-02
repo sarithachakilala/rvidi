@@ -128,6 +128,7 @@ class ShowsController < ApplicationController
     params[:show][:duration] = params[:show][:duration].to_i*60
     respond_to do |format|
       if @show.update_attributes(params[:show])
+        @show.disable_download if params[:show][:enable_download].blank?
         @show.update_active_cameos(params[:active_cameos]) if params[:active_cameos].present?
         #@show.create_playlist if @show.cameos.present? && @show.cameos.enabled.present?
         format.html { redirect_to @show, notice: 'Show was successfully updated.' }

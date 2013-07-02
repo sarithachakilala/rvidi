@@ -1,8 +1,14 @@
 class Show < ActiveRecord::Base
 
-  attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password, 
+  module Download_Preferences
+    ME = 1
+    FRIENDS = 2
+    PUBLIC = 3
+  end
+  
+  attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password,
     :contributor_preferences, :contributor_preferences_password, :need_review,
-    :cameos_attributes, :show_tag, :end_set, :duration  
+    :cameos_attributes, :show_tag, :end_set, :duration, :enable_download, :download_preference
     
     
   after_create :create_permalink
@@ -83,5 +89,10 @@ class Show < ActiveRecord::Base
     end
   end
 
+  def disable_download
+    self.enable_download = false
+    self.download_preference = nil
+    save
+  end
 
 end
