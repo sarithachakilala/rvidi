@@ -1,13 +1,31 @@
-<body>
+<!-- <body>
     <h1>Welcome to rVidi.com</h1>
     <p>
       You are invited to rVidi by <%= @user_invited.full_name %>,
     </p>
     <p>
       To register to the site, just follow this link: 
-      <%= link_to  "Click here", "http://#{configatron.site_address}/users/new?from_id=#{@user_invited.id}&email=#{@to_mail}"%>.
+      <%#= link_to  "Click here", "http://#{configatron.site_address}/users/new?from_id=#{@user_invited.id}&email=#{@to_mail}"%>.
     </p>
   </body>
-
+ -->
 
  
+<body>
+	<p>Dear (<%= @to_email%>):   </p>
+	<p>
+		I just started a collaborative video on rVidi.com!   YOU are invited to invited to rVidi.  
+	</p>
+
+	<p>
+		<%= link_to  "Here’s the link:  ", "http://#{configatron.site_address}/shows/#{@show}?from_id=#{@user.id}&email=#{@to_email}"%>.
+	</p>
+	  
+	<p>
+		I look forward to viewing your addition to my show!  rVidi offers a convenient way to collaboratively create videos with people anywhere, anytime for fun, business, education . . . literally hundreds of applications.  Maybe you will start a show of your own!
+	</p>
+	  
+	<p>
+		(<%= @user.full_name.titlecase %>)
+	</p>
+</body>

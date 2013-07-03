@@ -1,23 +1,12 @@
-<body>
-    <h1>Welcome to rVidi.com, <%= @user.full_name %></h1>
-    <p>
-      You are invited to rVidi,
-    </p>
-    <p>
-      To login to the site, just follow this link: <%= @url %>.
-    </p>
-    <p>Thanks for joining and have a great day!</p>
-  </body>
 
-
-<!-- Dear (<%= @user.full_name.titlecase %>),
+Dear (<%= @user.full_name.titlecase %>),
 <p>
 Thank you for joining rVidi. Now you can collaboratively create videos with anyone, anywhere, anytime!  
 Starting a show is easy! Just record or upload your opening cameo and invite others to add their clips. YOU are the director, so YOU decide if your show will be “open” to the public for anyone to contribute and view or “private” so that just the people you invite can participate.   </p>
-<p>
+</p>
 
 You can let your show grow automatically or collect contributions and determine their arrangement before publishing your show.  As the director, YOU can rearrange the order of cameos at any time by simply dropping/dragging cameo thumbnails.  
-<p>
+</p>
 <p>
 rVidi is fun and useful.  Here are just a few ideas:
 <ul>
@@ -28,10 +17,8 @@ rVidi is fun and useful.  Here are just a few ideas:
 <li>Create a video diary by adding new cameos to your own show </li>
 <li>Start a back-and-forth video conversation with clients </li>
 </ul>
-Get started today: (<%= @url %>). 
-We hope you enjoy making collaborative videos with rVidi!
-
-See you on the site!
-The rVidi Team
-
- -->
+<p>
+Get started today: (<%=  "http://#{configatron.site_address}" %>). </p>
+<p>We hope you enjoy making collaborative videos with rVidi!</p>
+<p>See you on the site!</p>
+<p>The rVidi Team</p>

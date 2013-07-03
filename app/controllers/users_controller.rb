@@ -37,6 +37,7 @@ class UsersController < ApplicationController
     end
     respond_to do |format|
       if @success
+        RvidiMailer.delay.welcome_email(@user)
         session[:user_id] = @user.id
         @user.increment_sign_in_count
         format.html{ redirect_to getting_started_user_path(@user.id), :notice => "Account Created Successfully!" }

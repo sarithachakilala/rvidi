@@ -1,6 +1,10 @@
 <div id="sortable">
   <% if @show.cameos.present? %>
     <%= render :partial => "/cameos/cameo_contributors", :locals=>{:show => @show, :selected_cameo => selected_cameo} %>
+  <% else %>  
+    <div class="row-fluid">
+      <div class="span12">No Contributions Added to this Show.</div>
+    </div>
   <% end %>
 </div>
 
