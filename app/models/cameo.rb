@@ -125,13 +125,9 @@ class Cameo < ActiveRecord::Base
     Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.try(:show_order) || 0
   end
   
-
   #Class Methods
   class << self
-    def get_stream_name current_user, tstamp
-      "#{current_user.id}_#{tstamp}" 
-    end
-    
+   
     def get_cameo_file current_user, tstamp
       if Rails.env == 'development'
         File.open(File.join(Rails.root, 'tmp', 'streams',
@@ -140,7 +136,12 @@ class Cameo < ActiveRecord::Base
         File.open("/var/www/apps/rvidi/shared/streams/#{get_stream_name(current_user, tstamp)}.flv")
       end
     end
-    
+
+    def get_stream_name current_user, tstamp
+      "#{current_user.id}_#{tstamp}"
+    end
+
+  
     def clipping_video(cameo, client, ks, start_time, end_time )
       donwload = `wget -O "#{cameo.id}.avi" "#{cameo.download_url}"`
       stripped_output = `avconv -i "#{cameo.id}.avi" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{cameo.id}#{cameo.show_id}.avi`
