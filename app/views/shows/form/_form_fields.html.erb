@@ -46,7 +46,7 @@
     </div>
 
     <!-- Contributors -->
-    <div class="control-group">
+    <div class="control-group checking">
       <label class="control-label blue_label" for="inputEmail">Contributors</label>
       <div class="controls radio-inputs-container">
         <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'public') %>">
@@ -82,6 +82,7 @@
           <%= f.check_box :need_review, {:class => ""} %>
           Let me review cameos before they're posted
         </label>
+        <p id="CheckingError" class="error-message" style="display:none;">&nbsp;</p><br/>
       </div>
     </div>
 
@@ -106,7 +107,7 @@
           </label>
           <div class="download-pref-section"
                style="<%= @show.enable_download.present? ? ('display:block;') : ('display:none') %>">
-            
+
             <label class="radio <%= radio_label_class(@show, 'download_preference',
                      Show::Download_Preferences::ME) %>">
                      <%= f.radio_button :download_preference, Show::Download_Preferences::ME,
