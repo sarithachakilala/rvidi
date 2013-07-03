@@ -46,7 +46,7 @@
     </div>
 
     <!-- Contributors -->
-    <div class="control-group">
+    <div class="control-group checking">
       <label class="control-label blue_label" for="inputEmail">Contributors</label>
       <div class="controls radio-inputs-container">
         <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'public') %>">
@@ -72,6 +72,17 @@
       <label class="control-label  blue_label" for="inputPassword">Limit Show Time(in min)</label>
       <div class="controls">
         <%= f.number_field :duration, :class => "show-show-tag  js-required span2", :placeholder => "Limit Show Time", :min=>0, :max=>10, :value => (@show.duration.present? ? (@show.duration/60).to_i : 10) %>
+     </div>
+    </div>
+
+    <!-- Let me review Checkbox -->
+    <div class="control-group">
+      <div class="controls">
+        <label class="checkbox radiobtn_active_text">
+          <%= f.check_box :need_review, {:class => ""} %>
+          Let me review cameos before they're posted
+        </label>
+        <p id="CheckingError" class="error-message" style="display:none;">&nbsp;</p><br/>
       </div>
     </div>
 
@@ -106,7 +117,7 @@
           </label>
           <div class="download-pref-section"
                style="<%= @show.enable_download.present? ? ('display:block;') : ('display:none') %>">
-            
+
             <label class="radio <%= radio_label_class(@show, 'download_preference',
                      Show::Download_Preferences::ME) %>">
                      <%= f.radio_button :download_preference, Show::Download_Preferences::ME,
