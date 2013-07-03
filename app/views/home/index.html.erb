@@ -14,7 +14,7 @@
                 <div class="span1"></div>
                 <div class="span5">
                   <div class="slider_header"><%= link_to show.title.capitalize, show_path(:id=>show.permalink) %></div>
-                  <div class="sub_title"><%= show.director.full_name.capitalize %></div>
+                  <div class="sub_title"><%= show.director.full_name.titlecase %></div>
                   <div class="slider_text">
                     <%= show.description %>
                   </div>

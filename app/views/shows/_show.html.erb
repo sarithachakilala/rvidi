@@ -34,7 +34,7 @@
   <div class="player-box">
     <div class="padding-left-10">
       <div class="font-size-16 bold"><%= show.title.capitalize %></div>
-      <div class="font-size-12"><%= show.director.full_name.capitalize %></div>
+      <div class="font-size-12"><%= show.director.full_name.titlecase %></div>
     </div>
 
     <!-- Kaltura Playlist -->
@@ -61,9 +61,9 @@
 
 <% end %>
 
-<div class="player-details-box">
+<div class="">
   <div class="buttons_height_100">
-    <div class="hr_bg_gettingstarted" style="">
+    <div class="hr_bg_welcome" style="">
       <div class="text_align_center add_cameo_btn">
         <% unless @sum_duration_of_cameos.to_i > @show.duration.to_i%>
           <% unless @show.try(:end_set) && (@show.end_set < Time.now) %>
