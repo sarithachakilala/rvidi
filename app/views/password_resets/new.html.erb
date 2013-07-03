@@ -1,19 +1,18 @@
 <div class="login_container" style="height:180px;">
   <div class="row-fluid" >
-    <div class="span12 " style="text-align:center;">
+    <div class="span12 " style="text-align:center;padding-right:30px;">
       <h2> Forget Password</h2>
     </div>
   </div>
- 
-  <div class="row-fluid" >
+   <div class="row-fluid" >
     <%= form_tag password_resets_path, :method => :post do %>
       <div class="span12" >
         <div  style="text-align:center;">
           <label  for="inputEmail" style="padding-right:255px;">Email</label>
             <span style="padding-right:77px;"><%= text_field_tag :email, params[:email] %></span>
-          <div style="padding-right:90px;">
+          <div style="padding-right:80px;margin-top:10px;">
             <%= link_to "Cancel", home_index_path, :class => ' btn btn-info' %>
-            <%= submit_tag "Reset Password", :class => "btn btn-warning" %>
+            <span style="padding-left:15px;"><%= submit_tag "Reset Password", :class => "btn btn-warning" %></span>
           </div>
         </div>
       </div>
