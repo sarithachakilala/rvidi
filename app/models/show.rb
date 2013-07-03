@@ -158,10 +158,13 @@ class Show < ActiveRecord::Base
   end
 
   def set_display_preference(current_user, display_preference)
+
     if current_user == director
       is_director = true
-    elsif current_user.is_friend?(director)
+    elsif current_user.present? && current_user.is_friend?(director)
       is_friend = true
+    else
+      is_friend = false
     end
     
     return true if self.display_preferences == Show::Display_Preferences::PUBLIC || is_director 
