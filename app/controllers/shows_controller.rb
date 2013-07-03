@@ -18,7 +18,14 @@ class ShowsController < ApplicationController
     else
       @show = Show.find(params[:id])
     end
-    @show.create_playlist
+    begin
+      @show.create_playlist
+    rescue Kaltura::KalturaAPIError => e
+      flash[:notice] = "API request timeout. Please try later."
+      redirect_to root_url
+    end
+    @display_preference = session[:display_preference]
+    @show_preference = @show.set_display_preference(current_user, @display_preference)
     
     # to update the duration by getting the video duration from kaltura...
     show_cameo = @show.cameos.where(:duration => 0.0)
@@ -215,7 +222,7 @@ class ShowsController < ApplicationController
       @show = Show.find(params[:show_id])
     end
     if @show.display_preferences_password == params[:password]
-      @display_prefernce = "checked"
+      session[:display_preference] = "checked"
       redirect_to show_path(:id=>@show.permalink, :preference => @display_prefernce)
     else
       redirect_to show_path(:id=>@show.permalink), :notice => "Invalid Password: Please enter the correct password! "
