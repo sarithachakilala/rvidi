@@ -5,6 +5,20 @@ class Show < ActiveRecord::Base
     FRIENDS = 2
     PUBLIC = 3
   end
+
+  module Display_Preferences
+    PASSWORD_PROTECTED = 'password_protected'
+    PRIVATE = 'private'
+    PUBLIC = 'public'
+    NON_FRIEND = 1
+    NOT_AUTHENTICATED = 2
+  end
+
+  module Contributor_Preferences
+    PASSWORD_PROTECTED = 'password_protected'
+    PRIVATE = 'private'
+    PUBLIC = 'public'
+  end
   
   attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password,
     :contributor_preferences, :contributor_preferences_password, :need_review,
@@ -141,7 +155,28 @@ class Show < ActiveRecord::Base
     else
       false
     end
+  end
+
+  def set_display_preference(current_user, display_preference)
+    if current_user == director
+      is_director = true
+    elsif current_user.is_friend?(director)
+      is_friend = true
+    end
     
+    return true if self.display_preferences == Show::Display_Preferences::PUBLIC || is_director 
+    if self.display_preferences == Show::Display_Preferences::PRIVATE && is_friend
+      true
+    else
+      Show::Display_Preferences::NON_FRIEND
+    end
+
+    if self.display_preferences == Show::Display_Preferences::PASSWORD_PROTECTED && display_preference == 'checked'
+      true
+    else
+      Show::Display_Preferences::NOT_AUTHENTICATED
+    end
   end
 
 end
+  
