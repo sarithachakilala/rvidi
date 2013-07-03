@@ -62,8 +62,8 @@ class Cameo < ActiveRecord::Base
   # Request for Uploading a video
   def upload_video_to_kaltura(video, client, ks)
     media_entry = Kaltura::KalturaMediaEntry.new
-    media_entry.name = user.present? ? user.full_name : "downloading_user"
-    media_entry.description = title.present? ? title : "complete show"
+    media_entry.name = user.present? ? user.full_name.titlecase : "downloading_user"
+    media_entry.description = title.present? ? title.capitalize : "complete show"
 
     media_entry.media_type = Kaltura::KalturaMediaType::VIDEO
 
@@ -96,9 +96,9 @@ class Cameo < ActiveRecord::Base
     media_entry = client.base_entry_service.delete(kaltura_entry_id, client.ks)
   end
 
-  # def self.get_kaltura_video(client, kaltura_entry_id)
-  #   media_entry = client.base_entry_service.get(kaltura_entry_id)        
-  # end
+  def self.get_kaltura_video(client, kaltura_entry_id)
+    media_entry = client.base_entry_service.get(kaltura_entry_id)        
+  end
 
   def self.delete_kaltura_video(kaltura_entry_id, client, ks)
     media_entry = client.media_service.delete(kaltura_entry_id, ks)
