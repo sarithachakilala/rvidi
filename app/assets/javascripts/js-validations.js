@@ -23,8 +23,30 @@ $(document).ready(function(){
       return;
     }
   });
+  $('#update_cameo').on('click', function(event){
+    status = "true";
+    status = edit_show();
+    if(status == "false") {
+      event.preventDefault();
+    }
+    else {
+      return;
+    }
+  });
 });
-
+function edit_show()
+{
+  if( $('#show_contributor_preferences_public').is(":checked") && !$('#show_need_review').is(":checked") ) {
+    $('#CheckingError').show();
+    $('#CheckingError').html("As your show contribution is public.. let me review is mandatory")
+    status = "false";
+  }
+  else
+  {
+    $('#CheckingError').hide();
+  }
+  return status;
+}
 function edit_password_validate()
 {
   var password   = $('#user_password').val();

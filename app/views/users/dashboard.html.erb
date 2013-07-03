@@ -190,31 +190,32 @@
         </div>
         <div id="tab4" class="tab-pane tab-changeable" style="padding-bottom:40px;">
           <div class="span text_align_right">
-            <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active",
-              :id => "showsthumb" %>
-            <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "showslist" %>
-          </div>
-          <% if @most_commented.present? %>
-            <% @most_commented.each_slice(5) do|shows_slice| %>
-              <div class="showsthumb_formats showsformat">
+              <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", :id => "thumbs" %>
+              <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "lists" %>
+            </div>
+          <% if @commented_shows.present? %>
+              <% @commented_shows.each_slice(4) do|shows_slice| %>
+              <div class="thumbs_formats showsformat">
                 <div class="row-fluid">
-                  <ul class="thumbnails margin_top_5">
+                  <ul class="thumbnails">
                     <% shows_slice.each do|show| %>
+                    <% show = Show.find(show)%>
                       <%= render :partial => "show_thumbnail", :locals => { :show => show } %>
                     <% end %>
                   </ul>
                 </div>
-              </div>
-              <div class="showslist_formats showsformat hide">
-                <% shows_slice.each do|show| %>
-                  <div class="row-fluid">
-                    <ul class="thumbnails">
-                      <%= render :partial => "shows_list", :locals => { :show => show } %>
-                    </ul>
-                  </div>
+               </div>
+               <div class="lists_formats showsformat hide">
+               <% shows_slice.each do|show| %>
+                <div class="row-fluid">
+                  <ul class="thumbnails">
+                    <% show = Show.find(show)%>
+                    <%= render :partial => "shows_list", :locals => { :show => show } %>
+                  </ul>
+                </div>
                 <% end %>
-              </div>
-            <% end %>
+               </div>
+            <%end%>
           <% else %>
             No Commented Shows Yet
           <% end %>

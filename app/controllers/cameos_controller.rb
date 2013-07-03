@@ -87,7 +87,7 @@ class CameosController < ApplicationController
     respond_to do |format|
       if @success
         @show = @cameo.show
-        invite_friend(params[:selected_friends]) if params[:selected_friends].present?
+        invite_friend(params[:selected_friends],  @show.id) if params[:selected_friends].present?
         format.html { redirect_to edit_cameo_path(@cameo), notice: 'Cameo was successfully Added.'} 
         format.js {}
         format.json { render json: @cameo, status: :created, location: @cameo }
@@ -141,8 +141,8 @@ class CameosController < ApplicationController
     end
   end
 
-  def invite_friend(friends)
-    @show = Show.find(params[:show_id])
+  def invite_friend(friends, show_id)
+    @show = Show.find(show_id)
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
     friends.each do |each_friend|
       @user = User.find(each_friend) 
