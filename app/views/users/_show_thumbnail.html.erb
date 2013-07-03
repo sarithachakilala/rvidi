@@ -1,6 +1,6 @@
 <% li_extra_class = current_user.is_director?(show) ? "lengthier" : "" %>
 <li class="thumbnail_fivegroup <%= li_extra_class %>" style="">
-  <div class="thumbnail">
+  <div class="thumbnail" style="height:176px;">
     <div class="triangle-with-shadow item">  
       <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
       <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe, show_path(:id=>show.permalink) %>

@@ -23,7 +23,9 @@ class CameosController < ApplicationController
     @tstamp = Time.now.to_i
     @cameo = Cameo.new(:show_id => params[:show_id], :director_id => params[:director_id])
     @show = Show.find(params[:show_id])
-    @contribution_prefernce = params[:preference].present? ? params[:preference] : @show.contributor_preferences 
+    @show_preference = @show.set_contributor_preference(current_user, session[:contribution_preference])
+
+    @contribution_preference = params[:preference].present? ? params[:preference] : @show.contributor_preferences 
     
     ## Get the friend list
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
@@ -131,7 +133,8 @@ class CameosController < ApplicationController
   def check_password
     @show = Show.find(params[:show_id])
     if @show.contributor_preferences_password == params[:password]
-      @contribution_prefernce = "checked"
+      # @contribution_prefernce = "checked"
+      session[:contribution_preference] = "checked"
       redirect_to new_cameo_path(:preference => @contribution_prefernce, :show_id => params[:show_id], :director_id => @show.user_id)
     else
       redirect_to new_cameo_path(:show_id => params[:show_id], :director_id => @show.user_id), :notice => "Invalid Password: Please enter the correct password! "

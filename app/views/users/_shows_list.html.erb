@@ -1,7 +1,7 @@
 <div class="thumbnail">
   <div class="row-fluid caption">
     <div class="span3">
-      <div class="detailsview_image_div item">
+      <div class="detailsview_image_div item" style="height:95px;">
         <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
         <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe, show_path(show) %> </div>
     </div>

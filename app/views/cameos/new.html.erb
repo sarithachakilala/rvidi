@@ -1,4 +1,6 @@
-<% if @contribution_prefernce == "password_protected" || (current_user.present? && @cameo.director_id!=current_user.id) %>
+
+
+<% if @show_preference == Show::Contributor_Preferences::NOT_AUTHENTICATED %>
   <%# if current_user.present? && @cameo.director_id!=current_user.id %>
     <%= form_tag check_password_cameos_path do %>
       <div class="login_container">
@@ -21,6 +23,12 @@
       </div>
     <% end %>
   <%# end %>
+<% elsif @show_preference == Show::Contributor_Preferences::NON_FRIEND %>
+  <div class="login_container">
+    <div class="">
+      <h3 id="myModalLabel">This Show is visible to Friends</h3>
+    </div>
+  </div>
 
 <% else %>
   <%= form_for @cameo, :html => {:class => "js-validated-form form-horizontal cameo-form", :multipart => true } do |f| %>

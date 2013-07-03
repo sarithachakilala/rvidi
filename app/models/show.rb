@@ -18,6 +18,8 @@ class Show < ActiveRecord::Base
     PASSWORD_PROTECTED = 'password_protected'
     PRIVATE = 'private'
     PUBLIC = 'public'
+    NON_FRIEND = 1
+    NOT_AUTHENTICATED = 2
   end
   
   attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password,
@@ -178,6 +180,30 @@ class Show < ActiveRecord::Base
       true
     else
       Show::Display_Preferences::NOT_AUTHENTICATED
+    end
+  end
+
+  def set_contributor_preference(current_user, contributor_preference)
+
+    if current_user == director
+      is_director = true
+    elsif current_user.present? && current_user.is_friend?(director)
+      is_friend = true
+    else
+      is_friend = false
+    end
+    
+    return true if self.contributor_preferences == Show::Contributor_Preferences::PUBLIC || is_director 
+    if self.contributor_preferences == Show::Contributor_Preferences::PRIVATE && is_friend
+      true
+    else
+      Show::Contributor_Preferences::NON_FRIEND
+    end
+
+    if self.contributor_preferences == Show::Contributor_Preferences::PASSWORD_PROTECTED && contributor_preference == 'checked'
+      true
+    else
+      Show::Contributor_Preferences::NOT_AUTHENTICATED
     end
   end
 

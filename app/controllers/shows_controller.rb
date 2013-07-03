@@ -24,8 +24,7 @@ class ShowsController < ApplicationController
       flash[:notice] = "API request timeout. Please try later."
       redirect_to root_url
     end
-    @display_preference = session[:display_preference]
-    @show_preference = @show.set_display_preference(current_user, @display_preference)
+    @show_preference = @show.set_display_preference(current_user, session[:display_preference])
     
     # to update the duration by getting the video duration from kaltura...
     show_cameo = @show.cameos.where(:duration => 0.0)

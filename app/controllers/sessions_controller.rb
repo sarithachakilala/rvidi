@@ -62,6 +62,7 @@ class SessionsController < ApplicationController
   def destroy
     session[:user_id] = nil
     session[:display_preference] = nil
+    session[:contribution_preference] = nil
     respond_to do|format|
       format.html{ redirect_to root_url, :notice => "Logged out Successfully!" }
       format.json { render json=>{ :status => 200 }}

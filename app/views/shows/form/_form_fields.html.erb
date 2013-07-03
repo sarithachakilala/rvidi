@@ -71,17 +71,7 @@
     <div class="control-group">
       <label class="control-label  blue_label" for="inputPassword">Limit Show Time(in min)</label>
       <div class="controls">
-        <%= f.number_field :duration, :class => "show-show-tag", :placeholder => "Limit Show Time", :min=>0, :max=>10, :value => ((@show.duration/60).to_i if @show.duration.present?) %>
-      </div>
-    </div>
-
-    <!-- Let me review Checkbox -->
-    <div class="control-group">
-      <div class="controls">
-        <label class="checkbox radiobtn_active_text">
-          <%= f.check_box :need_review, {:class => ""} %>
-          Let me review cameos before they're posted
-        </label>
+        <%= f.number_field :duration, :class => "show-show-tag  js-required span2", :placeholder => "Limit Show Time", :min=>0, :max=>10, :value => (@show.duration.present? ? (@show.duration/60).to_i : 10) %>
       </div>
     </div>
 
@@ -93,6 +83,16 @@
         <%= f.text_field :description,
           :placeholder => "Tell viewers and contributors what your show’s about",
           :class => "js-required show-description span6", :maxlength=>"100"%>
+      </div>
+    </div>
+
+    <!-- Let me review Checkbox -->
+    <div class="control-group">
+      <div class="controls">
+        <label class="checkbox radiobtn_active_text">
+          <%= f.check_box :need_review, {:class => ""} %>
+          Let me review cameos before they're posted
+        </label>
       </div>
     </div>
 
