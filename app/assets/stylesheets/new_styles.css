@@ -1,0 +1,88 @@
+.black-box {
+  color: #f0f0f0;
+  background-color: #3a3a3c;
+  margin: 20px auto 10px auto;
+  padding: 30px;
+  width: 85%;
+}
+
+.black-box h1, .black-box h2, .black-box h3, .black-box h4, .black-box h5, .black-box h6, .black-box span, .black-box div {
+  color: #f0f0f0;
+}
+
+.white-transparent-box {
+  color: #4b4b4b;
+  background: url("/assets/tp_bg.png") repeat;
+  margin: 20px auto 10px auto;
+  padding: 30px;
+  width: 85%;
+}
+
+.white-transparent-box h1, .white-transparent-box h2, .white-transparent-box h3, .white-transparent-box h4, .white-transparent-box h5, .white-transparent-box h6 {
+  color: #4b4b4b;
+}
+
+.white-box {
+  color: #4b4b4b;
+  background: #ffffff;
+  margin: 20px auto 10px auto;
+  padding: 30px;
+  width: 85%;
+}
+
+.white-box h1, .white-box h2, .white-box h3, .white-box h4, .white-box h5, .white-box h6 {
+  color: #4b4b4b;
+}
+
+.friend-box {
+  color: #4b4b4b;
+  background: inherit;
+  margin-top: 10px;
+}
+
+.friend-box:hover {
+  background: url("/assets/tp_bg.png") repeat;
+}
+
+.friend-box h1, .friend-box h2, .friend-box h3, .friend-box h4, .friend-box h5, .friend-box h6 {
+  color: #4b4b4b;
+}
+
+.player-box {
+  color: #f0f0f0;
+  background-color: #000;
+  margin: 20px auto 0px auto;
+  padding: 10px;
+  width: 90%;
+}
+
+.player-box h1, .player-box h2, .player-box h3, .player-box h4, .player-box h5, .player-box h6, .player-box span, .player-box div {
+  color: #f0f0f0;
+}
+
+.player-contributors-box {
+  color: #f0f0f0;
+  background-color: #000;
+  padding: 1%;
+  width: 98%;
+}
+
+.player-details-box {
+  color: #4b4b4b;
+  background: url("/assets/tp_bg.png") repeat;
+  margin: 0px auto 10px auto;
+  padding: 10px;
+  width: 90%;
+}
+
+.player-details-box h1, .player-details-box h2, .player-details-box h3, .player-details-box h4, .player-details-box h5, .player-details-box h6 {
+  color: #4b4b4b;
+}
+
+.border-bottom-black {border-bottom: 1px solid #c1c1c1;margin-bottom: 20px;}
+.border-bottom-white {border-bottom: 1px solid #f0f0f0;margin-bottom: 20px;}
+
+.bold {font-weight: bold;}
+.italic {font-style: italic;}
+
+  

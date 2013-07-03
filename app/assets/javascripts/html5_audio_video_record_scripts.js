@@ -76,17 +76,6 @@ var endTime = null;
 var frames = [];
 var videoBlob = null;
 
-$(document).on('click', 'button.publish-cameo-btn',function(e){
-  e.preventDefault();
-  var current_form = $(this).parents('.cameo-form').first();
-  submitFormWithBlob(current_form);
-});
-
-$(document).on('click', 'input.publish-show-btn',function(e){
-  e.preventDefault();
-  var current_form = $('.show-cameo-form').first();
-  submitShowFormWithBlob(current_form);
-});
 
 function $$$(selector){
   return document.querySelector(selector) || null;
@@ -216,53 +205,6 @@ function submitFormWithBlob(form_elem){
   }
 }
 
-function submitShowFormWithBlob(form_elem){
-
-  var target_url = form_elem.prop('action');
-  // Script to save blob object to Server APPROACH03 STARTS. ======================
-
-  var fd = new FormData();
-  fd.append('show[user_id]', $$$(".show-user-id").value);
-  fd.append('show[title]', $$$(".show-title").value);
-  fd.append('show[description]', $$$(".show-description").value);
-  fd.append('show[display_preferences]', $$$(".show-display-preferences").value);
-  fd.append('show[display_preferences_password]', $$$(".show-display-preferences-password").value);
-  fd.append('show[contributor_preferences]', $$$(".show-display-preferences").value);
-  fd.append('show[contributor_preferences_password]', $$$(".show-display-preferences").value);
-  fd.append('show[show_tag]', $$$(".show-display-preferences").value);
-  fd.append('show[need_review]', $$$(".show-display-preferences").value);
-
-  fd.append('show[cameos_attributes][0][user_id]', $$$(".show-cameo-user-id").value);
-  fd.append('show[cameos_attributes][0][director_id]', $$$(".show-cameo-director-id").value);
-  fd.append('show[cameos_attributes][0][status]', $$$(".show-cameo-status").value);
-
-  if(frames.length > 0){
-    var videoBlob = Whammy.fromImageArray(frames, 1000 / 60);    
-  }
-  // fd.append('from', $$$(".show-from").value);
-  // $$$('.recorded-video-input').valueideoBlob);
-  console.log('blob obj is  -------> '+videoBlob);
-  fd.append('show[cameos_attributes][0][recorded_file]', (videoBlob || ''));
-  fd.append('show[cameos_attributes][0][audio_file]', audioBlob);
-  fd.append('show[cameos_attributes][0][video_file]', ($$$(".show-cameo-video-file").value));
-
-  if(videoBlob){
-    $.ajax({
-      type: 'POST',
-      url: target_url,
-      data: fd,
-      dataType: 'script',
-      processData: false,
-      contentType: false
-    }).done(function(data){
-      // console.log(data);
-    });
-  }else{
-    form_elem.submit();
-  }
-}
-// Functions for saving form with blob objects ENDS
-
 
 function embedVideoPreview(opt_url) {
   var url = opt_url || null;
@@ -310,13 +252,13 @@ function embedVideoPreview(opt_url) {
   downloadLink.href = url;
 }
 
-function initEvents() {
-  $$$('#camera-me').addEventListener('click', turnOnCamera);
-  $$$('#record-me').addEventListener('click', record);
-  $$$('#stop-me').addEventListener('click', stop);
-}
+// function initEvents() {
+//   $$$('#camera-me').addEventListener('click', turnOnCamera);
+//   $$$('#record-me').addEventListener('click', record);
+//   $$$('#stop-me').addEventListener('click', stop);
+// }
 
-initEvents();
+//initEvents();
 
 exports.$$$ = $$$;
 

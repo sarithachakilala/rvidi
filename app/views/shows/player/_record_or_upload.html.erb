@@ -1,0 +1,53 @@
+<div id="collapseTwo" class="accordion-body collapse in">
+  <div class="accordion-inner">
+    
+    <div class="border-bottom-black margin-bottom-20"></div>
+    
+    <!-- Display the recording options (Capture from Webcam or Upload Video file) -->
+    <div class="row-fluid margin-bottom-50">
+      <div class="span4 text_align_center cursor-pointer" id="camera-me">
+        <i class="sprite-camera-big"></i>
+        <div class="font_weight_bold">
+          Click here to record a video clip
+        </div>
+        <div> (15 seconds or less)</div>
+      </div>
+      <div class="span4 text_align_center">
+        <i class="sprite-or-icon_black"></i>
+      </div>
+      <div class="span4 text_align_center">
+        <div class="font_weight_bold">
+          Upload clip from your computer
+        </div><br />
+        <!-- <a class="btn btn-info " href="#">Choose</a> -->
+        <%= cameo_builder.hidden_field :user_id, :value => current_user.id, :class => "show-cameo-user-id" %>
+        <%= cameo_builder.hidden_field :director_id, :value => current_user.id, :class => "show-cameo-director-id" %>
+        <%= cameo_builder.hidden_field :status, :value => "enabled", :class => "show-cameo-status" %>
+        <%= hidden_field_tag 'show[cameos_attributes][0][audio_file]', '', :class => "recorded-audio-input cameo-recorded-audio-file" %>
+        <%= hidden_field_tag 'show[cameos_attributes][0][recorded_file]', '', :class => "recorded-video-input cameo-recorded-video-file" %>
+        <%= cameo_builder.file_field :video_file,:id => "fileToUpload", :class => "show-cameo-video-file",:onchange => "check_file()" %>
+        <%= hidden_field_tag 'tstamp', @tstamp %>
+      </div>
+    </div>
+    
+    <!-- Video Recorder -->
+    <div id="div_record_video_holder" class="black-box hide" style="width:400px; margin:0px auto;">
+      <div style="width:400px; margin:0px auto;">
+        <%= render :partial => "shows/player/video_recorder" %>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<% content_for :js_with_script_tags do %>
+  <script type="text/javascript">
+    $(document).on('click', '#camera-me', function(event) {
+		  
+  		// Show the SWF Recorder
+  		$('#div_record_video_holder').toggle();
+		
+      return event.preventDefault();
+    });
+  </script>
+<% end %>

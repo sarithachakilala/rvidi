@@ -14,5 +14,8 @@
  *= require customized_css
  *= require dev_styles
  *= require social-share-button
+
+ *= require handyCSS
+ *= require new_styles
 */
 

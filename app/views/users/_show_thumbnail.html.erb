@@ -3,15 +3,16 @@
   <div class="thumbnail">
     <div class="triangle-with-shadow item">  
       <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
-      <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe, show_path(show) %>
+      <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe, show_path(:id=>show.permalink) %>
     </div>
     <div class="row-fluid caption1">
       <div class="span9">
-        <div class="thumbnail_title"><%= link_to show.title, show_path(show) %></div>
-        <div class="thumbnail_name"><%= show.director.full_name%></div>
+        <div class="thumbnail_title"><%= link_to show.title.capitalize, show_path(:id=>show.permalink) %></div>
+        <div class="thumbnail_name"><%= show.director.full_name.titlecase%></div>
         <div class="thumbnail_contributor"><%= show.cameos.size %> Contributors </div>
         <% if current_user.is_director?(show) %>
-          <div class="thumbnail_contributor"><%= link_to "Edit Show", edit_show_path(show) %> </div>
+          <div class="thumbnail_contributor margin-top-5">
+            <%= link_to "Edit Show", edit_show_path(show) , :class=>" btn btn-mini btn-info"%> </div>
         <% end %>
       </div>
       <div class="span3"> 

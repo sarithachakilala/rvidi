@@ -1,0 +1,138 @@
+<div id="collapseOne" class="accordion-body collapse in">
+
+  <div class="accordion-inner">
+
+    <div class="border-bottom-white"></div>
+
+    <!-- Title -->
+    <div class="control-group">
+      <label class="control-label blue_label" for="inputEmail">Title</label>
+      <div class="controls">
+        <%= f.hidden_field :user_id, :value => current_user.id, :class => "show-user-id" %>
+        <%= f.text_field :title, :placeholder => "Title",
+          :class => "show-title js-required span6" %>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <div class="control-group">
+      <label class="control-label blue_label" for="inputPassword">Topic</label>
+      <div class="controls">
+        <%= f.text_field :show_tag, :class => "show-show-tag span6",
+          :placeholder =>  "Give your cameo a Vid-tag or #Topic" %>
+      </div>
+    </div>
+
+    <!-- Display -->
+    <div class="control-group">
+      <label class="control-label blue_label" for="inputEmail">Display</label>
+      <div class="controls radio-inputs-container">
+        <label class="radio <%= radio_label_class(@show, 'display_preferences', 'public') %>">
+          <%= f.radio_button :display_preferences, "public", {:class => "radio-input show-display-preferences" } %>
+          Public-Anyone can watch
+        </label>
+        <label class="radio <%= radio_label_class(@show, 'display_preferences', 'private') %>">
+          <%= f.radio_button :display_preferences, "private", {:class => "radio-input show-display-preferences"} %>
+          Private-Only my friends can watch
+        </label>
+        <label class="radio <%= radio_label_class(@show, 'display_preferences', 'password_protected') %>">
+          <%= f.radio_button :display_preferences, "password_protected", {:class => "radio-input show-display-preferences"} %>
+          Password Protected-Anyone with the password can watch
+        </label>
+        <label class="password_padding" >
+          <%= f.password_field :display_preferences_password, :class => "show-display-preferences-password", :placeholder => "Password", :value => @show.display_preferences_password %>
+        </label>
+      </div>
+    </div>
+
+    <!-- Contributors -->
+    <div class="control-group">
+      <label class="control-label blue_label" for="inputEmail">Contributors</label>
+      <div class="controls radio-inputs-container">
+        <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'public') %>">
+          <%= f.radio_button :contributor_preferences, "public", {:class => "radio-input show-contributor-preferences" } %>
+          Public-Anyone can contribute
+        </label>
+        <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'private') %>">
+          <%= f.radio_button :contributor_preferences, "private", {:class => "radio-input show-contributor-preferences"} %>
+          Private-Only my friends who have received invitations can contribute
+        </label>
+        <label class="radio <%= radio_label_class(@show, 'contributor_preferences', 'password_protected') %>">
+          <%= f.radio_button :contributor_preferences, "password_protected", {:class => "radio-input show-contributor-preferences"} %>
+          Password Protected-Anyone with the password can contribute
+        </label>
+        <label class="password_padding">
+          <%= f.password_field :contributor_preferences_password, :class => " show-contributor-preferences-password", :placeholder => "Password", :value => @show.contributor_preferences_password, :style=>"display:none"  %>
+        </label>
+      </div>
+    </div>
+
+    <!-- Duration -->
+    <div class="control-group">
+      <label class="control-label  blue_label" for="inputPassword">Limit Show Time(in min)</label>
+      <div class="controls">
+        <%= f.number_field :duration, :class => "show-show-tag", :placeholder => "Limit Show Time", :min=>0, :max=>10, :value => ((@show.duration/60).to_i if @show.duration.present?) %>
+      </div>
+    </div>
+
+    <!-- Let me review Checkbox -->
+    <div class="control-group">
+      <div class="controls">
+        <label class="checkbox radiobtn_active_text">
+          <%= f.check_box :need_review, {:class => ""} %>
+          Let me review cameos before they're posted
+        </label>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label class="control-label  blue_label"
+             for="inputPassword">Instructions/Comments
+      </label>
+      <div class="controls">
+        <%= f.text_field :description,
+          :placeholder => "Tell viewers and contributors what your show’s about",
+          :class => "js-required show-description span6", :maxlength=>"100"%>
+      </div>
+    </div>
+
+    <% if @show.end_set.present? %>
+      <div class="control-group">
+        <label class="control-label blue_label" for="inputEmail">Download Preferences</label>
+        <div class="controls radio-inputs-container">
+          <label class="checkbox radiobtn_active_text">
+            <%= check_box_tag 'show[enable_download]', 1, @show.enable_download, :id => "input-enable-show-download" %>
+            Make Available to Download
+          </label>
+          <div class="download-pref-section"
+               style="<%= @show.enable_download.present? ? ('display:block;') : ('display:none') %>">
+            
+            <label class="radio <%= radio_label_class(@show, 'download_preference',
+                     Show::Download_Preferences::ME) %>">
+                     <%= f.radio_button :download_preference, Show::Download_Preferences::ME,
+                       :checked => @show.download_preference == Show::Download_Preferences::ME,
+                       :class => "radio-input show-display-preferences" %>
+              By Me Only
+            </label>
+            <label class="radio <%= radio_label_class(@show, 'download_preference',
+                     Show::Download_Preferences::FRIENDS) %>">
+                     <%= f.radio_button :download_preference, Show::Download_Preferences::FRIENDS,
+                       :checked => @show.download_preference == Show::Download_Preferences::FRIENDS,
+                       :class => "radio-input show-display-preferences" %>
+              By My Friends
+            </label>
+            <label class="radio <%= radio_label_class(@show, 'download_preference',
+                     Show::Download_Preferences::PUBLIC) %>">
+                   <%= f.radio_button :download_preference, Show::Download_Preferences::PUBLIC,
+                     :checked => @show.download_preference == Show::Download_Preferences::PUBLIC,
+                     :class => "radio-input show-display-preferences" %>
+              Publicly
+            </label>
+          </div>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+
+</div>

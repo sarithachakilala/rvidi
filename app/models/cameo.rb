@@ -1,7 +1,13 @@
 class Cameo < ActiveRecord::Base
+
+  module Status
+    Enabled   = 'enabled'
+    Pending   = 'pending'
+    Disabled  = 'disabled'
+  end
   attr_accessor :video_file, :audio_file, :recorded_file
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, :description,
-                  :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file
+    :thumbnail_url, :download_url, :duration, :video_file, :audio_file, :recorded_file, :title, :start_time, :end_time
 
   # Validations
   validates :director_id, :presence => true, :numericality => true
@@ -22,10 +28,15 @@ class Cameo < ActiveRecord::Base
   # Callbacks
   after_destroy :delete_kaltura_video
 
+  # Scopes
+ 
+  scope :enabled, where("status like ?", Cameo::Status::Enabled )
+
   # METHODS
   # Class Methods
   # Methods to manage Videos using Kaltura Starts
   # KALTURA CONFIGURATION METHODS STARTS
+
   def self.get_kaltura_config
     kaltura_config = Kaltura::KalturaConfiguration.new(configatron.kaltura_partner_id, configatron.service_url)
     # kaltura_config.format = 1 # for json response (default: 2 - xml response)
@@ -49,10 +60,10 @@ class Cameo < ActiveRecord::Base
   end
   # KALTURA METHODS TO CALL API METHODS ENDS
   # Request for Uploading a video
-  def self.upload_video_to_kaltura(video, client, ks)
+  def upload_video_to_kaltura(video, client, ks)
     media_entry = Kaltura::KalturaMediaEntry.new
-    media_entry.name = "test upload video 01"
-    media_entry.description = "test upload video 01 description"
+    media_entry.name = user.present? ? user.full_name : "downloading_user"
+    media_entry.description = title.present? ? title : "complete show"
 
     media_entry.media_type = Kaltura::KalturaMediaType::VIDEO
 
@@ -67,10 +78,10 @@ class Cameo < ActiveRecord::Base
   # To be called from rake task to, Add Videos to kaltura directly Console
   def self.save_cameo_with_video_in_kaltura(video, client, ks, director_id, user_id)
     cameo = Cameo.new
-    media_entry = upload_video_to_kaltura(video, client, ks)
-    cameo.set_uploaded_video_details(media_entry)
     cameo.director_id = director_id
-    cameo.user_id = user_id
+    cameo.user = User.find(user_id)
+    media_entry = cameo.upload_video_to_kaltura(video, client, ks)
+    cameo.set_uploaded_video_details(media_entry)
     saved = cameo.save
     if saved
       p "cameo saved with kaltura entry id: #{cameo.kaltura_entry_id}"
@@ -80,13 +91,14 @@ class Cameo < ActiveRecord::Base
     cameo
   end
 
-  def delete_kaltura_video(kaltura_entry_id, client, ks)
-    media_entry = client.base_entry_service.delete(kaltura_entry_id, ks)
+  def delete_kaltura_video
+    client = Cameo.get_kaltura_client(self.user_id)
+    media_entry = client.base_entry_service.delete(kaltura_entry_id, client.ks)
   end
 
-  def self.get_kaltura_video(client, kaltura_entry_id)
-    media_entry = client.base_entry_service.get(kaltura_entry_id)        
-  end
+  # def self.get_kaltura_video(client, kaltura_entry_id)
+  #   media_entry = client.base_entry_service.get(kaltura_entry_id)        
+  # end
 
   def self.delete_kaltura_video(kaltura_entry_id, client, ks)
     media_entry = client.media_service.delete(kaltura_entry_id, ks)
@@ -105,32 +117,41 @@ class Cameo < ActiveRecord::Base
     self.show_order = (latest_cameo_order+1)
   end
 
+  def get_kaltura_video(client, kaltura_entry_id)
+    media_entry = client.base_entry_service.get(kaltura_entry_id)        
+  end
+  
   def latest_cameo_order
     Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.try(:show_order) || 0
   end
-
-  def build_stream_name current_user
-    cameo = Cameo.last
-    if cameo.present?
-      "#{cameo.id + 1}_#{current_user.id}"
-    else
-      "#{1}_#{current_user.id}"
-    end
-  end
-
-  def get_stream_name current_user
-    "#{build_stream_name current_user}.flv"
-  end
-
+  
 
   #Class Methods
   class << self
-    def get_cameo_file cameo, current_user
+    def get_stream_name current_user, tstamp
+      "#{current_user.id}_#{tstamp}" 
+    end
+    
+    def get_cameo_file current_user, tstamp
       if Rails.env == 'development'
         File.open(File.join(Rails.root, 'tmp', 'streams',
-            cameo.get_stream_name(current_user)))
+            get_stream_name(current_user, tstamp) +'.flv'))
       else
-        File.open("/var/www/apps/rvidi/shared/streams/#{cameo.get_stream_name(current_user)}")
+        File.open("/var/www/apps/rvidi/shared/streams/#{get_stream_name(current_user, tstamp)}.flv")
+      end
+    end
+    
+    def clipping_video(cameo, client, ks, start_time, end_time )
+      donwload = `wget -O "#{cameo.id}.avi" "#{cameo.download_url}"`
+      stripped_output = `avconv -i "#{cameo.id}.avi" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{cameo.id}#{cameo.show_id}.avi`
+      new_file = File.open("#{cameo.id}#{cameo.show_id}.avi") if File.exists?("#{cameo.id}#{cameo.show_id}.avi")
+      if new_file.present?
+        existing_kaltura_id = cameo.kaltura_entry_id
+        delete = Cameo.delay.delete_kaltura_video(existing_kaltura_id, client, ks) 
+        media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
+        cameo.set_uploaded_video_details(media_entry)
+        File.delete("#{cameo.id}.avi") 
+        File.delete("#{cameo.id}#{cameo.show_id}.avi") 
       end
     end
 

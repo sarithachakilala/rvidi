@@ -22,7 +22,7 @@ class User < ActiveRecord::Base
     :uniqueness => true,
     :if => Proc.new { |user| user.email.present? }
 
-  validates :password, :presence => true, 
+  validates :password, :presence => true,:length => {:within => 8..40},
     :on => :create
 
   validates :password_confirmation, :presence => true,
@@ -149,7 +149,7 @@ class User < ActiveRecord::Base
   end
   
   def full_name
-    (first_name.to_s + " " + last_name.to_s).strip
+    (first_name.to_s + " " + last_name.to_s).strip.titlecase
   end
   
   def match_password?(password)
@@ -165,6 +165,10 @@ class User < ActiveRecord::Base
     self.password_reset_sent_at = Time.zone.now
     save!
     RvidiMailer.delay.password_reset(self)
+  end
+
+  def is_friend?(director)
+   FriendMapping.is_my_friend?(self, director).first
   end
 
 

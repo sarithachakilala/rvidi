@@ -129,7 +129,10 @@
 .slider_text{
     margin: 11px 0px 25px 0px;
     font-size: 13px;
-    line-height: 11px;
+    line-height: 20px;
+    width: 90%;
+    height: 40px;
+    overflow-y:hidden;
 }
 .five_title{
     font-size: 12px;
@@ -393,7 +396,7 @@
 }
 .triangle-with-shadow:after {
     content : "";
-    position : absolute;
+    position : relative;
     width : 35px;
     height : 50px;
     background : #ffffff;
@@ -469,7 +472,14 @@
 }
 
 .myvision_title{
-    color: #6e6d73;
+    color: #c1c1c1;
+    font-size: 34px;
+    font-weight: bold;
+    line-height: 40px;
+}
+
+.myvision_title_dark{
+    color: #4b4b4b;
     font-size: 34px;
     font-weight: bold;
     line-height: 40px;
@@ -528,7 +538,7 @@
     margin-left: 10px !important;
 }
 .thumbnail_fivegroup.lengthier{
-    height: 170px;
+    height: 200px;
 }
 .thumbnail .caption1 {
   padding: 6px 0px 6px 0px;
@@ -657,7 +667,8 @@ padding-left: 20px;
     padding: 0px !important;
 }
 .edit_title_bg{
-    background-color: #6d6e72;
+    background-color: #000;
+    padding:10px 0px;
 }
 .edit_title{
     color: #ffffff;
@@ -680,7 +691,7 @@ padding-left: 20px;
     padding-top: 20px;
 }
 .cameo_friends{
-    height: 410px; overflow: auto;position: relative;padding: 20px 5px;background-color: #d1d2d4;
+    overflow: auto;position: relative;padding: 7px 0px;background-color: #d1d2d4;
 }
 .contributors_image_size{
     width: 44px;height: 44px;float: left;

@@ -1,1 +1,8 @@
-<%= render :partial => "item", :locals => { :show => @show, :cameo => @cameo, :show_comments => @show_comments, :all_comments => @all_comments } %>
+<% if params[:email].present? || params[:from_id].present? %>
+  <%= render :partial=>"shows/show/invitation_message" %>
+<% end %>
+
+<%= render :partial => "show", :locals => { :show => @show, 
+                                            :cameo => @cameo, 
+                                            :show_comments => @show_comments, 
+                                            :all_comments => @all_comments } %>

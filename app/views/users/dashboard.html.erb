@@ -10,18 +10,18 @@
       </div>
     </div>
     <div class="span10">
-      <div class="myvision_title">Welcome back, <%= @user.full_name.capitalize %>!</div>
+      <div class="myvision_title">Welcome back, <%= @user.full_name.titlecase %>!</div>
       <div class="margin_top_10">
         <% if @cameo_invitations.count>0 %>
           <div class="font_weight_bold">You have <%= @cameo_invitations.count %> <%= link_to "  new cameo invitation", notification_user_path(:id => current_user.id) %></div>
         <% end %>
         <% @show_notifications.each do |k,v| %>
           <% show = Show.find(k) %>
-          <div class="font_weight_bold"> Your show <%= link_to "#{show.title} ", show_path(:id=> k) %>has <%= link_to "#{v.length} new cameos", show_path(:id=> k, :to_contribute => "yes") %> </div>
+          <div class="font_weight_bold"> Your show <%= link_to "#{show.title} ".capitalize, show_path(:id=>show.permalink) %>has <%= link_to "#{v.length} new cameos", show_path(:id=> show.permalink, :to_contribute => "yes") %> </div>
         <%end%>
         <% @cameo_contributors.each do |k,v| %>
           <% show = Show.find(k) %>
-          <div class="font_weight_bold"> <%= v.length%> new cameos have been posted after you in show <%= link_to "#{show.title} ", show_path(:id=> k, :to_contribute => "yes") %></div>
+          <div class="font_weight_bold"> <%= v.length%> new cameos have been posted after you in show <%= link_to "#{show.title} ".capitalize, show_path(:id=> show.permalink, :to_contribute => "yes") %></div>
         <% end %>
         <% if @notifications.count>0 %>
           <div class="font_weight_bold">You have  <%= @notifications.count %> <%= link_to "new friend Requests", notification_user_path(current_user.id) %></div>
@@ -36,7 +36,7 @@
     <div class="carousel-inner">
       <% if @newest_shows.present? %>
         <% @newest_shows.each_with_index do |show, index| %>
-          <div class="<%= index == 0 ? "active" : "" %> item " style="height:200px;">
+          <div class="<%= index == 0 ? "active" : "" %> item " style="height:200px;padding:10px;">
             <div class="container">
               <div class="carousel-caption">
                 <div class="row-fluid">
@@ -46,7 +46,7 @@
                   </div>
                   <div class="span1"></div>
                   <div class="span5">
-                    <div class="slider_header"><%= link_to show.title.capitalize, show_path(show) %></div>
+                    <div class="slider_header"><%= link_to show.title.capitalize, show_path(:id=>show.permalink) %></div>
                     <div class="sub_title"> <%= show.director.full_name.capitalize %></div>
                     <div class="slider_text">
                       <%= show.description %>
@@ -84,7 +84,7 @@
         <li><a data-toggle="tab" href="#tab4">Newest</a></li>
       </ul>
      <div class="tab-content tab-content_margin">
-        <div id="tab1" class="tab-pane active tab-changeable">
+        <div id="tab1" class="tab-pane active tab-changeable" style="padding-bottom:40px;">
           <div class="span text_align_right">
             <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active",
               :id => "showsthumb" %>
@@ -120,7 +120,7 @@
           <% end %>
         </div>
 
-        <div id="tab2" class="tab-pane tab-changeable">
+        <div id="tab2" class="tab-pane tab-changeable" style="padding-bottom:40px;">
           <div class="span text_align_right"> 
             <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active",
               :id => "cameosthumb" %>
@@ -153,7 +153,7 @@
           <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
         </div>
 
-        <div id="tab3" class="tab-pane tab-changeable">
+        <div id="tab3" class="tab-pane tab-changeable" style="padding-bottom:40px;">
           <div class="span text_align_right">
             <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", 
             :id => "showsthumb" %>
@@ -170,6 +170,7 @@
                     </ul>
                   </div>
                 </div>
+                <div class="cl-10"></div>
                 <div class="showslist_formats showsformat hide">
                 <% shows_slice.each do|show| %>
                   <div class="row-fluid">
@@ -179,6 +180,7 @@
                   </div>
                 <% end %>
                 </div>
+                <div class="cl-10"></div>
               <% end %>
             <% else %>
               No Shows Added to the Application Yet
@@ -186,7 +188,7 @@
           <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
         </div>
         
-        <div id="tab4" class="tab-pane tab-changeable">
+        <div id="tab4" class="tab-pane tab-changeable" style="padding-bottom:40px;">
           <div class="span text_align_right">
             <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", 
             :id => "showsthumb" %>

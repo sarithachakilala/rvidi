@@ -1,0 +1,42 @@
+<%
+  unless defined?(height)
+    height = "360px"
+  end
+  unless defined?(width)
+    width = "100%"
+  end
+%>
+
+<% if cameo.nil? %>
+  <img alt="" src="/assets/video_img.png" />
+<% else %>
+  <div id="kaltura_player_<%= cameo.show_id %>" style="width:<%= width %>;height:<%= height %>;">
+    <span itemprop="name" content=""></span>
+    <span itemprop="description" content=""></span>
+    <span itemprop="duration" content=""></span>
+    <span itemprop="thumbnail" content=""></span>
+    <span itemprop="width" content="720"></span>
+    <span itemprop="height" content="500"></span>
+    <a href="http://corp.kaltura.com/products/video-platform-features">Video Platform</a>
+    <a href="http://corp.kaltura.com/Products/Features/Video-Management">Video Management</a>
+    <a href="http://corp.kaltura.com/Video-Solutions">Video Solutions</a>
+    <a href="http://corp.kaltura.com/Products/Features/Video-Player">Video Player</a>
+  </div>
+
+  <% content_for :js_with_script_tags do %>
+    <script src="http://cdnapi.kaltura.com/p/<%= configatron.kaltura_partner_id %>/sp/<%= configatron.kaltura_partner_id %>00/embedIframeJs/uiconf_id/15034122/partner_id/<%= configatron.kaltura_partner_id %>"></script>
+    <script>
+      var PARTNER_ID = "<%= configatron.kaltura_partner_id %>"
+      var ENTRY_ID = "<%= cameo.kaltura_entry_id %>"
+      var TARGET_DIV_ID = "kaltura_player_<%= cameo.show_id %>"
+      var preference = "<%= @display_prefernce %>"
+      if (preference == "password_protected")
+      {
+        loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, false, '<%= cameo.show.kaltura_playlist_id %>');
+      }
+      else {
+        loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, true, '<%= cameo.show.kaltura_playlist_id %>');
+      }
+    </script>
+  <% end %>
+<% end %>

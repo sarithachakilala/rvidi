@@ -1,0 +1,8 @@
+<% cameos = show.cameos.order('show_order asc') %>
+
+<% cameos.each do|cameo| %>
+  
+  <%= render :partial => "/cameos/cameo_contributor", :locals=>{:cameo => cameo, :show => show, :selected_cameo => selected_cameo} %>
+
+<% end %>
+  

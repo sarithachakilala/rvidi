@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130619045338) do
+ActiveRecord::Schema.define(:version => 20130624120822796) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -34,10 +34,13 @@ ActiveRecord::Schema.define(:version => 20130619045338) do
     t.string   "description"
     t.string   "thumbnail_url"
     t.string   "download_url"
-    t.string   "duration"
     t.string   "kaltura_entry_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.string   "title"
+    t.string   "start_time"
+    t.string   "end_time"
+    t.float    "duration"
   end
 
   create_table "comments", :force => true do |t|
@@ -105,11 +108,17 @@ ActiveRecord::Schema.define(:version => 20130619045338) do
     t.string   "display_preferences_password"
     t.string   "contributor_preferences"
     t.string   "contributor_preferences_password"
-    t.boolean  "need_review",                      :default => true
+    t.boolean  "need_review",                                     :default => true
     t.integer  "number_of_views"
-    t.datetime "created_at",                                         :null => false
-    t.datetime "updated_at",                                         :null => false
+    t.datetime "created_at",                                                         :null => false
+    t.datetime "updated_at",                                                         :null => false
     t.datetime "end_set"
+    t.string   "kaltura_playlist_id"
+    t.float    "duration"
+    t.string   "permalink",                        :limit => 128
+    t.string   "download_url"
+    t.boolean  "enable_download",                                 :default => false
+    t.integer  "download_preference"
   end
 
   create_table "users", :force => true do |t|

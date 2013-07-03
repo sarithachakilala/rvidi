@@ -12,6 +12,11 @@ gem "recaptcha", :require => "recaptcha/rails"
 gem 'rest-client'                                    # Simple HTTP and REST client for Ruby, inspired by the Sinatra microframework style of specifying actions: get, put, post, delete.
 gem "rmagick"
 gem "carrierwave"                                    # To add file uploads to the application
+
+## Pagination
+gem 'kaminari'
+gem 'bootstrap-kaminari-views'
+
 gem 'koala'
 # koala dependencies
 gem 'twitter'

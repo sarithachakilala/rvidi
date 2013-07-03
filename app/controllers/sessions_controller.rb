@@ -15,7 +15,7 @@ class SessionsController < ApplicationController
       session[:auth_token] = auth.credentials.token
       session[:auth_secret] = auth.credentials.secret
       logger.debug session[:uid]
-      redirect_to add_twitter_invities_shows_path
+      redirect_to add_twitter_invities_shows_path(:id=>params[:show_id])
 
     elsif (params[:fetch_friends].present? && params[:fetch_friends] == 'true')
       # Create Authentication recorda and map with current user
@@ -61,6 +61,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session[:user_id] = nil
+    session[:display_preference] = nil
     respond_to do|format|
       format.html{ redirect_to root_url, :notice => "Logged out Successfully!" }
       format.json { render json=>{ :status => 200 }}

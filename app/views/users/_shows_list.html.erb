@@ -8,8 +8,8 @@
     <div class="span9">
       <div class="row-fluid">
         <div class="span4">
-          <div class="details_title"><%= link_to show.title, show_path(show) %></div>
-          <div class="thumbnail_name"><%= show.director.full_name %></div>
+          <div class="details_title"><%= link_to show.title.capitalize, show_path(:id=>show.permalink) %></div>
+          <div class="thumbnail_name"><%= show.director.full_name.titlecase %></div>
         </div>
         <% show_contributers = Cameo.where(:show_id=>show.id).collect(&:user_id)%>
         <div class="span8 text_align_right">

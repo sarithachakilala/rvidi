@@ -1,0 +1,18 @@
+<% if friend_mappings.present? %>
+  Existing Friends:
+  <label class="select-all-label checkbox inline btn btn-mini pull-right font-size-14">
+    Select all
+  </label>
+  <div class="cl"></div>
+
+  <% friend_mappings.each_slice(3) do|friends_slice| %>
+    <div class="row-fluid margin-top-5">
+      <% friends_slice.each do|friend_mapping| %>
+        <div class="span4">
+          <% rvidi_friend = User.find(friend_mapping.friend_id) %>
+          <%= render :partial=>"friends/rvidi_user", :locals=>{:user=>rvidi_friend} %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+<% end %>

@@ -2,12 +2,12 @@
   <div class="thumbnail">
     <div class="triangle-with-shadow">
       <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
-      <%= link_to "<img alt='300x200' src='#{thumbnail}' class='thumbnail_image_widht'>".html_safe, show_path(show) %>
+      <%= link_to "<img alt='300x200' src='#{thumbnail}' class='thumbnail_image_widht'>".html_safe, show_path(:id=>show.permalink) %>
     </div>
     <div class="row-fluid caption">
       <div class="span9">
-        <div class="thumbnail_title"><%= link_to show.title, show_path(show) %></div>
-        <div class="thumbnail_name"><%= show.director.full_name %> </div>
+        <div class="thumbnail_title"><%= link_to show.title.capitalize, show_path(:id=>show.permalink) %></div>
+        <div class="thumbnail_name"><%= show.director.full_name.titlecase %> </div>
         <div class="thumbnail_contributor"><%= show.cameos.size %> Contributors </div>
       </div>
       <div class="span3"><i class="sprite-thumbnail_title_icon"></i></div>

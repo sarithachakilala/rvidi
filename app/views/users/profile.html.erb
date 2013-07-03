@@ -8,11 +8,11 @@
 <% end %>
 <div class="login_container">
   <div class="span6 margin_bottom_10"> 
-    <h1> Edit Profile Page</h1>
+    <h2> Edit Profile Page</h2>
   </div>
   <div class="row-fluid">
     <%= form_for @user, :html => { :class => "form-horizontal" } do |f| %>
-      <div class="span6">
+      <div class="span5">
         <div class="control-group">
           <label class="control-label" for="inputEmail">Email</label>
           <div class="controls">
@@ -48,7 +48,7 @@
         
         <div class="control-group"></div>
         <div class="control-group">
-          <div class="controls pull-left" style="">
+          <div class="controls" style="">
             <%= f.submit "Save Changes", :class => "btn btn-warning" %>
           </div>
         </div>        
@@ -83,3 +83,7 @@
     <% end %> 
   </div>
 </div>
+
+
+
+
