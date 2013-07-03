@@ -38,11 +38,11 @@ Rvidi::Application.configure do
 
   config.action_mailer.smtp_settings = {
     :enable_starttls_auto => true,
-    :address => "smtp.gmail.com",
+    :address => "smtp.sendgrid.net",
     :port => 587,
-    :domain => "gmail.com",
+    :domain => "sendgrid.com",
     :authentication => :login,
-    :user_name => 'qwinix.system@gmail.com',
-    :password => 'Qwinix#123',
+    :user_name =>"qwinix-staging",
+    :password => "Qwinix123@",
   }
 end
