@@ -23,7 +23,7 @@ class ShowsController < ApplicationController
     # to update the duration by getting the video duration from kaltura...
     show_cameo = @show.cameos.where(:duration => 0.0)
     show_cameo.each do |each_cameo|
-      new_media_entry = Cameo.get_kaltura_video(session[:client], each_cameo.kaltura_entry_id)
+      new_media_entry = each_cameo.get_kaltura_video(session[:client], each_cameo.kaltura_entry_id)
       each_cameo.update_attributes(:duration => new_media_entry.duration)
     end
 
