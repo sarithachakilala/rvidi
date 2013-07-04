@@ -1,4 +1,4 @@
-<body>
+<!-- <body>
     <h1>Welcome to rVidi.com, <%= @user.full_name %></h1>
     <p>
       You are invited to rVidi,
@@ -9,29 +9,22 @@
     <p>Thanks for joining and have a great day!</p>
   </body>
 
-
-<!-- Dear (<%= @user.full_name.titlecase %>),
-<p>
-Thank you for joining rVidi. Now you can collaboratively create videos with anyone, anywhere, anytime!  
-Starting a show is easy! Just record or upload your opening cameo and invite others to add their clips. YOU are the director, so YOU decide if your show will be “open” to the public for anyone to contribute and view or “private” so that just the people you invite can participate.   </p>
-<p>
-
-You can let your show grow automatically or collect contributions and determine their arrangement before publishing your show.  As the director, YOU can rearrange the order of cameos at any time by simply dropping/dragging cameo thumbnails.  
-<p>
-<p>
-rVidi is fun and useful.  Here are just a few ideas:
-<ul>
-<li>Get video feedback on a new product or business idea </li>
-<li>Engage classmates in an educational video project </li>
-<li>Start an international video commentary  </li>
-<li>Record and compile comic adventures with friends </li>
-<li>Create a video diary by adding new cameos to your own show </li>
-<li>Start a back-and-forth video conversation with clients </li>
-</ul>
-Get started today: (<%= @url %>). 
-We hope you enjoy making collaborative videos with rVidi!
-
-See you on the site!
-The rVidi Team
-
  -->
+<body>
+	<p>Dear (<%= @to_mail%>):   </p>
+	<p>
+		I just started a collaborative video on rVidi.com!   YOU are invited to invited to rVidi.  
+	</p>
+
+	<p>
+		<%= link_to  "Here’s the link:  ", "http://#{configatron.site_address}/shows/#{@show}?from_id=#{@user.id}&email=#{@to_mail}"%>.
+	</p>
+	  
+	<p>
+		I look forward to viewing your addition to my show!  rVidi offers a convenient way to collaboratively create videos with people anywhere, anytime for fun, business, education . . . literally hundreds of applications.  Maybe you will start a show of your own!
+	</p>
+	  
+	<p>
+		(<%= @user.full_name.titlecase %>)
+	</p>
+</body>

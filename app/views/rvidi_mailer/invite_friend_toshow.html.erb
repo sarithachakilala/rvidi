@@ -1,23 +1,12 @@
-<!-- <body>
-  <h1>Welcome to rVidi.com</h1>
-  <p>
-    You are invited to rVidi by <%= @user.full_name%>,
-  </p>
-  <p>
-    To register to the site, just follow this link: 
-    <%#= link_to  "Click here", "http://#{configatron.site_address}/shows/#{@show}?from_id=#{@user.id}&email=#{@to_email}"%>.
-  </p>
-</body>
- -->
 
 <body>
-	<p>Dear (<%= @to_email%>):   </p>
+	<p>Dear (<%= @to_mail%>):   </p>
 	<p>
 		I just started a collaborative video on rVidi.com!   YOU are invited to contribute a video clip/cameo to my show.  
 	</p>
 
 	<p>
-		<%= link_to  "Here’s the link:  ", "http://#{configatron.site_address}/shows/#{@show}?from_id=#{@user.id}&email=#{@to_email}"%>.
+		<%= link_to  "Here’s the link:  ", "http://#{configatron.site_address}/shows/#{@show}?from_id=#{@user.id}&email=#{@to_mail}"%>.
 	</p>
 	  
 	<p>
