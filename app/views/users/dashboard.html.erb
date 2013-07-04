@@ -128,22 +128,22 @@
               :id => "cameosthumb" %>
             <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "cameoslist" %>
           </div>
-          <% if current_user.contributed_shows.present? %>
-            <% current_user.contributed_shows.each_slice(5) do|contr_slice| %>
+          <% if @contributed_cameos.present? %>
+            <% @contributed_cameos.each_slice(5) do|contr_slice| %>
               <div class="cameosthumb_formats showsformat">
                 <div class="row-fluid">
                   <ul class="thumbnails margin_top_5">
-                    <% contr_slice.each do|show| %>
-                      <%= render :partial => "show_thumbnail", :locals => { :show => show } %>
+                    <% contr_slice.each do|cameo| %>
+                      <%= render :partial => "cameo_thumbnail", :locals => { :cameo => cameo } %>
                     <% end %>
                   </ul>
                 </div>
               </div>
               <div class="cameoslist_formats showsformat hide">
-                <% contr_slice.each do|show| %>
+                <% contr_slice.each do|cameo| %>
                   <ul class="thumbnails">
                     <li class="span12">
-                      <%= render :partial => "shows_list", :locals => { :show => show } %>
+                      <%= render :partial => "cameo_list", :locals => { :cameo => cameo } %>
                     </li>
                   </ul>
                 <% end %>
@@ -194,7 +194,7 @@
               <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "lists" %>
             </div>
           <% if @commented_shows.present? %>
-              <% @commented_shows.each_slice(4) do|shows_slice| %>
+              <% @commented_shows.order('comm_count desc').each_slice(4) do|shows_slice| %>
               <div class="thumbs_formats showsformat">
                 <div class="row-fluid">
                   <ul class="thumbnails">

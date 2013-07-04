@@ -30,7 +30,7 @@
         <div class="row-fluid frinds_row_margin">
           <% if params[:email_valid] == "true" %>
             Do you want to send an invitation to the user: <%= params[:search_val]%>
-            <%= link_to "Confirm to send an invite", invite_friend_toshow_shows_path(:email => params[:search_val], :email_from =>session[:user_id], :show_id =>params[:page_id]) %>
+            <%= link_to "Confirm to send an invite", invite_friend_toshow_shows_path(:email => params[:search_val], :email_from =>session[:user_id], :show_id =>params[:page_id]) ,  :class=> "btn btn-info" %>
           <% end %>
         </div>
       <% end %>

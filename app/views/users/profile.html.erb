@@ -14,42 +14,45 @@
     <%= form_for @user, :html => { :class => "form-horizontal" } do |f| %>
   <div class="row-fluid">
     
+      <div class="span12">
       <div class="span5">
         <div class="control-group">
-          <label class="control-label" for="inputEmail">Email</label>
+          <label class="control-label styling_for_text_fields" for="inputEmail">Email</label>
           <div class="controls">
             <%= f.text_field :email %>
           </div>
         </div>
 
         <div class="control-group">
-          <label class="control-label" for="inputstate">First Name</label>
+          <label class="control-label styling_for_text_fields" for="inputstate">First Name<span class="star_css">*</span></label>
           <div class="controls">
             <%= f.text_field :first_name %>
           </div>
         </div>
 
         <div class="control-group">
-          <label class="control-label" for="inputcity">City</label>
+          <label class="control-label styling_for_text_fields" for="inputcity">City</label>
           <div class="controls">
             <%= f.text_field :city %>
           </div>
         </div>
 
         <div class="control-group">
-          <label class="control-label" for="inputcountry">Country</label>
+          <label class="control-label styling_for_text_fields" for="inputcountry">Country</label>
           <div class="controls">
             <%= f.text_field :country %>
           </div>
         </div>
        
         <div class="control-group">
-          <label class="control-label" for="inputstate">Upload Picture</label>
+          <label class="control-label styling_for_text_fields" for="inputstate">Upload Picture</label>
           <div class="controls">
             <% if @user.image_url.present? %>
-              <div class="jane_image"> <%= image_tag @user.image_url, :class => "jane_image"  %></div>
+              <div class="jane_image"> <%= image_tag @user.image_url, :class => "jane_image"  %> </div>
+              <div class="cl-10"></div>
+              <div style="text-align:center;">or</div>
             <% end %>
-            <%= f.file_field :image %>
+            <%= f.file_field :image, :title=>"", :style=>"width:79%;"  %>
           </div>
         </div>
         
@@ -61,23 +64,23 @@
         </div>        
       </div>
 
-      <div class="span5"> 
+      <div class="span6"> 
         <div class="control-group">
-          <label class="control-label" for="inputusername">User Name</label>
+          <label class="control-label styling_for_text_fields" for="inputusername" >User Name<span class="star_css">*</span></label>
           <div class="controls">
             <%= f.text_field :username %>
           </div>
         </div>
 
         <div class="control-group">
-          <label class="control-label" for="inputdescription">Last Name</label>
+          <label class="control-label styling_for_text_fields" for="inputdescription" >Last Name<span class="star_css">*</span></label>
           <div class="controls">
             <%= f.text_field :last_name %>
           </div>
         </div>
 
         <div class="control-group">
-          <label class="control-label" for="inputstate">State</label>
+          <label class="control-label styling_for_text_fields" for="inputstate">State</label>
           <div class="controls">
             <%= f.text_field :state %>
           </div>
@@ -85,11 +88,12 @@
 
        
         <div class="control-group">
-          <label class="control-label" for="inputdescription">Description</label>
+          <label class="control-label styling_for_text_fields" for="inputdescription">Description</label>
           <div class="controls">
             <%= f.text_area :description, :rows => 6 %>
           </div>
         </div>
+      </div>
       </div>
       </div>
     <% end %> 

@@ -233,7 +233,7 @@ class ShowsController < ApplicationController
     end_set_val = params[:status] == "end" ? Time.now : ""
     @show.update_attributes(:end_set => end_set_val) 
     @show.download_complete_show(session[:client], session[:ks]) if params[:status] == "end"
-    redirect_to edit_show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
+    redirect_to show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
   end
 
   def add_twitter_invities

@@ -41,7 +41,7 @@
       <% else %>
         <% if params[:email_valid] == "true" %>
           You want to send a request to the user: <%= params[:search_val]%>
-          <%= link_to "Confirm to send request", invite_friend_via_email_users_path(:email => params[:search_val], :email_from =>session[:user_id]) %>
+          <%= link_to "Confirm to send request", invite_friend_via_email_users_path(:email => params[:search_val], :email_from =>session[:user_id])  ,  :class=> "btn btn-info"%>
         <% end %>
       <% end %>
     </li>

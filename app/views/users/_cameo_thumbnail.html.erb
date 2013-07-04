@@ -1,0 +1,20 @@
+<li class="thumbnail_fivegroup" style="">
+  <div class="thumbnail">
+    <div class="triangle-with-shadow item">  
+      <% thumbnail = cameo.present? ? cameo.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
+      <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe, cameo_path(:id=>cameo.id) %>
+     </div>
+    <div class="row-fluid caption1">
+      <div class="span9">
+        <div class="thumbnail_title"><%= link_to cameo.title.present? ? cameo.title.capitalize : "No Title" , cameo_path(:id=>cameo.id) %></div>
+        <div class="thumbnail_name"><%= current_user.full_name.titlecase%></div>
+       
+      </div>
+      <div class="span3"> 
+        <i class="sprite-thumbnail_title_icon"></i>
+      </div>
+    </div>
+  </div>
+</li>
+
+   

@@ -18,7 +18,11 @@
 
       <!-- Show Edit button if current user is the directory of the show -->
       <% if current_user.present? && current_user.is_director?(show) %>
-        <%= link_to "<i class='sprite-camera-white'></i> Edit Show".html_safe, edit_show_path(show), :class => "btn btn-info pull-right" %>
+        <% unless @show.try(:end_set) && (@show.end_set < Time.now) %>
+          <%= link_to "<i class='sprite-camera-white'></i> Edit Show".html_safe, edit_show_path(show), :class => "btn btn-info pull-right" %>
+        <% else %>
+          <%= link_to "<i class='sprite-camera-white'></i>Re-open Show".html_safe, status_update_shows_path(:show_id => params[:id], :status => "start"), :class => "btn btn-warning pull-right" %>
+        <% end %>
         <div class="cl"></div>
       <% end %>
 

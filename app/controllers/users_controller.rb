@@ -95,6 +95,7 @@ class UsersController < ApplicationController
     @cameo_invitations = Notification.where(:status => "contribute", :to_id=> current_user.id, :read_status => false)
     @cameo_contributors = Notification.where(:status => "others_contributed", :to_id=> current_user.id, :read_status => false).group_by(&:show_id)
     @newest_shows =  Show.limit(6).order('created_at desc')
+    @contributed_cameos = Cameo.where(:user_id => current_user.id)
     @commented_shows = Show.public_protected_shows.select("shows.id, count('comments.id') as comm_count").joins(:comments).group("shows.id")
     respond_to do |format|
       format.html 

@@ -55,3 +55,13 @@ textarea.comment-body{ width:390px;}
 /* Show / Hide Classes */
 .hide{ display:none; }
 .show{ display:block; }
+
+.star_css
+{
+  color:red;
+  font-size:19px;
+}
+.styling_for_text_fields
+{
+  margin-left:17px;
+}
