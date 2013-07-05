@@ -23,12 +23,12 @@ class Show < ActiveRecord::Base
   end
   
   attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password,
-    :contributor_preferences, :contributor_preferences_password, :need_review,
-    :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
-    :download_preference, :download_url
-    
+  :contributor_preferences, :contributor_preferences_password, :need_review,
+  :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
+  :download_preference, :download_url
+
   after_create :create_permalink
-    
+
   # Validations
   validates :user_id, :presence => true
   validates :title, :presence => true
@@ -61,7 +61,7 @@ class Show < ActiveRecord::Base
         cameo.update_attributes(:status => "enabled") 
       else
         cameo.update_attributes(:status => "disabled") 
-      end unless (cameo.director_id == cameo.user_id)
+      end 
     end
   end
 
@@ -207,5 +207,15 @@ class Show < ActiveRecord::Base
     end
   end
 
+
+  def caluculating_percentage_and_duration(show)
+    if show.cameos.present?
+      array_of_cameo_duration = show.cameos.where(:status => "enabled").collect(&:duration)
+      @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+      @contribution_percentage = (@sum_duration_of_cameos) * 100 / show.duration
+    end
+      @contribution_percentage ||= 0
+  end
+
 end
-  
+

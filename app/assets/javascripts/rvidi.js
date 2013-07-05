@@ -27,14 +27,22 @@ jQuery(document).ready(function($){
     }
   });
 
-  $('#jQueryCityAutocomplete').keydown(function(event){
-    if(event.keyCode == 13) {
-      event.preventDefault();
-    }
+});
 
-  });
+$('#jQueryCityAutocomplete').keydown(function(event){
+  if(event.keyCode == 13) {
+    event.preventDefault();
+  }
+
 });
 
 
+if(navigator.userAgent.match(/firefox/i)) {
+  $(document).on('click', 'label.label-upload-image', function (e) {
+    if (e.currentTarget === this && e.target.nodeName !== 'INPUT') {
+      $(this.control).click();
+    }
+  });
+}
 
 

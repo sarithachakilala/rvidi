@@ -1,29 +1,38 @@
 <div class="player-details-box">
+
   <div class="accordion-inner padding_none">
 
     <div class="row-fluid margin-bottom-20">
-
+      <!-- number of contributors to the no of minutes.. -->
       <div class="span1">
-        <i class="sprite-camera-small"></i> <!-- number of contributors to the no of minutes.. -->
+        <% video_icon =  (@contribution_percentage ==100) ? "sprite-camera-small-disable"  : "sprite-camera-small"  %>
+        <i class= "<%= video_icon %>"></i> 
       </div>
       <!-- To Download complete show -->
       <% if show.download_video?(current_user) %>
-        <div class="span1">
-          <%= link_to "<i class='downloadsprite-dorrange'></i>".html_safe, show.download_url, :title => 'download' %>
-        </div>
+      <div class="span1">
+        <%= link_to "<i class='downloadsprite-dorrange'></i>".html_safe, show.download_url, :title => 'download' %>
+      </div>
       <% end %>
       <div class="span2 ratings_line">
         <%= show.number_of_views %> views
       </div>
+      <div class="span2"> 
+        <div class="progress progress-striped" style="20%">
+          <div class="bar" style="width:<%= @contribution_percentage %>%;"></div>
+        </div>
+      </div>
+      <div class="span1 font_weight_bold"><%= @contribution_percentage.round(2) %>%</div>
+
 
       <!-- Show Edit button if current user is the directory of the show -->
       <% if current_user.present? && current_user.is_director?(show) %>
-        <% unless @show.try(:end_set) && (@show.end_set < Time.now) %>
-          <%= link_to "<i class='sprite-camera-white'></i> Edit Show".html_safe, edit_show_path(show), :class => "btn btn-info pull-right" %>
-        <% else %>
-          <%= link_to "<i class='sprite-camera-white'></i>Re-open Show".html_safe, status_update_shows_path(:show_id => params[:id], :status => "start"), :class => "btn btn-warning pull-right" %>
-        <% end %>
-        <div class="cl"></div>
+      <% unless @show.try(:end_set) && (@show.end_set < Time.now) %>
+      <%= link_to "<i class='sprite-camera-white'></i> Edit Show".html_safe, edit_show_path(show), :class => "btn btn-info pull-right" %>
+      <% else %>
+      <%= link_to "<i class='sprite-camera-white'></i>Re-open Show".html_safe, status_update_shows_path(:show_id => params[:id], :status => "start"), :class => "btn btn-warning pull-right" %>
+      <% end %>
+      <div class="cl"></div>
       <% end %>
 
     </div>
@@ -45,7 +54,7 @@
         <!-- Share Buttins -->
         <div class="span12 margin_top_10"> 
           <%= social_share_button_tag("Share this video",
-              :url => "#{configatron.site_address_full}/shows/#{show.id}") %>
+          :url => "#{configatron.site_address_full}/shows/#{show.id}") %>
         </div>
 
       </div>
@@ -66,13 +75,13 @@
 
         <div class="span">
           <% if current_user.present? %>
-            <%= link_to "Add Comment", new_comment_path(:show_id => show.id), :class => "btn btn-primary pull-right margin-right-10 ", :remote => true %>
-            <div class="cl"></div>
-            <div id="show_<%= show.id %>_add_comments_div"></div>
+          <%= link_to "Add Comment", new_comment_path(:show_id => show.id), :class => "btn btn-primary pull-right margin-right-10 ", :remote => true %>
+          <div class="cl"></div>
+          <div id="show_<%= show.id %>_add_comments_div"></div>
           <% else %>
-            <%= link_to "Sign In", sign_in_path %> Or
-            <%= link_to "Join", sign_up_path %>
-            to add a comment
+          <%= link_to "Sign In", sign_in_path %> Or
+          <%= link_to "Join", sign_up_path %>
+          to add a comment
           <% end %>
         </div>
 
@@ -83,6 +92,3 @@
 
   </div>
 </div>
-
-
-

@@ -34,7 +34,7 @@ $(document).ready(function(){
     var container = $(this).parents('.radio-inputs-container').first();        
     var all_label_elems = container.find('label.radio');
     var label_elem = $(this).parents('.radio').first();
-            
+
     $.each(all_label_elems, function(i, elem){
       $(elem).removeClass('radiobtn_active_text');
       $(elem).addClass('radiobtn_inactive_text');
@@ -42,7 +42,7 @@ $(document).ready(function(){
     label_elem.removeClass('radiobtn_inactive_text');
     label_elem.addClass('radiobtn_active_text');
   });
-       
+
   //    To Select All Check Boxes
   $('.selects-container').on('click','.select-all-label',function(){
     var selects_container = $(this).parents('.selects-container').first();
@@ -94,7 +94,7 @@ $(document).ready(function(){
       cache: false
     });
   }); 
-   
+
   $('#search_friends_to_invite').on('click',function(){
     email = $('#search_value_to_invite').val()
     var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
@@ -120,6 +120,7 @@ $(document).ready(function(){
   });
 
 });
+
 
 function loadANewPage(url){
   // showLightBoxLoading();
@@ -290,6 +291,8 @@ function check_file(){
   suffix10=".MMKV";
   suffix11=".M4V";
   suffix12=".VOB";
+  suffix13=".RM";
+  suffix14=".DIVX";
   if(!(str.indexOf(suffix, str.length - suffix.length) !== -1||
     str.indexOf(suffix2, str.length - suffix2.length) !== -1 ||
     str.indexOf(suffix3, str.length - suffix3.length) !== -1 ||
@@ -301,10 +304,12 @@ function check_file(){
     str.indexOf(suffix9, str.length - suffix9.length) !== -1 ||
     str.indexOf(suffix10, str.length - suffix10.length) !== -1 ||
     str.indexOf(suffix11, str.length - suffix11.length) !== -1 ||
-    str.indexOf(suffix12, str.length - suffix12.length) !== -1)){
+    str.indexOf(suffix12, str.length - suffix12.length) !== -1 ||
+    str.indexOf(suffix13, str.length - suffix13.length) !== -1 ||
+    str.indexOf(suffix14, str.length - suffix14.length) !== -1)){
     alert('File type not allowed\n');
-    document.getElementById('fileToUpload').value='';
-  }
+  document.getElementById('fileToUpload').value='';
+}
 }
 
 
