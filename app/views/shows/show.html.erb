@@ -1,5 +1,5 @@
 <% if params[:email].present? || params[:from_id].present? %>
-  <%= render :partial=>"shows/show/invitation_message" %>
+  <%= render :partial=>"shows/show/invitation_mesage",:locals => { :show => @show} %>
 <% end %>
 
 <%= render :partial => "show", :locals => { :show => @show, 
