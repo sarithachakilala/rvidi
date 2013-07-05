@@ -52,7 +52,7 @@
       e.preventDefault();
       facebook_send_message_to_invite($(this).attr('id'), '<%= j current_user.full_name %>',
                                       '<%= j configatron.site_address_full %>',
-                                      '<%= current_user.id %>', '<%= params[:id]%>');
+                                      '<%= current_user.id %>', '<%= params[:id] %>');
     });
   
     jQuery(document).ready(function($){

@@ -1,14 +1,49 @@
-// Blocked to make consistancy for twitter and facebook login
-// jQuery(function() {
-//   $('body').prepend('<div id="fb-root"></div>');
-//   return $.ajax({
-//     url: "" + window.location.protocol + "//connect.facebook.net/en_US/all.js",
-//     dataType: 'script',
-//     cache: true
-//   });
-// });
+// Send message to facebook user
+function facebook_send_message(element_id, name, profile_picture, site_address,from_id) {
+  FB.ui(
+  {
+    method: 'send',
+    to: element_id,
+    name: 'Sign up for rvidi - Just like '+name+'!',
+    link: 'http://rvidi.qwinixtech.com/users/new?from_id='+from_id,
+    picture: 'http://rvidi.qwinixtech.com/assets/logo/rvidifb.png',
+    description: 'Join '+name+' on rvidi.'
+  },
+  function(response) {
+    if (response) {
+      alert('Post was published.');
+    } else {
+      alert('Post was not published.');
+    }
+  }
+  );
+}
+
+
+
+function facebook_send_message_to_invite(element_id, name, site_address, from_id, show_id) {
+  FB.ui(
+  {
+    method: 'send',
+    to: element_id,
+    name: 'Sign up for rVidi - Just like '+name+'!',
+    link: "http://rvidi.qwinixtech.com/" + show_id +'?from_id='+from_id,
+    description: 'Join '+name+' on rVidi.',
+    picture: "http://rvidi.qwinixtech.com/assets/logo/rvidifb.png"
+  },
+  function(response) {
+    if (response) {
+      alert('Post was published.');
+    } else {
+      alert('Post was not published.');
+    }
+  }
+  );
+}
+
 
 function get_facebook_friends() {
+  var csrfToken = $('meta[name="csrf-token"]').attr('content');
   FB.api('/me/friends', {
     fields: 'name,id,picture'
   }, function(response) {
@@ -16,6 +51,9 @@ function get_facebook_friends() {
       url: "/users/add_facebook_friends",
       data: JSON.stringify(response),
       type: 'POST',
+      headers: {
+        'X-CSRF-Token': csrfToken
+      },
       dataType: 'script',
       contentType: "application/json",
       error : function(xhr, status, response) {
@@ -34,7 +72,7 @@ function login() {
 
     } else {
       alert("Something wrong");
-  }
+    }
   });
 }
   
@@ -43,7 +81,7 @@ function invite_friends() {
   {
     if(response.status === 'connected') {
       // connected
-      login();
+      get_facebook_friends();
     } else if (response.status === 'not_authorized') {
       // not_authorized
       login();

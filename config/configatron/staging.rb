@@ -4,7 +4,7 @@
 configatron.host = 'rvidi.qwinixtech.com'
 configatron.site_name = 'staging-rvidi'
 configatron.site_address = 'rvidi.qwinixtech.com'
-configatron.site_address_full = 'http://rvidi.qwinixtech.com'
+configatron.site_address_full = 'http://rvidi.qwinixtech.com/'
 
 # Facebook Registration Values:
 configatron.facebook_app_id = '602532909766076'

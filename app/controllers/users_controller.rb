@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_filter :get_user, :only => [:profile, :update, :show, :getting_started, :dashboard, :friends, :friend_profile]
-
+  before_filter :require_user, :only => [:add_facebook_friends]
   def new
     @user = User.new
     respond_to do |format|
