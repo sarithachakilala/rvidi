@@ -1,93 +1,93 @@
 <!-- If the sow is protected show an overlay -->
 <% if @show_preference == Show::Display_Preferences::NOT_AUTHENTICATED %>
-  <div class="login_container">
+<div class="login_container">
+  <div class="">
+    <h3 id="myModalLabel">This Show is Password Protected</h3>
+  </div>
+  <%= form_tag check_password_shows_path do %>
+  <div class="row-fluid">
     <div class="">
-      <h3 id="myModalLabel">This Show is Password Protected</h3>
+      <div class="control-group">
+        <label class="control-label" for="inputEmail">Please enter the password to view the show:</label>
+        <div class="controls">
+          <%= password_field_tag :password %>
+          <%= hidden_field_tag :show_id, params[:id] %>
+        </div>
+      </div>
+      <div class="">
+        <%= link_to "Cancel", root_url, :class => "btn btn-info data-dismiss aria-hidden='true'" %>
+        <%= submit_tag "Submit", :class => "btn btn-warning" %>
+      </div>
     </div>
-    <%= form_tag check_password_shows_path do %>
-      <div class="row-fluid">
-        <div class="">
-          <div class="control-group">
-            <label class="control-label" for="inputEmail">Please enter the password to view the show:</label>
-            <div class="controls">
-              <%= password_field_tag :password %>
-              <%= hidden_field_tag :show_id, params[:id] %>
-            </div>
-          </div>
-          <div class="">
-            <%= link_to "Cancel", root_url, :class => "btn btn-info data-dismiss aria-hidden='true'" %>
-            <%= submit_tag "Submit", :class => "btn btn-warning" %>
+  </div>
+  <% end %>
+</div>
+
+<% elsif @show_preference == Show::Display_Preferences::NON_FRIEND %>
+<div class="login_container">
+  <div class="">
+    <h3 id="myModalLabel">This Show is visible to Friends</h3>
+  </div>
+</div>
+
+<% else %>
+<div class="player-box">
+  <div class="padding-left-10">
+    <div class="font-size-16 bold"><%= show.title.capitalize %></div>
+    <div class="font-size-12"><%= show.director.full_name.titlecase %></div>
+  </div>
+
+  <!-- Kaltura Playlist -->
+  <div id="show_<%= show.id %>_kaltura_player_container">
+    <% selected_cameo = (cameo.present? && cameo.status =="enabled") ? cameo :  show.cameos('show_order asc').where(:status=> "enabled").first%>
+    <% if params[:controller] == 'shows' && params[:action] == 'show' %>
+    <%= render :partial => "shows/player/cameo_player", :locals => { :cameo => selected_cameo, :width=>"100%", :height=>"400px" } %>
+    <% else %>
+    <%= render :partial => "shows/player/cameo_player_without_playlist", :locals => { :cameo => selected_cameo, :width=>"100%", :height=>"400px" } %>
+    <% end %>
+  </div>
+
+  <% if params[:controller] == 'shows' && params[:action] != 'show' %>
+  <%= render :partial=>"edit/players_and_contributers", :locals=>{:show => show} %>
+  <% end %>
+
+</div>
+
+<!-- Show Details -->
+<%= render :partial=>"shows/show/details", :locals=>{:show => show,
+  :cameo => cameo,
+  :show_comments => show_comments,
+  :all_comments => all_comments} %>
+
+
+  <div class="">
+    <div class="buttons_height_100">
+      <div class="hr_bg_welcome" style="">
+        <div class="text_align_center add_cameo_btn">
+          <% unless @sum_duration_of_cameos.to_i > @show.duration.to_i%>
+          <% unless @show.try(:end_set) && (@show.end_set < Time.now) %>
+          <% if show.contributor_preferences != Show::Contributor_Preferences::PRIVATE %>
+          <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe,
+          new_cameo_path(:show_id => show.id,
+            :director_id => show.user_id,
+            :from => params[:from],
+            :through => params[:email]),
+            :class => "btn btn-info", :style => '' %>
+            <i class="sprite-or-icon_black" style=""></i>
+            <% elsif show.contributor_preferences == Show::Contributor_Preferences::PRIVATE &&
+            current_user.present? && show.user_id==current_user.id %>
+            <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
+            <i class="sprite-or-icon_black" style=''></i>
+            <% elsif show.contributor_preferences == "private" && @invited.present? %>
+            <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
+            <i class="sprite-or-icon_black"  style=''></i>
+            <% end %>
+            <% end %>
+            <% end %>
+
+            <%= link_to "<i class='sprite-camera-white'></i> Start a New Show".html_safe, new_show_path, :class => "btn btn-warning" %>
           </div>
         </div>
       </div>
+    </div>
     <% end %>
-  </div>
-
-<% elsif @show_preference == Show::Display_Preferences::NON_FRIEND %>
-  <div class="login_container">
-    <div class="">
-      <h3 id="myModalLabel">This Show is visible to Friends</h3>
-    </div>
-  </div>
-
-<% else %>
-  <div class="player-box">
-    <div class="padding-left-10">
-      <div class="font-size-16 bold"><%= show.title.capitalize %></div>
-      <div class="font-size-12"><%= show.director.full_name.titlecase %></div>
-    </div>
-
-    <!-- Kaltura Playlist -->
-    <div id="show_<%= show.id %>_kaltura_player_container">
-      <% selected_cameo = (cameo.present? && cameo.status =="enabled") ? cameo :  show.cameos('show_order asc').where(:status=> "enabled").first%>
-      <% if params[:controller] == 'shows' && params[:action] == 'show' %>
-        <%= render :partial => "shows/player/cameo_player", :locals => { :cameo => selected_cameo, :width=>"100%", :height=>"400px" } %>
-      <% else %>
-        <%= render :partial => "shows/player/cameo_player_without_playlist", :locals => { :cameo => selected_cameo, :width=>"100%", :height=>"400px" } %>
-      <% end %>
-    </div>
-
-    <% if params[:controller] == 'shows' && params[:action] != 'show' %>
-      <%= render :partial=>"edit/players_and_contributers", :locals=>{:show => show} %>
-    <% end %>
-
-  </div>
-
-  <!-- Show Details -->
-  <%= render :partial=>"shows/show/details", :locals=>{:show => show,
-    :cameo => cameo,
-    :show_comments => show_comments,
-    :all_comments => all_comments} %>
-
-
-<div class="">
-  <div class="buttons_height_100">
-    <div class="hr_bg_welcome" style="">
-      <div class="text_align_center add_cameo_btn">
-        <% unless @sum_duration_of_cameos.to_i > @show.duration.to_i%>
-          <% unless @show.try(:end_set) && (@show.end_set < Time.now) %>
-            <% if show.contributor_preferences != Show::Contributor_Preferences::PRIVATE %>
-              <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe,
-                new_cameo_path(:show_id => show.id,
-                :director_id => show.user_id,
-                :from => params[:from],
-                :through => params[:email]),
-                :class => "btn btn-info", :style => '' %>
-              <i class="sprite-or-icon_black" style=""></i>
-            <% elsif show.contributor_preferences == Show::Contributor_Preferences::PRIVATE &&
-                current_user.present? && show.user_id==current_user.id %>
-              <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
-              <i class="sprite-or-icon_black" style=''></i>
-            <% elsif show.contributor_preferences == "private" && @invited.present? %>
-              <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
-              <i class="sprite-or-icon_black"  style=''></i>
-            <% end %>
-          <% end %>
-        <% end %>
-
-        <%= link_to "<i class='sprite-camera-white'></i> Start a New Show".html_safe, new_show_path, :class => "btn btn-warning" %>
-      </div>
-    </div>
-  </div>
-</div>
-<% end %>

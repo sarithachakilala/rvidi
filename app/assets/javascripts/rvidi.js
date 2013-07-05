@@ -26,6 +26,8 @@ jQuery(document).ready(function($){
       $(this).closest('label').siblings('div.download-pref-section').css('display','none');
     }
   });
+
+
 });
 
 // Send message to facebook user
@@ -68,6 +70,14 @@ function facebook_send_message_to_invite(element_id, name, site_address, from_id
     }
   }
   );
+}
+
+if(navigator.userAgent.match(/firefox/i)) {
+  $(document).on('click', 'label.label-upload-image', function (e) {
+    if (e.currentTarget === this && e.target.nodeName !== 'INPUT') {
+      $(this.control).click();
+    }
+  });
 }
 
 
