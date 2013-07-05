@@ -26,6 +26,13 @@ jQuery(document).ready(function($){
       $(this).closest('label').siblings('div.download-pref-section').css('display','none');
     }
   });
+
+  $('#jQueryCityAutocomplete').keydown(function(event){
+    if(event.keyCode == 13) {
+      event.preventDefault();
+    }
+
+  });
 });
 
 // Send message to facebook user
