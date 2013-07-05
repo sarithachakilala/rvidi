@@ -19,4 +19,11 @@
     <%= render :partial => "shows/player/manage_cameos", :locals => {  } %>
     
   </div>
+  <div class="span2"> 
+    <div class="progress progress-striped" style="20%">
+      <div class="bar" style="width:<%= @contribution_percentage %>%;"></div>
+    </div>
+  </div>
+  <div class="span1 font_weight_bold"><%= @contribution_percentage.round(2)%>%</div>
+
 </div>

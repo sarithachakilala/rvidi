@@ -1,5 +1,5 @@
 class ShowsController < ApplicationController
-  
+
   before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
   before_filter :parse_filters_from_url
   
@@ -34,9 +34,8 @@ class ShowsController < ApplicationController
     end
 
     # finding the duration of sum of all cameos
-    array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration)
-    @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
-    @contribution_percentage = (@sum_duration_of_cameos) * 100 / @show.duration
+    @show.caluculating_percentage_and_duration(@show)
+    @contribution_percentage ||= 0
 
     @display_prefernce = params[:preference].present? ? params[:preference] : @show.display_preferences
     @show.update_attribute(:number_of_views, (@show.number_of_views.to_i+1))
@@ -45,7 +44,7 @@ class ShowsController < ApplicationController
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
     @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
-   
+
     if params[:to_contribute].present?
       @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id)
       @notification.update_all(:read_status =>true) if @notification
@@ -62,7 +61,7 @@ class ShowsController < ApplicationController
 
   ## GET /show/new
   def new
-    
+
     ## Get a time stamp and store it in hidden field of the form .
     ## This time stamp is used for generating the file name 
     ## This helps the create action to find the exact file uploaded by the user, (doesn't matter if 2 or more users are recording concurrently.)
@@ -86,6 +85,9 @@ class ShowsController < ApplicationController
   def edit
     @show = Show.find(params[:id])
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
+    # finding the duration of sum of all cameos
+    @show.caluculating_percentage_and_duration(@show)
+    @contribution_percentage ||= 0
   end
 
   def create
@@ -113,6 +115,7 @@ class ShowsController < ApplicationController
     respond_to do |format|
       if @success
         invite_friend(params[:selected_friends]) if params[:selected_friends].present?
+        invite_friend_toshow_after_create(params[:email], @show) if params[:email].present?
         format.html { redirect_to @show, notice: 'Show was successfully created. The system will take few minutes to convert the video. Please check back after few minutes.' }
         format.js {}
         format.json { render json: @show, status: :created, location: @show }
@@ -174,7 +177,7 @@ class ShowsController < ApplicationController
   end
 
   def friends_list
-    
+
     #@query = params[:search_val]
     
     #if !@query.blank?
@@ -202,6 +205,15 @@ class ShowsController < ApplicationController
       notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>" has Requested you to contribute for their Show ")
       notification.save!
     end
+  end
+
+  # Inviting friend via an email while creating a show
+  def invite_friend_toshow_after_create(email, show)
+    @user = User.find(current_user.id)
+    RvidiMailer.delay.invite_friend_toshow(email, @user, show.id)
+    InviteFriend.create(:director_id=> show.user_id, :show_id=> show.id, :contributor_id=>@user.id, :status =>"invited" )
+    notification = Notification.new(:show_id => show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>" has Requested you to contribute for their Show ", :to_email=>params[:email])
+    notification.save!
   end
 
   # To invite friend via an email to contribute to show

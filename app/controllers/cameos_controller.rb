@@ -77,7 +77,7 @@ class CameosController < ApplicationController
     else
       @cameo.status = (@cameo.show.need_review == true) ? Cameo::Status::Pending : Cameo::Status::Enabled
     end
-
+    
     @success = @cameo.save
 
     #Creating a notification to the director

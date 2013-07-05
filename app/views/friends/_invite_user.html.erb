@@ -1,6 +1,18 @@
 <div class="row-fluid frinds_row_margin">
-  <% if params[:email_valid] == "true" %>
-    Do you want to send an invitation to the user: <%= params[:search_val]%>
-    <%= link_to "Confirm to send an invite", invite_friend_toshow_shows_path(:email => params[:search_val], :email_from =>session[:user_id], :show_id =>params[:page_id]) ,  :class=> "btn btn-info" %>
-  <% end %>
+	<% if params[:email_valid] == "true" %>
+		Do you want to send an invitation to the user: <%= params[:search_val]%>
+		<% unless params[:page_id].present? %>
+			<%= hidden_field_tag :email, '',:id => "email"%>
+			<%= link_to "Confirm to send an invite", "#",  :class=> "btn btn-info" , :id => "confirming_sending_invitation" %>
+		<% else %>
+			<%= link_to "Confirm to send an invite", invite_friend_toshow_shows_path(:email => params[:search_val], :email_from =>session[:user_id], :show_id =>params[:page_id]) ,  :class=> "btn btn-info" %>
+		<% end %>
+	<% end %>
 </div>
+
+
+<script type ="text/javascript">
+	$('#confirming_sending_invitation').on('click',function(){
+		document.getElementById("email").value = $('#search_value_to_invite').val()
+	})
+</script>

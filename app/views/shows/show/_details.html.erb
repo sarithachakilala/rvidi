@@ -1,10 +1,12 @@
 <div class="player-details-box">
+
   <div class="accordion-inner padding_none">
 
     <div class="row-fluid margin-bottom-20">
-
+      <!-- number of contributors to the no of minutes.. -->
       <div class="span1">
-        <i class="sprite-camera-small"></i> <!-- number of contributors to the no of minutes.. -->
+        <% video_icon =  (@contribution_percentage ==100) ? "sprite-camera-small-disable"  : "sprite-camera-small"  %>
+        <i class= "<%= video_icon %>"></i> 
       </div>
       <!-- To Download complete show -->
       <% if show.download_video?(current_user) %>
@@ -15,12 +17,12 @@
       <div class="span2 ratings_line">
         <%= show.number_of_views %> views
       </div>
-      <div class="span3"> 
+      <div class="span2"> 
         <div class="progress progress-striped" style="20%">
           <div class="bar" style="width:<%= @contribution_percentage %>%;"></div>
         </div>
       </div>
-      <div class="span1 font_weight_bold"><%= @contribution_percentage %>%</div>
+      <div class="span1 font_weight_bold"><%= @contribution_percentage.round(2) %>%</div>
 
 
       <!-- Show Edit button if current user is the directory of the show -->
@@ -90,6 +92,3 @@
 
   </div>
 </div>
-
-
-

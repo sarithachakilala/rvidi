@@ -56,6 +56,12 @@
     width: 25px;
     vertical-align: middle;
 }
+.sprite-camera-small-disable{
+    background-position: -236px -33px;
+    height: 25px;
+    width: 25px;
+    vertical-align: middle;
+}
 .sprite-question-small{
    background-position: -419px -2px;
     height: 27px;
