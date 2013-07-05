@@ -61,7 +61,7 @@ class Show < ActiveRecord::Base
         cameo.update_attributes(:status => "enabled") 
       else
         cameo.update_attributes(:status => "disabled") 
-      end unless (cameo.director_id == cameo.user_id)
+      end 
     end
   end
 

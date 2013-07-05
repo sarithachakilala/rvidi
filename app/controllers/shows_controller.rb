@@ -36,6 +36,7 @@ class ShowsController < ApplicationController
     # finding the duration of sum of all cameos
     array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration)
     @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+    @contribution_percentage = (@sum_duration_of_cameos) * 100 / @show.duration
 
     @display_prefernce = params[:preference].present? ? params[:preference] : @show.display_preferences
     @show.update_attribute(:number_of_views, (@show.number_of_views.to_i+1))
@@ -128,8 +129,8 @@ class ShowsController < ApplicationController
     @show = Show.find(params[:id])
     invite_friend(params[:selected_friends]) if params[:selected_friends].present?
     params[:order_list].split(',').each do |each_cameo_by_order|
-      camoe  = Cameo.find each_cameo_by_order
-      camoe.update_attributes(:show_order => params[:order_list].index(each_cameo_by_order))
+      cameo  = Cameo.find each_cameo_by_order
+      cameo.update_attributes(:show_order => params[:order_list].index(each_cameo_by_order))
     end
     params[:show][:duration] = params[:show][:duration].to_i*60
     respond_to do |format|
@@ -211,7 +212,7 @@ class ShowsController < ApplicationController
     InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
     notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>" has Requested you to contribute for their Show ", :to_email=>params[:email])
     notification.save!
-    redirect_to edit_show_path(:id=>@show.id)
+    redirect_to edit_show_path(:id=>@show.id), :notice => "Invitatiion sent successfully"
   end
 
   def check_password
