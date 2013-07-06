@@ -1,8 +1,11 @@
 class Authentication < ActiveRecord::Base
   belongs_to :user
-  attr_accessible :oauth_expires_at, :oauth_token, :provider, :uid, :user_id, :ouath_token_secret
+  attr_accessible :oauth_expires_at, :oauth_token, :provider, :uid, :user_id,
+                  :ouath_token_secret
 
-  validates :ouath_token_secret, :presence => true, 
+  #Validations
+  
+  validates :ouath_token_secret, :presence => true,
                                  :if => Proc.new { |auth| auth.provider == "twitter" }
 
   validates :oauth_expires_at, :presence => true,

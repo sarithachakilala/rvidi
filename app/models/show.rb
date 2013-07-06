@@ -22,13 +22,21 @@ class Show < ActiveRecord::Base
     NOT_AUTHENTICATED = 2
   end
   
-  attr_accessible :user_id, :title, :description, :display_preferences, :display_preferences_password,
-  :contributor_preferences, :contributor_preferences_password, :need_review,
-  :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
-  :download_preference, :download_url
+  attr_accessible :user_id, :title, :description, :display_preferences, 
+    :display_preferences_password, :contributor_preferences,
+    :contributor_preferences_password, :need_review,
+    :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
+    :download_preference, :download_url
 
   after_create :create_permalink
 
+  # Associations
+  belongs_to :director, :class_name => "User", :foreign_key => "user_id"
+  has_many :cameos, :dependent => :destroy
+  accepts_nested_attributes_for :cameos
+  has_many :comments, :dependent => :destroy
+
+  
   # Validations
   validates :user_id, :presence => true
   validates :title, :presence => true
@@ -38,15 +46,10 @@ class Show < ActiveRecord::Base
   validates :display_preferences_password, :presence => true, :if => Proc.new {|dpp| dpp.display_preferences == "password_protected" }
   validates :contributor_preferences_password, :presence => true, :if => Proc.new {|cpp| cpp.contributor_preferences == "password_protected" }
 
-  # Associations
-  belongs_to :director, :class_name => "User", :foreign_key => "user_id"
-  has_many :cameos, :dependent => :destroy
-  accepts_nested_attributes_for :cameos
-  has_many :comments, :dependent => :destroy
-
+ 
   # Callbacks
-  #before_create :create_playlist
-
+  #######
+  
   # Scope
   scope :public_shows, where(:display_preferences => "public")  
   scope :public_private_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'private')  
@@ -212,10 +215,11 @@ class Show < ActiveRecord::Base
     if show.cameos.present?
       array_of_cameo_duration = show.cameos.where(:status => "enabled").collect(&:duration)
       @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
-      @contribution_percentage = (@sum_duration_of_cameos) * 100 / show.duration
+      @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / show.duration
     end
-      @contribution_percentage ||= 0
+    @contribution_percentage ||= 0
   end
 
 end
 
+  

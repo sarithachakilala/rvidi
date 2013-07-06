@@ -210,9 +210,13 @@ class ShowsController < ApplicationController
   # Inviting friend via an email while creating a show
   def invite_friend_toshow_after_create(email, show)
     @user = User.find(current_user.id)
-    RvidiMailer.delay.invite_friend_toshow(email, @user, show.id)
-    InviteFriend.create(:director_id=> show.user_id, :show_id=> show.id, :contributor_id=>@user.id, :status =>"invited" )
-    notification = Notification.new(:show_id => show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>" has Requested you to contribute for their Show ", :to_email=>params[:email])
+    RvidiMailer.invite_friend_to_show(email, current_user, show.id).deliver
+    InviteFriend.create(:director_id => show.user_id, :show_id => show.id,
+                        :contributor_id => current_user.id, :status =>"invited" )
+                      
+    notification = Notification.new(:show_id => show.id, :from_id => current_user.id, 
+                                    :to_id => '', :status => "contribute",
+                                    :content =>" has Requested you to contribute for their Show ", :to_email=>params[:email])
     notification.save!
   end
 
@@ -220,7 +224,7 @@ class ShowsController < ApplicationController
   def invite_friend_toshow
     @show = Show.find(params[:show_id])
     @user = User.find(params[:email_from])
-    RvidiMailer.delay.invite_friend_toshow(params[:email], @user, @show.id)
+    RvidiMailer.invite_friend_to_show(params[:email], @user, @show.id).deliver
     InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
     notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>" has Requested you to contribute for their Show ", :to_email=>params[:email])
     notification.save!
