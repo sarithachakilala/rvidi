@@ -239,9 +239,10 @@ class ShowsController < ApplicationController
     end
     if @show.display_preferences_password == params[:password]
       session[:display_preference] = "checked"
-      redirect_to show_path(:id=>@show.permalink, :preference => @display_prefernce)
+      redirect_to show_path(:id => @show.permalink, :preference => @display_prefernce)
     else
-      redirect_to show_path(:id=>@show.permalink), :notice => "Invalid Password: Please enter the correct password! "
+      redirect_to show_path(:id => @show.permalink),
+           :notice => "Invalid Password: Please enter the correct password! "
     end
   end
   

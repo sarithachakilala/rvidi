@@ -70,10 +70,15 @@ public function init():void {
 
 private function recClicked():void { 
 	if (rec_btn.selected) {
+		rec_btn.label="Stop";
+		timeLeft = myRecorder.maxLength.toString();
+		myRecorder.timeLeft = int(myRecorder.maxLength);
+		myRecorder.recordingText = "Recording...";
 		recordingTimer.start();
 		recordStart();
 	}
 	if (!rec_btn.selected) {
+		rec_btn.label="Record";
 		recordingTimer.stop();
 		recordFinished();
 	}
@@ -169,7 +174,10 @@ private  function decrementTimer( event:TimerEvent ):void {
 	
 	// format to display mm:ss format
 	if (myRecorder.timeLeft==0) {
+		recordingTimer.stop();
 		recordFinished();
+		timeLeft="00:00"
+		myRecorder.recordingText = "";
 	}
 }
 

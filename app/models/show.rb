@@ -43,7 +43,8 @@ class Show < ActiveRecord::Base
   validates :description, :presence => true
   validates :display_preferences, :presence => true
   validates :contributor_preferences, :presence => true
-  validates :display_preferences_password, :presence => true, :if => Proc.new {|dpp| dpp.display_preferences == "password_protected" }
+  validates :display_preferences_password, :presence => true,
+    :if => Proc.new {|dpp| dpp.display_preferences == Show::Contributor_Preferences::PASSWORD_PROTECTED }
   validates :contributor_preferences_password, :presence => true, :if => Proc.new {|cpp| cpp.contributor_preferences == "password_protected" }
 
  
@@ -153,7 +154,7 @@ class Show < ActiveRecord::Base
       when Show::Download_Preferences::ME
         director == current_user
       when Show::Download_Preferences::FRIENDS
-        current_user.is_friend?(director)
+        current_user == director || current_user.is_friend?(director)
       when Show::Download_Preferences::PUBLIC
         true
       end

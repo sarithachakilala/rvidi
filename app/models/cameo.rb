@@ -6,6 +6,8 @@ class Cameo < ActiveRecord::Base
     Disabled  = 'disabled'
   end
 
+  MAX_LENGTH = 60
+
   attr_accessor :video_file, :audio_file, :recorded_file
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, 
     :description, :thumbnail_url, :download_url, :duration,
