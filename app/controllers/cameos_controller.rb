@@ -119,9 +119,7 @@ class CameosController < ApplicationController
 
   def destroy
     @cameo = Cameo.find(params[:id])
-    kaltura_entry_id = @cameo.kaltura_entry_id
-    @success = @cameo.destroy
-
+    @cameo.destroy_cameo
     respond_to do |format|
       format.html { redirect_to cameos_url }
       format.js {}

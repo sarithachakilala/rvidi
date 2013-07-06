@@ -29,7 +29,7 @@ class Cameo < ActiveRecord::Base
 
   
   # Callbacks
-  after_destroy :delete_kaltura_video
+  #before_destroy :delete_kaltura_video
 
   # Scopes
   scope :enabled, where("status like ?", Cameo::Status::Enabled )
@@ -85,8 +85,9 @@ class Cameo < ActiveRecord::Base
       media_entry = client.base_entry_service.get(kaltura_entry_id)
     end
 
-    def delete_kaltura_video(kaltura_entry_id, client, ks)
-      media_entry = client.media_service.delete(kaltura_entry_id, ks)
+    def delete_kaltura_video
+      client = Cameo.get_kaltura_client(user)
+      client.media_service.delete(kaltura_entry_id, client.ks)
     end
 
     def get_cameo_file current_user, tstamp
@@ -123,7 +124,7 @@ class Cameo < ActiveRecord::Base
   # INSTANCE METHODS
   def delete_kaltura_video
     client = Cameo.get_kaltura_client(self.user_id)
-    media_entry = client.base_entry_service.delete(kaltura_entry_id, client.ks)
+    client.base_entry_service.delete(kaltura_entry_id, client.ks)
   end
   
   def upload_video_to_kaltura(video, client, ks)
@@ -153,11 +154,20 @@ class Cameo < ActiveRecord::Base
   end
 
   def get_kaltura_video(client, kaltura_entry_id)
-    media_entry = client.base_entry_service.get(kaltura_entry_id)        
+    client.base_entry_service.get(kaltura_entry_id)
   end
   
   def latest_cameo_order
     Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.try(:show_order) || 0
+  end
+
+  def destroy_cameo
+    begin
+      delete_kaltura_video
+      destroy
+    rescue 
+      destroy
+    end
   end
   
 end
