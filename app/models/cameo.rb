@@ -169,5 +169,10 @@ class Cameo < ActiveRecord::Base
       destroy
     end
   end
+
+  def invite_my_friend_to_this_show?(current_user)
+    show.contributor_preferences == Show::Contributor_Preferences::PUBLIC ||
+                                    show.director == current_user
+  end
   
 end

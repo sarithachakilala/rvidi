@@ -1,5 +1,3 @@
-
-
 <% if @show_preference == Show::Contributor_Preferences::NOT_AUTHENTICATED %>
   <%# if current_user.present? && @cameo.director_id!=current_user.id %>
     <%= form_tag check_password_cameos_path do %>
@@ -40,8 +38,8 @@
     <%= render :partial => "shows/form/record_cameo_block", :locals => { :f => f, :title=>"Record the Cameo" } %>
     
     <!-- Invite Friends from Facebook and Twitter (White Box) -->
-    <% if @cameo.show.contributor_preferences == "public" || @cameo.director_id == current_user.id %>
-      <%= render :partial=> "shows/form/invite_friends_block", :locals =>{ :f => f } %>
+    <% if @cameo.invite_my_friend_to_this_show?(current_user) %>
+      <%= render :partial => "shows/form/invite_friends_block", :locals => { :f => f } %>
     <% end %>
     <!-- Show Publish Button which submits the form -->
     <div class="buttons_height">
