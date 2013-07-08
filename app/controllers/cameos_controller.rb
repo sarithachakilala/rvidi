@@ -29,6 +29,7 @@ class CameosController < ApplicationController
     
     ## Get the friend list
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
+    @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
     
     respond_to do |format|
       format.html # new.html.erb
@@ -130,7 +131,7 @@ class CameosController < ApplicationController
   def check_password
     @show = Show.find(params[:show_id])
     if @show.contributor_preferences_password == params[:password]
-      # @contribution_prefernce = "checked"
+      @contribution_prefernce = "checked"
       session[:contribution_preference] = "checked"
       redirect_to new_cameo_path(:preference => @contribution_prefernce, :show_id => params[:show_id], :director_id => @show.user_id)
     else

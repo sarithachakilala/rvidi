@@ -1,30 +1,40 @@
-<% if @show_preference == Show::Contributor_Preferences::NOT_AUTHENTICATED %>
-  <%# if current_user.present? && @cameo.director_id!=current_user.id %>
-  <%= form_tag check_password_cameos_path do %>
-    <div class="login_container">
-      <div class="">
-        <h3 id="myModalLabel">This Show is Password Protected</h3>
-      </div>
-      <div class="">
-        <div class="control-group">
-          <label class="control-label" for="inputEmail">Password</label>
-          <div class="controls">
-            <%= password_field_tag :password %>
-            <%= hidden_field_tag :show_id, params[:show_id] %>
+
+<!-- If the show is protected  -->
+<% if @contribution_preference == "password_protected" %>
+  <% if current_user.present? && @cameo.show.user_id!=current_user.id %>
+    <%= form_tag check_password_cameos_path do %>
+      <div class="login_container">
+        <div class="">
+          <h3 id="myModalLabel">This Show is Password Protected</h3>
+        </div>
+        <div class="">
+          <div class="control-group">
+            <label class="control-label" for="inputEmail">Password</label>
+            <div class="controls">
+              <%= password_field_tag :password %>
+              <%= hidden_field_tag :show_id, params[:show_id] %>
+            </div>
           </div>
         </div>
+        <div class="">
+          <%= link_to "Close", root_url, :class => "btn btn-info" %>
+          <%= submit_tag "Submit", :class => "btn btn-warning" %>
+        </div>
       </div>
-      <div class="">
-        <%= link_to "Close", root_url, :class => "btn btn-info" %>
-        <%= submit_tag "Submit", :class => "btn btn-warning" %>
-      </div>
-    </div>
+    <% end %>
   <% end %>
-<% elsif @show_preference == Show::Contributor_Preferences::NON_FRIEND %>
+
+ <!-- Verifying whether the user is invited to the show or not -->
+<% elsif @contribution_preference =="private" &&  @cameo.show.user_id!=current_user.id && !@invited.present? %>
   <div class="login_container">
     <div class="">
-      <h3 id="myModalLabel">This Show is visible to Friends</h3>
+      <h3 id="myModalLabel">This Show is Private and you are not invited to contribute this Show yet</h3>
     </div>
+  </div>  
+  <div class="hr_bg_welcome" style="">
+      <div class="text_align_center add_cameo_btn">
+         <%= link_to "Go Back", root_url, :class => "btn btn-info", :style => "margin-top:8px;" %>
+      </div>
   </div>
 
 <% else %>
