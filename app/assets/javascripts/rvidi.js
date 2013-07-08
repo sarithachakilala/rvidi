@@ -36,7 +36,7 @@ $('#jQueryCityAutocomplete').keydown(function(event){
 });
 
 
-if(navigator.userAgent.match(/firefox/i)) {
+if(navigator.userAgent.match(/firefox/i) && navigator.userAgent.match(/linux/i)) {
   $(document).on('click', 'label.label-upload-image', function (e) {
     if (e.currentTarget == this && e.target.nodeName != 'INPUT') {
       $(this.control).click();
