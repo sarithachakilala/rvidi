@@ -75,6 +75,8 @@ class User < ActiveRecord::Base
         existing_user
       else
         user.username = auth.extra.raw_info.username
+        user.first_name = auth.info.first_name if auth.info.first_name.present?
+        user.last_name = auth.info.last_name if auth.info.last_name.present?
         user.email = auth.info.email
         user.description = auth.extra.raw_info.bio
         user.city = auth.extra.raw_info.hometown.name if auth.extra.raw_info.hometown.present?
