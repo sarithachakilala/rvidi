@@ -4,6 +4,7 @@
 
     <div class="row-fluid margin-bottom-20">
       <!-- number of contributors to the no of minutes.. -->
+      <% @contribution_percentage = @contribution_percentage.present? ? @contribution_percentage : 0%>
       <div class="span1">
         <% video_icon =  (@contribution_percentage ==100) ? "sprite-camera-small-disable"  : "sprite-camera-small"  %>
         <i class= "<%= video_icon %>"></i> 
@@ -17,6 +18,7 @@
       <div class="span2 ratings_line">
         <%= show.number_of_views %> views
       </div>
+
       <div class="span2"> 
         <div class="progress progress-striped" style="">
           <div class="bar" style="width:<%= @contribution_percentage %>"></div>

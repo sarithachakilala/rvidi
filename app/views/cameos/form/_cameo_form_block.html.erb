@@ -1,4 +1,4 @@
-<% if @cameo_duration >= @remaining_contribution %>
+<% if @cameo_duration.present? && @cameo_duration >= @remaining_contribution %>
  <div class="alert alert-error">
     <button type="button" class="close" data-dismiss="alert">&times;</button>
     <%= content_tag :div, "Your cameo exceeds the show limit. you can contribute a cameo length of #{@remaining_contribution} seconds" %>

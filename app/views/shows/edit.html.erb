@@ -7,9 +7,6 @@
   <!-- Record the Opening Cameo (White Box) -->
   <%= render :partial => "shows/form/edit_contributors", :locals => { :f => f } %>
 
-  <!-- Clip the playing Cameo (White Box) -->
-  <%#= render :partial => "cameos/form/cameo_form_block", :locals => { :f => @show.cameo, :title=>"Cameo Details" } %>
-  
   <!-- Invite Friends from Facebook and Twitter (White Box) -->
   <%= render :partial=> "shows/form/invite_friends_block", :locals =>{ :f => f } %>
   
@@ -39,11 +36,14 @@
     <script>
       var PARTNER_ID = "<%= configatron.kaltura_partner_id %>"
       var ENTRY_ID = "<%= @show.cameos('show_order asc').first.kaltura_entry_id %>"
-      var TARGET_DIV_ID = "kaltura_player_<%= @show.id %>"
+      var TARGET_DIV_ID1 = "kaltura_player_<%= @show.id %>"
+      var TARGET_DIV_ID2 = "kaltura_clipper_<%= @show.id %>"
     <% if params[:controller] == 'shows' && params[:action] == 'show' %>
-        loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, true, '<%= @show.kaltura_playlist_id %>' );
+        loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID1, true, '<%= @show.kaltura_playlist_id %>' );
+        loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID2, false, '<%= @show.kaltura_playlist_id %>' );
     <% else %>
-        loadKalturaPlayerWithoutPlaylist(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, true);
+        loadKalturaPlayerWithoutPlaylist(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID1, true);
+        loadKalturaPlayerWithoutPlaylist(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID2, false);
     <% end %>
     </script>
   <% end %>
