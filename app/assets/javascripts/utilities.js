@@ -308,50 +308,58 @@ function check_file(){
     str.indexOf(suffix13, str.length - suffix13.length) !== -1 ||
     str.indexOf(suffix14, str.length - suffix14.length) !== -1)){
     alert('File type not allowed\n');
-  document.getElementById('fileToUpload').value='';
-}
-}
-
-
-$(function() {
-  $( "#sortable" ).sortable({
-    stop: function(){
-      var listItem = $("div#sortable div.ui-state-default")
-      var listLength = listItem.length;
-      var list = [];
-      for(var i=0; i<listLength; i++){
-        // list[i] = listItem[i].id;}
-        list[i] = $(listItem[i]).attr('data-id');
-      }
-      document.getElementById("order_list").value = list
-    }
-  });
-  $( "#sortable" ).disableSelection();
-});
-
-
-// Presently not using.
-function sortList() {
-  var listItem = $("div#sortable div.ui-state-default")
-  var listLength = listItem.length;
-  var list = [];
-  for(var i=0; i<listLength; i++){
-    // list[i] = listItem[i].id;}
-    list[i] = $(listItem[i]).attr('data-id');
+    document.getElementById('fileToUpload').value='';
   }
-  document.getElementById("order_list").value = list
 }
+function check_image(){
+  str=document.getElementById('fileToUpload').value.toUpperCase();
+  suffix=".PNG";
+  suffix2=".JPG";
+  if(!(str.indexOf(suffix, str.length - suffix.length) !== -1||
+    str.indexOf(suffix2, str.length - suffix2.length) !== -1 )){
+    alert('File type not allowed\n');
+    document.getElementById('fileToUpload').value='';
+  }
+}
+  $(function() {
+    $( "#sortable" ).sortable({
+      stop: function(){
+        var listItem = $("div#sortable div.ui-state-default")
+        var listLength = listItem.length;
+        var list = [];
+        for(var i=0; i<listLength; i++){
+          // list[i] = listItem[i].id;}
+          list[i] = $(listItem[i]).attr('data-id');
+        }
+        document.getElementById("order_list").value = list
+      }
+    });
+    $( "#sortable" ).disableSelection();
+  });
 
-function checking_display_pwd_field(){
-  if ($("#show_display_preferences_password_protected").is(":checked")) 
-    $("#show_display_preferences_password").css("display","block");        
-  else
-    $("#show_display_preferences_password").css("display","none");   
-}
 
-function checking_contributor_pwd_field(){
-  if ($("#show_contributor_preferences_password_protected").is(":checked")) 
-    $("#show_contributor_preferences_password").css("display","block");        
-  else
-    $("#show_contributor_preferences_password").css("display","none");        
-}
+  // Presently not using.
+  function sortList() {
+    var listItem = $("div#sortable div.ui-state-default")
+    var listLength = listItem.length;
+    var list = [];
+    for(var i=0; i<listLength; i++){
+      // list[i] = listItem[i].id;}
+      list[i] = $(listItem[i]).attr('data-id');
+    }
+    document.getElementById("order_list").value = list
+  }
+
+  function checking_display_pwd_field(){
+    if ($("#show_display_preferences_password_protected").is(":checked"))
+      $("#show_display_preferences_password").css("display","block");
+    else
+      $("#show_display_preferences_password").css("display","none");
+  }
+
+  function checking_contributor_pwd_field(){
+    if ($("#show_contributor_preferences_password_protected").is(":checked"))
+      $("#show_contributor_preferences_password").css("display","block");
+    else
+      $("#show_contributor_preferences_password").css("display","none");
+  }
