@@ -524,9 +524,9 @@
 .hr_bg_welcome{
      background: url("/assets/white_hr.png") no-repeat;
     margin-top: 40px;
-     margin-left: 50px;
+     margin-left: 67px;
      position: absolute;
-     width: 800px;
+     width: 830px;
 }
 .hr_bg_gettingstarted{
     background: url("/assets/white_hr.png") no-repeat scroll 0 0 transparent;
@@ -828,4 +828,11 @@ padding-left: 20px;
     background-position: -25px -25px;
     height: 25px;
     width: 25px;
+}
+
+
+.getting_started_text{
+padding: 3px 10px 10px 14px;
+text-align:justify;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;!important;
 }

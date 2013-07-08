@@ -214,7 +214,6 @@ class Show < ActiveRecord::Base
       @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
       @contribution_percentage = (@sum_duration_of_cameos) * 100 / show.duration
     end
-      @contribution_percentage ||= 0
   end
 
 end
