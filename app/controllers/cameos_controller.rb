@@ -39,11 +39,22 @@ class CameosController < ApplicationController
 
   def edit
     @cameo = Cameo.find(params[:id])
+    donwload = `wget -O "#{@cameo.id}.avi" "#{@cameo.download_url}"`
+    duration = `ffmpeg -i "#{@cameo.id}.avi" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
+    @cameo_duration = duration.split(':')[0].to_i*3600 + duration.split(':')[1].to_i*60 + duration.split(':')[2].to_i if duration.present?
+    @show = @cameo.show
+    if @show.cameos.present?
+      array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
+      @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+    end
+    @remaining_contribution = @show.duration - @sum_duration_of_cameos
+    File.delete("#{cameo.id}.avi") if File.exists?("#{cameo.id}.avi")
   end
 
   def create
     # To find the contributed users. 
     @cameo = Cameo.new(params[:cameo])
+    @cameo.published_status = "save_cameo"
     @contributed_users = Cameo.where(:show_id=>@cameo.show_id).collect{|cameo| cameo.user_id if (cameo.user_id != @cameo.director_id) && (cameo.user_id != current_user.id)}.uniq
     @contributed_users.compact.each do |each_contributer|
       notification = Notification.create!(:show_id => @cameo.show_id,
@@ -102,6 +113,7 @@ class CameosController < ApplicationController
 
   def update
     @cameo = Cameo.find(params[:id])
+    @cameo.published_status = "published"
     
     if params[:cameo][:start_time].present? && params[:cameo][:end_time].present?
       @sucess = Cameo.clipping_video(@cameo, session[:client], session[:ks], params[:cameo][:start_time], params[:cameo][:end_time] )
