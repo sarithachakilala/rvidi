@@ -834,5 +834,5 @@ padding-left: 20px;
 .getting_started_text{
 padding: 3px 10px 10px 14px;
 text-align:justify;
-font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;!important;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif, !important;
 }
