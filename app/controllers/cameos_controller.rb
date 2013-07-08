@@ -47,8 +47,8 @@ class CameosController < ApplicationController
       array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
       @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
     end
-    @remaining_contribution = @show.duration - @sum_duration_of_cameos
-    File.delete("#{cameo.id}.avi") if File.exists?("#{cameo.id}.avi")
+    @remaining_contribution = @show.duration.to_f - @sum_duration_of_cameos.to_f
+    File.delete("#{@cameo.id}.avi") if File.exists?("#{@cameo.id}.avi")
   end
 
   def create

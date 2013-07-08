@@ -8,7 +8,7 @@
       <div class="span9">
         <div class="thumbnail_title"><%= link_to cameo.title.present? ? cameo.title.capitalize : "No Title" , cameo_path(:id=>cameo.id) %></div>
         <div class="thumbnail_name"><%= current_user.full_name.titlecase%></div>
-       
+        <div><%= link_to "Edit Cameo", edit_cameo_path(cameo) , :class=>" btn btn-mini btn-info"%> </div>
       </div>
       <div class="span3"> 
         <i class="sprite-thumbnail_title_icon"></i>

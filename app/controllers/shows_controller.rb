@@ -106,6 +106,7 @@ class ShowsController < ApplicationController
     @show = Show.new(params[:show])
     @cameo = @show.cameos.first
     @cameo.status = Cameo::Status::Enabled
+    @cameo.published_status = "published"
     if @cameo.video_file.present?
       media_entry = @cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
