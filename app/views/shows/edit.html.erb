@@ -6,6 +6,9 @@
   
   <!-- Record the Opening Cameo (White Box) -->
   <%= render :partial => "shows/form/edit_contributors", :locals => { :f => f } %>
+
+  <!-- Clip the playing Cameo (White Box) -->
+  <%#= render :partial => "cameos/form/cameo_form_block", :locals => { :f => @show.cameo, :title=>"Cameo Details" } %>
   
   <!-- Invite Friends from Facebook and Twitter (White Box) -->
   <%= render :partial=> "shows/form/invite_friends_block", :locals =>{ :f => f } %>

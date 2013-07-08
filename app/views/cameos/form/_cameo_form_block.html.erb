@@ -48,7 +48,7 @@
             </div>
           </div>
         
-          <div id="show_<%= params[:id] %>_kaltura_player_container">
+          <div id="show_<%= @cameo.show_id %>_kaltura_player_container">
             <% selected_cameo = Cameo.find(params[:id])%>
             <%= render :partial => "shows/player/cameo_player_without_playlist", :locals => { :cameo => selected_cameo, :width=>"100%", :height=>"400px" } %>
           </div>
