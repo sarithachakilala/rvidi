@@ -5,11 +5,12 @@ class User < ActiveRecord::Base
   attr_accessible :email, :password, :password_confirmation, :username, :city, :state, :country,
     :description, :uid, :terms_conditions, :first_name, :last_name, :image, :remote_image_url
     
-  before_save :encrypt_password
-
+  #Associations
+  
   has_many :authentications
-  has_many :shows
-  has_many :cameos
+  has_many :shows, :dependent => :destroy
+  has_many :cameos, :dependent => :destroy
+  has_many :comments, :dependent => :destroy
 
   # VALIDATIONS
   validates :first_name, :last_name, :presence => true
@@ -34,86 +35,94 @@ class User < ActiveRecord::Base
   validates :terms_conditions, :acceptance => true,
     :on => :create
 
+  #Callbacks
+  
+  before_save :encrypt_password
+
+  #Gem Related
   mount_uploader :image, ImageUploader
   
   # CLASS METHODS
-  def self.authenticate(login, password)
-    user = User.find_by_username(login.downcase) || User.find_by_email(login)
-    (user && user.match_password?(password)) ? user : nil
-  end
-
-  # Creating an Authentication Record
-  def self.authentication_record(auth,user)
-    authentication = Authentication.new(:user_id=>user.id, :uid=>auth.uid, :provider=>auth.provider,:oauth_token=>auth.credentials.token , :ouath_token_secret => auth.credentials.secret)
-    authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.credentials.expires_at.present?
-    authentication.save!
-  end
-  
-  def self.from_omniauth(auth)
-    user = User.new
-    user = (auth.provider == "facebook") ? user_facebook_details(auth,user) : user_twitter_details(auth,user)
-  end
-
-  def self.user_facebook_details(auth,user)
-    @fb_access_token = auth['credentials']['token']
-    existing_user = User.find_by_email(auth.info.email)
-    if existing_user
-      authentication = Authentication.where(:user_id => existing_user.id).first
-      unless authentication 
-        authentication_record(auth,existing_user)
-        existing_user.update_attribute(:sign_in_count, (existing_user.sign_in_count-1))
-      else
-        authentication.update_attributes(:oauth_token => auth.credentials.token)        
-      end
-      existing_user
-    else
-      user.username = auth.extra.raw_info.username 
-      user.email = auth.info.email
-      user.description = auth.extra.raw_info.bio 
-      user.city = auth.extra.raw_info.hometown.name if auth.extra.raw_info.hometown.present?
-      user.state = auth.extra.raw_info.location.name if auth.extra.raw_info.location.present?
-      user.save(:validate => false)
-      authentication_record(auth,user) 
-      user
-    end 
-  end 
-
-  def self.user_twitter_details(auth,user)
-    authentication = Authentication.find_by_uid(auth.uid)
-    required_user = authentication.present? ? User.find(authentication.user_id) : nil
-    if required_user.nil?
-      user.username = auth.extra.raw_info.screen_name
-      user.description = auth.extra.raw_info.description
-      user.city = auth.extra.raw_info.location 
-      user.save(:validate => false)
-      authentication_record(auth,user)
-      user
-    else
-      required_user
-    end 
-  end 
-  
-  def self.fetching_facebook 
-    @graph = Koala::Facebook::API.new(@fb_access_token)
-    profile = @graph.get_object("me")
-    @profile_image = @graph.get_picture("me")
-    friends = @graph.get_connections("me", "friends?fields=id, name, picture.type(large)")
-  end 
-  
-  def self.friendmapping_creation(from, friend, stautus)
-    friend_requst1 = FriendMapping.new(:user_id =>from, :friend_id=>friend, :status => stautus, :request_from => from)
-    friend_requst2 = FriendMapping.new(:user_id =>friend, :friend_id=> from, :status => stautus)
-    friend_requst1.save!
-    friend_requst2.save!
-  end
-
-  def self.configure_twitter(auth_token, auth_secret)
-    Twitter.configure do |tw|
-      tw.consumer_key = configatron.twitter_consumer_key
-      tw.consumer_secret = configatron.twitter_consumer_secret
-      tw.oauth_token = auth_token
-      tw.oauth_token_secret = auth_secret
+  class << self
+    def authenticate(login, password)
+      user = User.find_by_username(login.downcase) || User.find_by_email(login)
+      (user && user.match_password?(password)) ? user : nil
     end
+
+    # Creating an Authentication Record
+    def authentication_record(auth,user)
+      authentication = Authentication.new(:user_id=>user.id, :uid=>auth.uid, :provider=>auth.provider,:oauth_token=>auth.credentials.token , :ouath_token_secret => auth.credentials.secret)
+      authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.credentials.expires_at.present?
+      authentication.save!
+    end
+  
+    def from_omniauth(auth)
+      user = User.new
+      user = (auth.provider == "facebook") ? user_facebook_details(auth,user) : user_twitter_details(auth,user)
+    end
+
+    def user_facebook_details(auth,user)
+      @fb_access_token = auth['credentials']['token']
+      existing_user = User.find_by_email(auth.info.email)
+      if existing_user
+        authentication = Authentication.where(:user_id => existing_user.id).first
+        unless authentication
+          authentication_record(auth,existing_user)
+          existing_user.update_attribute(:sign_in_count, (existing_user.sign_in_count-1))
+        else
+          authentication.update_attributes(:oauth_token => auth.credentials.token)
+        end
+        existing_user
+      else
+        user.username = auth.extra.raw_info.username
+        user.email = auth.info.email
+        user.description = auth.extra.raw_info.bio
+        user.city = auth.extra.raw_info.hometown.name if auth.extra.raw_info.hometown.present?
+        user.state = auth.extra.raw_info.location.name if auth.extra.raw_info.location.present?
+        user.save(:validate => false)
+        authentication_record(auth,user)
+        user
+      end
+    end
+
+    def user_twitter_details(auth,user)
+      authentication = Authentication.find_by_uid(auth.uid)
+      required_user = authentication.present? ? User.find(authentication.user_id) : nil
+      if required_user.nil?
+        user.username = auth.extra.raw_info.screen_name
+        user.description = auth.extra.raw_info.description
+        user.city = auth.extra.raw_info.location
+        user.save(:validate => false)
+        authentication_record(auth,user)
+        user
+      else
+        required_user
+      end
+    end
+  
+    def fetching_facebook
+      @graph = Koala::Facebook::API.new(@fb_access_token)
+      profile = @graph.get_object("me")
+      @profile_image = @graph.get_picture("me")
+      friends = @graph.get_connections("me", "friends?fields=id, name, picture.type(large)")
+    end
+  
+    def friendmapping_creation(from, friend, stautus)
+      friend_requst1 = FriendMapping.new(:user_id =>from, :friend_id=>friend, :status => stautus, :request_from => from)
+      friend_requst2 = FriendMapping.new(:user_id =>friend, :friend_id=> from, :status => stautus)
+      friend_requst1.save!
+      friend_requst2.save!
+    end
+
+    def configure_twitter(auth_token, auth_secret)
+      Twitter.configure do |tw|
+        tw.consumer_key = configatron.twitter_consumer_key
+        tw.consumer_secret = configatron.twitter_consumer_secret
+        tw.oauth_token = auth_token
+        tw.oauth_token_secret = auth_secret
+      end
+    end
+
   end
 
   # INSTANCE METHODS
@@ -168,9 +177,7 @@ class User < ActiveRecord::Base
   end
 
   def is_friend?(director)
-   FriendMapping.is_my_friend?(self, director).first
+    FriendMapping.is_my_friend?(self, director).first
   end
-
-
 
 end

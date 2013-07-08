@@ -13,8 +13,10 @@ class Comment < ActiveRecord::Base
 
   # METHODS
   # Class Methods
-  def self.get_latest_show_commits(show_id, number)
-    where(:show_id => show_id).order("created_at desc").limit(number)
+  class << self
+    def get_latest_show_commits(show_id, number)
+      where(:show_id => show_id).order("created_at desc").limit(number)
+    end
   end
 
   # Instance Methods

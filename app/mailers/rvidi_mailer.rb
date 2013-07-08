@@ -18,7 +18,7 @@ class RvidiMailer < ActionMailer::Base
     mail :to => user.email, :subject => "Password Reset"
   end
 
-  def invite_friend_toshow(to_mail, user, show_id)
+  def invite_friend_to_show(to_mail, user, show_id)
     @user = user
     @show = show_id
     @to_mail = to_mail

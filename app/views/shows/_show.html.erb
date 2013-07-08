@@ -48,13 +48,13 @@
   </div>
 
   <% if params[:controller] == 'shows' && params[:action] != 'show' %>
-  <%= render :partial=>"edit/players_and_contributers", :locals=>{:show => show} %>
+  <%= render :partial => "edit/players_and_contributers", :locals => {:show => show} %>
   <% end %>
 
 </div>
 
 <!-- Show Details -->
-<%= render :partial=>"shows/show/details", :locals=>{:show => show,
+<%= render :partial=>"shows/show/details", :locals => {:show => show,
   :cameo => cameo,
   :show_comments => show_comments,
   :all_comments => all_comments} %>

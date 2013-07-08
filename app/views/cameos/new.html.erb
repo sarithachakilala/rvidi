@@ -1,28 +1,25 @@
-
-
 <% if @show_preference == Show::Contributor_Preferences::NOT_AUTHENTICATED %>
   <%# if current_user.present? && @cameo.director_id!=current_user.id %>
-    <%= form_tag check_password_cameos_path do %>
-      <div class="login_container">
-    <div class="">
-      <h3 id="myModalLabel">This Show is Password Protected</h3>
-    </div>
-        <div class="">
-          <div class="control-group">
-            <label class="control-label" for="inputEmail">Password</label>
-            <div class="controls">
-              <%= password_field_tag :password %>
-              <%= hidden_field_tag :show_id, params[:show_id] %>
-            </div>
+  <%= form_tag check_password_cameos_path do %>
+    <div class="login_container">
+      <div class="">
+        <h3 id="myModalLabel">This Show is Password Protected</h3>
+      </div>
+      <div class="">
+        <div class="control-group">
+          <label class="control-label" for="inputEmail">Password</label>
+          <div class="controls">
+            <%= password_field_tag :password %>
+            <%= hidden_field_tag :show_id, params[:show_id] %>
           </div>
         </div>
-        <div class="">
-          <%= link_to "Close", root_url, :class => "btn btn-info" %>
-          <%= submit_tag "Submit", :class => "btn btn-warning" %>
-        </div>
       </div>
-    <% end %>
-  <%# end %>
+      <div class="">
+        <%= link_to "Close", root_url, :class => "btn btn-info" %>
+        <%= submit_tag "Submit", :class => "btn btn-warning" %>
+      </div>
+    </div>
+  <% end %>
 <% elsif @show_preference == Show::Contributor_Preferences::NON_FRIEND %>
   <div class="login_container">
     <div class="">
@@ -32,16 +29,16 @@
 
 <% else %>
   <%= form_for @cameo, :html => {:class => "js-validated-form form-horizontal cameo-form", :multipart => true } do |f| %>
-    
+
     <!-- Form fields (Black Box) -->
     <%= render :partial => "cameos/form/cameo_form_block", :locals => { :f => f, :title=>"Cameo Details" } %>
-    
+
     <!-- Record the Opening Cameo (White Box) -->
     <%= render :partial => "shows/form/record_cameo_block", :locals => { :f => f, :title=>"Record the Cameo" } %>
-    
+
     <!-- Invite Friends from Facebook and Twitter (White Box) -->
-    <% if @cameo.show.contributor_preferences == "public" || @cameo.director_id == current_user.id %>
-      <%= render :partial=> "shows/form/invite_friends_block", :locals =>{ :f => f } %>
+    <% if @cameo.invite_my_friend_to_this_show?(current_user) %>
+      <%= render :partial => "shows/form/invite_friends_block", :locals => { :f => f } %>
     <% end %>
     <!-- Show Publish Button which submits the form -->
     <div class="buttons_height">
@@ -52,6 +49,6 @@
         </div>
       </div>
     </div>
-    
+
   <% end %>
 <% end %>
