@@ -311,16 +311,7 @@ function check_file(){
     document.getElementById('fileToUpload').value='';
   }
 }
-function check_image(){
-  str=document.getElementById('fileToUpload').value.toUpperCase();
-  suffix=".PNG";
-  suffix2=".JPG";
-  if(!(str.indexOf(suffix, str.length - suffix.length) !== -1||
-    str.indexOf(suffix2, str.length - suffix2.length) !== -1 )){
-    alert('File type not allowed\n');
-    document.getElementById('fileToUpload').value='';
-  }
-}
+
   $(function() {
     $( "#sortable" ).sortable({
       stop: function(){
