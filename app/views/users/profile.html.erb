@@ -52,10 +52,10 @@
               <div class="cl-10"></div>
               <!-- <div style="text-align:center;">or</div> -->
               <% end %>
-              <label class="label-upload-image" for="profileImg" ><div class='btn btn-primary-disable'>Upload Picture</div></label>
+              <label id="label-upload-image" for="profileImg" ><div class='btn btn-primary-disable'>Upload Picture</div></label>
               <div style="position:absolute;left:-999px;">
                 <%= f.file_field :image, :id => "profileImg"  %>
-                <%= f.file_field :image, :id => "profileImg",:style => "width:85px;"%>
+                <!--<%#= f.file_field :image, :id => "profileImg",:style => "width:85px;"%>-->
               </div>
             </div>
           </div>
