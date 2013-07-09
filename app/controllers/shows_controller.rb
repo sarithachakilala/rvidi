@@ -50,6 +50,7 @@ class ShowsController < ApplicationController
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
     @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if current_user.present?
+    @non_rvidi_user_invitation = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_email=>params[:email] ) if params[:email].present?
     @is_friend = FriendMapping.where(:user_id=> @show.user_id, :friend_id=> current_user.id, :status => "accepted") if current_user.present?
     if params[:to_contribute].present?
       @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id)
@@ -225,7 +226,7 @@ class ShowsController < ApplicationController
     @user = User.find(current_user.id)
     RvidiMailer.delay.invite_friend_to_show(email, current_user, show.id)
     InviteFriend.create(:director_id => show.user_id, :show_id => show.id,
-                        :contributor_id => current_user.id, :status =>"invited" )
+                        :contributor_email => email, :status =>"invited" )
     
     flash[:notice] = "Your invitation will be sent as soon as you publish the show"                 
     notification = Notification.new(:show_id => show.id, :from_id => current_user.id, 
@@ -239,7 +240,7 @@ class ShowsController < ApplicationController
     @show = Show.find(params[:show_id])
     @user = User.find(params[:email_from])
     RvidiMailer.invite_friend_to_show(params[:email], @user, @show.id).deliver
-    InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
+    InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_email=>params[:email], :status =>"invited" )
     notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> '', :status => "contribute", :content=>" has Requested you to contribute for their Show ", :to_email=>params[:email])
     notification.save!
     redirect_to edit_show_path(:id=>@show.id), :notice => "Invitatiion sent successfully"

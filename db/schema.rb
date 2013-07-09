@@ -84,8 +84,9 @@ ActiveRecord::Schema.define(:version => 20130624120822796) do
     t.integer  "show_id"
     t.integer  "contributor_id"
     t.string   "status"
-    t.datetime "created_at",     :null => false
-    t.datetime "updated_at",     :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.string   "contributor_email"
   end
 
   create_table "notifications", :force => true do |t|
