@@ -88,24 +88,20 @@ class UsersController < ApplicationController
   end
 
   def dashboard
-    my_friends = FriendMapping.where(:user_id => current_user.id, :status => "accepted").collect(&:friend_id)
-    @latest_show =  Show.limit(6).order('created_at desc')
-    @most_viewed =  Show.where("display_preferences IN(?) AND shows.user_id IN(?)", ['public', 'protected'], my_friends).order('number_of_views desc') if my_friends.present?
-    @most_viewed =  Show.public_protected_shows.order('number_of_views desc') if @most_viewed.empty?
-    my_shows = Show.where(:user_id => current_user.id)
-    @most_viewed = (@most_viewed +my_shows).uniq
+   @latest_show =  Show.limit(6).order('created_at desc')
+    @most_viewed =  Show.order('number_of_views desc')
     @show_notifications = Notification.where(:status => "contributed", :to_id=> current_user.id, :read_status => false).order(:created_at).group_by(&:show_id)
     @notifications = Notification.where(:to_id=> current_user.id, :status => "pending", :read_status => false)
     @cameo_invitations = Notification.where(:status => "contribute", :to_id=> current_user.id, :read_status => false)
     @cameo_contributors = Notification.where(:status => "others_contributed", :to_id=> current_user.id, :read_status => false).group_by(&:show_id)
     @newest_shows =  Show.limit(6).order('created_at desc')
     @contributed_cameos = Cameo.where(:user_id => current_user.id)
-    @commented_shows =  Show.select("shows.id, display_preferences IN ('public', 'protected'),user_id IN (#{my_friends.join}), count('comments.id') as comm_count" ).joins(:comments).group("shows.id") if my_friends.present?
-    @commented_shows ||= Show.public_protected_shows.select("shows.id, count('comments.id') as comm_count").joins(:comments).group("shows.id")
+    @commented_shows = Show.public_protected_shows.select("shows.id, count('comments.id') as comm_count").joins(:comments).group("shows.id")
     respond_to do |format|
       format.html 
       format.json { render json: @user}
     end
+  
   end
 
   def friends
