@@ -23,7 +23,7 @@ $(document).ready(function(){
       return;
     }
   });
-  $('#update_cameo').on('click', function(event){
+  $('#update_cameo,#validate_new_show').on('click', function(event){
     status = "true";
     status = edit_show();
     if(status == "false") {
