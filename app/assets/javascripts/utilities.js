@@ -356,13 +356,15 @@ function check_file(){
   function checking_display_pwd_field(){
     if ($("#show_display_preferences_password_protected").is(":checked"))
       $("#show_display_preferences_password").css("display","block");
-    else
-      $("#show_display_preferences_password").css("display","none");
+    else{
+      $('#display_public_password_Error').css("display","none");
+      $("#show_display_preferences_password").css("display","none");}
   }
 
   function checking_contributor_pwd_field(){
     if ($("#show_contributor_preferences_password_protected").is(":checked"))
       $("#show_contributor_preferences_password").css("display","block");
-    else
-      $("#show_contributor_preferences_password").css("display","none");
+    else{
+      $('#contributor_public_password_Error').css("display","none");
+      $("#show_contributor_preferences_password").css("display","none");}
   }
