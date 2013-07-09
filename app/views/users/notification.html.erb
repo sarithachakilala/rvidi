@@ -25,7 +25,8 @@
                                     <div class="row-fluid"> 
                                       <div class="span4">
                                         <div class="friend_image">
-                                          <%= image_tag @user.image_url, :class => "details_image_sizesmall"  %>
+                                          <% thumbnail = @user.image_url.present? ? @user.image_url : "/assets/default_image.png"  %>
+                                          <%= image_tag thumbnail, :class => "details_image_sizesmall"  %>
                                         </div> 
                                       </div>
                                       <div class="span6">
@@ -92,7 +93,9 @@
                                     <div class="row-fluid"> 
                                       <div class="span2">
                                         <div class="friend_image"> 
-                                          <%= image_tag @user.image_url, :class => "details_image_sizesmall"  %>
+                                          <% thumbnail = @user.image_url.present? ? @user.image_url : "/assets/default_image.png"  %>
+
+                                          <%= image_tag thumbnail, :class => "details_image_sizesmall"  %>
                                         </div> 
                                       </div>
                                       <div class="span8">
@@ -143,7 +146,9 @@
                           <div class="row-fluid"> 
                             <div class="span2">
                               <div class="friend_image"> 
-                                <%= image_tag @user.image_url, :class => "details_image_sizesmall"  %>
+                                <% thumbnail = @user.image_url.present? ? @user.image_url : "/assets/default_image.png"  %>
+                                
+                                <%= image_tag thumbnail, :class => "details_image_sizesmall"  %>
                               </div> 
                             </div>
                             <div class="span6">

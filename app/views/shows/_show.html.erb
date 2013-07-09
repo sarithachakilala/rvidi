@@ -1,6 +1,6 @@
   
   <!-- If the show is protected  -->
-<% if @display_prefernce == "password_protected" && current_user.present? && show.user_id!=current_user.id %>
+<% if @display_prefernce == "password_protected" && current_user.present? && show.user_id!=current_user.id || !current_user.present?%>
     <div class="login_container">
       <div class="">
         <h3 id="myModalLabel">This Show is Password Protected</h3>
