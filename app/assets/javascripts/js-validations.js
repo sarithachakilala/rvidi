@@ -36,6 +36,9 @@ $(document).ready(function(){
 });
 function edit_show()
 {
+  var dispalay_password =  $('#show_display_preferences_password').val();
+  var contributor_password =  $('#show_display_preferences_password').val();
+
   if( $('#show_contributor_preferences_public').is(":checked") && !$('#show_need_review').is(":checked") ) {
     $('#CheckingError').show();
     $('#CheckingError').html("As your show contribution is public.. let me review is mandatory")
@@ -44,6 +47,24 @@ function edit_show()
   else
   {
     $('#CheckingError').hide();
+  }
+  if( $('#show_display_preferences_password_protected').is(":checked") && dispalay_password == '' ) {
+    $('#display_public_password_Error').show();
+    $('#display_public_password_Error').html("Display preference is password protected so please enter password")
+    status = "false";
+  }
+  else
+  {
+    $('#display_public_password_Error').hide();
+  }
+  if( $('#show_contributor_preferences_password_protected').is(":checked") && contributor_password == '' ) {
+    $('#contributor_public_password_Error').show();
+    $('#contributor_public_password_Error').html("Contributor preference is password protected so please enter password")
+    status = "false";
+  }
+  else
+  {
+    $('#contributor_public_password_Error').hide();
   }
   return status;
 }
