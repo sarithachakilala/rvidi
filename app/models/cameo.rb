@@ -12,7 +12,7 @@ class Cameo < ActiveRecord::Base
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, 
     :description, :thumbnail_url, :download_url, :duration,
     :video_file, :audio_file, :recorded_file, :title, :start_time,
-    :end_time
+    :end_time, :published_status
 
   # Associations
   belongs_to :show

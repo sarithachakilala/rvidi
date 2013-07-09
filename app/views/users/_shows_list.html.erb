@@ -11,7 +11,7 @@
           <div class="details_title"><%= link_to show.title.capitalize, show_path(:id=>show.permalink) %></div>
           <div class="thumbnail_name"><%= show.director.full_name.titlecase %></div>
         </div>
-        <% show_contributers = Cameo.where(:show_id=>show.id).collect(&:user_id)%>
+        <% show_contributers = Cameo.where(:show_id=>show.id, :status => "enabled", :published_status => "published").collect(&:user_id)%>
         <div class="span8 text_align_right">
           <div style="padding-right: 4px;" class="pull-right">
             <% show_contributers.take(5).each do |each_contributer|%>

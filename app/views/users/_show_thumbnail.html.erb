@@ -9,7 +9,8 @@
       <div class="span9">
         <div class="thumbnail_title"><%= link_to show.title.capitalize, show_path(:id=>show.permalink) %></div>
         <div class="thumbnail_name"><%= show.director.full_name.titlecase%></div>
-        <div class="thumbnail_contributor"><%= show.cameos.size %> Contributors </div>
+        <% contribution =  show.cameos.where(:status => "enabled", :published_status => "published").count%>
+        <div class="thumbnail_contributor"><%= contribution %> Contributors </div>
         <% if current_user.is_director?(show) %>
           <div class="thumbnail_contributor margin-top-5">
             <%= link_to "Edit Show", edit_show_path(show) , :class=>" btn btn-mini btn-info"%> </div>

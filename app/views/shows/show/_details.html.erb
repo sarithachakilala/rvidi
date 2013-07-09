@@ -4,6 +4,7 @@
 
     <div class="row-fluid margin-bottom-20">
       <!-- number of contributors to the no of minutes.. -->
+      <% @contribution_percentage = @contribution_percentage.present? ? @contribution_percentage : 0%>
       <div class="span1">
         <% video_icon =  (@contribution_percentage ==100) ? "sprite-camera-small-disable"  : "sprite-camera-small"  %>
         <i class= "<%= video_icon %>"></i> 
@@ -17,6 +18,7 @@
       <div class="span2 ratings_line">
         <%= show.number_of_views %> views
       </div>
+
       <div class="span2"> 
         <div class="progress progress-striped" style="">
           <div class="bar" style="width:<%= @contribution_percentage %>"></div>
@@ -27,12 +29,12 @@
 
       <!-- Show Edit button if current user is the directory of the show -->
       <% if current_user.present? && current_user.is_director?(show) %>
-      <% unless @show.try(:end_set) && (@show.end_set < Time.now) %>
-      <%= link_to "<i class='sprite-camera-white'></i> Edit Show".html_safe, edit_show_path(show), :class => "btn btn-info pull-right" %>
-      <% else %>
-      <%= link_to "<i class='sprite-camera-white'></i>Re-open Show".html_safe, status_update_shows_path(:show_id => params[:id], :status => "start"), :class => "btn btn-warning pull-right" %>
-      <% end %>
-      <div class="cl"></div>
+        <% unless @show.try(:end_set) && (@show.end_set < Time.now) %>
+          <%= link_to "<i class='sprite-camera-white'></i> Edit Show".html_safe, edit_show_path(show), :class => "btn btn-info pull-right" %>
+        <% else %>
+          <%= link_to "<i class='sprite-camera-white'></i>Re-open Show".html_safe, status_update_shows_path(:show_id => params[:id], :status => "start"), :class => "btn btn-warning pull-right" %>
+        <% end %>
+        <div class="cl"></div>
       <% end %>
 
     </div>
@@ -42,8 +44,7 @@
       <div class="span6">
 
         <!-- Description -->
-        <%= content_tag :p, show.description %>
-
+          <%= content_tag :p, show.description %>
         <div class="span12 title margin-top-30">Share this video</div>
 
         <!-- Share URL -->

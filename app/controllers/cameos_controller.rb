@@ -29,6 +29,7 @@ class CameosController < ApplicationController
     
     ## Get the friend list
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
+    @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
     
     respond_to do |format|
       format.html # new.html.erb
@@ -38,11 +39,22 @@ class CameosController < ApplicationController
 
   def edit
     @cameo = Cameo.find(params[:id])
+    donwload = `wget -O "#{@cameo.id}.avi" "#{@cameo.download_url}"`
+    duration = `ffmpeg -i "#{@cameo.id}.avi" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
+    @cameo_duration = duration.split(':')[0].to_i*3600 + duration.split(':')[1].to_i*60 + duration.split(':')[2].to_i if duration.present?
+    @show = @cameo.show
+    if @show.cameos.present?
+      array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
+      @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+    end
+    @remaining_contribution = @show.duration.to_f - @sum_duration_of_cameos.to_f
+    File.delete("#{@cameo.id}.avi") if File.exists?("#{@cameo.id}.avi")
   end
 
   def create
     # To find the contributed users. 
     @cameo = Cameo.new(params[:cameo])
+    @cameo.published_status = "save_cameo"
     @contributed_users = Cameo.where(:show_id=>@cameo.show_id).collect{|cameo| cameo.user_id if (cameo.user_id != @cameo.director_id) && (cameo.user_id != current_user.id)}.uniq
     @contributed_users.compact.each do |each_contributer|
       notification = Notification.create!(:show_id => @cameo.show_id,
@@ -88,7 +100,7 @@ class CameosController < ApplicationController
       if @success
         @show = @cameo.show
         invite_friend(params[:selected_friends],  @show.id) if params[:selected_friends].present?
-        format.html { redirect_to edit_cameo_path(@cameo), notice: 'Cameo was successfully Added.'} 
+        format.html { redirect_to edit_cameo_path(@cameo), notice: 'Cameo was successfully Saved, Once you Publish your cameo it will added to the Show.'} 
         format.js {}
         format.json { render json: @cameo, status: :created, location: @cameo }
       else
@@ -101,6 +113,7 @@ class CameosController < ApplicationController
 
   def update
     @cameo = Cameo.find(params[:id])
+    @cameo.published_status = "published"
     
     if params[:cameo][:start_time].present? && params[:cameo][:end_time].present?
       @sucess = Cameo.clipping_video(@cameo, session[:client], session[:ks], params[:cameo][:start_time], params[:cameo][:end_time] )
@@ -130,7 +143,7 @@ class CameosController < ApplicationController
   def check_password
     @show = Show.find(params[:show_id])
     if @show.contributor_preferences_password == params[:password]
-      # @contribution_prefernce = "checked"
+      @contribution_prefernce = "checked"
       session[:contribution_preference] = "checked"
       redirect_to new_cameo_path(:preference => @contribution_prefernce, :show_id => params[:show_id], :director_id => @show.user_id)
     else

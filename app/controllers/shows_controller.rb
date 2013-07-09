@@ -34,8 +34,14 @@ class ShowsController < ApplicationController
     end
 
     # finding the duration of sum of all cameos
-    @show.caluculating_percentage_and_duration(@show)
-    @contribution_percentage ||= 0
+    if @show.cameos.present?
+      array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
+      @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+      @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / @show.duration
+    else
+      @contribution_percentage = 0
+    end
+    # @show.caluculating_percentage_and_duration(@show)
 
     @display_prefernce = params[:preference].present? ? params[:preference] : @show.display_preferences
     @show.update_attribute(:number_of_views, (@show.number_of_views.to_i+1))
@@ -43,8 +49,8 @@ class ShowsController < ApplicationController
     @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
-    @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
-
+    @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if current_user.present?
+    @is_friend = FriendMapping.where(:user_id=> @show.user_id, :friend_id=> current_user.id, :status => "accepted") if current_user.present?
     if params[:to_contribute].present?
       @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id)
       @notification.update_all(:read_status =>true) if @notification
@@ -86,14 +92,21 @@ class ShowsController < ApplicationController
     @show = Show.find(params[:id])
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
     # finding the duration of sum of all cameos
-    @show.caluculating_percentage_and_duration(@show)
-    @contribution_percentage ||= 0
+    # @show.caluculating_percentage_and_duration(@show) 
+    if @show.cameos.present?
+      array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration)
+      @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+      @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / @show.duration
+    else
+      @contribution_percentage = 0
+    end
   end
 
   def create
     @show = Show.new(params[:show])
     @cameo = @show.cameos.first
     @cameo.status = Cameo::Status::Enabled
+    @cameo.published_status = "published"
     if @cameo.video_file.present?
       media_entry = @cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
@@ -210,10 +223,11 @@ class ShowsController < ApplicationController
   # Inviting friend via an email while creating a show
   def invite_friend_toshow_after_create(email, show)
     @user = User.find(current_user.id)
-    RvidiMailer.invite_friend_to_show(email, current_user, show.id).deliver
+    RvidiMailer.delay.invite_friend_to_show(email, current_user, show.id)
     InviteFriend.create(:director_id => show.user_id, :show_id => show.id,
                         :contributor_id => current_user.id, :status =>"invited" )
-                      
+    
+    flash[:notice] = "Your invitation will be sent as soon as you publish the show"                 
     notification = Notification.new(:show_id => show.id, :from_id => current_user.id, 
                                     :to_id => '', :status => "contribute",
                                     :content =>" has Requested you to contribute for their Show ", :to_email=>params[:email])
@@ -238,11 +252,11 @@ class ShowsController < ApplicationController
       @show = Show.find(params[:show_id])
     end
     if @show.display_preferences_password == params[:password]
+      @display_prefernce = "checked"
       session[:display_preference] = "checked"
       redirect_to show_path(:id => @show.permalink, :preference => @display_prefernce)
     else
-      redirect_to show_path(:id => @show.permalink),
-           :notice => "Invalid Password: Please enter the correct password! "
+      redirect_to show_path(:id => @show.permalink), :notice => "Invalid Password: Please enter the correct password! "
     end
   end
   

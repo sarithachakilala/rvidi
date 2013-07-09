@@ -97,41 +97,41 @@
       </div>
     </div>
 
-    <div class="control-group">
-      <label class="control-label blue_label" for="inputEmail">Download Preferences</label>
-      <div class="controls radio-inputs-container">
-        <label class="checkbox radiobtn_active_text">
-          <%= check_box_tag 'show[enable_download]', 1, @show.enable_download, :id => "input-enable-show-download" %>
-          Download a Video
-        </label>
-        <div class="download-pref-section"
-             style="<%= @show.enable_download.present? ? ('display:block;') : ('display:none') %>">
+    <% if params[:id].present?  && @show.try(:end_set) && (@show.end_set < Time.now)  %>
+      <div class="control-group">
+        <label class="control-label blue_label" for="inputEmail">Download Preferences</label>
+        <div class="controls radio-inputs-container">
+          <label class="checkbox radiobtn_active_text">
+            <%= check_box_tag 'show[enable_download]', 1, @show.enable_download, :id => "input-enable-show-download" %>
+            Download a Video
+          </label>
+          <div class="download-pref-section"
+               style="<%= @show.enable_download.present? ? ('display:block;') : ('display:none') %>">
 
-          <label class="radio <%= radio_label_class(@show, 'download_preference',
-                   Show::Download_Preferences::ME) %>">
-                   <%= f.radio_button :download_preference, Show::Download_Preferences::ME,
-                     :checked => @show.download_preference == Show::Download_Preferences::ME,
+            <label class="radio <%= radio_label_class(@show, 'download_preference',
+                     Show::Download_Preferences::ME) %>">
+                     <%= f.radio_button :download_preference, Show::Download_Preferences::ME,
+                       :checked => @show.download_preference == Show::Download_Preferences::ME,
+                       :class => "radio-input show-display-preferences" %>
+              By Me Only
+            </label>
+            <label class="radio <%= radio_label_class(@show, 'download_preference',
+                     Show::Download_Preferences::FRIENDS) %>">
+                     <%= f.radio_button :download_preference, Show::Download_Preferences::FRIENDS,
+                       :checked => @show.download_preference == Show::Download_Preferences::FRIENDS,
+                       :class => "radio-input show-display-preferences" %>
+              By My Friends
+            </label>
+            <label class="radio <%= radio_label_class(@show, 'download_preference',
+                     Show::Download_Preferences::PUBLIC) %>">
+                   <%= f.radio_button :download_preference, Show::Download_Preferences::PUBLIC,
+                     :checked => @show.download_preference == Show::Download_Preferences::PUBLIC,
                      :class => "radio-input show-display-preferences" %>
-            By Me Only
-          </label>
-          <label class="radio <%= radio_label_class(@show, 'download_preference',
-                   Show::Download_Preferences::FRIENDS) %>">
-                   <%= f.radio_button :download_preference, Show::Download_Preferences::FRIENDS,
-                     :checked => @show.download_preference == Show::Download_Preferences::FRIENDS,
-                     :class => "radio-input show-display-preferences" %>
-            By My Friends
-          </label>
-          <label class="radio <%= radio_label_class(@show, 'download_preference',
-                   Show::Download_Preferences::PUBLIC) %>">
-                 <%= f.radio_button :download_preference, Show::Download_Preferences::PUBLIC,
-                   :checked => @show.download_preference == Show::Download_Preferences::PUBLIC,
-                   :class => "radio-input show-display-preferences" %>
-            Publicly
-          </label>
+              Publicly
+            </label>
+          </div>
         </div>
       </div>
-    </div>
-
+    <% end %>
   </div>
-
 </div>

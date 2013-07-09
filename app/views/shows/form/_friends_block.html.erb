@@ -11,9 +11,11 @@
       
       <!-- Show LinkedIn Facebook Buttons -->
       <div class="span6" > 
-        <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), 
-              '#', :class => "btn  btn-primary add_from_facebook" %>
-        <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), "/auth/twitter?fetch_invities=true&show_id=#{params[:id]}", :class=>"btn btn-info" %>
+        <% unless params[:controller] =="shows" && params[:action] == "new" %>
+          <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), 
+                '#', :class => "btn  btn-primary add_from_facebook" %>
+          <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), "/auth/twitter?fetch_invities=true&show_id=#{params[:id]}", :class=>"btn btn-info" %>
+        <% end %>
       </div>
     
       <!-- Show Search rVidi Users Buttons -->
