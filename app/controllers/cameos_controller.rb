@@ -100,7 +100,7 @@ class CameosController < ApplicationController
       if @success
         @show = @cameo.show
         invite_friend(params[:selected_friends],  @show.id) if params[:selected_friends].present?
-        format.html { redirect_to edit_cameo_path(@cameo), notice: 'Cameo was successfully Added.'} 
+        format.html { redirect_to edit_cameo_path(@cameo), notice: 'Cameo was successfully Saved, Once you Publish your cameo it will added to the Show.'} 
         format.js {}
         format.json { render json: @cameo, status: :created, location: @cameo }
       else

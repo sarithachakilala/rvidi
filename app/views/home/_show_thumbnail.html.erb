@@ -8,7 +8,8 @@
       <div class="span9">
         <div class="thumbnail_title"><%= link_to show.title.capitalize, show_path(:id=>show.permalink) %></div>
         <div class="thumbnail_name"><%= show.director.full_name.titlecase %> </div>
-        <div class="thumbnail_contributor"><%= show.cameos.size %> Contributors </div>
+        <% contribution =  show.cameos.where(:status => "enabled", :published_status => "published").count%>
+        <div class="thumbnail_contributor"><%= contribution %> Contributors </div>
       </div>
       <div class="span3"><i class="sprite-thumbnail_title_icon"></i></div>
       <% preference = (show.display_preferences == "public") ? "sprite2-unlockgrey-icon" : "sprite2-lockorrange-icon" %>

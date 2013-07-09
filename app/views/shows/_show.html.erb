@@ -24,7 +24,7 @@
       <% end %>
     </div>
   <!-- Verifying whether the user is invited to the show or not -->
-<% elsif @display_prefernce =="private" && show.user_id!=current_user.id && !@is_friend.present? && !@invited.present?%>
+<% elsif @display_prefernce =="private" && current_user.present? && show.user_id!=current_user.id  && !@is_friend.present? && !@invited.present?%>
   <div class="login_container">
     <div class="">
       <h3 id="myModalLabel">This Show is Private and you are not invited to this Show yet or your are not friend of the show director</h3>
