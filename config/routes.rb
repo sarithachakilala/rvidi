@@ -11,6 +11,7 @@ Rvidi::Application.routes.draw do
   resources :cameos do
     collection do 
       post 'check_password'
+      get 'cameo_clipping'
     end
   end
   resources :shows do

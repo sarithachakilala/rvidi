@@ -60,6 +60,18 @@ $(document).ready(function(){
     }
   });  
 
+  $(".clip_video").on('click', function(){
+    if ($('#start_time').val()=="" || $('#end_time').val()=="")
+    { alert("Please enter timings to clip the video")}
+    else{
+      alert("your cameo will be clipped shortly")}
+     $.ajax({
+      url: "/cameos/cameo_clipping",
+      data: { start_time: $('#start_time').val(), end_time: $('#end_time').val() , selected_cameo : $('#selected_cameo').val() },
+      cache: false
+    });
+  });
+
   $(".selects-container").on('click','#invite_friend', function(){
     var child_id = [];
     $(".child_ckeck").each(function()
