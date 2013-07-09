@@ -35,7 +35,7 @@ class ShowsController < ApplicationController
 
     # finding the duration of sum of all cameos
     if @show.cameos.present?
-      array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration)
+      array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
       @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
       @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / @show.duration
     else
@@ -49,8 +49,8 @@ class ShowsController < ApplicationController
     @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
-    @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
-
+    @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if current_user.present?
+    @is_friend = FriendMapping.where(:user_id=> @show.user_id, :friend_id=> current_user.id, :status => "accepted") if current_user.present?
     if params[:to_contribute].present?
       @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id)
       @notification.update_all(:read_status =>true) if @notification
@@ -106,6 +106,7 @@ class ShowsController < ApplicationController
     @show = Show.new(params[:show])
     @cameo = @show.cameos.first
     @cameo.status = Cameo::Status::Enabled
+    @cameo.published_status = "published"
     if @cameo.video_file.present?
       media_entry = @cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
       @cameo.set_uploaded_video_details(media_entry)
