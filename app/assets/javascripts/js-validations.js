@@ -33,12 +33,47 @@ $(document).ready(function(){
       return;
     }
   });
+  $('#save_cameo_button').on('click', function(event){
+    status = "true";
+    status = new_cameo();
+    if(status == "false") {
+      event.preventDefault();
+    }
+    else {
+      return;
+    }
+  });
 });
+function new_cameo(){
+  var title = $('#cameo_title').val()
+  if(title == '' ) {
+    $('#cameo_title_error').show();
+    $('#cameo_title_error').html("Title can't be blank")
+    status = "false";
+  }
+  else
+  {
+    $('#cameo_title_error').hide();
+  }
+  return status;
+}
+
 function edit_show()
 {
   var dispalay_password =  $('#show_display_preferences_password').val();
   var contributor_password =  $('#show_display_preferences_password').val();
-
+  var video = $('#fileToUpload').val()
+  
+  if( video == '' ) {
+    $('#CheckingError').show();
+    $('#CheckingError').html("As your show contribution is public.. let me review is mandatory")
+    status = "false";
+  }
+  else
+  {
+    $('#CheckingError').hide();
+  }
+  
   if( $('#show_contributor_preferences_public').is(":checked") && !$('#show_need_review').is(":checked") ) {
     $('#CheckingError').show();
     $('#CheckingError').html("As your show contribution is public.. let me review is mandatory")

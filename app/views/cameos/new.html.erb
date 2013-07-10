@@ -54,7 +54,7 @@
     <div class="buttons_height">
       <div class=" hr_bg" style="">
         <div class="text_align_center newshow_btn">
-          <%= f.submit "Save Cameo", :class => "btn btn-warning publish-show-btn" %>
+          <%= f.submit "Save Cameo", :class => "btn btn-warning publish-show-btn",:id => "save_cameo_button" %>
           <%= link_to "Cancel", show_path(:id => @cameo.show.id), :class => "btn  btn-info " %>
         </div>
       </div>
