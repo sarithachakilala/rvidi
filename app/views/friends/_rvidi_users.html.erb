@@ -5,9 +5,9 @@
 
 <% users.each_slice(3) do|users_slice| %>
   <div class="row-fluid margin-top-5">
-    <% users_slice.each do|user| %>
+    <% users_slice.each do |user| %>
       <div class="span4">
-        <%= render :partial=>"friends/rvidi_user", :locals=>{:user => user} %>
+        <%= render :partial => "friends/rvidi_user", :locals => {:user => user} %>
       </div>
     <% end %>
   </div>
