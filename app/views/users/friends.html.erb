@@ -24,7 +24,7 @@
     //Facebook Send Message to a friend
     $(document).on('click', '.button-facebook-friend-invite', function(e){
       e.preventDefault();
-      facebook_send_message($(this).attr('id'), '<%= j current_user.full_name %>', '', '<%= j configatron.site_address %>','<%= current_user.id %>');
+      facebook_send_message($(this).attr('id'), '<%= j current_user.full_name %>', '<%= current_user.id %>');
     });
   </script>
 <% end %>
@@ -46,7 +46,7 @@
           <div class="margin_bottom_si" > 
             <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), '#',
               :class => "btn  btn-primary add_from_facebook" %>
-            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), '/auth/twitter?fetch_friends=true', :class=>"btn btn-info" %>
+            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), '/auth/twitter?fetch_friends=true', :class => "btn btn-info twitter_invite" %>
           </div>
 
           <div class="input-prepend input-append search_padding">
@@ -57,37 +57,8 @@
           </div>
         </div>
       </div>
-      <div id="main_frame">
-        <ul class="thumbnails">
-          <li class="span12">
-            <% @friends.each do |each_user_detail| %>
-              <% @user = User.find(each_user_detail.friend_id) %>
-              <% shows = Show.where(:user_id => @user.id).count %>
-              <% cameos = Cameo.where(:director_id => @user.id).count %>
-              <div class="thumbnail frinds_thumbnail_padding">
-                <div class="row-fluid frinds_row_margin">
-                  <div class="span4">
-                    <div class="row-fluid">
-                      <div class="span4">
-                        <% thumbnail = @user.image_url.present? ? @user.image_url : "/assets/default_image.png"  %>
-                        <div class="friend_image">
-                          <%= image_tag thumbnail, :class => "details_image_sizesmall" %></div>
-                      </div>
-                      <div class="span8">
-                        <div class="friend_name"><%= @user.full_name %></div>
-                        <div class="friends_show"> <%= shows %> shows,&nbsp;<%= cameos %> cameos 
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            <% end %>
-          </li>
-        </ul>
-      </div>
       <div id="div_show_friends" class="margin-bottom-10 selects-container">
-        <%= render :partial=>"friends/friend_mappings", :locals=> {:friend_mappings=>@friend_mappings} %>
+        <%= twitter_friends_or_existing_friends(@friends, @twitter_friends) %>
       </div>
     </div>
   </div>

@@ -105,9 +105,23 @@ class UsersController < ApplicationController
   end
 
   def friends
-    @friends = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
-  end
+    @friends = User.current_user_friends(current_user) 
+    if session[:uid].present?
+      uid = session[:uid]
+      User.configure_twitter(session[:auth_token], session[:auth_secret])
+      session[:uid] = session[:auth_token] = session[:auth_secret] = nil
+      begin
+        @twitter_friends = Twitter.followers(uid.to_i)
+      rescue
+        flash[:alert] = 'Twitter rake limit exceeded'
+        redirect_to root_url
+      end
 
+    else
+      @twitter_friends = []
+    end
+  end
+  
   def friends_list
     @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
   end
@@ -127,7 +141,7 @@ class UsersController < ApplicationController
     User.friendmapping_creation(current_user.id, @user.id, "pending")
     notification = Notification.new(:from_id=>current_user.id, :to_id=> @user.id, :status => "pending", :content=>"Requested to add as friend", :read_status => false)
     notification.save!
-    redirect_to friends_user_path(:id => current_user.id), :notice => "Friend Request sent Successfully!" 
+    redirect_to friends_user_path(:id => current_user.id), :notice => "Friend Request sent Successfully!"
   end
 
   def accept_friend_request
@@ -136,20 +150,20 @@ class UsersController < ApplicationController
     notification = Notification.where(:to_id => current_user.id, :from_id => params[:friend_id]).first
     friend_requst1.update_attributes(:status =>"accepted") if friend_requst1.present?
     friend_requst2.update_attributes(:status =>"accepted") if friend_requst2.present?
-    notification.update_attributes(:status => "accepted", :read_status => true)        
+    notification.update_attributes(:status => "accepted", :read_status => true)
     redirect_to notification_user_path(:id => current_user.id), :notice => "confirmed as friend!"
   end
 
   def ignore_friend_request
     notification = Notification.where(:to_id => current_user.id, :from_id => params[:friend_id],:status=>"pending").first
-    notification.update_attributes(:read_status => true)        
+    notification.update_attributes(:read_status => true)
     redirect_to notification_user_path(:id => current_user.id), :notice => "Ignored friend Request!"
   end
 
   def invite_friend_via_email
     @user = User.find(params[:email_from])
     RvidiMailer.delay.invite_new_friend(params[:email], @user)
-    notification = Notification.create(:to_email=> params[:email], :from_id => current_user.id, :status => "pending", :content =>"Requested to add as friend", :read_status => false) 
+    notification = Notification.create(:to_email=> params[:email], :from_id => current_user.id, :status => "pending", :content =>"Requested to add as friend", :read_status => false)
     notification.save!
     redirect_to friends_user_path(:id => session[:user_id])
   end
