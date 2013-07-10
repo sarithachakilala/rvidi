@@ -50,12 +50,14 @@
         <!-- Share URL -->
         <div class="margin-10">
           <span class="bold text-color-grey">URL:</span> <span = "text-color-grey"><%= show_url(:id=>show.permalink) %></span>
+
         </div>
 
         <!-- Share Buttons -->
         <div class="span12 margin_top_10"> 
           <%= social_share_button_tag("Share this video",
           :url => "#{configatron.site_address_full}/shows/#{show.id}") %>
+          
         </div>
 
       </div>

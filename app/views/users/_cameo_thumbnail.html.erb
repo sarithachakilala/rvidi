@@ -9,11 +9,13 @@
         <div class="thumbnail_title"><%= link_to cameo.show.title, show_path(:id=>cameo.show.permalink) %></div>
         <div class="thumbnail_title"><%= link_to cameo.title.present? ? cameo.title.capitalize : "No Title" , cameo_path(:id=>cameo.id), :class=>"thumbnail_name" %></div>
         <div class="thumbnail_contributor"><%= current_user.full_name.titlecase %> </div>
-
-        <% unless cameo.published_status == "published"%>
-        <div><%= link_to "Publish Cameo", edit_cameo_path(cameo) , :class=>" btn btn-mini btn-info"%> </div>
+        <div class = "thumbnail_contributor margin-top-5">
+        <% if cameo.published_status == "published"%>
+         <%= link_to "Go to show", show_path(:id=>cameo.show.permalink), :class=>"btn btn-mini btn-info " %>
+        <% else %>
+          <%= link_to "Edit Cameo", edit_cameo_path(cameo) , :class=>" btn btn-mini btn-info"%> 
         <% end %>
-        <%#= link_to "Go to show", show_path(:id=>cameo.show.permalink), :class=>"btn btn-mini btn-warning " %>
+        </div>
       </div>
      
     </div>

@@ -8,8 +8,10 @@
     <div class="span9">
       <div class="row-fluid">
         <div class="span4">
-          <div class="details_title"><%= link_to cameo.title.present? ? cameo.title.capitalize : "No Title" , cameo_path(:id=>cameo.id) %></div>
-          <div class="thumbnail_name"><%= current_user.full_name.titlecase %></div>
+
+        <div class="thumbnail_title"><%= link_to cameo.show.title, show_path(:id=>cameo.show.permalink) %></div>
+          <div class="details_name"><%= link_to cameo.title.present? ? cameo.title.capitalize : "No Title" , cameo_path(:id=>cameo.id), :class=>"thumbnail_name" %></div>
+          <div class="thumbnail_contributor"><%= current_user.full_name.titlecase %></div>
         </div>
          <div class="span8 text_align_right">
           <div style="padding-right: 4px;" class="pull-right">
