@@ -85,4 +85,7 @@
 .bold {font-weight: bold;}
 .italic {font-style: italic;}
 
-  
+.iframe-video-container {
+  width: 400px;
+  height: 307px;
+}

@@ -16,8 +16,9 @@
     </div>
     
     <!-- Rendering the form fields -->
-    <%= f.fields_for :cameos do|cameo_builder| %>
-      <%= render :partial => "shows/player/record_or_upload", :locals => { :cameo_builder => cameo_builder } %>
+    <%= f.fields_for :cameos do |cameo_builder| %>
+      <%= render :partial => "shows/player/record_or_upload",
+                 :locals => { :cameo_builder => cameo_builder } %>
     <% end %>
   </div>
 </div>

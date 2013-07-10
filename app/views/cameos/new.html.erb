@@ -38,7 +38,7 @@
   </div>
 
 <% else %>
-  <%= form_for @cameo, :html => {:class => "js-validated-form form-horizontal cameo-form", :multipart => true } do |f| %>
+  <%= form_for @cameo, :html => {:class => "js-validated-form form-horizontal cameo-form", :multipart => true, :target => 'iframe-video-container' } do |f| %>
 
     <!-- Form fields (Black Box) -->
     <%= render :partial => "cameos/form/cameo_form_block", :locals => { :f => f, :title=>"Cameo Details" } %>
@@ -54,7 +54,7 @@
     <div class="buttons_height">
       <div class=" hr_bg" style="">
         <div class="text_align_center newshow_btn">
-          <%= f.submit "Save Cameo", :class => "btn btn-warning publish-show-btn" %>
+          <%= f.submit "Save Cameo", :class => "btn btn-warning publish-show-btn", :id => 'validate_new_cameo' %>
           <%= link_to "Cancel", show_path(:id => @cameo.show.id), :class => "btn  btn-info " %>
         </div>
       </div>

@@ -25,6 +25,8 @@ $(document).ready(function(){
   });
   $('#update_cameo,#validate_new_show').on('click', function(event){
     status = "true";
+    $(this).closest('form').attr('action', '/shows').
+            addClass('js-validated-form').attr('target', '_self');
     status = edit_show();
     if(status == "false") {
       event.preventDefault();
@@ -34,6 +36,12 @@ $(document).ready(function(){
     }
   });
 });
+
+$(document).on('click', '#validate_new_cameo', function(){
+  $(this).closest('form').attr('action', '/cameos').
+            addClass('js-validated-form').attr('target', '_self');
+});
+
 function edit_show()
 {
   var dispalay_password =  $('#show_display_preferences_password').val();

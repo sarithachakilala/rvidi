@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  before_filter :require_user, :only => [:video_player]
 
   def index
     @all_shows = Show.public_protected_shows

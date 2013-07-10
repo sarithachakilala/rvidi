@@ -27,5 +27,18 @@ module ApplicationHelper
       render :partial => 'friends/rvidi_users', :locals => {:users => friends}
     end
   end
+
+  def custom_path(file)
+    file.present? ? ("/assets/streams_temp/VTS_01_0.VOB") : ("/assets/recorder/red5recorder.swf")
+  end
+
+  def record_or_preview_video(type, time_stamp)
+    if type == 'RECORD'
+      render :partial => 'shows/player/video_recorder', :locals => {:time_stamp => time_stamp}
+    else
+      render :partial => 'shows/player/video_player'
+    end
+
+  end
   
 end
