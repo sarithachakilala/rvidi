@@ -11,9 +11,9 @@
       </div>
       <!-- To Download complete show -->
       <% if show.download_video?(current_user) %>
-      <div class="span1">
-        <%= link_to "<i class='downloadsprite-dorrange'></i>".html_safe, show.download_url, :title => 'download' %>
-      </div>
+        <div class="span1">
+          <%= link_to "<i class='downloadsprite-dorrange'></i>".html_safe, show.download_url, :title => 'download' %>
+        </div>
       <% end %>
       <div class="span2 ratings_line">
         <%= show.number_of_views %> views
@@ -44,7 +44,7 @@
       <div class="span6">
 
         <!-- Description -->
-          <%= content_tag :p, show.description %>
+        <%= content_tag :p, show.description %>
         <div class="span12 title margin-top-30">Share this video</div>
 
         <!-- Share URL -->
@@ -55,7 +55,23 @@
         <!-- Share Buttins -->
         <div class="span12 margin_top_10"> 
           <%= social_share_button_tag("Share this video",
-          :url => "#{configatron.site_address_full}/shows/#{show.id}") %>
+            :url => "#{configatron.site_address_full}/shows/#{show.id}") %>
+          <%= mail_to "",raw(image_tag("/path/to/banner.png")),:subject => "Check out this video I made on rvidi.com!",:body => "I just used rVidi.com to collect and combine some video clips to create a show.
+
+It so easy to gather and combine short video cameos...individually or with a bunch of friends you invite.
+
+You should try it.  Membership is free!
+
+Here’s the link to my video show:
+
+(link)
+
+Hope you enjoy it!
+
+Thanks for taking time to view my video creation!
+
+(name of director)
+          "%>
         </div>
 
       </div>
@@ -76,13 +92,13 @@
 
         <div class="span">
           <% if current_user.present? %>
-          <%= link_to "Add Comment", new_comment_path(:show_id => show.id), :class => "btn btn-primary pull-right margin-right-10 ", :remote => true %>
-          <div class="cl"></div>
-          <div id="show_<%= show.id %>_add_comments_div"></div>
+            <%= link_to "Add Comment", new_comment_path(:show_id => show.id), :class => "btn btn-primary pull-right margin-right-10 ", :remote => true %>
+            <div class="cl"></div>
+            <div id="show_<%= show.id %>_add_comments_div"></div>
           <% else %>
-          <%= link_to "Sign In", sign_in_path %> Or
-          <%= link_to "Join", sign_up_path %>
-          to add a comment
+            <%= link_to "Sign In", sign_in_path %> Or
+            <%= link_to "Join", sign_up_path %>
+            to add a comment
           <% end %>
         </div>
 
