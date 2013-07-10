@@ -125,6 +125,10 @@ class User < ActiveRecord::Base
       end
     end
 
+    def current_user_friends(current_user)
+      where("id IN(?)", FriendMapping.where(:user_id => current_user.id, :status =>"accepted").map(&:friend_id) || [-9999])
+    end
+
   end
 
   # INSTANCE METHODS

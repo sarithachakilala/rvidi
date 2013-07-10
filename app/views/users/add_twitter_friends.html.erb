@@ -18,9 +18,9 @@
           <div class="margin_bottom_si" > 
 <%#= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), invite_facebook_friends_home_index_path, :class=>"btn  btn-primary " %>
             <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), "#",
-                        :class => "btn  btn-primary add_from_facebook" %>
+              :class => "btn  btn-primary add_from_facebook" %>
             <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"),
-                    '/auth/twitter?fetch_friends=true', :class => "btn btn-info" %>
+              '/auth/twitter?fetch_friends=true', :class => "btn btn-info" %>
           </div>
 
           <div class="input-prepend input-append search_padding">
@@ -31,43 +31,55 @@
           </div>
         </div>
       </div>
-      <div id= "main_frame">
-        <ul class="thumbnails">
-          <div class="">
-            Here are the list of Twitter Friends.
-          </div>
-          <li class="span12">
-            <% @twitter_friends.each do |each_user_detail| %>
-              <div class="thumbnail frinds_thumbnail_padding">
-                <div class="row-fluid frinds_row_margin">
-                  <div class="span4">
-                    <div class="row-fluid">
-                      <div class="span4">
-                        <div class="friend_image">
-                          <img src="<%= each_user_detail.profile_image_url %>" alt="300x200" />
-                        </div>
-                      </div>
-                      <div class="span8">
-                        <div class="friend_name"><%= each_user_detail.screen_name %></div>
-                          <div class="btn-small btn-warning">
-                            <a href="https://twitter.com/intent/tweet?screen_name=<%= each_user_detail.screen_name %>&text=rvidi.qwinixtech.com/users/new?from_id=<%= current_user.id%>" class="">Tweet</a>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              <% end %>
-            </div>
-          </li>
-        </ul>
-      </div>
-      <%#= render :partial=>"/users/friends_list"%>
-      <!-- Details view end here -->
+      <div id="div_show_friends"></div>
     </div>
   </div>
 </div>
+
 <script>!function(d,s,id)
   {var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
     if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');
+
 </script>
+
+<% content_for :js_with_script_tags do %>
+
+  <div id="fb-root"></div>
+  <script>
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+  <script type="text/javascript">
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '<%= configatron.facebook_app_id %>', // App ID
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+      });
+    }
+
+    //Facebook Send Message to a friend
+    $(document).on('click', '.button-facebook-friend-invite', function(e){
+      e.preventDefault();
+      facebook_send_message($(this).attr('id'), '<%= current_user.full_name %>',
+      '<%= current_user.id %>');
+    });
+
+    jQuery(document).ready(function($){
+      $('.add_from_facebook').click(function(e){
+        e.preventDefault();
+        invite_friends();
+      });
+    });
+
+  </script>
+
+<% end %>

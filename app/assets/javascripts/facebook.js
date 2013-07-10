@@ -1,5 +1,5 @@
 // Send message to facebook user
-function facebook_send_message(element_id, name, profile_picture, site_address,from_id) {
+function facebook_send_message(element_id, name, from_id) {
   FB.ui(
   {
     method: 'send',
@@ -21,13 +21,13 @@ function facebook_send_message(element_id, name, profile_picture, site_address,f
 
 
 
-function facebook_send_message_to_invite(element_id, name, site_address, from_id, show_id) {
+function facebook_send_message_to_invite(element_id, name, show_id, current_user_id ) {
   FB.ui(
   {
     method: 'send',
     to: element_id,
     name: 'Sign up for rVidi - Just like '+name+'!',
-    link: "http://rvidi.qwinixtech.com/",
+    link: "http://rvidi.qwinixtech.com/"+show_id,
     description: 'Join '+name+' on rVidi.',
     picture: "http://rvidi.qwinixtech.com/assets/logo/rvidifb.png"
   },
@@ -45,7 +45,7 @@ function facebook_send_message_to_invite(element_id, name, site_address, from_id
 function get_facebook_friends() {
   var csrfToken = $('meta[name="csrf-token"]').attr('content');
   FB.api('/me/friends', {
-    fields: 'name,id,picture'
+    fields: 'email,name,id,picture'
   }, function(response) {
     jQuery.ajax({
       url: "/users/add_facebook_friends",

@@ -25,7 +25,7 @@ class SessionsController < ApplicationController
       session[:auth_token] = auth.credentials.token
       session[:auth_secret] = auth.credentials.secret
       logger.debug session[:uid]
-      redirect_to add_twitter_friends_users_path
+      redirect_to friends_user_path(current_user.id)
     else
       auth = env["omniauth.auth"]
       if auth.present? && ((auth.provider=="twitter") || (auth.provider=="facebook"))
