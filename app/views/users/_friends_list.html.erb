@@ -17,7 +17,7 @@
                       </div> 
                     <div class="span8">
                       <div class="friend_name"> <%= link_to "#{each_user_detail.full_name}", friend_profile_user_path(current_user.id, :friend_id => each_user_detail.id) %></div>
-                     <div class="friends_show"> <%= shows %> shows,&nbsp;<a class="frinds_cameos"><%= cameos %> cameos </a>
+                     <div class="friends_show"> <%= shows %> shows,&nbsp;<%= cameos %> cameos 
                      </div>
                         <div class="btn-small btn-warning">
                           <% @friend_detail = FriendMapping.where(:user_id => each_user_detail.id, :friend_id =>session[:user_id]).first%>

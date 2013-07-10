@@ -16,7 +16,6 @@
               <% user = User.find(cameo.user_id)%>
               <% thumbnail = user.image_url.present? ? user.image_url : "/assets/default_image.png"  %>
               <div class="contributors_image_detail"> <%= image_tag thumbnail, :class => "details_image_sizesmall"  %></div>
-            <i class="sprite-thumbnail_title_icon"></i>
           </div>
         </div>
       </div>

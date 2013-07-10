@@ -50,7 +50,7 @@ function edit_show()
   }
   if( $('#show_display_preferences_password_protected').is(":checked") && dispalay_password == '' ) {
     $('#display_public_password_Error').show();
-    $('#display_public_password_Error').html("Display preference is password protected so please enter password")
+    $('#display_public_password_Error').html("Please enter password")
     status = "false";
   }
   else
@@ -59,7 +59,7 @@ function edit_show()
   }
   if( $('#show_contributor_preferences_password_protected').is(":checked") && contributor_password == '' ) {
     $('#contributor_public_password_Error').show();
-    $('#contributor_public_password_Error').html("Contributor preference is password protected so please enter password")
+    $('#contributor_public_password_Error').html("Please enter password")
     status = "false";
   }
   else
