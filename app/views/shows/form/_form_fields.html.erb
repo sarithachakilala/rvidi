@@ -42,6 +42,7 @@
         <label class="password_padding" >
           <%= f.password_field :display_preferences_password, :class => "show-display-preferences-password", :placeholder => "Password", :value => @show.display_preferences_password %>
         </label>
+        <p id="display_public_password_Error" class="error-message" style="display:none;">&nbsp;</p><br/>
       </div>
     </div>
 
@@ -64,6 +65,7 @@
         <label class="password_padding">
           <%= f.password_field :contributor_preferences_password, :class => " show-contributor-preferences-password", :placeholder => "Password", :value => @show.contributor_preferences_password, :style=>"display:none"  %>
         </label>
+        <p id="contributor_public_password_Error" class="error-message" style="display:none;">&nbsp;</p><br/>
       </div>
     </div>
 

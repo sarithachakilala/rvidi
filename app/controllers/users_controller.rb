@@ -88,7 +88,7 @@ class UsersController < ApplicationController
   end
 
   def dashboard
-    @latest_show =  Show.limit(6).order('created_at desc')
+   @latest_show =  Show.limit(6).order('created_at desc')
     @most_viewed =  Show.order('number_of_views desc')
     @show_notifications = Notification.where(:status => "contributed", :to_id=> current_user.id, :read_status => false).order(:created_at).group_by(&:show_id)
     @notifications = Notification.where(:to_id=> current_user.id, :status => "pending", :read_status => false)
@@ -101,6 +101,7 @@ class UsersController < ApplicationController
       format.html 
       format.json { render json: @user}
     end
+  
   end
 
   def friends

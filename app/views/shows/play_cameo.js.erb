@@ -13,3 +13,4 @@ var TARGET_DIV_ID2 = "kaltura_clipper_<%= @cameo.show_id %>"
 // To Update the selected Cameo
 $(".active-cameo").removeClass('active-cameo');
 $("#show_<%= @cameo.show_id %>_cameo_<%= @cameo.id %>_detail").addClass('active-cameo');
+ document.getElementById('selected_cameo').value = "<%= @cameo.id%>"
