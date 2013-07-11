@@ -55,10 +55,6 @@ class ShowsController < ApplicationController
     if params[:to_contribute].present?
       @notification = Notification.where(:show_id=> @show, :to_id=>current_user.id)
       @notification.update_all(:read_status =>true) if @notification
-      # commenting because users cant be friends and this code is missing friend id
-      # friends = FriendMapping.where(:user_id => current_user.id, :friend_id => @show.user_id, :status => 'accepted')
-      # friends ||= FriendMapping.where(:user_id => @show.user_id, :friend_id => current_user.id, :status => 'accepted')
-      # User.friendmapping_creation(current_user.id, @show.user_id, "accepted") unless friends.present?
     end
     respond_to do |format|
       format.html 

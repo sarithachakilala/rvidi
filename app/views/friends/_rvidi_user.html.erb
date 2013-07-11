@@ -1,3 +1,4 @@
+
 <% thumbnail = user.image_url.present? ? user.image_url : "/assets/default_image.png"  %>
 
 <div class="friend-box row-fluid">
@@ -16,21 +17,19 @@
     <!-- City -->
     <%= content_tag :div, user.city, :class=>"text-color-red font-size-12" unless user.city.blank? %>
     
-    <!-- Show Shows and Cameos   -->
-    <% shows = Show.where(:user_id => user.id).count %>
-    <% cameos = Cameo.where(:director_id => user.id).count %>
+    <!-- Show and Cameos Count   -->
     <div class="friends_show"> 
-      <%= shows %> shows,&nbsp;
-      <span style="color:#f89406;"><%= cameos %> cameos </span>
+      <%= shows_count(user.id) %> shows,&nbsp;
+      <span style="color:#f89406;"><%= cameos_count(user.id) %> cameos </span>
     </div>
     
-    <!-- Check Box to select the friend -->
-    <label class="checkbox inline width-100-percent ">
-      <%= check_box_tag('selected_friends[]', user.id, checked = false, :class => 'checkbox-input')  %> 
-      <%= content_tag :span, "Select", :class=>"font-size-11 margin-top-5" %>
-    </label>
-    
-    
+    <% if controller.action_name!="friends" %>
+      <!-- Check Box to select the friend -->
+      <label class="checkbox inline width-100-percent ">
+        <%= check_box_tag('selected_friends[]', user.id, checked = false, :class => 'checkbox-input')  %> 
+        <%= content_tag :span, "Select", :class=>"font-size-11 margin-top-5" %> 
+      </label>
+    <% end %>
     
   </div>
   

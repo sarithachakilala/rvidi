@@ -211,15 +211,6 @@ class Show < ActiveRecord::Base
     end
   end
 
-
-  def caluculating_percentage_and_duration(show)
-    if show.cameos.present?
-      array_of_cameo_duration = show.cameos.where(:status => "enabled").collect(&:duration)
-      @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
-      @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / show.duration
-    end
-  end
-
 end
 
   
