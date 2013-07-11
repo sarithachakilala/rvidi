@@ -1,6 +1,14 @@
 Rvidi::Application.routes.draw do
   get "password_resets/new"
 
+  match "/auth/twitter/callback" => "sessions#create"
+  match 'auth/:provider/callback', to: 'sessions#create'
+  match 'auth/failure', to: redirect('/')
+  match 'sign_out', to: 'sessions#destroy', as: 'sign_out'
+  match 'video-player' => 'cameos#video_player', :as => :video_player
+  match 'validate-video' => 'cameos#validate_video', :as => :validate_video
+  match 'file-render' => 'home#my_file', :as => :my_file
+
   resources :password_resets
   resources :comments do
     collection do
@@ -29,12 +37,8 @@ Rvidi::Application.routes.draw do
       get 'download_complete_show'
     end
   end
+  
   resources :sessions
-
-  match "/auth/twitter/callback" => "sessions#create"
-  match 'auth/:provider/callback', to: 'sessions#create'
-  match 'auth/failure', to: redirect('/')
-  match 'sign_out', to: 'sessions#destroy', as: 'sign_out'
 
   get "home/index"
   get "sessions/new"

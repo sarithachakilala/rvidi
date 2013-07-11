@@ -23,7 +23,8 @@ $(document).ready(function(){
       return;
     }
   });
-  $('#update_cameo,#validate_new_show').on('click', function(event){
+
+  $('#edit_show_submit_btn').on('click', function(event){
     status = "true";
     status = edit_show();
     if(status == "false") {
@@ -33,12 +34,63 @@ $(document).ready(function(){
       return;
     }
   });
+  $('#validate_new_show').on('click', function(event){
+    status = "true";
+    $(this).closest('form').attr('action', '/shows').
+    addClass('js-validated-form').attr('target', '_self');
+    status = edit_show();
+    if(status == "false") {
+      event.preventDefault();
+    }
+    else {
+      return;
+    }
+  });
+  
+  $('#validate_new_cameo').on('click', function(event){
+    status = "true";
+    $(this).closest('form').attr('action', '/cameos').
+    addClass('js-validated-form').attr('target', '_self');
+    status = new_cameo();
+    if(status == "false") {
+      event.preventDefault();
+    }
+    else {
+      return;
+    }
+  });
 });
+
+function new_cameo(){
+  var title = $('#cameo_title').val()
+  if(title == '' ) {
+    $('#cameo_title_error').show();
+    $('#cameo_title_error').html("Title can't be blank")
+    status = "false";
+  }
+  else
+  {
+    $('#cameo_title_error').hide();
+  }
+  return status;
+}
+
 function edit_show()
 {
   var dispalay_password =  $('#show_display_preferences_password').val();
   var contributor_password =  $('#show_display_preferences_password').val();
-
+  var video = $('#fileToUpload').val()
+  
+  if( video == '' ) {
+    $('#CheckingError').show();
+    $('#CheckingError').html("As your show contribution is public.. let me review is mandatory")
+    status = "false";
+  }
+  else
+  {
+    $('#CheckingError').hide();
+  }
+  
   if( $('#show_contributor_preferences_public').is(":checked") && !$('#show_need_review').is(":checked") ) {
     $('#CheckingError').show();
     $('#CheckingError').html("As your show contribution is public.. let me review is mandatory")

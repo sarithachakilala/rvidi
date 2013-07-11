@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+  before_filter :require_user, :only => [:video_player]
 
   def index
     @all_shows = Show.public_shows
@@ -13,6 +14,10 @@ class HomeController < ApplicationController
   end
 
   def terms_condition
+  end
+
+  def my_file
+    send_file "#{Rails.root.to_s}/tmp/#{current_user.id}_#{session[:timestamp]}.flv", :type => 'video/x-flv'
   end
 
 end

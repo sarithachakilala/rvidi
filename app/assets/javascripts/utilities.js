@@ -321,7 +321,13 @@ function check_file(){
     str.indexOf(suffix14, str.length - suffix14.length) !== -1)){
     alert('File type not allowed\n');
     document.getElementById('fileToUpload').value='';
+    return false;
   }
+
+  else {
+    return true;
+  }
+  
 }
 
   $(function() {

@@ -1,5 +1,5 @@
 class CameosController < ApplicationController
-  before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
+  before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy, :validate_video, :video_player]
 
   def index
     @cameos = Cameo.all
@@ -20,7 +20,9 @@ class CameosController < ApplicationController
   end
 
   def new
-    @tstamp = Time.now.to_i
+    session[:timestamp] = nil
+    session[:timestamp] = Time.now.to_i
+    Cameo.delete_old_flv_files
     @cameo = Cameo.new(:show_id => params[:show_id], :director_id => params[:director_id])
     @show = Show.find(params[:show_id])
     @show_preference = @show.set_contributor_preference(current_user, session[:contribution_preference])
@@ -71,14 +73,11 @@ class CameosController < ApplicationController
     else
       begin
         sleep(4);
-        stream_file = Cameo.get_cameo_file(current_user, params[:tstamp])
+        stream_file = Cameo.get_cameo_file(current_user, session[:timestamp])
         media_entry = @cameo.upload_video_to_kaltura(stream_file,
           session[:client], session[:ks])
         @cameo.set_uploaded_video_details(media_entry)
       rescue Exception => e
-        logger.debug "**********"
-        logger.debug e.message
-        logger.debug "**********"
         flash[:notice] = "No stream to publish!!"
         redirect_to root_url
         return
@@ -182,4 +181,31 @@ class CameosController < ApplicationController
     @sucess = Cameo.clipping_video(@cameo, session[:client], session[:ks], params[:start_time], params[:end_time] )
     flash.now[:alert]="your cameo will be clipped shortly"
   end
+
+  def validate_video
+    session[:limit_reached] = nil
+    if params[:show].present? && params[:show][:cameos_attributes].present? && params[:show][:cameos_attributes]['0'][:video_file].present?
+      file = params[:show][:cameos_attributes]['0'][:video_file]
+    elsif params[:cameo].present? && params[:cameo][:cameos].present? && params[:cameo][:cameos][:video_file].present?
+      file = params[:cameo][:cameos][:video_file]
+    end
+
+    duration = Cameo.get_video_duration(file)
+    if duration <= 60
+      Cameo.convert_file_to_flv(current_user, file, session[:timestamp])
+    else
+      session[:limit_reached] = true
+      Cameo.delete_uploaded_file(file)
+    end
+    redirect_to video_player_path
+    
+  end
+
+  def video_player
+    session[:type] = params[:type]
+    @type = session[:type]
+    session[:type] = nil
+    render :layout => false
+  end
+
 end
