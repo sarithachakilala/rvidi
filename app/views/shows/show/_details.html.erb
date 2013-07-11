@@ -54,7 +54,7 @@
 
         <!-- Share Buttins -->
         <div class="span12 margin_top_10">
-          <div class="pull-left"><%= mail_to "","<i class='sprite-mail-small'></i>".html_safe,:subject => "Check out this video I made on rvidi.com!",:body => "I just used rVidi.com to collect and combine some video clips to create a show.
+          <div class="pull-right" style="margin-right:300px;"><%= mail_to "","<i class='social-share-button-email'></i>".html_safe,:subject => "Check out this video I made on rvidi.com!",:body => "I just used rVidi.com to collect and combine some video clips to create a show.
 
 It so easy to gather and combine short video cameos...individually or with a bunch of friends you invite.
 
@@ -70,12 +70,13 @@ Hope you enjoy it!
 Thanks for taking time to view my video creation!
 
 (name of director)
-          "%></div>
-           <%= social_share_button_tag("Share this video",
+            "%></div>
+          <%= social_share_button_tag("Share this video",
             :url => "#{configatron.site_address_full}/shows/#{show.id}", :class=> "pull-right")%>
         </div>
-
+       
       </div>
+
 
       <div class="span6">
 
