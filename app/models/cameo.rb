@@ -28,7 +28,6 @@ class Cameo < ActiveRecord::Base
   validates :name, :presence => true
   validates :thumbnail_url, :presence => true
   validates :download_url, :presence => true
-  validates :title, :presence => true
   
   # Callbacks
   #before_destroy :delete_kaltura_video
