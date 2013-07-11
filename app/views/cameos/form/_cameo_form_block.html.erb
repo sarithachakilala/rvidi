@@ -36,6 +36,7 @@
           <div class="controls">
             <%= f.text_field :title, :class => "show-show-tag", :placeholder => "Give your cameo a title" %>
           </div>
+          <p id="cameo_title_error" class="error-message" style="display:none;margin-left:200px;">&nbsp;</p><br/>
         </div>
         
         <%= f.hidden_field :user_id, :value => current_user.id, :class => "cameo-user-id" %>
