@@ -32,13 +32,13 @@ module ApplicationHelper
     file.present? ? ("/assets/streams_temp/VTS_01_0.VOB") : ("/assets/recorder/red5recorder.swf")
   end
 
-  def record_or_preview_video(type, time_stamp)
+  def record_or_preview_video(type)
     if type == 'RECORD'
-      render :partial => 'shows/player/video_recorder', :locals => {:time_stamp => time_stamp}
+      render :partial => 'shows/player/video_recorder', :locals => {:time_stamp => session[:timestamp]}
     elsif session[:limit_reached].present?
       content_tag :h2, "Video limit is only 60 seconds"
     else
-      render :partial => 'shows/player/video_player'
+      render :partial => 'shows/player/video_player', :locals => {:time_stamp => session[:timestamp]}
     end
 
   end

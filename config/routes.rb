@@ -7,8 +7,7 @@ Rvidi::Application.routes.draw do
   match 'sign_out', to: 'sessions#destroy', as: 'sign_out'
   match 'video-player' => 'cameos#video_player', :as => :video_player
   match 'validate-video' => 'cameos#validate_video', :as => :validate_video
-  match 'show-recorder' => 'cameos#show_recorder', :as => :show_recorder
-  match 'show-player' => 'cameos#player', :as => :show_player
+  match 'file-render' => 'home#my_file', :as => :my_file
 
   resources :password_resets
   resources :comments do

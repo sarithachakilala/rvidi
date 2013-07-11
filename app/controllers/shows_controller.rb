@@ -72,8 +72,9 @@ class ShowsController < ApplicationController
     ## Get a time stamp and store it in hidden field of the form .
     ## This time stamp is used for generating the file name 
     ## This helps the create action to find the exact file uploaded by the user, (doesn't matter if 2 or more users are recording concurrently.)
-    @tstamp = Time.now.to_i
-    
+    session[:timestamp] = nil
+    session[:timestamp] = Time.now.to_i
+    Cameo.delete_old_flv_files
     ## Get the object.
     @show = Show.new(:display_preferences => "private", :contributor_preferences => "private")
     
@@ -114,7 +115,7 @@ class ShowsController < ApplicationController
     else
       begin
         sleep(4);
-        stream_file = Cameo.get_cameo_file(current_user, params[:tstamp])
+        stream_file = Cameo.get_cameo_file(current_user, session[:timestamp])
         media_entry = @cameo.upload_video_to_kaltura(stream_file,
           session[:client], session[:ks])
         @cameo.set_uploaded_video_details(media_entry)

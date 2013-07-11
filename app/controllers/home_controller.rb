@@ -16,4 +16,8 @@ class HomeController < ApplicationController
   def terms_condition
   end
 
+  def my_file
+    send_file "#{Rails.root.to_s}/tmp/#{current_user.id}_#{session[:timestamp]}.flv", :type => 'video/x-flv'
+  end
+
 end

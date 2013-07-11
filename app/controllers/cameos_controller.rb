@@ -1,5 +1,5 @@
 class CameosController < ApplicationController
-  before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
+  before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy, :validate_video, :video_player]
 
   def index
     @cameos = Cameo.all
@@ -22,6 +22,7 @@ class CameosController < ApplicationController
   def new
     session[:timestamp] = nil
     session[:timestamp] = Time.now.to_i
+    Cameo.delete_old_flv_files
     @cameo = Cameo.new(:show_id => params[:show_id], :director_id => params[:director_id])
     @show = Show.find(params[:show_id])
     @show_preference = @show.set_contributor_preference(current_user, session[:contribution_preference])
@@ -191,7 +192,7 @@ class CameosController < ApplicationController
 
     duration = Cameo.get_video_duration(file)
     if duration <= 60
-      Cameo.convert_file_to_flv(file)
+      Cameo.convert_file_to_flv(current_user, file, session[:timestamp])
     else
       session[:limit_reached] = true
       Cameo.delete_uploaded_file(file)
@@ -204,7 +205,6 @@ class CameosController < ApplicationController
     session[:type] = params[:type]
     @type = session[:type]
     session[:type] = nil
-    @tstamp = session[:timestamp]
     render :layout => false
   end
 

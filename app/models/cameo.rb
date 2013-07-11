@@ -40,13 +40,17 @@ class Cameo < ActiveRecord::Base
 
   class << self
 
+    def delete_old_flv_files
+      `rm -f #{Rails.root.to_s}/tmp/*.flv`
+    end
+
     def get_video_duration(file)
       raw_duration = `ffmpeg -i #{file.tempfile.to_path.to_s} 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
       raw_duration.split(':')[0].to_i * 3600 + raw_duration.split(':')[1].to_i * 60 + raw_duration.split(':')[2].to_i if raw_duration.present?
     end
 
-    def convert_file_to_flv(file)
-      `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y #{Rails.root.to_s}/app/assets/javascripts/streams_temp/rvidi_temp.flv`
+    def convert_file_to_flv(current_user, file, cameo_tt)
+      `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y #{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv`
     end
 
     def delete_uploaded_file(file)
