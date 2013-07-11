@@ -91,7 +91,22 @@ class CameosController < ApplicationController
     end
     
     @success = @cameo.save
+    @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
+    
+    #checking whether user is friend or not
+    friend = FriendMapping.where(:user_id=> @cameo.show.user_id, :friend_id => current_user.id, :status => "accepted" )
+    pending_request = FriendMapping.where(:user_id=> @cameo.show.user_id, :friend_id => current_user.id, :status => "pending" )
+    User.friendmapping_creation(@cameo.show.user_id, current_user.id, "accepted")  if @invited.present? && !friend.present?
 
+    #updating the pending request
+    if pending_request.present?
+      pending_request.first.update_attributes(:status =>"accepted")
+      pending_request2 = FriendMapping.where(:friend_id=> @cameo.show.user_id, :user_id => current_user.id, :status => "pending" )
+      pending_request2.first.update_attributes(:status =>"accepted")
+      notification = Notification.where(:to_id => current_user.id, :from_id => @cameo.show.user_id).first
+      notification.update_attributes(:status => "accepted", :read_status => true)
+    end
+    
     #Creating a notification to the director
     notification = Notification.create(:show_id=>params[:cameo]['show_id'], :from_id=>params[:cameo]['user_id'], :to_id => params[:cameo]['director_id'], :status => "contributed", :content =>"Added a Cameo", :read_status => false) 
     notification.save!

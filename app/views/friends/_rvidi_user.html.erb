@@ -21,7 +21,7 @@
     <% cameos = Cameo.where(:director_id => user.id).count %>
     <div class="friends_show"> 
       <%= shows %> shows,&nbsp;
-      <a class="frinds_cameos"><%= cameos %> cameos </a>
+      <span style="color:#f89406;"><%= cameos %> cameos </span>
     </div>
     
     <!-- Check Box to select the friend -->

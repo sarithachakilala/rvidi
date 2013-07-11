@@ -19,6 +19,8 @@
                           <% if @friend_requests.present?%>
                             <% @friend_requests.each do |each_user_detail| %>
                               <% @user = User.find(each_user_detail.from_id)%>
+                               <% shows = Show.where(:user_id => @user.id).count %>
+                               <% cameos = Cameo.where(:director_id => @user.id).count %>
                               <div class="thumbnail frinds_thumbnail_padding">
                                 <div class="row-fluid frinds_row_margin">
                                   <div class="span8"> 
@@ -31,7 +33,7 @@
                                       </div>
                                       <div class="span6">
                                         <div class="friend_name"><%= @user.full_name.titlecase %></div>
-                                        <div class="friends_show"> 3 shows,&nbsp;<a class="frinds_cameos">12 cameos </a>
+                                        <div class="friends_show"> <%= shows%>shows,&nbsp;<span style="color:#f89406;"><%= cameos %> cameos </span>
                                          </div>
                                          <div class = "row-fluid">
                                           <div class = "span6">

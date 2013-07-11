@@ -401,14 +401,16 @@
   overflow : hidden;
 }
 .triangle-with-shadow:after {
-  content : "";
-  position : relative;
-  width : 35px;
-  height : 50px;
-  background : #ffffff;
-  transform : rotate(45deg);
-  top : 87px;
-  left : 4px;
+    content : "";
+    position : absolute;
+    width : 35px;
+    height : 50px;
+    background : #ffffff;
+    top : 87px;
+    left : 4px;
+    transform: rotate(45deg);
+    -ms-transform: rotate(45deg); /* IE 9 */
+    -webkit-transform: rotate(45deg); /* Safari and Chrome */
 }
 .triangle-with-shadow:hover, .triangle-with-shadow:hover:after {
   /* box-shadow : none; */
@@ -837,8 +839,8 @@
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif, !important;
 }
 .sprite-mail-small {
-  background-position: -708px -84px;
-  height: 37px;
+  background-position: -710px -95px;
+  height: 20px;
   vertical-align: middle;
-  width: 34px;
+  width: 23px;
 }

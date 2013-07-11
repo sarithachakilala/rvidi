@@ -7,14 +7,15 @@
   <%= render :partial => "shows/form/record_cameo_block", :locals => { :f => f, :title=>"Upload / Record another Cameo" } %>
   
   <!-- Invite Friends from Facebook and Twitter (White Box) -->
-  <%= render :partial=> "shows/form/invite_friends_block", :locals =>{ :f => f } %>
-  
+  <% if @cameo.invite_my_friend_to_this_show?(current_user) %>
+    <%= render :partial=> "shows/form/invite_friends_block", :locals =>{ :f => f } %>
+  <% end%>
   <!-- Show Publish Button which submits the form -->
   <div class="buttons_height">
     <div class=" hr_bg" style="">
       <div class="text_align_center newshow_btn">
         <%= f.submit "Publish Cameo", :class => "btn btn-warning publish-show-btn" %>
-        <%= link_to "Go Back to Show", show_path(:id => @cameo.show.id), :class => "btn  btn-info " %>
+        <%= link_to "Cancel", user_root_path, :class => "btn  btn-info " %>
       </div>
     </div>
   </div>
