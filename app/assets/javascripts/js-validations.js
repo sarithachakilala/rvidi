@@ -38,13 +38,13 @@ $(document).ready(function(){
     status = "true";
     $(this).closest('form').attr('action', '/shows').
     addClass('js-validated-form').attr('target', '_self');
-    status = edit_show();
-    if(status == "false") {
-      event.preventDefault();
-    }
-    else {
+    //status = edit_show();
+    //if(status == "false") {
+      //event.preventDefault();
+    //}
+    //else {
       return;
-    }
+    //}
   });
   
   $('#validate_new_cameo').on('click', function(event){

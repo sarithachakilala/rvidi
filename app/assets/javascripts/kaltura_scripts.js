@@ -1,14 +1,10 @@
-$(document).ready(function(){
-
-});
-
 function jsCallbackReady(objectId){
   window.kdp = document.getElementById(objectId);
   // kdp.setKDPAttribute("configProxy.flashvars","autoPlay","true")
 }
 
 function loadKalturaPlayerWithoutPlaylist(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, autoPlay){
-  var UICONF_ID = '13376072'
+  var UICONF_ID = '6709462'
   kWidget.embed({
     'targetId': TARGET_DIV_ID,
     'wid': '_'+PARTNER_ID,
@@ -30,7 +26,7 @@ function loadKalturaPlayerWithoutPlaylist(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, a
 }
 
 function loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, autoPlay, playlist_id){
-  var UICONF_ID = '15034122'
+  var UICONF_ID = '6709461'
   kWidget.embed({
     'targetId': TARGET_DIV_ID,
     'wid': '_'+PARTNER_ID,
@@ -50,3 +46,6 @@ function loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, autoPlay, playli
     }
   });
 }
+
+
+
