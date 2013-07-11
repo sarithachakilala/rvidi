@@ -35,6 +35,8 @@ module ApplicationHelper
   def record_or_preview_video(type, time_stamp)
     if type == 'RECORD'
       render :partial => 'shows/player/video_recorder', :locals => {:time_stamp => time_stamp}
+    elsif session[:limit_reached].present?
+      content_tag :h2, "Video limit is only 60 seconds"
     else
       render :partial => 'shows/player/video_player'
     end

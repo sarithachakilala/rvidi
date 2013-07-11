@@ -167,16 +167,20 @@ class CameosController < ApplicationController
   end
 
   def validate_video
-
-    if params[:show].present? && params[:show][:cameos_attributes].present?
+    session[:limit_reached] = nil
+    if params[:show].present? && params[:show][:cameos_attributes].present? && params[:show][:cameos_attributes]['0'][:video_file].present?
       file = params[:show][:cameos_attributes]['0'][:video_file]
-    elsif params[:cameo].present? && params[:cameo][:cameos].present?
+    elsif params[:cameo].present? && params[:cameo][:cameos].present? && params[:cameo][:cameos][:video_file].present?
       file = params[:cameo][:cameos][:video_file]
     end
-    `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y /home/raghavendra/rails_apps/rvidi/app/assets/javascripts/streams_temp/rvidi_temp.flv`
-    #raw_duration = `ffmpeg -i /home/raghavendra/rails_apps/rvidi/app/assets/javascripts/streams_temp/testing 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
-    #duration = raw_duration.split(':')[0].to_i * 3600 + raw_duration.split(':')[1].to_i * 60 + raw_duration.split(':')[2].to_i if raw_duration.present?
-    
+
+    duration = Cameo.get_video_duration(file)
+    if duration <= 60
+      Cameo.convert_file_to_flv(file)
+    else
+      session[:limit_reached] = true
+      Cameo.delete_uploaded_file(file)
+    end
     redirect_to video_player_path
     
   end

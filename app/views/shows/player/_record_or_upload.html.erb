@@ -1,3 +1,8 @@
+<% content_for :js_with_script_tags do %>
+  <script type="text/javascript" src="/assets/jwplayer/jwplayer.js"></script>
+  <script type="text/javascript">jwplayer.key="mpJ6hvthpTeeMIAJQsdD5J21PH+FCBhx/WXxjQ==";</script>
+<% end %>
+
 <div id="collapseTwo" class="accordion-body collapse in">
   <div class="accordion-inner">
 
@@ -55,6 +60,7 @@
       e.preventDefault();
       var status = check_file();
       if(status) {
+        $('#div_record_video_holder').show();
         $(this).closest('form').attr('action', '<%= j validate_video_path %>');
         $(this).closest('form').removeClass('js-validated-form');
         $(this).closest('form').submit();
