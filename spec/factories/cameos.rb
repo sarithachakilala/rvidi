@@ -11,8 +11,8 @@ FactoryGirl.define do
     name "Cameo1 Video"
     description "Cameo1 Video Desc"
     tags "tag1"
-    thumbnail_url "http://cdnbakmi.kaltura.com/p/1409052/sp/140905200/thumbnail/entry_id/0_w22rt37j/version/100000"
-    download_url "http://cdnbakmi.kaltura.com/p/1409052/sp/140905200/raw/entry_id/0_w22rt37j/version/0"
+    thumbnail_url "http://cdnbakmi.kaltura.com/p/100/sp/10000/thumbnail/entry_id/0_w22rt37j/version/100000"
+    download_url "http://cdnbakmi.kaltura.com/p/100/sp/10000/raw/entry_id/0_w22rt37j/version/0"
     duration "15"
     kaltura_entry_id "1_g42tyf6u"
   end
