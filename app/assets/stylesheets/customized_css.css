@@ -402,13 +402,15 @@
 }
 .triangle-with-shadow:after {
   content : "";
-  position : relative;
+  position : absolute;
   width : 35px;
   height : 50px;
   background : #ffffff;
-  transform : rotate(45deg);
   top : 87px;
   left : 4px;
+  transform: rotate(45deg);
+  -ms-transform: rotate(45deg); /* IE 9 */
+  -webkit-transform: rotate(45deg); /* Safari and Chrome */
 }
 .triangle-with-shadow:hover, .triangle-with-shadow:hover:after {
   /* box-shadow : none; */
@@ -835,4 +837,11 @@
   padding: 3px 10px 10px 14px;
   text-align:justify;
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
+.sprite-mail-small {
+  background-position: -710px -95px;
+  height: 20px;
+  vertical-align: middle;
+  width: 23px;
 }
