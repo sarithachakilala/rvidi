@@ -4,7 +4,7 @@ function jsCallbackReady(objectId){
 }
 
 function loadKalturaPlayerWithoutPlaylist(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, autoPlay){
-  var UICONF_ID = '6709462'
+  var UICONF_ID = '15276472'
   kWidget.embed({
     'targetId': TARGET_DIV_ID,
     'wid': '_'+PARTNER_ID,
@@ -26,7 +26,7 @@ function loadKalturaPlayerWithoutPlaylist(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, a
 }
 
 function loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, autoPlay, playlist_id){
-  var UICONF_ID = '6709461'
+  var UICONF_ID = '15276512'
   kWidget.embed({
     'targetId': TARGET_DIV_ID,
     'wid': '_'+PARTNER_ID,
