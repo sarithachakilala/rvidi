@@ -58,6 +58,10 @@ class Show < ActiveRecord::Base
 
 
   # CLASS METHODS
+  def self.my_shows(current_user_id)
+    self.where(:user_id => current_user_id)
+  end
+
   # INSTANCE METHODS
   def update_active_cameos(cameos_arr)
     cameos.each do|cameo|
@@ -211,6 +215,7 @@ class Show < ActiveRecord::Base
     end
   end
 
+ 
 end
 
   

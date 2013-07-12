@@ -1,4 +1,4 @@
-<% cameos = show.cameos.order('show_order asc') %>
+<% cameos = show.cameos('show_order asc').where(:published_status => "published") %>
 
 <% cameos.each do|cameo| %>
   

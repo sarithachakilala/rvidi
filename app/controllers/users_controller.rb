@@ -96,6 +96,7 @@ class UsersController < ApplicationController
   end
 
   def dashboard
+    my_shows = Show.my_shows(current_user.id)
     @latest_show =  Show.limit(6).order('created_at desc')
     @most_viewed =  Show.order('number_of_views desc')
     @show_notifications = Notification.where(:status => "contributed", :to_id=> current_user.id, :read_status => false).order(:created_at).group_by(&:show_id)
@@ -173,7 +174,7 @@ class UsersController < ApplicationController
     RvidiMailer.delay.invite_new_friend(params[:email], @user)
     notification = Notification.create(:to_email=> params[:email], :from_id => current_user.id, :status => "pending", :content =>"Requested to add as friend", :read_status => false)
     notification.save!
-    redirect_to friends_user_path(:id => session[:user_id])
+    redirect_to friends_user_path(:id => session[:user_id]), :notice => "Friend Request sent Successfully!"
   end
 
   def add_twitter_friends
