@@ -6,7 +6,7 @@
     </div>
     <div class="row-fluid caption">
       <div class="span9">
-        <div class="thumbnail_title"><%= link_to show.title.capitalize, show_path(:id=>show.permalink) %></div>
+        <div class="thumbnail_title"><%= link_to show.title.capitalize.truncate(12), show_path(:id=>show.permalink) %></div>
         <div class="thumbnail_name"><%= show.director.full_name.titlecase %> </div>
         <% contribution =  show.cameos.where(:status => "enabled", :published_status => "published").count%>
         <div class="thumbnail_contributor"><%= contribution %> Contributors </div>
