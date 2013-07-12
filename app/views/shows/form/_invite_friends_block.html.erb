@@ -50,7 +50,7 @@
     //Facebook Send Message to a friend
     $(document).on('click', '.button-facebook-friend-invite', function(e){
       e.preventDefault();
-      facebook_send_message_to_invite($(this).attr('id'), '<%= current_user.full_name %>',
+       facebook_send_message_to_invite($(this).attr('id'), '<%= current_user.full_name %>',
       '<%= get_show_id(f.object) %>', '<%= current_user.id %>');
     });
   

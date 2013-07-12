@@ -21,8 +21,8 @@ function facebook_send_message(element_id, name, from_id) {
 
 
 
-function facebook_send_message_to_invite(element_id, name, show_id, current_user_id ) {
-  alert("bye")
+function facebook_send_message_to_invite(element_id, name,show_id, current_user_id ) {
+
   FB.ui(
   {
     method: 'send',
@@ -34,9 +34,9 @@ function facebook_send_message_to_invite(element_id, name, show_id, current_user
   },
   function(response) {
     if (response) {
-      alert("hi")
       alert('Post was published.');
-    } else {
+    }
+    else {
       alert('Post was not published.');
     }
   }
