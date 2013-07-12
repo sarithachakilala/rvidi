@@ -46,7 +46,7 @@ class ShowsController < ApplicationController
     @display_prefernce = params[:preference].present? ? params[:preference] : @show.display_preferences
     @show.update_attribute(:number_of_views, (@show.number_of_views.to_i+1))
     
-    @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
+    @cameo = Cameo.where(:id => params[:cameo_id], :status => "enabled", :published_status=> "published").first if params[:cameo_id]
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
     @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if current_user.present?
