@@ -26,7 +26,7 @@ function loadKalturaPlayerWithoutPlaylist(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, a
 }
 
 function loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID, autoPlay, playlist_id){
-  var UICONF_ID = '15276512'
+  var UICONF_ID = '15413032'
   kWidget.embed({
     'targetId': TARGET_DIV_ID,
     'wid': '_'+PARTNER_ID,
