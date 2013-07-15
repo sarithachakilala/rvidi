@@ -50,7 +50,12 @@ class Cameo < ActiveRecord::Base
     end
 
     def convert_file_to_flv(current_user, file, cameo_tt)
+      if Rails.env == 'development'
       `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y #{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv`
+      else
+        `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y "/var/www/apps/rvidi/shared/temp_streams/#{current_user.id}_#{cameo_tt}.flv"`
+      end
+
     end
 
     def delete_uploaded_file(file)
