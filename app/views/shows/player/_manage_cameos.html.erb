@@ -12,7 +12,7 @@
       </div>
 
       <div class="row-fluid">
-        <% selected_cameo = @show.cameos('show_order asc').where(:published_status => "published").first %>
+        <% selected_cameo = @show.cameos('show_order asc').where(:status => "enabled", :published_status => "published").first %>
         <!-- Show Player -->
         <div id="show_<%= @show.id %>_kaltura_player_container" class="span7">
           <!-- <img src="/assets/video_img.png" alt=""> -->

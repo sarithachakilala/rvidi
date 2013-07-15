@@ -1,7 +1,7 @@
 <div class="row-fluid">
   <div class="span4 marging_none cameo_friends" style="margin-left:10px;">
   <% if show.cameos.present? %>
-    <% show.cameos.order('show_order asc').each do|show_cameo| %>
+    <% show.cameos('show_order asc').where(:published_status => "published").each do|show_cameo| %>
       <% if show_cameo.status== "enabled" %>
         <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
         <div class="row-fluid show-cameo-detail <%= cameo_div_class %>" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail">
