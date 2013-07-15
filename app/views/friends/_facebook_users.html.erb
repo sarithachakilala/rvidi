@@ -5,9 +5,12 @@
 <% facebook_friends.each_slice(3).each do |friends_slice| %>
   <div class="row-fluid margin-top-5">
     <% friends_slice.each do|friend| %>
-      <div class="span4">
-        <%= render :partial=>"friends/facebook_user", :locals=> {:friend => friend} %>
-      </div>
+      <% verify_existing_user = Authentication.where(:uid => friend['id']) %>
+      <% unless verify_existing_user.present? %>
+        <div class="span4">
+          <%= render :partial=>"friends/facebook_user", :locals=> {:friend => friend} %>
+        </div>
+      <% end %>
     <% end %>
   </div>
 <% end %>

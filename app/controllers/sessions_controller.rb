@@ -11,7 +11,7 @@ class SessionsController < ApplicationController
   def create
     if (params[:fetch_invities].present? && params[:fetch_invities] == 'true')
       auth = env["omniauth.auth"]
-      session[:uid] = auth['uid']
+      session[:uid] = auth['uid'].to_i
       session[:auth_token] = auth.credentials.token
       session[:auth_secret] = auth.credentials.secret
       logger.debug session[:uid]

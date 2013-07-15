@@ -223,12 +223,12 @@ class ShowsController < ApplicationController
     @user = User.find(current_user.id)
     RvidiMailer.delay.invite_friend_to_show(email, current_user, show.id)
     InviteFriend.create(:director_id => show.user_id, :show_id => show.id,
-                        :contributor_email => email, :status =>"invited" )
+      :contributor_email => email, :status =>"invited" )
     
     flash[:notice] = "Your invitation will be sent as soon as you publish the show"                 
     notification = Notification.new(:show_id => show.id, :from_id => current_user.id, 
-                                    :to_id => '', :status => "contribute",
-                                    :content =>" has Requested you to contribute for their Show ", :to_email=>params[:email])
+      :to_id => '', :status => "contribute",
+      :content =>" has Requested you to contribute for their Show ", :to_email=>params[:email])
     notification.save!
   end
 
@@ -272,13 +272,13 @@ class ShowsController < ApplicationController
 
   def add_twitter_invities
     # @show = Show.find(params[:id])
+    @friends = User.current_user_friends(current_user) 
     if session[:uid].present?
       uid = session[:uid]
       User.configure_twitter(session[:auth_token], session[:auth_secret])
       session[:uid] = session[:auth_token] = session[:auth_secret] = nil
       begin
         @twitter_friends = Twitter.followers(uid.to_i)
-         # redirect_to add_twitter_invities_shows_path(:friends =>  @twitter_friends )
         redirect_to edit_show_path(params[:id])
       rescue
         flash[:alert] = 'Twitter rake limit exceeded'
