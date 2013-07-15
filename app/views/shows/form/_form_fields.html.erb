@@ -11,6 +11,7 @@
         <%= f.hidden_field :user_id, :value => current_user.id, :class => "show-user-id" %>
         <%= f.text_field :title, :placeholder => "Title",
           :class => "show-title js-required span6" %>
+        <p id="title_blank_error" class="error-message" style="display:none;">&nbsp;</p><br/>
       </div>
     </div>
 
@@ -96,6 +97,7 @@
         <%= f.text_field :description,
           :placeholder => "Tell viewers and contributors what your show’s about",
           :class => "js-required show-description span6", :maxlength=>"100"%>
+        <p id="show_desc_error" class="error-message" style="display:none;">&nbsp;</p>
       </div>
     </div>
 
