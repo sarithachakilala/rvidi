@@ -22,7 +22,7 @@ class UsersController < ApplicationController
         invitations = InviteFriend.where(:contributor_email=>params[:from_email]) if params[:from_email].present?
         invitations.each do |each_invitation|
           each_invitation.update_attributes(:contributor_id=> @user.id)
-        end
+        end if invitations.present?
         notification_update = Notification.where(:to_id => @user.id, :from_id => params[:from_id], :status=> "pending").first
         notification_update.update_attributes(:status => "accepted", :read_status => true) if notification_update.present?
       elsif params[:from_email].present?

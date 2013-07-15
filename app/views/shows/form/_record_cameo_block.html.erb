@@ -17,6 +17,12 @@
     
     <!-- Rendering the form fields -->
     <%= f.fields_for :cameos do |cameo_builder| %>
+      <% if controller.controller_name == "shows" %>
+        <label class="control-label  blue_label" for="inputPassword">Give your cameo a title</label>
+        <div class="controls">
+          <%= cameo_builder.text_field :title, :class => "show-show-tag", :placeholder => "Give your cameo a title" %>
+        </div>
+      <% end %>
       <%= render :partial => "shows/player/record_or_upload",
                  :locals => { :cameo_builder => cameo_builder } %>
     <% end %>

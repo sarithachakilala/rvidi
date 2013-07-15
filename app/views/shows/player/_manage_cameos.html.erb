@@ -12,7 +12,7 @@
       </div>
 
       <div class="row-fluid">
-        <% selected_cameo = @show.cameos('show_order asc').where(:status => "enabled", :published_status => "published").first %>
+        <% selected_cameo = @show.cameos('show_order asc').first%>
         <!-- Show Player -->
         <div id="show_<%= @show.id %>_kaltura_player_container" class="span7">
           <!-- <img src="/assets/video_img.png" alt=""> -->
@@ -29,33 +29,33 @@
       </div>
     </div>
   <div class="accordion-inner">
+    <% if selected_cameo.present? %>
+      <div class="player-contributors-box">
 
-    <div class="player-contributors-box">
+        <div><b> Clip the Video</b> </div>
 
-     <div><b> Clip the Video</b> </div>
+          <div class="row-fluid">
+            <div id="show_<%= @show.id %>_kaltura_clipper_container" class="span7">
+                <%= render :partial => "shows/player/cameo_clipper_without_playlist", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
+            </div>
+              <div class="span5" style="height:360px;overflow:auto;">
+              <div>Enter Start Time :</div>
+              <div class="cl-10"></div>
+              <div><%= text_field_tag :start_time,'',:width=>"50%", :placeholder => "Start time" %></div>
+              <div class="cl-10"></div>
+              <div>Enter End Time :</div>
+              <div class="cl-10"></div>
+              <div><%= text_field_tag :end_time, '',:width=>"50%", :placeholder => "End time"  %></div>
+              <div class="cl-10"></div>
+              <div class="cl-10"></div>
+              <div><%= hidden_field_tag :selected_cameo, selected_cameo.id%></div>
+              <div class=""><%= link_to "Clip Video", "#",:class => "btn btn-warning clip_video" %></div>
 
-      <div class="row-fluid">
-        <div id="show_<%= @show.id %>_kaltura_clipper_container" class="span7">
-            <%= render :partial => "shows/player/cameo_clipper_without_playlist", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
-        </div>
-          <div class="span5" style="height:360px;overflow:auto;">
-          <div>Enter Start Time :</div>
-          <div class="cl-10"></div>
-          <div><%= text_field_tag :start_time,'',:width=>"50%", :placeholder => "Start time" %></div>
-          <div class="cl-10"></div>
-          <div>Enter End Time :</div>
-          <div class="cl-10"></div>
-          <div><%= text_field_tag :end_time, '',:width=>"50%", :placeholder => "End time"  %></div>
-          <div class="cl-10"></div>
-          <div class="cl-10"></div>
-          <div><%= hidden_field_tag :selected_cameo, selected_cameo.id%></div>
-          <div class=""><%= link_to "Clip Video", "#",:class => "btn btn-warning clip_video" %></div>
-
-        </div>
+            </div>
+          </div> 
+        </div> 
       </div> 
-    </div> 
-    </div> 
-
+    <% end %>
 
     <div class="row-fluid">
       <div class="span12">

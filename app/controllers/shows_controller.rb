@@ -46,7 +46,7 @@ class ShowsController < ApplicationController
     @display_prefernce = params[:preference].present? ? params[:preference] : @show.display_preferences
     @show.update_attribute(:number_of_views, (@show.number_of_views.to_i+1))
     
-    @cameo = Cameo.where(:id => params[:cameo_id], :status => "enabled", :published_status=> "published").first if params[:cameo_id]
+    @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
     @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if current_user.present?
@@ -150,7 +150,7 @@ class ShowsController < ApplicationController
     respond_to do |format|
       if @show.update_attributes(params[:show])
         @show.disable_download if params[:show][:enable_download].blank?
-        @show.update_active_cameos(params[:active_cameos]) if params[:active_cameos].present?
+        params[:active_cameos].present? ? @show.update_active_cameos(params[:active_cameos]) : @show.cameos.update_all(:status => "disabled")
         #@show.create_playlist if @show.cameos.present? && @show.cameos.enabled.present?
         format.html { redirect_to @show, notice: 'Show was successfully updated.' }
         format.json { head :no_content }
@@ -262,8 +262,12 @@ class ShowsController < ApplicationController
     @show = Show.find(params[:show_id])
     end_set_val = params[:status] == "end" ? Time.now : ""
     @show.update_attributes(:end_set => end_set_val) 
-    @show.download_complete_show(session[:client], session[:ks]) if params[:status] == "end"
-    redirect_to show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
+    if params[:status] == "end"
+      @show.download_complete_show(session[:client], session[:ks]) 
+      redirect_to edit_show_path(@show.id), :notice => "Successfully Show got #{params[:status]}ed." 
+    else
+      redirect_to show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed." 
+    end
   end
 
   def add_twitter_invities
@@ -274,6 +278,7 @@ class ShowsController < ApplicationController
       session[:uid] = session[:auth_token] = session[:auth_secret] = nil
       begin
         @twitter_friends = Twitter.followers(uid.to_i)
+         # redirect_to add_twitter_invities_shows_path(:friends =>  @twitter_friends )
         redirect_to edit_show_path(params[:id])
       rescue
         flash[:alert] = 'Twitter rake limit exceeded'
@@ -285,25 +290,5 @@ class ShowsController < ApplicationController
       @twitter_friends = []
     end
   end
-
-  # def download_complete_show
-  #   @show = Show.find(params[:id])
-  #   val =""
-  #   @show.cameos.each do |each_cameo|
-  #     `wget -O "#{each_cameo.id}.avi" "#{each_cameo.download_url}"` #downloading each cameo
-  #     `avconv -i "#{each_cameo.id}.avi" -qscale:v 1 "#{each_cameo.id}".mpg`   #for processing the input stream
-  #     val = val <<  "#{each_cameo.id}.mpg "
-  #     File.delete("#{each_cameo.id}.avi")   if File.exists?("#{each_cameo.id}.avi")
-  #     File.delete("#{each_cameo.id}.mpg")    if File.exists?("#{each_cameo.id}.mpg")
-  #   end
-  #     `cat #{val} > "#{@show.id}#{@show.title}.mpg"`  #concatinating the cameos
-  #   @cameo = Cameo.new
-  #   new_file = File.open("#{@show.id}#{@show.title}.mpg") if File.exists?("#{@show.id}#{@show.title}.mpg")
-  #   media_entry = @cameo.upload_video_to_kaltura(new_file, session[:client], session[:ks])
-  #   @cameo.set_uploaded_video_details(media_entry)
-  #   File.delete("#{@show.id}#{@show.title}.mpg") 
-  #   @show.update_attributes(:download_url =>  media_entry.download_url)
-  #   redirect_to edit_show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
-  # end
 
 end
