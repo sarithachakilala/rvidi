@@ -16,7 +16,11 @@ class HomeController < ApplicationController
   end
 
   def my_file
-    send_file "#{Rails.root.to_s}/tmp/#{current_user.id}_#{session[:timestamp]}.flv", :type => 'video/x-flv'
+    if Rails.env == 'development'
+      send_file "#{Rails.root.to_s}/tmp/#{current_user.id}_#{session[:timestamp]}.flv", :type => 'video/x-flv'
+    else
+     send_file "/var/www/apps/rvidi/shared/temp_streams/#{current_user.id}_#{session[:timestamp]}.flv", :type => 'video/x-flv'
+    end
   end
 
 end
