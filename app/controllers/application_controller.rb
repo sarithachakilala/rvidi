@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
         session[:ks] ||= session[:client].ks
         p "user loggedin! session is #{session[:ks]}"
       else
-        session[:client] = Cameo.get_kaltura_client(User.first)
+        session[:client] = Cameo.get_kaltura_client(User.first) 
         session[:ks] ||= session[:client].ks
       end
     rescue Kaltura::KalturaAPIError => e

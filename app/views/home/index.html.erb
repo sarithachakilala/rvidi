@@ -121,28 +121,29 @@
               <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", :id => "thumbs" %>
               <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "lists" %>
             </div>
-            
-            <% @most_commented.each_slice(4) do|shows_slice| %>
-              <div class="thumbs_formats showsformat">
-                <div class="row-fluid">
-                  <ul class="thumbnails">
-                    <% shows_slice.each do|show| %>
-                    <% show = Show.find(show)%>
-                      <%= render :partial => "home/show_thumbnail", :locals => { :show => show } %>
-                    <% end %>
-                  </ul>
+            <% if  @most_commented.present?  %>
+              <% @most_commented.each_slice(4) do|shows_slice| %>
+                <div class="thumbs_formats showsformat">
+                  <div class="row-fluid">
+                    <ul class="thumbnails">
+                      <% shows_slice.each do|show| %>
+                        <% show = Show.find(show)%>
+                        <%= render :partial => "home/show_thumbnail", :locals => { :show => show } %>
+                      <% end %>
+                    </ul>
+                  </div>
                 </div>
-               </div>
-               <div class="lists_formats showsformat hide">
-               <% shows_slice.each do|show| %>
-                <div class="row-fluid">
-                  <ul class="thumbnails">
-                    <% show = Show.find(show)%>
-                    <%= render :partial => "home/show_list", :locals => { :show => show } %>
-                  </ul>
+                <div class="lists_formats showsformat hide">
+                  <% shows_slice.each do|show| %>
+                    <div class="row-fluid">
+                      <ul class="thumbnails">
+                        <% show = Show.find(show)%>
+                        <%= render :partial => "home/show_list", :locals => { :show => show } %>
+                      </ul>
+                    </div>
+                  <% end %>
                 </div>
-                <% end %>
-               </div>
+              <%end%>
             <%end%>
           </div>
 
@@ -166,14 +167,14 @@
           <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
           <%= link_to "<i class='sprite-camera-big'></i>".html_safe, sign_up_path, :class => "text_align_center" %>
           <div class="text_align_center acc_text"><%= link_to "Start Your Show", sign_up_path, :class=>"text_align_center show_text"%> </div>
-         
+
           <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
           <%= link_to "<i class='sprite-peoples-icon'></i>".html_safe, sign_up_path, :class => "text_align_center" %>
           <div class="text_align_center Participate_text"><%= link_to "Invite Others To Participate", sign_up_path, :class=>"text_align_center Participate_text"%> </div>
           <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
           <%= link_to "<i class='sprite-reel-icon'></i>".html_safe, sign_up_path, :class => "text_align_center" %>
           <div class="text_align_center acc_text"><%= link_to "Contribute To An Existing Show", sign_up_path, :class=>"text_align_center acc_text"%> </div>
-        
+
         </div>
       </div>
     </div>
