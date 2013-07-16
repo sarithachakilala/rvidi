@@ -7,10 +7,9 @@
     <% friends_slice.each do|friend| %>
       <div class="span4">
         <% if request_from == "friend_request" %>
-        <% raise "here" %>
-          <%= render :partial => "friends/twitter_user", :locals => {:friend => friend} %>
+          <%= render :partial => "friends/twitter_user", :locals => {:friend => friend, :request_from => request_from } %>
         <%  else %>
-          <%= render :partial => "friends/twitter_user", :locals => {:friend => friend, :request_from> "show_request"} %>
+          <%= render :partial => "friends/twitter_user", :locals => {:friend => friend, :request_from => request_from } %>
         <%  end %>
       </div>
     <% end %>
