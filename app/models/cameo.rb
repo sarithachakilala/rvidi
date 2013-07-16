@@ -60,10 +60,9 @@ class Cameo < ActiveRecord::Base
       file_path = if file.class == ActionDispatch::Http::UploadedFile
         file.tempfile.to_path.to_s
       else
-        file.path
+        file.class == File ? (file.path) : (file)
       end
-      raw_duration = `ffmpeg -i #{file_path} 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
-      logger.debug "duration is ))))))-- #{raw_duration}"
+      raw_duration = `avconv -i "#{file_path}" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
       raw_duration.split(':')[0].to_i * 3600 + raw_duration.split(':')[1].to_i * 60 + raw_duration.split(':')[2].to_i if raw_duration.present?
     end
 
@@ -74,6 +73,14 @@ class Cameo < ActiveRecord::Base
         `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y "/var/www/apps/rvidi/shared/temp_streams/#{current_user.id}_#{cameo_tt}.flv"`
       end
 
+    end
+
+    def get_flv_file_path(current_user, cameo_tt)
+      if Rails.env == 'development'
+        File.open("#{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv")
+      else
+        File.open("/var/www/apps/rvidi/shared/temp_streams/#{current_user.id}_#{cameo_tt}.flv")
+      end
     end
 
     def delete_uploaded_file(file)

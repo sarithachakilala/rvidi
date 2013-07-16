@@ -23,15 +23,16 @@ class ShowsController < ApplicationController
     rescue Kaltura::KalturaAPIError => e
       flash[:notice] = "API request timeout. Please try later."
       redirect_to root_url
+      return
     end
     @show_preference = @show.set_display_preference(current_user, session[:display_preference])
     
     # to update the duration by getting the video duration from kaltura...
-    show_cameo = @show.cameos.where(:duration => 0.0)
-    show_cameo.each do |each_cameo|
-      new_media_entry = Cameo.get_kaltura_video(session[:client], each_cameo.kaltura_entry_id)
-      each_cameo.update_attributes(:duration => new_media_entry.duration)
-    end
+    #    show_cameo = @show.cameos.where(:duration => 0.0)
+    #    show_cameo.each do |each_cameo|
+    #      new_media_entry = Cameo.get_kaltura_video(session[:client], each_cameo.kaltura_entry_id)
+    #      each_cameo.update_attributes(:duration => new_media_entry.duration)
+    #    end
 
     # finding the duration of sum of all cameos
     if @show.cameos.present?
@@ -86,46 +87,21 @@ class ShowsController < ApplicationController
     end
   end
 
-  def edit
-    @show = Show.find(params[:id])
-    @friends = User.current_user_friends(current_user)
-    @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
-    # finding the duration of sum of all cameos
-    # @show.caluculating_percentage_and_duration(@show) 
-    if @show.cameos.present?
-      array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration)
-      @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
-      @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / @show.duration
-    else
-      @contribution_percentage = 0
-    end
-   
-    if session[:uid].present?
-      uid = session[:uid]
-      User.configure_twitter(session[:auth_token], session[:auth_secret])
-      session[:uid] = session[:auth_token] = session[:auth_secret] = nil
-      @twitter_friends = Twitter.followers(uid)
-    else
-      @twitter_friends = []
-    end
-  end
-
-
   def create
     @show = Show.new(params[:show])
     @cameo = @show.cameos.first
     @cameo.status = Cameo::Status::Enabled
     @cameo.published_status = "published"
     if @cameo.video_file.present?
-      file_path = @cameo.video_file
+      file = Cameo.get_flv_file_path(current_user, session[:timestamp])
     else
-      file_path = Cameo.get_cameo_file(current_user, session[:timestamp])
+      file= Cameo.get_cameo_file(current_user, session[:timestamp])
     end
     @show.duration = @show.duration * 60
-    cameo_duration = Cameo.get_video_duration(file_path)
+    cameo_duration = Cameo.get_video_duration(file)
     if cameo_duration < @show.duration
       begin
-        media_entry = @cameo.upload_video_to_kaltura(file_path, session[:client], session[:ks])
+        media_entry = @cameo.upload_video_to_kaltura(file, session[:client], session[:ks])
         @cameo.set_uploaded_video_details(media_entry)
       rescue Exception => e
         flash[:alert] = e.message
@@ -155,6 +131,29 @@ class ShowsController < ApplicationController
     end
   end
 
+  def edit
+    @show = Show.find(params[:id])
+    @friends = User.current_user_friends(current_user)
+    @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
+    # finding the duration of sum of all cameos
+    # @show.caluculating_percentage_and_duration(@show) 
+    if @show.cameos.present?
+      array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration)
+      @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+      @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / @show.duration
+    else
+      @contribution_percentage = 0
+    end
+   
+    if session[:uid].present?
+      uid = session[:uid]
+      User.configure_twitter(session[:auth_token], session[:auth_secret])
+      session[:uid] = session[:auth_token] = session[:auth_secret] = nil
+      @twitter_friends = Twitter.followers(uid)
+    else
+      @twitter_friends = []
+    end
+  end
 
   def update
     @show = Show.find(params[:id])

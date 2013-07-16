@@ -39,7 +39,7 @@ module ApplicationHelper
         :cameo_max_duration => cameo_max_duration.presence || Cameo::MAX_LENGTH
       }
     elsif session[:limit_reached].present?
-      content_tag :h2, "Video limit is only #{cameo_max_duration} seconds"
+      content_tag :h2, "Cameo limit is only #{cameo_max_duration} seconds"
     else
       render :partial => 'shows/player/video_player', :locals => {:time_stamp => session[:timestamp],
         :cameo_max_duration => cameo_max_duration.presence || Cameo::MAX_LENGTH
