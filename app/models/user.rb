@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
   has_many :comments, :dependent => :destroy
 
   # VALIDATIONS
-  validates :first_name, :last_name, :presence => true
+  validates :first_name, :last_name, :email, :presence => true
   validates :username, :presence => true,
     :uniqueness => true,
     :if => :provider_does_not_exist?

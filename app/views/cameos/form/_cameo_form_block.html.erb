@@ -32,7 +32,7 @@
     
         <!-- Title -->
         <div class="control-group">
-          <label class="control-label  blue_label" for="inputPassword">Give your cameo a title</label>
+          <label class="control-label  blue_label" for="inputPassword" style="width:164px;">Give your cameo a title<span class="star_css">*</span></label>
           <div class="controls">
             <%= f.text_field :title, :class => "show-show-tag", :placeholder => "Give your cameo a title" %>
           </div>
@@ -42,6 +42,7 @@
         <%= f.hidden_field :user_id, :value => current_user.id, :class => "cameo-user-id" %>
         <%= f.hidden_field :show_id, :value => @cameo.show_id, :class => "cameo-show-id" %>
         <%= f.hidden_field :director_id, :value => @cameo.director_id, :class => "cameo-director-id" %>
+        <%= f.hidden_field :cameo_duration, :value => @cameo.duration, :class => "cameo-director-id" %>
         
         <!-- Content to show HTML5 Recorder Ends -->
         <% if params[:id].present? %>
@@ -64,4 +65,3 @@
     </div>
   </div>
 </div>
-

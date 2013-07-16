@@ -120,10 +120,11 @@ class CameosController < ApplicationController
       notification.save!
 
       #checking whether user is friend or not
+      @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
       friend = FriendMapping.where(:user_id=> @cameo.show.user_id, :friend_id => current_user.id, :status => "accepted" )
       pending_request = FriendMapping.where(:user_id=> @cameo.show.user_id, :friend_id => current_user.id, :status => "pending" )
       User.friendmapping_creation(@cameo.show.user_id, current_user.id, "accepted")  if @invited.present? && !friend.present?
-
+      
       #updating the pending request
       if pending_request.present?
         pending_request.first.update_attributes(:status =>"accepted")
@@ -184,7 +185,6 @@ class CameosController < ApplicationController
   def cameo_clipping
     @cameo =  Cameo.find params[:selected_cameo]
     @sucess = Cameo.clipping_video(@cameo, session[:client], session[:ks], params[:start_time], params[:end_time] )
-    flash.now[:alert]="your cameo will be clipped shortly"
   end
 
   def validate_video

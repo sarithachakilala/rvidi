@@ -43,7 +43,7 @@
             <div><%= f.text_field :first_name, :class => "span12 js-required", :placeholder => "First Name" %></div>
             <div><%= f.text_field :last_name, :class => "span12 js-required", :placeholder => "Last Name" %></div>
             <% if params[:email].present?%>
-              <div><%= f.text_field :email, :class => "span12 js-required", :placeholder => "Email Address", :value => params[:email], :readonly=>true %></div>
+              <div>><%= f.text_field :email, :class => "span12 js-required", :placeholder => "Email Address", :value => params[:email], :readonly=>true %></div>
             <% else %>
               <div><%= f.text_field :email, :class => "span12 js-required", :placeholder => "Email Address" %></div>
             <% end %>

@@ -37,13 +37,11 @@
       <%= render :partial=>"friends/friend_mappings", :locals=> {:friend_mappings=>@friend_mappings} %>
     </div>
 
-    <div class="">
-      <% if @twitter_friends.present? %>
-        <%= render :partial=>'friends/twitter_users'%>
-      <% end %>
-    </div>
-    <div id="div_show_friends" class="margin-bottom-10 selects-container">
-      <%= twitter_friends_or_existing_friends(@friends, @twitter_friends) %>
-    </div>
+    <div class="cl-10"></div>
+    <% if @twitter_friends.present? %>
+      <div id="div_show_friends" class="margin-bottom-10 selects-container">
+        <%= twitter_friends_or_existing_friends(@friends, @twitter_friends, "show_request") %>
+      </div>
+    <% end %>
   </div>
 </div>

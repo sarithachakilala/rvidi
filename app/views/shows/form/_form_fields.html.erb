@@ -6,7 +6,7 @@
 
     <!-- Title -->
     <div class="control-group">
-      <label class="control-label blue_label" for="inputEmail">Title</label>
+      <label class="control-label blue_label" for="inputEmail">Title<span class="star_css">*</span></label>
       <div class="controls">
         <%= f.hidden_field :user_id, :value => current_user.id, :class => "show-user-id" %>
         <%= f.text_field :title, :placeholder => "Title",
@@ -91,8 +91,7 @@
 
     <div class="control-group">
       <label class="control-label  blue_label"
-             for="inputPassword">Instructions/Comments
-      </label>
+             for="inputPassword">Instructions/Comments<span class="star_css">*</span></label>
       <div class="controls">
         <%= f.text_field :description,
           :placeholder => "Tell viewers and contributors what your show’s about",
