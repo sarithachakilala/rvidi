@@ -34,14 +34,14 @@
           <% unless @sum_duration_of_cameos.to_i > @show.duration.to_i%>
           <% unless @show.try(:end_set) && (@show.end_set < Time.now) %>
             <% if show.contributor_preferences != Show::Contributor_Preferences::PRIVATE %>
-              <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe,           new_cameo_path(:show_id => show.id, :director_id => show.user_id, :from => params[:from], :through => params[:email]), :class => "btn btn-info", :style => '' %>
+              <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe,           new_cameo_path(:show_id => show.id, :director_id => show.user_id, :from => params[:from], :through => params[:email], :from_id => params[:from_id]), :class => "btn btn-info", :style => '' %>
               <i class="sprite-or-icon_black" style=""></i>
             <% elsif show.contributor_preferences == Show::Contributor_Preferences::PRIVATE &&
               current_user.present? && show.user_id==current_user.id %>
-               <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
+               <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email], :from_id => params[:from_id]), :class => "btn btn-info" %>
               <i class="sprite-or-icon_black" style=''></i>
             <% elsif show.contributor_preferences == "private" && @invited.present? %>
-              <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email]), :class => "btn btn-info" %>
+              <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe, new_cameo_path(:show_id => show.id, :director_id => show.user_id,:from =>params[:from], :through =>params[:email], :from_id => params[:from_id]), :class => "btn btn-info" %>
               <i class="sprite-or-icon_black"  style=''></i>
             <% end %>
           <% end %>

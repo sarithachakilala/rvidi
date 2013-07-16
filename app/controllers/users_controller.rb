@@ -65,6 +65,7 @@ class UsersController < ApplicationController
   end
 
   def profile
+    @profile_video = ProfileVideo.new
     respond_to do |format|
       format.html {}
       format.json { render json: @user }
@@ -72,6 +73,13 @@ class UsersController < ApplicationController
   end
 
   def update
+    # @profile_video = ProfileVideo.new
+    # if params[:user][:profile_video][:video_file].present?
+    #   p "*"*80 
+    #   media_entry = @profile_video.upload_profile_video_to_kaltura(params[:user][:profile_video][:video_file], session[:client],
+    #     session[:ks])
+    #   @profile_video.set_uploaded_video_details(media_entry)
+    # end
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to profile_user_path(@user), notice: 'User was successfully updated.' }
@@ -97,8 +105,13 @@ class UsersController < ApplicationController
 
   def dashboard
     my_shows = Show.my_shows(current_user.id)
+    my_friends = FriendMapping.where(:user_id => current_user.id, :status => "accepted").collect(&:friend_id)
+    my_friends_show = Show.where(:user_id => my_friends)
+
+    @most_viewed = (my_shows + my_friends_show + Show.public_protected_shows).uniq.sort { |a, b| b.number_of_views <=>a.number_of_views }
     @latest_show =  Show.limit(6).order('created_at desc')
-    @most_viewed =  Show.order('number_of_views desc')
+    # @most_viewed =  Show.order('number_of_views desc')
+    
     @show_notifications = Notification.where(:status => "contributed", :to_id=> current_user.id, :read_status => false).order(:created_at).group_by(&:show_id)
     @notifications = Notification.where(:to_id=> current_user.id, :status => "pending", :read_status => false)
     @cameo_invitations = Notification.where(:status => "contribute", :to_id=> current_user.id, :read_status => false)

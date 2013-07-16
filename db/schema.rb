@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130709063937) do
+ActiveRecord::Schema.define(:version => 20130624120822796) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -101,6 +101,15 @@ ActiveRecord::Schema.define(:version => 20130709063937) do
     t.datetime "updated_at",                     :null => false
   end
 
+  create_table "profile_videos", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "thumbnail_url"
+    t.string   "download_url"
+    t.string   "kaltura_entry_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
   create_table "sessions", :force => true do |t|
     t.string   "session_id"
     t.text     "data"
@@ -125,9 +134,9 @@ ActiveRecord::Schema.define(:version => 20130709063937) do
     t.string   "kaltura_playlist_id"
     t.float    "duration"
     t.string   "permalink",                        :limit => 128
+    t.string   "download_url"
     t.boolean  "enable_download",                                 :default => false
     t.integer  "download_preference"
-    t.string   "download_url"
   end
 
   create_table "users", :force => true do |t|

@@ -4,7 +4,7 @@
   <%= render :partial => "cameos/form/cameo_form_block", :locals => { :f => f, :title=>"Cameo Details" } %>
   
   <!-- Record the Opening Cameo (White Box) -->
-  <%= render :partial => "shows/form/record_cameo_block", :locals => { :f => f, :title=>"Upload / Record another Cameo" } %>
+  <%#= render :partial => "shows/form/record_cameo_block", :locals => { :f => f, :title=>"Upload / Record another Cameo" } %>
   
   <!-- Invite Friends from Facebook and Twitter (White Box) -->
   <% if @cameo.invite_my_friend_to_this_show?(current_user) %>
