@@ -88,6 +88,7 @@ class ShowsController < ApplicationController
 
   def edit
     @show = Show.find(params[:id])
+    @friends = User.current_user_friends(current_user)
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
     # finding the duration of sum of all cameos
     # @show.caluculating_percentage_and_duration(@show) 
@@ -98,7 +99,17 @@ class ShowsController < ApplicationController
     else
       @contribution_percentage = 0
     end
+   
+    if session[:uid].present?
+      uid = session[:uid]
+      User.configure_twitter(session[:auth_token], session[:auth_secret])
+      session[:uid] = session[:auth_token] = session[:auth_secret] = nil
+      @twitter_friends = Twitter.followers(uid)
+    else
+      @twitter_friends = []
+    end
   end
+
 
   def create
     @show = Show.new(params[:show])
@@ -177,41 +188,25 @@ class ShowsController < ApplicationController
   end
 
   def play_cameo
-    @show = Show.find(params[:id])    
-    @cameo = Cameo.find(params[:cameo_id])    
+    @show = Show.find(params[:id])
+    @cameo = Cameo.find(params[:cameo_id])
     
     respond_to do |format|
       format.html { redirect_to show_url(@cameo.show_id, :cameo_id => @cameo.id) }
       format.js {}
       format.json { head :no_content }
-    end    
+    end
   end
 
   def friends_list
-
-    #@query = params[:search_val]
-    
-    #if !@query.blank?
-    #  relation = User.where("LOWER(username) LIKE LOWER('%#{@query}%') OR 
-    #      LOWER(first_name) LIKE LOWER('%#{@query}%') OR 
-    #      LOWER(last_name) LIKE LOWER('%#{@query}%') OR 
-    #      LOWER(email) LIKE LOWER('%#{@query}%')
-    #      ")
-    #  @users = relation.order("created_at desc").page(@current_page).per(@per_page)
-    #else
-    #  @users = []
-    #end
-    
     @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
-    
-    
   end
 
   # Collect all the friends and Invite friends to contribute to the show if checked users or present
   def invite_friend(friends)
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
     friends.each do |each_friend|
-      @user = User.find(each_friend) 
+      @user = User.find(each_friend)
       InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
       notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>" has Requested you to contribute for their Show ")
       notification.save!
@@ -225,8 +220,8 @@ class ShowsController < ApplicationController
     InviteFriend.create(:director_id => show.user_id, :show_id => show.id,
       :contributor_email => email, :status =>"invited" )
     
-    flash[:notice] = "Your invitation will be sent as soon as you publish the show"                 
-    notification = Notification.new(:show_id => show.id, :from_id => current_user.id, 
+    flash[:notice] = "Your invitation will be sent as soon as you publish the show"
+    notification = Notification.new(:show_id => show.id, :from_id => current_user.id,
       :to_id => '', :status => "contribute",
       :content =>" has Requested you to contribute for their Show ", :to_email=>params[:email])
     notification.save!
@@ -261,34 +256,14 @@ class ShowsController < ApplicationController
   def status_update
     @show = Show.find(params[:show_id])
     end_set_val = params[:status] == "end" ? Time.now : ""
-    @show.update_attributes(:end_set => end_set_val) 
+    @show.update_attributes(:end_set => end_set_val)
     if params[:status] == "end"
-      @show.download_complete_show(session[:client], session[:ks]) 
-      redirect_to edit_show_path(@show.id), :notice => "Successfully Show got #{params[:status]}ed." 
+      @show.download_complete_show(session[:client], session[:ks])
+      redirect_to edit_show_path(@show.id), :notice => "Successfully Show got #{params[:status]}ed."
     else
-      redirect_to show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed." 
+      redirect_to show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."
     end
   end
 
-  def add_twitter_invities
-    # @show = Show.find(params[:id])
-    @friends = User.current_user_friends(current_user) 
-    if session[:uid].present?
-      uid = session[:uid]
-      User.configure_twitter(session[:auth_token], session[:auth_secret])
-      session[:uid] = session[:auth_token] = session[:auth_secret] = nil
-      begin
-        @twitter_friends = Twitter.followers(uid.to_i)
-        redirect_to edit_show_path(params[:id])
-      rescue
-        flash[:alert] = 'Twitter rake limit exceeded'
-        # redirect_to add_twitter_invities_shows_path
-        redirect_to root_url
-      end
-      
-    else
-      @twitter_friends = []
-    end
-  end
 
 end
