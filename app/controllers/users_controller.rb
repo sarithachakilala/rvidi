@@ -65,7 +65,7 @@ class UsersController < ApplicationController
   end
 
   def profile
-    @profile_video = ProfileVideo.new
+#    @profile_video = ProfileVideo.new
     respond_to do |format|
       format.html {}
       format.json { render json: @user }
@@ -73,12 +73,12 @@ class UsersController < ApplicationController
   end
 
   def update
-    @profile_video = ProfileVideo.new
-    if params[:user][:profile_video][:video_file].present?
-      media_entry = @profile_video.upload_profile_video_to_kaltura(params[:user][:profile_video][:video_file], session[:client],
-        session[:ks])
-      @profile_video.set_uploaded_video_details(media_entry)
-    end
+#    @profile_video = ProfileVideo.new
+#    if params[:user][:profile_video][:video_file].present?
+#      media_entry = @profile_video.upload_profile_video_to_kaltura(params[:user][:profile_video][:video_file], session[:client],
+#        session[:ks])
+#      @profile_video.set_uploaded_video_details(media_entry)
+#    end
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to profile_user_path(@user), notice: 'User was successfully updated.' }

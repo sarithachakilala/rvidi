@@ -148,7 +148,7 @@ class Show < ActiveRecord::Base
     new_file = File.open("#{steam_download_path}/show_#{id}_#{timestamp}.mpg") if File.exists?("#{steam_download_path}/show_#{id}_#{timestamp}.mpg")
     media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
     cameo.set_uploaded_video_details(media_entry)
-    File.delete("#{steam_download_path}/#{id}_#{timestamp}.mpg")
+    File.delete("#{steam_download_path}/show_#{id}_#{timestamp}.mpg")
     update_attributes(:download_url =>  media_entry.download_url)
   end
 

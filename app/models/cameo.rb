@@ -38,6 +38,10 @@ class Cameo < ActiveRecord::Base
 
   # METHODS
   def show_duration_not_excedded?
+    logger.debug "&&&&&&&&&&&&&&&&&"
+    logger.debug show.duration
+    logger.debug (show.cameos.enabled.map(&:duration).compact.sum + duration.to_i)
+    logger.debug "&&&&&&&&&&&&&&&&&"
     (show.duration.to_i) > (show.cameos.enabled.map(&:duration).compact.sum + duration.to_i)
   end
 
@@ -59,6 +63,7 @@ class Cameo < ActiveRecord::Base
         file.path
       end
       raw_duration = `ffmpeg -i #{file_path} 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
+      logger.debug "duration is ))))))-- #{raw_duration}"
       raw_duration.split(':')[0].to_i * 3600 + raw_duration.split(':')[1].to_i * 60 + raw_duration.split(':')[2].to_i if raw_duration.present?
     end
 
@@ -184,7 +189,6 @@ class Cameo < ActiveRecord::Base
     self.description =  media_entry.description
     self.thumbnail_url =  media_entry.thumbnail_url
     self.download_url =  media_entry.download_url
-    #self.duration =  media_entry.duration
     self.kaltura_entry_id =  media_entry.id
     self.show_order = (latest_cameo_order+1)
   end
