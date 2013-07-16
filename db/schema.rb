@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130709063937) do
+ActiveRecord::Schema.define(:version => 20130716072652) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -128,6 +128,7 @@ ActiveRecord::Schema.define(:version => 20130709063937) do
     t.boolean  "enable_download",                                 :default => false
     t.integer  "download_preference"
     t.string   "download_url"
+    t.float    "cameo_duration",                                  :default => 0.0
   end
 
   create_table "users", :force => true do |t|

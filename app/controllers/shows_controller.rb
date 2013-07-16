@@ -106,23 +106,28 @@ class ShowsController < ApplicationController
     @cameo.status = Cameo::Status::Enabled
     @cameo.published_status = "published"
     if @cameo.video_file.present?
-      media_entry = @cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
-      @cameo.set_uploaded_video_details(media_entry)
+      file_path = @cameo.video_file
     else
-      begin
-        sleep(4);
-        stream_file = Cameo.get_cameo_file(current_user, session[:timestamp])
-        media_entry = @cameo.upload_video_to_kaltura(stream_file,
-          session[:client], session[:ks])
-        @cameo.set_uploaded_video_details(media_entry)
-      rescue
-        @show.cameos = []
-      end
+      file_path = Cameo.get_cameo_file(current_user, session[:timestamp])
     end
-    @show.duration = @show.duration*60
-    @success = @show.save
-    #@show.create_playlist
-    
+    @show.duration = @show.duration * 60
+    cameo_duration = Cameo.get_video_duration(file_path)
+    if cameo_duration < @show.duration
+      begin
+        media_entry = @cameo.upload_video_to_kaltura(file_path, session[:client], session[:ks])
+        @cameo.set_uploaded_video_details(media_entry)
+      rescue Exception => e
+        flash[:alert] = e.message
+        redirect_to root_url
+        return
+      end
+      @success = @show.save
+    else
+      flash[:alert] = "Maximum show limit is reached!!"
+      redirect_to new_show_path
+      return
+    end
+
     respond_to do |format|
       if @success
         invite_friend(params[:selected_friends]) if params[:selected_friends].present?
@@ -138,6 +143,7 @@ class ShowsController < ApplicationController
       end
     end
   end
+
 
   def update
     @show = Show.find(params[:id])

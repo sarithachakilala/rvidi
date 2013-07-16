@@ -6,7 +6,7 @@ class Cameo < ActiveRecord::Base
     Disabled  = 'disabled'
   end
 
-  MAX_LENGTH = 60
+  MAX_LENGTH = 80
 
   attr_accessor :video_file, :audio_file, :recorded_file
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, 
@@ -28,6 +28,7 @@ class Cameo < ActiveRecord::Base
   validates :name, :presence => true
   validates :thumbnail_url, :presence => true
   validates :download_url, :presence => true
+  #validate :cameo_duration_limit_for_show
   
   # Callbacks
   #before_destroy :delete_kaltura_video
@@ -36,8 +37,15 @@ class Cameo < ActiveRecord::Base
   scope :enabled, where("status like ?", Cameo::Status::Enabled )
 
   # METHODS
-  # Class Methods
+  def show_duration_not_excedded?
+    (show.duration.to_i) > (show.cameos.enabled.map(&:duration).compact.sum + duration.to_i)
+  end
 
+  def set_cameo_duration(file)
+    self.duration = Cameo.get_video_duration(file)
+  end
+
+  # Class Methods
   class << self
 
     def delete_old_flv_files
@@ -45,13 +53,18 @@ class Cameo < ActiveRecord::Base
     end
 
     def get_video_duration(file)
-      raw_duration = `ffmpeg -i #{file.tempfile.to_path.to_s} 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
+      file_path = if file.class == ActionDispatch::Http::UploadedFile
+        file.tempfile.to_path.to_s
+      else
+        file.path
+      end
+      raw_duration = `ffmpeg -i #{file_path} 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
       raw_duration.split(':')[0].to_i * 3600 + raw_duration.split(':')[1].to_i * 60 + raw_duration.split(':')[2].to_i if raw_duration.present?
     end
 
     def convert_file_to_flv(current_user, file, cameo_tt)
       if Rails.env == 'development'
-      `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y #{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv`
+        `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y #{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv`
       else
         `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y "/var/www/apps/rvidi/shared/temp_streams/#{current_user.id}_#{cameo_tt}.flv"`
       end
@@ -171,7 +184,7 @@ class Cameo < ActiveRecord::Base
     self.description =  media_entry.description
     self.thumbnail_url =  media_entry.thumbnail_url
     self.download_url =  media_entry.download_url
-    self.duration =  media_entry.duration
+    #self.duration =  media_entry.duration
     self.kaltura_entry_id =  media_entry.id
     self.show_order = (latest_cameo_order+1)
   end
@@ -188,7 +201,7 @@ class Cameo < ActiveRecord::Base
     begin
       delete_kaltura_video
       destroy
-    rescue 
+    rescue
       destroy
     end
   end
