@@ -1,7 +1,6 @@
-<% cameos = show.cameos('show_order asc').where(:published_status => "published") %>
+<% cameos = show.cameos.where(:published_status => "published").sort { |a, b| a.show_order <=>b.show_order } %>
 
 <% cameos.each do|cameo| %>
-  
   <%= render :partial => "/cameos/cameo_contributor", :locals=>{:cameo => cameo, :show => show, :selected_cameo => selected_cameo} %>
 
 <% end %>
