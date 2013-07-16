@@ -58,7 +58,7 @@ textarea.comment-body{ width:390px;}
 
 .star_css
 {
-  color:red;
+  color:red !important;
   font-size:19px;
 }
 .styling_for_text_fields
