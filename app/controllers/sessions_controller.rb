@@ -15,7 +15,8 @@ class SessionsController < ApplicationController
       session[:auth_token] = auth.credentials.token
       session[:auth_secret] = auth.credentials.secret
       logger.debug session[:uid]
-      redirect_to add_twitter_invities_shows_path(:id=>params[:show_id])
+      redirect_to edit_show_path(:id=>params[:show_id])
+    
 
     elsif (params[:fetch_friends].present? && params[:fetch_friends] == 'true')
       # Create Authentication recorda and map with current user

@@ -1,6 +1,6 @@
 
 <%= form_for @show, :html => {:class => "js-validated-form form-horizontal", :method => :put} do |f| %>
-  
+  <%= params[:twitter_friends]  %>
   <!-- Form fields (Black Box) -->
   <%= render :partial => "shows/form/show_details", :locals => { :f => f, :title=>"Edit Show Details" } %>
   
