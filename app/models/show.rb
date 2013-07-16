@@ -26,7 +26,7 @@ class Show < ActiveRecord::Base
     :display_preferences_password, :contributor_preferences,
     :contributor_preferences_password, :need_review,
     :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
-    :download_preference, :download_url
+    :download_preference, :download_url, :cameo_duration
 
   after_create :create_permalink
 

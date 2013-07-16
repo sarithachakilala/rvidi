@@ -33,13 +33,17 @@ module ApplicationHelper
     file.present? ? ("/assets/streams_temp/VTS_01_0.VOB") : ("/assets/recorder/red5recorder.swf")
   end
 
-  def record_or_preview_video(type)
+  def record_or_preview_video(type, cameo_max_duration)
     if type == 'RECORD'
-      render :partial => 'shows/player/video_recorder', :locals => {:time_stamp => session[:timestamp]}
+      render :partial => 'shows/player/video_recorder', :locals => {:time_stamp => session[:timestamp],
+        :cameo_max_duration => cameo_max_duration.presence || Cameo::MAX_LENGTH
+      }
     elsif session[:limit_reached].present?
-      content_tag :h2, "Video limit is only 60 seconds"
+      content_tag :h2, "Video limit is only #{cameo_max_duration} seconds"
     else
-      render :partial => 'shows/player/video_player', :locals => {:time_stamp => session[:timestamp]}
+      render :partial => 'shows/player/video_player', :locals => {:time_stamp => session[:timestamp],
+        :cameo_max_duration => cameo_max_duration.presence || Cameo::MAX_LENGTH
+      }
     end
 
   end

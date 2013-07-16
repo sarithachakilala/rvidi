@@ -196,7 +196,13 @@ class CameosController < ApplicationController
     end
 
     duration = Cameo.get_video_duration(file)
-    if duration <= 60
+    if params[:cameo].present? && params[:cameo][:show_id].present?
+      cameo_max_duration = Show.find_by_id(params[:cameo][:show_id]).cameo_duration
+    else
+      cameo_max_duration = (Show.new(params[:show]).duration) * 60 if params[:show].present?
+    end
+    
+    if duration <= cameo_max_duration
       Cameo.convert_file_to_flv(current_user, file, session[:timestamp])
     else
       session[:limit_reached] = true
@@ -207,6 +213,11 @@ class CameosController < ApplicationController
   end
 
   def video_player
+    if params[:cameo].present? && params[:cameo][:show_id].present?
+      @cameo_max_duration = Show.find_by_id(params[:cameo][:show_id]).cameo_duration
+    else
+      @cameo_max_duration = (Show.new(params[:show]).duration) * 60 if params[:show].present?
+    end
     session[:type] = params[:type]
     @type = session[:type]
     session[:type] = nil
