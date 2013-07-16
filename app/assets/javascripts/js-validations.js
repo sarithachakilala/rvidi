@@ -34,15 +34,10 @@ $(document).ready(function(){
       return;
     }
   });
+  
   $('#validate_new_show').on('click', function(event){
     status = "true";
-    $(this).closest('form').attr('action', '/shows').
-    addClass('js-validated-form').attr('target', '_self');
-    return;
-   
-  });
-  $('#validate_new_show').on('click', function(event){
-    status = "true";
+    $(this).closest('form').attr('action', '/shows').attr('target', '_self');
     status = edit_show();
     if(status == "false") {
       event.preventDefault();
@@ -82,19 +77,26 @@ function new_cameo(){
 function edit_show()
 {
   var dispalay_password =  $('#show_display_preferences_password').val();
-  var contributor_password =  $('#show_display_preferences_password').val();
-  var video = $('#fileToUpload').val()
+  var contributor_password =  $('#show_contributor_preferences_password').val();
+  var title_text = $('#show_title').val();
+  var description_text = $('#show_description').val();
   
-  if( video == '' ) {
-    $('#CheckingError').show();
-    $('#CheckingError').html("As your show contribution is public.. let me review is mandatory")
+  if( title_text == '') {
     status = "false";
+    $('#title_blank_error').html("Can't be blank").show();
   }
-  else
-  {
-    $('#CheckingError').hide();
+  else {
+    $('#title_blank_error').hide();
   }
-  
+
+  if( description_text == '') {
+    status = "false";
+    $('#show_desc_error').html("Can't be blank").show();
+  }
+  else {
+    $('#show_desc_error').hide();
+  }
+
   if( $('#show_contributor_preferences_public').is(":checked") && !$('#show_need_review').is(":checked") ) {
     $('#CheckingError').show();
     $('#CheckingError').html("As your show contribution is public.. let me review is mandatory")

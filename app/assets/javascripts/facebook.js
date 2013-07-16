@@ -21,14 +21,14 @@ function facebook_send_message(element_id, name, from_id) {
 
 
 
-function facebook_send_message_to_invite(element_id, name,show_id, current_user_id ) {
+function facebook_send_message_to_invite(element_id, name,show_id, from_id ) {
 
   FB.ui(
   {
     method: 'send',
     to: element_id,
     name: 'Sign up for rVidi - Just like '+name +'!',
-    link: 'http://rvidi.qwinixtech.com/shows/'+show_id,
+    link: 'http://rvidi.qwinixtech.com/shows/'+show_id+'?'+'from_id='+from_id,
     description: 'Join '+name+' on rVidi.',
     picture: "http://rvidi.qwinixtech.com/assets/logo/rvidifb.png"
   },
