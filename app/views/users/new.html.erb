@@ -39,23 +39,23 @@
             <%= hidden_field_tag :from_email, params[:email]%>
             <%= hidden_field_tag :invited_from, params[:invited_from]%>
 
-            <div><span class="star_css span1">*</span><%= f.text_field :username, :class => "span11 js-required", :placeholder => "User Name" %></div>
-            <div><span class="star_css span1">*</span><%= f.text_field :first_name, :class => "span11 js-required", :placeholder => "First Name" %></div>
-            <div><span class="star_css span1">*</span><%= f.text_field :last_name, :class => "span11 js-required", :placeholder => "Last Name" %></div>
+            <div><%= f.text_field :username, :class => "span12 js-required", :placeholder => "User Name" %></div>
+            <div><%= f.text_field :first_name, :class => "span12 js-required", :placeholder => "First Name" %></div>
+            <div><%= f.text_field :last_name, :class => "span12 js-required", :placeholder => "Last Name" %></div>
             <% if params[:email].present?%>
-              <div><span class="star_css span1">*</span><%= f.text_field :email, :class => "span11 js-required", :placeholder => "Email Address", :value => params[:email], :readonly=>true %></div>
+              <div>><%= f.text_field :email, :class => "span12 js-required", :placeholder => "Email Address", :value => params[:email], :readonly=>true %></div>
             <% else %>
-              <div><span class="star_css span1">*</span><%= f.text_field :email, :class => "span11 js-required", :placeholder => "Email Address" %></div>
+              <div><%= f.text_field :email, :class => "span12 js-required", :placeholder => "Email Address" %></div>
             <% end %>
-            <div><span class="star_css span1">*</span><%= f.password_field :password, :class => "span11 js-required", :placeholder => "Choose a Password" %></div>
-            <div><span class="star_css span1">*</span><%= f.password_field :password_confirmation, :class => "span11 js-required", :placeholder => "Re-type Password" %></div>
-            <div><span class=" span1"></span>
-              <%= text_field_tag 'location_name', '', :class => "span11",
+            <div><%= f.password_field :password, :class => "span12 js-required", :placeholder => "Choose a Password" %></div>
+            <div><%= f.password_field :password_confirmation, :class => "span12 js-required", :placeholder => "Re-type Password" %></div>
+            <div>
+              <%= text_field_tag 'location_name', '', :class => "span12",
                 :id => 'jQueryCityAutocomplete' %>
             </div>
 
-            <div><span class="star_css span1">*</span>
-              <%= f.check_box :terms_conditions,:style => "margin-left:-3px;" %>
+            <div>
+              <%= f.check_box :terms_conditions %>
               <span> I agree to the <%= link_to "Terms and Condition", "/home/terms_condition" , :target => "_blank"%></span>
             </div>
           </div>
