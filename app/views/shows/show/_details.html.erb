@@ -99,7 +99,7 @@ Thanks for taking time to view my video creation!
             <div id="show_<%= show.id %>_add_comments_div"></div>
           <% else %>
             <%= link_to "Sign In", sign_in_path %> Or
-            <%= link_to "Join", sign_up_path(:from_id => params[:from_id], :email=> param[:email]) %>
+            <%= link_to "Join", sign_up_path(:from_id => params[:from_id], :email=> params[:email]) %>
             to add a comment
           <% end %>
         </div>

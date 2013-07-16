@@ -73,13 +73,12 @@ class UsersController < ApplicationController
   end
 
   def update
-    # @profile_video = ProfileVideo.new
-    # if params[:user][:profile_video][:video_file].present?
-    #   p "*"*80 
-    #   media_entry = @profile_video.upload_profile_video_to_kaltura(params[:user][:profile_video][:video_file], session[:client],
-    #     session[:ks])
-    #   @profile_video.set_uploaded_video_details(media_entry)
-    # end
+    @profile_video = ProfileVideo.new
+    if params[:user][:profile_video][:video_file].present?
+      media_entry = @profile_video.upload_profile_video_to_kaltura(params[:user][:profile_video][:video_file], session[:client],
+        session[:ks])
+      @profile_video.set_uploaded_video_details(media_entry)
+    end
     respond_to do |format|
       if @user.update_attributes(params[:user])
         format.html { redirect_to profile_user_path(@user), notice: 'User was successfully updated.' }
@@ -108,7 +107,9 @@ class UsersController < ApplicationController
     my_friends = FriendMapping.where(:user_id => current_user.id, :status => "accepted").collect(&:friend_id)
     my_friends_show = Show.where(:user_id => my_friends)
 
-    @most_viewed = (my_shows + my_friends_show + Show.public_protected_shows).uniq.sort { |a, b| b.number_of_views <=>a.number_of_views }
+    collected_shows = (my_shows + my_friends_show + Show.public_protected_shows).uniq
+
+    @most_viewed = collected_shows.sort { |a, b| b.number_of_views <=>a.number_of_views }
     @latest_show =  Show.limit(6).order('created_at desc')
     # @most_viewed =  Show.order('number_of_views desc')
     
@@ -116,7 +117,8 @@ class UsersController < ApplicationController
     @notifications = Notification.where(:to_id=> current_user.id, :status => "pending", :read_status => false)
     @cameo_invitations = Notification.where(:status => "contribute", :to_id=> current_user.id, :read_status => false)
     @cameo_contributors = Notification.where(:status => "others_contributed", :to_id=> current_user.id, :read_status => false).group_by(&:show_id)
-    @newest_shows =  Show.limit(6).order('created_at desc')
+    @newest_shows =  collected_shows.take(6).sort { |a, b| b.created_at <=>a.created_at }
+    # @newest_shows =  Show.limit(6).order('created_at desc')
     @contributed_cameos = Cameo.where(:user_id => current_user.id)
     @commented_shows = Show.public_protected_shows.select("shows.id, count('comments.id') as comm_count").joins(:comments).group("shows.id")
     respond_to do |format|
