@@ -25,7 +25,7 @@
           </div>
           <%= link_to "Log Out", sign_out_path, :class => "btn btn-info login_btn_padding" %>
         <% else %>
-          <%= link_to "<i class='sprite-camera-small'></i>Get Started".html_safe, sign_up_path, :class => "btn btn-warning" %>
+          <%= link_to "<i class='sprite-camera-small'></i>Get Started".html_safe, sign_up_path(:from_id => params[:from_id]), :class => "btn btn-warning" %>
           <%= link_to "Log in", sign_in_path, :class => "btn btn-info login_btn_padding" %>
         <% end %>
       </div>
