@@ -5,7 +5,7 @@
         <% if @user.image? %>
           <%= image_tag @user.image_url, :class => "friend_image"  %>
         <% else %>
-          <img alt="" src="/assets/default_image.png" class="friend_image">
+          <img alt="" src="/assets/default_image.png" class="friend_image" />
         <% end %>
       </div>
     </div>
@@ -177,7 +177,7 @@
                 <% shows_slice.each do|show| %>
                   <div class="row-fluid">
                     <ul class="thumbnails">
-                      <%#= render :partial => "shows_list", :locals => { :show => show } %>
+                      <%= render :partial => "shows_list", :locals => { :show => show } %>
                     </ul>
                   </div>
                 <% end %>

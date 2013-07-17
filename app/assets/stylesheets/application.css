@@ -11,6 +11,7 @@
  *= require bootstrap
  *= require bootstrap-responsive
  *= require carousel
+ *= require jquery-ui-1.8.24.custom
  *= require customized_css
  *= require dev_styles
  *= require social-share-button

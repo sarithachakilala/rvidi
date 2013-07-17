@@ -9,7 +9,7 @@ class Cameo < ActiveRecord::Base
   MAX_LENGTH = 80
 
   attr_accessor :video_file, :audio_file, :recorded_file, :name_flag, :thumbnail_url_flag,
-                :download_url_flag
+    :download_url_flag
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, 
     :description, :thumbnail_url, :download_url, :duration,
     :video_file, :audio_file, :recorded_file, :title, :start_time,
@@ -54,7 +54,7 @@ class Cameo < ActiveRecord::Base
   end
 
   def show_duration_not_excedded?
-    (show.duration.to_i) > (show.cameos.enabled.map(&:duration).compact.sum + duration.to_i)
+    (show.duration.to_i) > (show.cameos.map(&:duration).compact.sum + duration.to_i)
   end
 
   def set_cameo_duration(file)

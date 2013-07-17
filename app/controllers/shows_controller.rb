@@ -104,11 +104,12 @@ class ShowsController < ApplicationController
           begin
             media_entry = @cameo.upload_video_to_kaltura(file, session[:client], session[:ks])
             @cameo.set_uploaded_video_details(media_entry)
+            @cameo.set_cameo_duration(file)
             @cameo.save
           rescue Exception => e
             @show.destroy
             flash[:alert] = e.message
-            redirect_to root_url
+            redirect_to new_show_path
             return
           end
         else
