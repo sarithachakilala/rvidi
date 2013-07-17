@@ -26,7 +26,7 @@ class Show < ActiveRecord::Base
     :display_preferences_password, :contributor_preferences,
     :contributor_preferences_password, :need_review,
     :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
-    :download_preference, :download_url
+    :download_preference, :download_url, :cameo_duration
 
   after_create :create_permalink
 
@@ -46,12 +46,14 @@ class Show < ActiveRecord::Base
   validates :display_preferences_password, :presence => true,
     :if => Proc.new {|dpp| dpp.display_preferences == Show::Contributor_Preferences::PASSWORD_PROTECTED }
   validates :contributor_preferences_password, :presence => true, :if => Proc.new {|cpp| cpp.contributor_preferences == "password_protected" }
-
+  validates :duration, :inclusion => {:in => 60..600 } # In Minutes
+  validates :cameo_duration, :inclusion => { :in => 15..600 } # In Seconds
  
   # Callbacks
-  #######
-  
-  # Scope
+  # ------
+  #
+  # 
+  # Scopes
   scope :public_shows, where(:display_preferences => "public")  
   scope :public_private_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'private')  
   scope :public_protected_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'password_protected')  
@@ -148,7 +150,7 @@ class Show < ActiveRecord::Base
     new_file = File.open("#{steam_download_path}/show_#{id}_#{timestamp}.mpg") if File.exists?("#{steam_download_path}/show_#{id}_#{timestamp}.mpg")
     media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
     cameo.set_uploaded_video_details(media_entry)
-    File.delete("#{steam_download_path}/#{id}_#{timestamp}.mpg")
+    File.delete("#{steam_download_path}/show_#{id}_#{timestamp}.mpg")
     update_attributes(:download_url =>  media_entry.download_url)
   end
 

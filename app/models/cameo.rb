@@ -6,9 +6,10 @@ class Cameo < ActiveRecord::Base
     Disabled  = 'disabled'
   end
 
-  MAX_LENGTH = 60
+  MAX_LENGTH = 80
 
-  attr_accessor :video_file, :audio_file, :recorded_file
+  attr_accessor :video_file, :audio_file, :recorded_file, :name_flag, :thumbnail_url_flag,
+                :download_url_flag
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, 
     :description, :thumbnail_url, :download_url, :duration,
     :video_file, :audio_file, :recorded_file, :title, :start_time,
@@ -19,15 +20,18 @@ class Cameo < ActiveRecord::Base
   belongs_to :user
   belongs_to :director, :class_name => "User", :foreign_key => "director_id"
 
+  after_initialize :set_flags
+
   # Validations
   validates :director_id, :presence => true, :numericality => true
   validates :user_id, :presence => true, :numericality => true
   validates :status, :presence => true, 
     :inclusion => { :in => %w(pending disabled enabled),
     :message => "%{value} is not a valid status" }
-  validates :name, :presence => true
-  validates :thumbnail_url, :presence => true
-  validates :download_url, :presence => true
+  validates :name, :presence => true, :if => :name_flag_set?
+  validates :thumbnail_url, :presence => true, :if => :thumbnail_url_flag_set?
+  validates :download_url, :presence => true, :if => :download_url_flag_set?
+  #validate :cameo_duration_limit_for_show
   
   # Callbacks
   #before_destroy :delete_kaltura_video
@@ -36,8 +40,42 @@ class Cameo < ActiveRecord::Base
   scope :enabled, where("status like ?", Cameo::Status::Enabled )
 
   # METHODS
-  # Class Methods
 
+  def name_flag_set?
+    @name_flag == true
+  end
+  
+  def thumbnail_url_flag_set?
+    @thumbnail_url_flag == true
+  end
+
+  def download_url_flag_set? 
+    @download_url_flag == true
+  end
+
+  def show_duration_not_excedded?
+    (show.duration.to_i) > (show.cameos.enabled.map(&:duration).compact.sum + duration.to_i)
+  end
+
+  def set_cameo_duration(file)
+    self.duration = Cameo.get_video_duration(file)
+  end
+
+  def set_fields
+    self.status = Cameo::Status::Enabled
+    self.published_status = "published"
+  end
+
+  def set_flags
+    self.name_flag = self.download_url_flag = self.thumbnail_url_flag = false
+  end
+
+  def set_fields_and_flags
+    set_fields
+    set_flags
+  end
+
+  # Class Methods
   class << self
 
     def delete_old_flv_files
@@ -45,17 +83,30 @@ class Cameo < ActiveRecord::Base
     end
 
     def get_video_duration(file)
-      raw_duration = `ffmpeg -i #{file.tempfile.to_path.to_s} 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
+      file_path = if file.class == ActionDispatch::Http::UploadedFile
+        file.tempfile.to_path.to_s
+      else
+        file.class == File ? (file.path) : (file)
+      end
+      raw_duration = `avconv -i "#{file_path}" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
       raw_duration.split(':')[0].to_i * 3600 + raw_duration.split(':')[1].to_i * 60 + raw_duration.split(':')[2].to_i if raw_duration.present?
     end
 
     def convert_file_to_flv(current_user, file, cameo_tt)
       if Rails.env == 'development'
-      `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y #{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv`
+        `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y #{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv`
       else
         `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y "/var/www/apps/rvidi/shared/temp_streams/#{current_user.id}_#{cameo_tt}.flv"`
       end
 
+    end
+
+    def get_flv_file_path(current_user, cameo_tt)
+      if Rails.env == 'development'
+        File.open("#{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv")
+      else
+        File.open("/var/www/apps/rvidi/shared/temp_streams/#{current_user.id}_#{cameo_tt}.flv")
+      end
     end
 
     def delete_uploaded_file(file)
@@ -114,11 +165,15 @@ class Cameo < ActiveRecord::Base
     end
 
     def get_cameo_file current_user, tstamp
-      if Rails.env == 'development'
-        File.open(File.join(Rails.root, 'tmp', 'streams',
-            get_stream_name(current_user, tstamp) +'.flv'))
-      else
-        File.open("/var/www/apps/rvidi/shared/streams/#{get_stream_name(current_user, tstamp)}.flv")
+      begin
+        if Rails.env == 'development'
+          File.open(File.join(Rails.root, 'tmp', 'streams',
+              get_stream_name(current_user, tstamp) +'.flv'))
+        else
+          File.open("/var/www/apps/rvidi/shared/streams/#{get_stream_name(current_user, tstamp)}.flv")
+        end
+      rescue Exception => e
+        nil
       end
     end
 
@@ -171,7 +226,6 @@ class Cameo < ActiveRecord::Base
     self.description =  media_entry.description
     self.thumbnail_url =  media_entry.thumbnail_url
     self.download_url =  media_entry.download_url
-    self.duration =  media_entry.duration
     self.kaltura_entry_id =  media_entry.id
     self.show_order = (latest_cameo_order+1)
   end
@@ -188,7 +242,7 @@ class Cameo < ActiveRecord::Base
     begin
       delete_kaltura_video
       destroy
-    rescue 
+    rescue
       destroy
     end
   end

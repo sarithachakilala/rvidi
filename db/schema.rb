@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130624120822796) do
+ActiveRecord::Schema.define(:version => 20130716135549) do
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -134,9 +134,10 @@ ActiveRecord::Schema.define(:version => 20130624120822796) do
     t.string   "kaltura_playlist_id"
     t.float    "duration"
     t.string   "permalink",                        :limit => 128
-    t.string   "download_url"
     t.boolean  "enable_download",                                 :default => false
     t.integer  "download_preference"
+    t.string   "download_url"
+    t.float    "cameo_duration",                                  :default => 15.0
   end
 
   create_table "users", :force => true do |t|

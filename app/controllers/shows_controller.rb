@@ -23,15 +23,16 @@ class ShowsController < ApplicationController
     rescue Kaltura::KalturaAPIError => e
       flash[:notice] = "API request timeout. Please try later."
       redirect_to root_url
+      return
     end
     @show_preference = @show.set_display_preference(current_user, session[:display_preference])
     
     # to update the duration by getting the video duration from kaltura...
-    show_cameo = @show.cameos.where(:duration => 0.0)
-    show_cameo.each do |each_cameo|
-      new_media_entry = Cameo.get_kaltura_video(session[:client], each_cameo.kaltura_entry_id)
-      each_cameo.update_attributes(:duration => new_media_entry.duration)
-    end
+    #    show_cameo = @show.cameos.where(:duration => 0.0)
+    #    show_cameo.each do |each_cameo|
+    #      new_media_entry = Cameo.get_kaltura_video(session[:client], each_cameo.kaltura_entry_id)
+    #      each_cameo.update_attributes(:duration => new_media_entry.duration)
+    #    end
 
     # finding the duration of sum of all cameos
     if @show.cameos.present?
@@ -86,12 +87,65 @@ class ShowsController < ApplicationController
     end
   end
 
+  def create
+    @show = Show.new(params[:show])
+    @cameo = @show.cameos.first
+    @cameo.set_fields_and_flags
+    if @cameo.video_file.present?
+      file = Cameo.get_flv_file_path(current_user, session[:timestamp])
+    else
+      file= Cameo.get_cameo_file(current_user, session[:timestamp])
+    end
+    @show.duration = @show.duration * 60
+    if @show.save
+      if file.present?
+        cameo_duration = Cameo.get_video_duration(file)
+        if cameo_duration < @show.duration
+          begin
+            media_entry = @cameo.upload_video_to_kaltura(file, session[:client], session[:ks])
+            @cameo.set_uploaded_video_details(media_entry)
+            @cameo.save
+          rescue Exception => e
+            @show.destroy
+            flash[:alert] = e.message
+            redirect_to root_url
+            return
+          end
+        else
+          @show.destroy
+          flash[:alert] = "Maximum show limit is reached!!"
+          redirect_to new_show_path
+          return
+        end
+      end
+      @success = true
+    else
+      #show error message
+      @success = false
+    end
+
+    respond_to do |format|
+      if @success
+        invite_friend(params[:selected_friends]) if params[:selected_friends].present?
+        invite_friend_toshow_after_create(params[:email], @show) if params[:email].present?
+        format.html { redirect_to @show, notice: 'Show was successfully created. The system will take few minutes to convert the video. Please check back after few minutes.' }
+        format.js {}
+        format.json { render json: @show, status: :created, location: @show }
+      else
+        p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
+        format.html { render 'new'}
+        format.js {}
+        format.json { render json: @show.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   def edit
     @show = Show.find(params[:id])
     @friends = User.current_user_friends(current_user)
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
     # finding the duration of sum of all cameos
-    # @show.caluculating_percentage_and_duration(@show) 
+    # @show.caluculating_percentage_and_duration(@show)
     if @show.cameos.present?
       array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration)
       @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
@@ -107,46 +161,6 @@ class ShowsController < ApplicationController
       @twitter_friends = Twitter.followers(uid)
     else
       @twitter_friends = []
-    end
-  end
-
-
-  def create
-    @show = Show.new(params[:show])
-    @cameo = @show.cameos.first
-    @cameo.status = Cameo::Status::Enabled
-    @cameo.published_status = "published"
-    if @cameo.video_file.present?
-      media_entry = @cameo.upload_video_to_kaltura(@cameo.video_file, session[:client], session[:ks])
-      @cameo.set_uploaded_video_details(media_entry)
-    else
-      begin
-        sleep(4);
-        stream_file = Cameo.get_cameo_file(current_user, session[:timestamp])
-        media_entry = @cameo.upload_video_to_kaltura(stream_file,
-          session[:client], session[:ks])
-        @cameo.set_uploaded_video_details(media_entry)
-      rescue
-        @show.cameos = []
-      end
-    end
-    @show.duration = @show.duration*60
-    @success = @show.save
-    #@show.create_playlist
-    
-    respond_to do |format|
-      if @success
-        invite_friend(params[:selected_friends]) if params[:selected_friends].present?
-        invite_friend_toshow_after_create(params[:email], @show) if params[:email].present?
-        format.html { redirect_to @show, notice: 'Show was successfully created. The system will take few minutes to convert the video. Please check back after few minutes.' }
-        format.js {}
-        format.json { render json: @show, status: :created, location: @show }
-      else
-        p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
-        format.html { redirect_to new_show_path, :notice => @show.errors.full_messages.to_sentence}
-        format.js {}
-        format.json { render json: @show.errors, status: :unprocessable_entity }
-      end
     end
   end
 
