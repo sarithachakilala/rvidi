@@ -1,0 +1,166 @@
+
+
+APIs:
+
+=> User Sign UP
+url: http://localhost:3000/sign_up
+method: GET
+Body : It can be xml or json
+
+json body
+{
+"username" : "test", 
+"first_name" : "arun", 
+"last_name" : "yadav"
+"email" : "test@yopmail.com", 
+"password" : "password", 
+"city" : "password", 
+"state" : "password", 
+"country" : "password"
+}
+
+=> User Sign in
+url: http://localhost:3000/sign_in
+method: GET
+Body : It can be xml or json
+
+json body
+{
+"username" : "test" or "email" : "test@yopmail.com", 
+"password" : "password"
+}
+
+
+=> Updating User detail
+url: http://localhost:3000/users/:id/profile 
+method: GET
+json body
+{
+"username" : "test", 
+"first_name" : "arun", 
+"last_name" : "yadav"
+"email" : "test@yopmail.com", 
+"city" : "password", 
+"state" : "password", 
+"country" : "password"
+"desciption" : "description"
+"image" : "image"
+}
+=> Fetching User Notifications
+url: http://localhost:3000/users/24/notification
+method: GET
+
+=> Fetching User friends
+url: http://localhost:3000/users/:id/friends
+method: GET
+json body
+{
+"email": "email" or "username" : "test" or  "first_name" : "arun" or  "last_name" : "yadav"
+}
+
+=> Creating shows
+url: http://localhost:3000/shows
+method: POST
+json body
+{
+"Title" : "Title", 
+"Topic" : "Topic", 
+"Display" : "public/private/protected"
+"Contributors" : "public/private/protected", 
+"Limit Show Time(in min)" : "10", 
+"Limit Cameo time (in Seconds)" : "12", 
+"Let me review cameos before they're posted" : "checked/unchecked",
+"Instructions/Comments" : "description",
+"video" : "video",
+"Cameo title" : "Cameo Title"
+}
+
+=> Edit shows
+url: http://localhost:3000/shows/:id/edit
+method: PUT
+json body
+{
+"Title" : "Title", 
+"Topic" : "Topic", 
+"Display" : "public/private/protected"
+"Contributors" : "public/private/protected", 
+"Limit Show Time(in min)" : "10", 
+"Limit Cameo time (in Seconds)" : "12", 
+"Let me review cameos before they're posted" : "checked/unchecked",
+"Instructions/Comments" : "description",
+"video" : "video",
+"Cameo title" : "Cameo Title"
+}
+=> Add a cameo
+url: http://localhost:3000/cameos
+method: POST
+json body
+{
+"Title" : "Title", 
+"video" : "video",
+}
+
+=> edit a cameo
+url: http://localhost:3000/cameos/:id/edit
+method: put
+json body
+{
+"Title" : "Title", 
+"video" : "video",
+"Start_time" : "Start_time",
+"end_time" : "end_time"
+}
+
+
+=> Delete a cameo
+url: http://localhost:3000/cameos/:id/delete
+method: DELETE
+json body
+{
+"id" : "id", 
+}
+
+=> Forget password
+url: http://localhost:3000/password_resets/new
+method: GET
+json body
+{
+"email" : "email", 
+}
+
+1. USER  : 
+Register, Login and Creating an User to rvidi, via rvidi app or facebook or twitter, updating user information.
+Required fields: first_name, last_name, email, username, password, password_confirmation, terms_conditions
+
+2. AUTHENTICATION : 
+Adding facebook user details and twitter details
+Required fields: ouath_token_secret, oauth_expires_at, uid, user_id
+
+
+3. SHOW :
+Creating, Updating & editing show
+Required fields: title, description, display_preferences, contributor_preferences, display_preferences_password, contributor_preferences_password, duration, cameo_duration
+
+
+4. CAMEO : 
+Creating, Updating, editing, deleting cameo and uploading to kaltura.
+Required fields: director_id, user_id, status, name, thumbnail_url, download_url
+
+
+
+5. COMMENT:
+Creating comments to show
+Required fields: body,show_id,user_id,user_name
+
+6. NOTIFICATION: 
+Creating when a cameo is added, friend request, invitations to contribute, follower contributions
+Required fields: from_id, to_email, to_id
+
+
+7. INVITE FRIEND : 
+Creating invitations for a show via email, updating
+
+8. FRIEND MAPPING: 
+Creating, Updating when friend mapping when accepted, rejected.
+
+
