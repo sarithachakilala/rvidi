@@ -190,6 +190,7 @@ class Cameo < ActiveRecord::Base
         existing_kaltura_id = cameo.kaltura_entry_id
         delete = Cameo.delay.delete_kaltura_video(existing_kaltura_id, client, ks)
         media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
+        cameo.set_cameo_duration(new_file)
         cameo.set_uploaded_video_details(media_entry)
         File.delete("#{cameo.id}.avi")
         File.delete("#{cameo.id}#{cameo.show_id}.avi")
