@@ -29,9 +29,23 @@
       </div>
 
       <!-- Clipping Sider -->
-      <div class="video-clipping-slider">
-        <%= render :partial => 'shows/player/video_clipping_slider',
-          :locals => { :cameo => selected_cameo} %>
+      <div class ="row-fluid" style="margin-top: 8px;">
+        <div class="video-clipping-slider">
+          <%= render :partial => 'shows/player/video_clipping_slider',
+            :locals => { :cameo => selected_cameo} %>
+        </div>
+        <div class="span2">
+          <%= link_to 'Clip Video', '#', :class => 'btn btn-warning clip_video' %>
+        </div>
+        <%= hidden_field_tag 'cameo_start_time', '' %>
+        <%= hidden_field_tag 'cameo_end_time', selected_cameo.duration %>
+        <%= hidden_field_tag 'selected_cameo', selected_cameo.id %>
+      </div>
+
+
+
+      <div class="">
+
       </div>
       <!-- Ends -->
 
