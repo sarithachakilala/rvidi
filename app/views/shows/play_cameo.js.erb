@@ -1,7 +1,7 @@
-var PARTNER_ID = "<%= configatron.kaltura_partner_id %>"
-var ENTRY_ID = "<%= @cameo.kaltura_entry_id %>"
-var TARGET_DIV_ID1 = "kaltura_player_<%= @cameo.show_id %>"
-var TARGET_DIV_ID2 = "kaltura_clipper_<%= @cameo.show_id %>"
+var PARTNER_ID = "<%= configatron.kaltura_partner_id %>";
+var ENTRY_ID = "<%= @cameo.kaltura_entry_id %>";
+var TARGET_DIV_ID1 = "kaltura_player_<%= @cameo.show_id %>";
+var TARGET_DIV_ID2 = "kaltura_clipper_<%= @cameo.show_id %>";
 
 <% if params[:controller] == 'shows' && params[:action] == 'show' %>
   loadKalturaPlayer(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID1, true, '<%= @cameo.show.kaltura_playlist_id %>' );
@@ -10,7 +10,25 @@ var TARGET_DIV_ID2 = "kaltura_clipper_<%= @cameo.show_id %>"
   loadKalturaPlayerWithoutPlaylist(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID1, true);
   loadKalturaPlayerWithoutPlaylist(PARTNER_ID, ENTRY_ID, TARGET_DIV_ID2, false);
 <% end %>
+
 // To Update the selected Cameo
 $(".active-cameo").removeClass('active-cameo');
+
 $("#show_<%= @cameo.show_id %>_cameo_<%= @cameo.id %>_detail").addClass('active-cameo');
- document.getElementById('selected_cameo').value = "<%= @cameo.id%>"
+$('#selected_cameo').val("<%= @cameo.id %>");
+
+$('.video-clipping-slider').html('<%= j(render :partial => 'shows/player/video_clipping_slider', :locals => { :cameo => @cameo}) %>');
+
+
+$( "#slider-range" ).slider({
+range: true,
+min: 0,
+max: <%= @cameo.duration.to_i %>,
+values: [ 0, <%= @cameo.duration.to_i %> ],
+slide: function( event, ui ) {
+$( "#slider-range-value" ).text( ui.values[ 0 ] + " to " + ui.values[ 1 ] + ' (Seconds)' );
+$('#cameo_start_time').val(ui.values[ 0 ]);
+$('#cameo_end_time').val(ui.values[ 1 ]);
+
+}
+});

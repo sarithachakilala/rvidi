@@ -204,8 +204,7 @@ class ShowsController < ApplicationController
 
   def play_cameo
     @show = Show.find(params[:id])
-    @cameo = Cameo.find(params[:cameo_id])
-    
+    @cameo = @show.cameos.find(params[:cameo_id])
     respond_to do |format|
       format.html { redirect_to show_url(@cameo.show_id, :cameo_id => @cameo.id) }
       format.js {}
