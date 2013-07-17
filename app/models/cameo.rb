@@ -8,7 +8,8 @@ class Cameo < ActiveRecord::Base
 
   MAX_LENGTH = 80
 
-  attr_accessor :video_file, :audio_file, :recorded_file
+  attr_accessor :video_file, :audio_file, :recorded_file, :name_flag, :thumbnail_url_flag,
+                :download_url_flag
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, 
     :description, :thumbnail_url, :download_url, :duration,
     :video_file, :audio_file, :recorded_file, :title, :start_time,
@@ -19,15 +20,17 @@ class Cameo < ActiveRecord::Base
   belongs_to :user
   belongs_to :director, :class_name => "User", :foreign_key => "director_id"
 
+  after_initialize :set_flags
+
   # Validations
   validates :director_id, :presence => true, :numericality => true
   validates :user_id, :presence => true, :numericality => true
   validates :status, :presence => true, 
     :inclusion => { :in => %w(pending disabled enabled),
     :message => "%{value} is not a valid status" }
-  validates :name, :presence => true
-  validates :thumbnail_url, :presence => true
-  validates :download_url, :presence => true
+  validates :name, :presence => true, :if => :name_flag_set?
+  validates :thumbnail_url, :presence => true, :if => :thumbnail_url_flag_set?
+  validates :download_url, :presence => true, :if => :download_url_flag_set?
   #validate :cameo_duration_limit_for_show
   
   # Callbacks
@@ -37,16 +40,39 @@ class Cameo < ActiveRecord::Base
   scope :enabled, where("status like ?", Cameo::Status::Enabled )
 
   # METHODS
+
+  def name_flag_set?
+    @name_flag == true
+  end
+  
+  def thumbnail_url_flag_set?
+    @thumbnail_url_flag == true
+  end
+
+  def download_url_flag_set? 
+    @download_url_flag == true
+  end
+
   def show_duration_not_excedded?
-    logger.debug "&&&&&&&&&&&&&&&&&"
-    logger.debug show.duration
-    logger.debug (show.cameos.enabled.map(&:duration).compact.sum + duration.to_i)
-    logger.debug "&&&&&&&&&&&&&&&&&"
     (show.duration.to_i) > (show.cameos.enabled.map(&:duration).compact.sum + duration.to_i)
   end
 
   def set_cameo_duration(file)
     self.duration = Cameo.get_video_duration(file)
+  end
+
+  def set_fields
+    self.status = Cameo::Status::Enabled
+    self.published_status = "published"
+  end
+
+  def set_flags
+    self.name_flag = self.download_url_flag = self.thumbnail_url_flag = false
+  end
+
+  def set_fields_and_flags
+    set_fields
+    set_flags
   end
 
   # Class Methods
@@ -139,11 +165,15 @@ class Cameo < ActiveRecord::Base
     end
 
     def get_cameo_file current_user, tstamp
-      if Rails.env == 'development'
-        File.open(File.join(Rails.root, 'tmp', 'streams',
-            get_stream_name(current_user, tstamp) +'.flv'))
-      else
-        File.open("/var/www/apps/rvidi/shared/streams/#{get_stream_name(current_user, tstamp)}.flv")
+      begin
+        if Rails.env == 'development'
+          File.open(File.join(Rails.root, 'tmp', 'streams',
+              get_stream_name(current_user, tstamp) +'.flv'))
+        else
+          File.open("/var/www/apps/rvidi/shared/streams/#{get_stream_name(current_user, tstamp)}.flv")
+        end
+      rescue Exception => e
+        nil
       end
     end
 

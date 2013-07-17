@@ -47,5 +47,23 @@ module ApplicationHelper
     end
 
   end
+
+  def custom_error_message_no_margin_no_field_name(resource, field, margin = 0)
+    if resource.present? && resource.errors.messages[field].present?
+      content_tag :p, "#{resource.errors.messages[field][0]}",
+        :class => 'error-message', :style => "margin-left:#{margin}px;"
+    else
+      ''
+    end
+  end
+
+  def custom_error_message_no_margin(resource, field)
+    if resource.present? && resource.errors.messages[field].present?
+      content_tag :p, "#{field.to_s.gsub('_',' ').capitalize} #{resource.errors.messages[field][0]}",
+        :class => '', :style => 'color:red'
+    else
+      ''
+    end
+  end
   
 end

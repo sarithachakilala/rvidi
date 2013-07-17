@@ -90,29 +90,38 @@ class ShowsController < ApplicationController
   def create
     @show = Show.new(params[:show])
     @cameo = @show.cameos.first
-    @cameo.status = Cameo::Status::Enabled
-    @cameo.published_status = "published"
+    @cameo.set_fields_and_flags
     if @cameo.video_file.present?
       file = Cameo.get_flv_file_path(current_user, session[:timestamp])
     else
       file= Cameo.get_cameo_file(current_user, session[:timestamp])
     end
     @show.duration = @show.duration * 60
-    cameo_duration = Cameo.get_video_duration(file)
-    if cameo_duration < @show.duration
-      begin
-        media_entry = @cameo.upload_video_to_kaltura(file, session[:client], session[:ks])
-        @cameo.set_uploaded_video_details(media_entry)
-      rescue Exception => e
-        flash[:alert] = e.message
-        redirect_to root_url
-        return
+    if @show.save
+      if file.present?
+        cameo_duration = Cameo.get_video_duration(file)
+        if cameo_duration < @show.duration
+          begin
+            media_entry = @cameo.upload_video_to_kaltura(file, session[:client], session[:ks])
+            @cameo.set_uploaded_video_details(media_entry)
+            @cameo.save
+          rescue Exception => e
+            @show.destroy
+            flash[:alert] = e.message
+            redirect_to root_url
+            return
+          end
+        else
+          @show.destroy
+          flash[:alert] = "Maximum show limit is reached!!"
+          redirect_to new_show_path
+          return
+        end
       end
-      @success = @show.save
+      @success = true
     else
-      flash[:alert] = "Maximum show limit is reached!!"
-      redirect_to new_show_path
-      return
+      #show error message
+      @success = false
     end
 
     respond_to do |format|
@@ -124,7 +133,7 @@ class ShowsController < ApplicationController
         format.json { render json: @show, status: :created, location: @show }
       else
         p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
-        format.html { redirect_to new_show_path, :notice => @show.errors.full_messages.to_sentence}
+        format.html { render 'new'}
         format.js {}
         format.json { render json: @show.errors, status: :unprocessable_entity }
       end
@@ -136,7 +145,7 @@ class ShowsController < ApplicationController
     @friends = User.current_user_friends(current_user)
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
     # finding the duration of sum of all cameos
-    # @show.caluculating_percentage_and_duration(@show) 
+    # @show.caluculating_percentage_and_duration(@show)
     if @show.cameos.present?
       array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration)
       @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }

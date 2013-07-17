@@ -220,11 +220,8 @@ class CameosController < ApplicationController
     elsif params[:cameo].present? && params[:cameo][:show_id].present?
       @cameo_max_duration = Show.find_by_id(params[:cameo][:show_id]).cameo_duration
     else
-      @cameo_max_duration = (Show.new(params[:show]).duration) * 60
+      @cameo_max_duration = (Show.new(params[:show]).duration) * 60 if params[:show].present?
     end
-    logger.debug "*******"
-    logger.debug @cameo_max_duration
-    logger.debug "*******"
     session[:type] = params[:type]
     @type = session[:type]
     session[:type] = session[:cameo_max_duration] = nil

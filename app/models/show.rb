@@ -46,12 +46,14 @@ class Show < ActiveRecord::Base
   validates :display_preferences_password, :presence => true,
     :if => Proc.new {|dpp| dpp.display_preferences == Show::Contributor_Preferences::PASSWORD_PROTECTED }
   validates :contributor_preferences_password, :presence => true, :if => Proc.new {|cpp| cpp.contributor_preferences == "password_protected" }
-
+  validates :duration, :inclusion => {:in => 60..600 } # In Minutes
+  validates :cameo_duration, :inclusion => { :in => 15..600 } # In Seconds
  
   # Callbacks
-  #######
-  
-  # Scope
+  # ------
+  #
+  # 
+  # Scopes
   scope :public_shows, where(:display_preferences => "public")  
   scope :public_private_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'private')  
   scope :public_protected_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'password_protected')  
