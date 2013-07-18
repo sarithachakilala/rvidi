@@ -193,6 +193,7 @@ class Cameo < ActiveRecord::Base
         media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
         cameo.set_cameo_duration(new_file)
         cameo.set_uploaded_video_details(media_entry)
+        cameo.save
         File.delete("#{cameo.id}.flv")
         File.delete("#{cameo.id}#{cameo.show_id}.avi")
       end

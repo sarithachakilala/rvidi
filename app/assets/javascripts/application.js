@@ -27,7 +27,6 @@
 $(document).ajaxStart(
     function () {
         $('#ajax-indicator').show();
-
     }).ajaxStop(function () {
     $('#ajax-indicator').hide();
 });
