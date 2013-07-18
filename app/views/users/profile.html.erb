@@ -49,7 +49,7 @@
           <div class="control-group">
             <label class="control-label styling_for_text_fields" for="inputcity">Location</label>
             <div class="controls">
-              <%= text_field_tag 'location_name', '', :id => 'jQueryCityAutocomplete' %>
+              <%= text_field_tag 'location_name', "#{@user.city}, #{@user.state}, #{@user.country}", :id => 'jQueryCityAutocomplete' %>
             </div>
           </div>
 
