@@ -21,7 +21,7 @@ class ShowsController < ApplicationController
     begin
       @show.create_playlist
     rescue Kaltura::KalturaAPIError => e
-      flash[:notice] = "API request timeout. Please try later."
+      flash[:notice] = "Kaltura API request timeout. Please try later."
       redirect_to root_url
       return
     end
@@ -268,7 +268,11 @@ class ShowsController < ApplicationController
   end
   
   def status_update
-    @show = Show.find(params[:show_id])
+     if params[:show_id].split("-").size > 1
+      @show = Show.find(params[:show_id].split("-").last)
+    else
+      @show = Show.find(params[:show_id])
+    end
     end_set_val = params[:status] == "end" ? Time.now : ""
     @show.update_attributes(:end_set => end_set_val)
     if params[:status] == "end"

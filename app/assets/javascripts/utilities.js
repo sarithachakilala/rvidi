@@ -68,6 +68,7 @@ $(document).ready(function(){
      $.ajax({
       url: "/cameos/cameo_clipping",
       data: { start_time: $('#cameo_start_time').val(), end_time: $('#cameo_end_time').val() , selected_cameo : $('#selected_cameo').val() },
+      dataType: script,
       cache: false
     });
   });

@@ -21,3 +21,12 @@
 //= require kaltura_scripts
 //= require rvidi
 //= require social-share-button
+
+
+// Global ajax activity indicators.
+$(document).ajaxStart(
+    function () {
+        $('#ajax-indicator').show();
+    }).ajaxStop(function () {
+    $('#ajax-indicator').hide();
+});
