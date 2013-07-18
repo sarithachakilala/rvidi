@@ -1,0 +1,57 @@
+<div class="login_container">
+<h1>
+  <%= raw @resource.url_representation %>
+</h1>
+<p>
+  <em>Updated on <%= @resource.updated_at %></em>
+</p>
+<br/>
+<p>
+  <%= @resource.description %>
+</p>
+<br/>
+<h2>Resource URL</h2>
+<p>
+  <%= @resource.full_url %>
+</p>
+<br/>
+<% unless @resource.parameters.blank? %>
+    <h2>Parameters</h2>
+    <p>
+    <table class="table">
+      <% @resource.parameters.each do |parameter| %>
+          <tr>
+            <td>
+              <strong><%= parameter.name %></strong><br/>
+              <em><%= parameter.required? %></em>
+            </td>
+            <td>
+              <%= parameter.description %>
+              <br/>
+              <strong>Example Values:</strong> <%= parameter.example_values %>
+            </td>
+          </tr>
+      <% end %>
+    </table>
+    </p>
+<% end %>
+<br/>
+<h2>Example Request</h2>
+<p>
+  <%= @resource.example_request %>
+</p>
+<% unless @resource.sample_response.blank? %>
+    <div class="well">
+      <%= @resource.sample_response %>
+    </div>
+<% end %>
+<br/>
+
+
+<%= link_to 'Edit', edit_documentation_api_resource_path(@documentation, @api, @resource),
+            :class => "btn small" %>
+<%= link_to 'Parameters', documentation_api_resource_parameters_path(@documentation, @api, @resource),
+            :class => "btn small" %>
+<%= link_to 'Back', documentation_api_resources_path(@documentation, @api),
+            :class => "btn small" %>
+</div>

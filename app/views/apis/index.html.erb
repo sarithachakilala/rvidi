@@ -1,0 +1,33 @@
+<div class="login_container">
+<h1>RESTful API's</h1>
+<p>
+  The REST API provides simple interfaces for most <%= configatron.site_name %> functionality.
+</p>
+<h5>Contents</h5>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+  </tr>
+  </thead>
+
+  <% @apis.each do |api|%>
+      <tr>
+        <td><%= link_to api.name, documentation_api_resources_path(@documentation, api) %></td>
+        <td>
+          <%= api.description %>
+          <br/> <br/>
+          <%= link_to 'Edit', edit_documentation_api_path(@documentation, api), :class => "btn btn-mini" %>
+          <%= link_to 'Destroy', documentation_api_path(@documentation, api), :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-mini" %>
+        </td>
+      </tr>
+  <% end %>
+</table>
+
+<br/>
+
+<%= link_to 'New API', new_documentation_api_path(@documentation), :class => "btn small" %>
+<%= link_to 'Back', documentations_path,
+            :class => "btn small" %>
+</div>

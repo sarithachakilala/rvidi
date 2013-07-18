@@ -1,0 +1,17 @@
+
+<p id="notice"><%= notice %></p>
+<div class="login_container">
+<p>
+  <b>Name:</b>
+  <%= @documentation.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @documentation.description %>
+</p>
+
+
+<%= link_to 'Edit', edit_documentation_path(@documentation),:class => "btn btn-mini" %> |
+<%= link_to 'Back', documentations_path ,:class => "btn btn-mini"%>
+</div>

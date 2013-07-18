@@ -1,0 +1,105 @@
+<div class="login_container "> 
+  <h2>Documentation</h2>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+
+    <% @documentations.each do |documentation| %>
+      <tr>
+        <td><%= link_to documentation.name, documentation_apis_path(documentation) %></td>
+        <td><%= documentation.description %>
+          <br/>
+          <br/>
+          <%= link_to 'Edit', edit_documentation_path(documentation), :class => "btn btn-mini" %>
+          <%= link_to 'Destroy', documentation, :confirm => 'Are you sure?', :method => :delete, :class => "btn btn-mini" %>
+        </td>
+      </tr>
+    <% end %>
+  </table>
+  <h3>Error Codes & Responses</h3>
+  <p>HTTP Status Codes</p>
+  <br/>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Code</th>
+        <th>Text</th>
+        <th>Description</th>
+      </tr>
+    </thead>
+    <tr>
+      <td>
+        200
+      </td>
+      <td>
+        OK
+      </td>
+      <td>
+        Success!
+      </td>
+    </tr>
+    <tr>
+      <td>
+        201
+      </td>
+      <td>
+        Created
+      </td>
+      <td>
+        Resource created successfully without any Errors.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        401
+      </td>
+      <td>
+        Authorization Required
+      </td>
+      <td>
+        Authorization Required to proceed.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        404
+      </td>
+      <td>
+        Not Found
+      </td>
+      <td>
+        The URI requested is invalid or the resource requested, such as a user, does not exists.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        500
+      </td>
+      <td>
+        Internal Server Error
+      </td>
+      <td>
+        Something is broken. Team is investigating.
+      </td>
+    </tr>
+    <tr>
+      <td>
+        503
+      </td>
+      <td>
+        Service Unavailable
+      </td>
+      <td>
+        Service Unavailable.
+      </td>
+    </tr>
+  </table>
+
+  <br/>
+  <%= link_to 'New Documentation', new_documentation_path, :class => "btn small" %>
+
+</div>

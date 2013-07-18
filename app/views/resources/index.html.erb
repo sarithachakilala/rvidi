@@ -1,0 +1,33 @@
+<div class="login_container">
+<h1><%= @api && @api.name%></h1>
+<p><%= @api && @api.description%></p>
+<table class="table">
+  <thead>
+  <tr>
+    <th>Resource</th>
+    <th>Description</th>
+  </tr>
+  </thead>
+<% @resources.each do |resource|
+      next if resource.http_method != 'GET' && !admin_signed_in?%>
+  <tr>
+    <td>
+      <%= link_to (resource.http_method + "&nbsp;&nbsp;" + resource.url).html_safe, documentation_api_resource_path(@documentation, @api, resource)%>
+       </td>
+    <td>
+      <%= resource.description%>
+      <br/> <br/>
+      <%= link_to 'Edit', edit_documentation_api_resource_path(@documentation, @api, resource), :class =>  "btn btn-mini" %>
+      <%= link_to 'Destroy', documentation_api_resource_path(@documentation, @api, resource), :confirm => 'Are you sure?', :method => :delete, :class =>  "btn btn-mini" %>
+
+    </td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Resource', new_documentation_api_resource_path(@documentation, @api), :class =>  "btn small" %>
+<%= link_to 'Back', documentation_apis_path(@documentation),
+            :class => "btn small" %>
+</div>

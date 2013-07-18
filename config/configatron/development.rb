@@ -13,3 +13,4 @@ configatron.facebook_app_secret = '65b79a0b2eff0ec39376886d6a37a718'
 # Twitter Registration Values:
 configatron.twitter_consumer_key = 'yC8k7ntNjfUBievtIRSt8w'
 configatron.twitter_consumer_secret = 'PIiX7lOtcPYmZrAOEqKCY0Pz09swpa09SKmraGNQ'
+configatron.api.base_url = "localhost:3000"

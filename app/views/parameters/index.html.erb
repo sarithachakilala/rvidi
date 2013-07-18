@@ -1,0 +1,34 @@
+<div class="login_container">
+<h1><%= raw @resource.url_representation %>&nbsp;Parameters</h1>
+
+<table class="table">
+  <thead>
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Required</th>
+    <th>Example value</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+  </thead>
+
+<% @parameters.each do |parameter| %>
+  <tr>
+    <td><%= parameter.name %></td>
+    <td><%= parameter.description %></td>
+    <td><%= parameter.required %></td>
+    <td><%= parameter.example_values %></td>
+    <td><%= link_to 'Show', documentation_api_resource_parameter_path(@documentation, @api, @resource, parameter), :class =>  "btn btn-mini" %></td>
+    <td><%= link_to 'Edit', edit_documentation_api_resource_parameter_path(@documentation, @api, @resource, parameter), :class =>  "btn btn-mini" %></td>
+    <td><%= link_to 'Destroy', documentation_api_resource_parameter_path(@documentation, @api, @resource, parameter), :confirm => 'Are you sure?', :method => :delete, :class =>  "btn btn-mini" %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Parameter', new_documentation_api_resource_parameter_path, :class => "btn small" %>
+<%= link_to 'Back', documentation_api_resource_path(@documentation, @api, @resource), :class => "btn small" %>
+</div>

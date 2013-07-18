@@ -1,0 +1,30 @@
+<div class="login_container">
+<p>
+  <b>Name:</b>
+  <%= @parameter.name %>
+</p>
+
+<p>
+  <b>Description:</b>
+  <%= @parameter.description %>
+</p>
+
+<p>
+  <b>Required:</b>
+  <%= @parameter.required %>
+</p>
+
+<p>
+  <b>Example value:</b>
+  <%= @parameter.example_values %>
+</p>
+
+<p>
+  <b>Resource:</b>
+  <%= @parameter.resource_id %>
+</p>
+
+
+<%= link_to 'Edit', edit_documentation_api_resource_parameter_path(@documentation, @api, @resource, @parameter), :class => "btn small" %>
+<%= link_to 'Back', documentation_api_resource_parameters_path(@documentation, @api, @resource), :class => "btn small" %>
+</div>
