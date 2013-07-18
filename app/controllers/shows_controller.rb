@@ -21,7 +21,7 @@ class ShowsController < ApplicationController
     begin
       @show.create_playlist
     rescue Kaltura::KalturaAPIError => e
-      flash[:notice] = "API request timeout. Please try later."
+      flash[:notice] = "Kaltura API request timeout. Please try later."
       redirect_to root_url
       return
     end

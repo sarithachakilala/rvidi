@@ -183,20 +183,17 @@ class Cameo < ActiveRecord::Base
 
 
     def clipping_video(cameo, client, ks, start_time, end_time )
-      donwload = `wget -O "#{cameo.id}.mp4" "#{cameo.download_url}"`
-      #stripped_output = `avconv -i "#{cameo.id}.avi" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{cameo.id}#{cameo.show_id}.avi`
-      command = "ffmpeg -i #{cameo.id}.mp4 -ss 00:00:#{start_time} -t 00:00:#{end_time} -y #{cameo.id}#{cameo.show_id}.mp4"
-      logger.debug "********"
-      logger.debug command
-      logger.debug "********"
-      `#{command}`
-      new_file = File.open("#{cameo.id}#{cameo.show_id}.mp4") if File.exists?("#{cameo.id}#{cameo.show_id}.mp4")
+      donwload = `wget -O "#{cameo.id}.flv" "#{cameo.download_url}"`
+      stripped_output = `avconv -i "#{cameo.id}.flv" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{cameo.id}#{cameo.show_id}.avi`
+      # command = "avconv -i #{cameo.id}.mp4 -ss #{start_time} -t #{end_time} -y #{cameo.id}#{cameo.show_id}.mp4"
+      new_file = File.open("#{cameo.id}#{cameo.show_id}.avi") if File.exists?("#{cameo.id}#{cameo.show_id}.avi")
+     
       if new_file.present?
-        delete = cameo.delete_kaltura_video
+        # delete = cameo.delete_kaltura_video
         media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
-        cameo.set_cameo_duration(new_file)
+        # cameo.set_cameo_duration(new_file)
         cameo.set_uploaded_video_details(media_entry)
-        File.delete("#{cameo.id}.avi")
+        File.delete("#{cameo.id}.flv")
         File.delete("#{cameo.id}#{cameo.show_id}.avi")
       end
     end

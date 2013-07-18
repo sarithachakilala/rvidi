@@ -173,6 +173,6 @@ class ConfigurationTest < Test::Unit::TestCase
       video_token = @client.media_service.upload(video_file)
     end
     
-    assert_equal exception.message, 'Request Timeout'
+    assert_equal exception.message, 'Kaltura Request Timeout'
   end
 end
