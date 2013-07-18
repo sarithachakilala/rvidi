@@ -186,7 +186,7 @@ class CameosController < ApplicationController
   def cameo_clipping
     @cameo =  Cameo.find params[:selected_cameo]
     @sucess = Cameo.clipping_video(@cameo, session[:client], session[:ks],
-                                  params[:start_time], params[:end_time] )
+                params[:start_time], params[:end_time] )
   end
 
   def validate_video

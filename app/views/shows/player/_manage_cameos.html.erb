@@ -35,7 +35,7 @@
             :locals => { :cameo => selected_cameo} %>
         </div>
         <div class="span2">
-          <%= link_to 'Clip Video', '#', :class => 'btn btn-warning clip_video' %>
+          <button class="btn btn-warning clip_video">Clip Video</button>
         </div>
         <%= hidden_field_tag 'cameo_start_time', 0 %>
         <%= hidden_field_tag 'cameo_end_time', selected_cameo.duration %>
