@@ -11,7 +11,15 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130716135549) do
+ActiveRecord::Schema.define(:version => 20130718103556) do
+
+  create_table "apis", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "documentation_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
 
   create_table "authentications", :force => true do |t|
     t.integer  "user_id"
@@ -69,6 +77,13 @@ ActiveRecord::Schema.define(:version => 20130716135549) do
 
   add_index "delayed_jobs", ["priority", "run_at"], :name => "delayed_jobs_priority"
 
+  create_table "documentations", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
   create_table "friend_mappings", :force => true do |t|
     t.integer  "user_id"
     t.integer  "friend_id"
@@ -101,6 +116,16 @@ ActiveRecord::Schema.define(:version => 20130716135549) do
     t.datetime "updated_at",                     :null => false
   end
 
+  create_table "parameters", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "resource_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+    t.string   "required"
+    t.text     "example_values"
+  end
+
   create_table "profile_videos", :force => true do |t|
     t.integer  "user_id"
     t.string   "thumbnail_url"
@@ -108,6 +133,17 @@ ActiveRecord::Schema.define(:version => 20130716135549) do
     t.string   "kaltura_entry_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+  end
+
+  create_table "resources", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.integer  "api_id"
+    t.string   "http_method"
+    t.text     "sample_response"
+    t.text     "url"
   end
 
   create_table "sessions", :force => true do |t|

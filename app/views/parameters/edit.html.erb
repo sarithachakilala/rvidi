@@ -1,0 +1,8 @@
+<div class="login_container">
+<h1>Editing parameter</h1>
+
+<%= render 'form' %>
+
+<%= link_to 'Show', documentation_api_resource_parameter_path(@documentation, @api, @resource, @parameter), :class => "btn small" %>
+<%= link_to 'Back', documentation_api_resource_parameters_path(@documentation, @api, @resource), :class => "btn small" %>
+</div>

@@ -14,7 +14,7 @@ gem "rmagick"
 gem "carrierwave"
 # To add file uploads to the application
 gem 'actionview-encoded_mail_to'
-
+gem 'inherited_resources'
 ## Pagination
 gem 'kaminari'
 gem 'bootstrap-kaminari-views'

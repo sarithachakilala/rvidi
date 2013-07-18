@@ -1,4 +1,15 @@
 Rvidi::Application.routes.draw do
+  resources :parameters
+
+
+  resources :documentations, :path => 'documentation' do
+    resources :apis do
+      resources :resources do
+        resources :parameters
+      end
+    end
+  end
+
   get "password_resets/new"
 
   match "/auth/twitter/callback" => "sessions#create"
