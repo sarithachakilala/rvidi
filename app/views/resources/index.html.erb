@@ -8,8 +8,7 @@
     <th>Description</th>
   </tr>
   </thead>
-<% @resources.each do |resource|
-      next if resource.http_method != 'GET' && !admin_signed_in?%>
+<% @resources.each do |resource|%>
   <tr>
     <td>
       <%= link_to (resource.http_method + "&nbsp;&nbsp;" + resource.url).html_safe, documentation_api_resource_path(@documentation, @api, resource)%>
