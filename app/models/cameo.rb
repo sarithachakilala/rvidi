@@ -9,7 +9,7 @@ class Cameo < ActiveRecord::Base
   MAX_LENGTH = 80
 
   attr_accessor :video_file, :audio_file, :recorded_file, :name_flag, :thumbnail_url_flag,
-    :download_url_flag
+    :download_url_flag, :timestamp
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, 
     :description, :thumbnail_url, :download_url, :duration,
     :video_file, :audio_file, :recorded_file, :title, :start_time,
@@ -34,12 +34,28 @@ class Cameo < ActiveRecord::Base
   #validate :cameo_duration_limit_for_show
   
   # Callbacks
+  after_save :upload_video
   #before_destroy :delete_kaltura_video
 
   # Scopes
   scope :enabled, where("status like ?", Cameo::Status::Enabled )
 
   # METHODS
+
+  def upload_video
+    temp_file_path = "#{user.id}_#{timestamp}.flv"
+    user_directory = "rvidi_user_#{user.id}"
+    show_directory = "show_#{show.id}"
+    final_file_path = File.join(Rails.root, user_directory, show_directory)
+    final_file_name = "#{user.id}_#{show.id}_#{id}.flv"
+    temp_file_path = File.join(Rails.root, "tmp")
+    temp_file_name = "#{user.id}_#{timestamp}".flv
+
+    `mkdir rvidi_streams/rvidi_user_#{user.id}` unless File.directory?(user_directory).present?
+    `mkdir rvidi_streams/rvidi_user_#{user.id}/show_#{show.id}` unless File.directory?(show_directory).present?
+   
+    `mv #{temp_file_path}/#{temp_file_name} #{final_file_path}/#{final_file_name}`
+  end
 
   def name_flag_set?
     @name_flag == true
