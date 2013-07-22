@@ -22,7 +22,7 @@ class Show < ActiveRecord::Base
     NOT_AUTHENTICATED = 2
   end
   
-  attr_accessible :user_id, :title, :description, :display_preferences, 
+  attr_accessible :user_id, :title, :description, :display_preferences,
     :display_preferences_password, :contributor_preferences,
     :contributor_preferences_password, :need_review,
     :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
@@ -47,7 +47,8 @@ class Show < ActiveRecord::Base
     :if => Proc.new {|dpp| dpp.display_preferences == Show::Contributor_Preferences::PASSWORD_PROTECTED }
   validates :contributor_preferences_password, :presence => true, :if => Proc.new {|cpp| cpp.contributor_preferences == "password_protected" }
   validates :duration, :inclusion => {:in => 60..600 } # In Minutes
-  validates :cameo_duration, :inclusion => { :in => 15..600 } # In Seconds
+  validates :cameo_duration, :inclusion => { :in => 1..60 } # In Seconds
+            
  
   # Callbacks
   # ------

@@ -61,7 +61,7 @@
           </div> -->
 
           <div class="control-group">
-            <label class="control-label styling_for_text_fields" for="inputstate">Upload Picture</label>
+            <label class="control-label styling_for_text_fields" for="inputstate">Upload</label>
             <div class="controls">
               <% if @user.image_url.present? %>
               <div class="jane_image"> <%= image_tag @user.image_url, :class => "jane_image"  %> </div>
@@ -192,7 +192,7 @@
   <div class="span12"> 
     <div class="hr_bg_welcome"> 
       <div class="text_align_center login_and_account"> 
-        <%= f.submit "Save Changes", :class => "btn btn-warning" , :style => "margin-top:8px;" %>
+        <%= f.submit "Get started", :class => "btn btn-warning" , :style => "margin-top:8px;" %>
      </div>
    </div>
  </div>

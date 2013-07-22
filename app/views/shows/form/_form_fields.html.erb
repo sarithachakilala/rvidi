@@ -82,7 +82,7 @@
     <div class="control-group">
       <label class="control-label  blue_label" for="inputPassword">Limit Cameo time (in Seconds)</label>
       <div class="controls">
-        <%= f.number_field :cameo_duration, :class => "show-show-tag  js-required span2",
+        <%= f.number_field :cameo_duration, :value => '1', :class => "show-show-tag  js-required span2",
                            :placeholder => "Limit Cemeo Time" %>
         <%= custom_error_message_no_margin(@show, :cameo_duration) %>
       </div>
