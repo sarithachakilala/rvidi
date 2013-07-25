@@ -1,6 +1,7 @@
 class CameosController < ApplicationController
   before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy, :validate_video, :video_player]
-
+  before_filter :redirect_to_root_page, :only=>[:index]
+  
   def index
     @cameos = Cameo.all
 

@@ -37,6 +37,10 @@ class ApplicationController < ActionController::Base
       end
     end
   end
+
+  def redirect_to_root_page
+    redirect_to current_user.present? ? dashboard_user_path(current_user.id) : root_url
+  end
   # METHODS for authentication redirections ENDS
 
   # To stub current_user method for cucumber specs. NEED TO BE VERIFIED AND UPDATED / REMOVED.
