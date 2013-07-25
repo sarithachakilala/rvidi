@@ -199,9 +199,10 @@ class CameosController < ApplicationController
 
     duration = Cameo.get_video_duration(file)
     if params[:cameo].present? && params[:cameo][:show_id].present?
-      cameo_max_duration = Show.find_by_id(params[:cameo][:show_id]).cameo_duration
+      cameo_max_duration = show.get_max_cameo_duration
     else
-      cameo_max_duration = (Show.new(params[:show]).duration) * 60 if params[:show].present?
+      show = Show.new(params[:show])
+      cameo_max_duration = show.get_max_cameo_duration
     end
     
     if duration <= cameo_max_duration
@@ -221,10 +222,10 @@ class CameosController < ApplicationController
     else
       if params[:cameo].present? && params[:cameo][:show_id].present?
         show = Show.find_by_id(params[:cameo][:show_id])
-        @cameo_max_duration = show.get_max_cameo_duration
+        @cameo_max_duration = show.get_max_cameo_duration current_user
       else
-        show = Show.new(params[:show])
-        @cameo_max_duration = show.get_max_cameo_duration
+        show = current_user.shows.build params[:show]
+        @cameo_max_duration = show.get_max_cameo_duration current_user
       end
     end
     session[:type] = params[:type]

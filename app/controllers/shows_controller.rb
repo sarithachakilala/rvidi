@@ -74,7 +74,7 @@ class ShowsController < ApplicationController
     session[:timestamp] = Time.now.to_i
     Cameo.delete_old_flv_files
     ## Get the object.
-    @show = Show.new(:display_preferences => "private", :contributor_preferences => "private")
+    @show = current_user.shows.build(:display_preferences => "private", :contributor_preferences => "private")
     
     ## Buidling the cameo
     @cameo = @show.cameos.build

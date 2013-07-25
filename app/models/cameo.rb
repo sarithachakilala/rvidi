@@ -7,6 +7,7 @@ class Cameo < ActiveRecord::Base
   end
 
   MAX_LENGTH = 60
+  STANDARD_LENGTH = 60
 
   attr_accessor :video_file, :audio_file, :recorded_file, :name_flag, :thumbnail_url_flag,
     :download_url_flag
