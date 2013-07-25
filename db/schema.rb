@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130718103556) do
+ActiveRecord::Schema.define(:version => 20130725072518) do
 
   create_table "apis", :force => true do |t|
     t.string   "name"
@@ -168,7 +168,7 @@ ActiveRecord::Schema.define(:version => 20130718103556) do
     t.datetime "updated_at",                                                         :null => false
     t.datetime "end_set"
     t.string   "kaltura_playlist_id"
-    t.float    "duration"
+    t.float    "duration",                                        :default => 60.0
     t.string   "permalink",                        :limit => 128
     t.boolean  "enable_download",                                 :default => false
     t.integer  "download_preference"

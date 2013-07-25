@@ -70,7 +70,6 @@ class CameosController < ApplicationController
       redirect_to new_cameo_path(:show_id => @cameo.show_id, :director_id => @cameo.director_id)
       return
     end
-
     @success = @cameo.save
     @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
 
@@ -187,7 +186,7 @@ class CameosController < ApplicationController
   def cameo_clipping
     @cameo =  Cameo.find params[:selected_cameo]
     @sucess = Cameo.clipping_video(@cameo, session[:client], session[:ks],
-                params[:start_time], params[:end_time] )
+      params[:start_time], params[:end_time] )
   end
 
   def validate_video
@@ -219,10 +218,14 @@ class CameosController < ApplicationController
   def video_player
     if session[:cameo_max_duration].present?
       @cameo_max_duration = session[:cameo_max_duration]
-    elsif params[:cameo].present? && params[:cameo][:show_id].present?
-      @cameo_max_duration = Show.find_by_id(params[:cameo][:show_id]).cameo_duration
     else
-      @cameo_max_duration = (Show.new(params[:show]).duration) * 60 if params[:show].present?
+      if params[:cameo].present? && params[:cameo][:show_id].present?
+        show = Show.find_by_id(params[:cameo][:show_id])
+        @cameo_max_duration = show.get_max_cameo_duration
+      else
+        show = Show.new(params[:show])
+        @cameo_max_duration = show.get_max_cameo_duration
+      end
     end
     session[:type] = params[:type]
     @type = session[:type]

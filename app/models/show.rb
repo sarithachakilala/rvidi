@@ -218,6 +218,14 @@ class Show < ActiveRecord::Base
     end
   end
 
+  def get_max_cameo_duration
+    remaining_duration = (self.duration) - (self.cameos.map(&:duration).compact.sum)
+    if cameo_duration < remaining_duration
+      cameo_duration
+    else
+      remaining_duration
+    end
+  end
  
 end
 
