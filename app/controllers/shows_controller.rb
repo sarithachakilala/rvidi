@@ -2,6 +2,7 @@ class ShowsController < ApplicationController
 
   before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
   before_filter :parse_filters_from_url
+  before_filter :redirect_to_root_page, :only => [:index]
   
   def index
     @shows = Show.all

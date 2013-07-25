@@ -1,6 +1,16 @@
 class UsersController < ApplicationController
   before_filter :get_user, :only => [:profile, :update, :show, :getting_started, :dashboard, :friends, :friend_profile]
   before_filter :require_user, :only => [:add_facebook_friends]
+  before_filter :redirect_to_root_page, :only => [:index]
+
+  def index
+    @users = User.all
+
+    respond_to do |format|
+      format.html 
+      format.json { render json: @users }
+    end
+  end
   def new
     @user = User.new
     respond_to do |format|
