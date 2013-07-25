@@ -2,6 +2,13 @@
 # See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
 
 en:
+  activerecord:
+    errors:
+      models:
+        show:
+          attributes:
+            cameo_duration:
+              inclusion: "Please select Cameo length in between 1-60 seconds"
   helpers:
     submit:
       user:
@@ -39,3 +46,5 @@ sp:
   password_confirmation: "Confirme Contraseña"  
 
   log_in: "iniciar la sesión"
+
+  

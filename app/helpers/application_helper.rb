@@ -65,5 +65,14 @@ module ApplicationHelper
       ''
     end
   end
+
+  def custom_error_message_no_field_name(resource, field)
+    if resource.present? && resource.errors.messages[field].present?
+      content_tag :p, "#{resource.errors.messages[field][0]}",
+        :class => '', :style => 'color:red'
+    else
+      ''
+    end
+  end
   
 end
