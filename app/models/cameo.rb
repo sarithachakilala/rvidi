@@ -88,13 +88,13 @@ class Cameo < ActiveRecord::Base
       else
         file.class == File ? (file.path) : (file)
       end
-      raw_duration = `avconv -i "#{file_path}" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
+      raw_duration = `ffmpeg -i "#{file_path}" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
       raw_duration.split(':')[0].to_i * 3600 + raw_duration.split(':')[1].to_i * 60 + raw_duration.split(':')[2].to_i if raw_duration.present?
     end
 
     def convert_file_to_flv(current_user, file, cameo_tt)
       if Rails.env == 'development'
-        `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y #{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv`
+        `ffmpeg -i #{file.tempfile.to_path.to_s} -ar 22050 -y #{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv`
       else
         `avconv -i #{file.tempfile.to_path.to_s} -ar 22050 -y "/var/www/apps/rvidi/shared/temp_streams/#{current_user.id}_#{cameo_tt}.flv"`
       end
@@ -184,7 +184,12 @@ class Cameo < ActiveRecord::Base
 
     def clipping_video(cameo, client, ks, start_time, end_time )
       donwload = `wget -O "#{cameo.id}.flv" "#{cameo.download_url}"`
-      stripped_output = `avconv -i "#{cameo.id}.flv" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{cameo.id}#{cameo.show_id}.avi`
+      if Rails.env == 'development'
+        stripped_output = `ffmpeg -i "#{cameo.id}.flv" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{cameo.id}#{cameo.show_id}.avi`
+      else
+        stripped_output = `avconv -i "#{cameo.id}.flv" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{cameo.id}#{cameo.show_id}.avi`  
+      end
+
       # command = "avconv -i #{cameo.id}.mp4 -ss #{start_time} -t #{end_time} -y #{cameo.id}#{cameo.show_id}.mp4"
       new_file = File.open("#{cameo.id}#{cameo.show_id}.avi") if File.exists?("#{cameo.id}#{cameo.show_id}.avi")
      
