@@ -191,10 +191,13 @@ class CameosController < ApplicationController
 
   def validate_video
     session[:limit_reached] = nil
+    logger.debug "1"
     if params[:show].present? && params[:show][:cameos_attributes].present? && params[:show][:cameos_attributes]['0'][:video_file].present?
       file = params[:show][:cameos_attributes]['0'][:video_file]
+      logger.debug "2"
     elsif params[:cameo].present? && params[:cameo][:cameos].present? && params[:cameo][:cameos][:video_file].present?
       file = params[:cameo][:cameos][:video_file]
+      logger.debug "3"
     end
 
     duration = Cameo.get_video_duration(file)
@@ -212,6 +215,7 @@ class CameosController < ApplicationController
       session[:limit_reached] = true
       Cameo.delete_uploaded_file(file)
     end
+    logger.debug "4"
     session[:cameo_max_duration] = cameo_max_duration
     redirect_to video_player_path
     
