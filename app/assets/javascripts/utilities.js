@@ -85,12 +85,7 @@ $(document).ready(function(){
         $('#ajax-indicator').hide();
       }
     });
-
-    $.get("/cameos/cameo_clipping", {
-      start_time: $('#cameo_start_time').val(),
-      end_time: $('#cameo_end_time').val() ,
-      selected_cameo : $('#selected_cameo').val()
-    } );
+    
   });
 
   $(".selects-container").on('click','#invite_friend', function(){
