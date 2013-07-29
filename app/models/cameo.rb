@@ -192,12 +192,7 @@ class Cameo < ActiveRecord::Base
 
       donwload = `wget -O "#{first_temp_file}" "#{cameo.download_url}"`
       logger.debug "%%%%%%%%%----#{File.open(first_temp_file).path}"
-      if Rails.env == 'development'
-        stripped_output = `ffmpeg -i "#{first_temp_file}" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{second_temp_file}`
-      else
-        command = "avconv -i #{first_temp_file} -ss #{start_time} -t #{end_time} -codec copy #{second_temp_file}"
-        stripped_output = `#{command}`
-      end
+      stripped_output = `ffmpeg -async 1 -i #{first_temp_file} -ss #{start_time} -t #{end_time} -f avi -b:a 700k -ab 160k -ar 44100 -y #{second_temp_file}`
       logger.debug "*********"
       logger.debug first_temp_file
       logger.debug second_temp_file
