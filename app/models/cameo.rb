@@ -185,19 +185,26 @@ class Cameo < ActiveRecord::Base
 
 
     def clipping_video(cameo, client, ks, start_time, end_time )
+      end_time = end_time.to_i
+      start_time = start_time.to_i
       first_temp_file = File.join(Rails.root, 'tmp', "#{cameo.id}.flv")
-      second_temp_file = File.join(Rails.root, 'tmp', "#{cameo.id}#{cameo.show_id}.avi}")
+      second_temp_file = File.join(Rails.root, 'tmp', "#{cameo.id}#{cameo.show_id}.avi")
 
       donwload = `wget -O "#{first_temp_file}" "#{cameo.download_url}"`
+      logger.debug "%%%%%%%%%----#{File.open(first_temp_file).path}"
       if Rails.env == 'development'
         stripped_output = `ffmpeg -i "#{first_temp_file}" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{second_temp_file}`
       else
-        stripped_output = `avconv -i #{first_temp_file} -ss #{start_time} -t #{end_time + 1} -vcodec copy -acodec copy #{second_temp_file}`
+        command = "avconv -i #{first_temp_file} -ss #{start_time} -t #{end_time} -codec copy #{second_temp_file}"
+        stripped_output = `#{command}`
       end
-
+      logger.debug "*********"
+      logger.debug first_temp_file
+      logger.debug second_temp_file
+      logger.debug "*********"
       # command = "avconv -i #{cameo.id}.mp4 -ss #{start_time} -t #{end_time} -y #{cameo.id}#{cameo.show_id}.mp4"
       new_file = File.open(second_temp_file) if File.exists?(second_temp_file)
-     
+      logger.debug "&&&&&&&&&&&&---- #{new_file.path}"
       if new_file.present?
         logger.debug "********"
         logger.debug new_file.path
@@ -207,11 +214,10 @@ class Cameo < ActiveRecord::Base
         cameo.set_cameo_duration(new_file)
         cameo.set_uploaded_video_details(media_entry)
         cameo.save
-        #File.delete(first_temp_file)
-        #File.delete(second_temp_file)
+        File.delete(first_temp_file)
+        File.delete(second_temp_file)
       end
     end
-    
     
   end
   
