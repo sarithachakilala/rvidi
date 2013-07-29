@@ -199,10 +199,10 @@ class CameosController < ApplicationController
 
     duration = Cameo.get_video_duration(file)
     if params[:cameo].present? && params[:cameo][:show_id].present?
-      cameo_max_duration = show.get_max_cameo_duration
+      cameo_max_duration = show.get_max_cameo_duration current_user
     else
       show = Show.new(params[:show])
-      cameo_max_duration = show.get_max_cameo_duration
+      cameo_max_duration = show.get_max_cameo_duration current_user
     end
     
     if duration <= cameo_max_duration
