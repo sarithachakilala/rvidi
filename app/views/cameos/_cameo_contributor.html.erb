@@ -2,7 +2,7 @@
 <div class="friend-box margin-5 padding-5 ">
   <% cameo_div_class = (cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
 
-  <div class="row-fluid show-cameo-detail <%= cameo_div_class %> ui-state-default" id="show_<%= cameo.show_id %>_cameo_<%= cameo.id %>_detail" data-id="<%=cameo.id %>" >
+  <div class="row-fluid show-cameo-detail <%= cameo_div_class %> each_detail" id="show_<%= cameo.show_id %>_cameo_<%= cameo.id %>_detail" data-id="<%=cameo.id %>">
 
     <div class="span1">
       <!-- Checkbox -->

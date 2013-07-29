@@ -50,12 +50,17 @@
       <!-- Ends -->
 
     </div>
-    <div class
-         <div class="row-fluid">
-        <div class="span12">
-          <%= content_tag :div, @show.description, :class=>"edit_contributor_text" %>
+    <div class="row-fluid">
+      <div class="cl-10"></div>  
+
+      <% @contribution_percentage = @contribution_percentage.present? ? @contribution_percentage : 0%>
+      
+      <div class="span2"> 
+        <div class="progress progress-striped">
+          <div class="bar" style="width:<%= @contribution_percentage %>%;"></div>
         </div>
       </div>
+      <div class="span1 font_weight_bold"><%= @contribution_percentage.round(2)%>%</div>
 
       <% if @show.end_set.present? && @show.enable_download.present? %>
         <div class="row-fluid">
@@ -65,7 +70,11 @@
         </div>
       <% end %>
 
+       <div class="span12">
+        <%= content_tag :div, @show.description, :class=>"edit_contributor_text" %>
+      </div>
     </div>
+   </div>
   </div>
 
   <% content_for :js_with_script_tags do %>
