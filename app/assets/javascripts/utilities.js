@@ -354,7 +354,7 @@ function check_file(){
 $(function() {
   $( "#sortable" ).sortable({
     stop: function(){
-      var listItem = $("div#sortable div.ui-state-default")
+      var listItem = $("div#sortable div.each_detail")
       var listLength = listItem.length;
       var list = [];
       for(var i=0; i<listLength; i++){
@@ -370,7 +370,7 @@ $(function() {
 
 // Presently not using.
 function sortList() {
-  var listItem = $("div#sortable div.ui-state-default")
+  var listItem = $("div#sortable div.each_detail")
   var listLength = listItem.length;
   var list = [];
   for(var i=0; i<listLength; i++){
