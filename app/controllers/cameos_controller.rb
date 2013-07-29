@@ -136,12 +136,13 @@ class CameosController < ApplicationController
       end
     end
 
+    @cameo.attributes = params[:cameo]
     if params[:cameo][:start_time].present? && params[:cameo][:end_time].present?
-      @sucess = Cameo.clipping_video(@cameo, session[:client], session[:ks], params[:cameo][:start_time], params[:cameo][:end_time] )
+      Cameo.clipping_video(@cameo, session[:client], session[:ks], params[:cameo][:start_time], params[:cameo][:end_time] )
     end
     respond_to do |format|
       @show = @cameo.show
-      if @cameo.update_attributes(params[:cameo])
+      if @cameo.save
         format.html { redirect_to @show, notice: 'Cameo was successfully Published.' }
         format.json { head :no_content }
       else
@@ -185,8 +186,9 @@ class CameosController < ApplicationController
   
   def cameo_clipping
     @cameo =  Cameo.find params[:selected_cameo]
-    @sucess = Cameo.clipping_video(@cameo, session[:client], session[:ks],
+    Cameo.clipping_video(@cameo, session[:client], session[:ks],
       params[:start_time], params[:end_time] )
+    @cameo.save
   end
 
   def validate_video
