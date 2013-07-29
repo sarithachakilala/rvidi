@@ -90,6 +90,7 @@ class Cameo < ActiveRecord::Base
         file.class == File ? (file.path) : (file)
       end
       raw_duration = `ffmpeg -i "#{file_path}" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
+      logger.debug "duration is #{raw_duration}"
       raw_duration.split(':')[0].to_i * 3600 + raw_duration.split(':')[1].to_i * 60 + raw_duration.split(':')[2].to_i if raw_duration.present?
     end
 
@@ -184,26 +185,33 @@ class Cameo < ActiveRecord::Base
 
 
     def clipping_video(cameo, client, ks, start_time, end_time )
-      donwload = `wget -O "#{cameo.id}.flv" "#{cameo.download_url}"`
+      first_temp_file = File.join(Rails.root, 'tmp', "#{cameo.id}.flv")
+      second_temp_file = File.join(Rails.root, 'tmp', "#{cameo.id}#{cameo.show_id}.avi}")
+
+      donwload = `wget -O "#{first_temp_file}" "#{cameo.download_url}"`
       if Rails.env == 'development'
-        stripped_output = `ffmpeg -i "#{cameo.id}.flv" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{cameo.id}#{cameo.show_id}.avi`
+        stripped_output = `ffmpeg -i "#{first_temp_file}" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{second_temp_file}`
       else
-        stripped_output = `avconv -i "#{cameo.id}.flv" -ss #{start_time} -t #{end_time} -vcodec copy -acodec copy #{cameo.id}#{cameo.show_id}.avi`  
+        stripped_output = `avconv -i #{first_temp_file} -ss #{start_time} -t #{end_time + 1} -vcodec copy -acodec copy #{second_temp_file}`
       end
 
       # command = "avconv -i #{cameo.id}.mp4 -ss #{start_time} -t #{end_time} -y #{cameo.id}#{cameo.show_id}.mp4"
-      new_file = File.open("#{cameo.id}#{cameo.show_id}.avi") if File.exists?("#{cameo.id}#{cameo.show_id}.avi")
+      new_file = File.open(second_temp_file) if File.exists?(second_temp_file)
      
       if new_file.present?
+        logger.debug "********"
+        logger.debug new_file.path
+        logger.debug "********"
         # delete = cameo.delete_kaltura_video
         media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
         cameo.set_cameo_duration(new_file)
         cameo.set_uploaded_video_details(media_entry)
         cameo.save
-        File.delete("#{cameo.id}.flv")
-        File.delete("#{cameo.id}#{cameo.show_id}.avi")
+        #File.delete(first_temp_file)
+        #File.delete(second_temp_file)
       end
     end
+    
     
   end
   
