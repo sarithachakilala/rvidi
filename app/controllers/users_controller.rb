@@ -119,7 +119,7 @@ class UsersController < ApplicationController
 
     collected_shows = (my_shows + my_friends_show + Show.public_protected_shows).uniq
 
-    @most_viewed = collected_shows.sort { |a, b| b.number_of_views <=>a.number_of_views }
+    @most_viewed = collected_shows.sort_by { |show| show.number_of_views }.reverse
     @latest_show =  Show.limit(6).order('created_at desc')
     # @most_viewed =  Show.order('number_of_views desc')
     
