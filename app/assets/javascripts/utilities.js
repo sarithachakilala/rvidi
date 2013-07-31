@@ -392,3 +392,55 @@ function checking_contributor_pwd_field(){
     $("#show_contributor_preferences_password").css("display","none");
   }
 }
+
+
+function readURL(input) {
+  var filename = $(input).val().split('\\').pop();
+  var status = validate_file_extn(filename);
+  var reader = '';
+
+  if(status == "false") {
+    alert("File type is not supported");
+  }
+  else {
+
+    if(navigator.userAgent.match(/msie/i) && !navigator.userAgent.match(/msie 10/i)) {
+      if($('.jane_image').length > 0) {
+        $('.jane_image').css('border', '1px solid lightgray').html(filename);
+      }
+    }
+    else if(navigator.userAgent.match(/msie/i) && navigator.userAgent.match(/msie 10/i)) {
+      reader = new FileReader();
+      reader.onload = function (e) {
+        $('#rvidi_user_profile_image')
+        .attr('src', e.target.result)
+        .width(90)
+        .height(90);
+      };
+
+      reader.readAsDataURL(input.files[0]);
+    }
+
+    else {
+
+      if (input.files && input.files[0]) {
+        if(input.files[0].size < 1400000) {
+          reader = new FileReader();
+          reader.onload = function (e) {
+            $('#rvidi_user_profile_image')
+            .attr('src', e.target.result)
+            .width(90)
+            .height(90);
+          };
+
+          reader.readAsDataURL(input.files[0]);
+        }
+        else {
+          alert("Maximum Size is 1400KB");
+        }
+
+      }
+    }
+  }
+
+}

@@ -176,3 +176,18 @@ function validateRequiredFields(form){
   });
   return error_count;
 }
+
+function validate_file_extn(filename) {
+  var image_extns = new Array(/^jpg$/i, /^png$/i, /^jpeg$/i, /^ico$/i, /^gif$/i)
+  var extn = filename.split('.');
+  for(var i = 0; i < image_extns.length; i++) {
+    if(extn[1].match(image_extns[i])) {
+      status = "true"
+      break;
+    }
+    else {
+      status = "false";
+    }
+  }
+  return status;
+}
