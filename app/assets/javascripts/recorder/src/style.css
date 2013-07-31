@@ -1,0 +1,17 @@
+/* CSS file */
+	.playButton { 
+	down-icon: Embed(source="assets/player_pause.png"); 
+	over-icon: Embed(source="assets/player_pause.png"); 
+	up-icon: Embed(source="assets/player_pause.png"); 
+
+	selected-disabled-icon: Embed(source="assets/player_play.png"); 
+	selected-over-icon: Embed(source="assets/player_play.png");
+	selected-up-icon: Embed(source="assets/player_play.png");
+	}
+	.scrollBar {
+		thumb-icon: Embed(source="assets/circle.png"); 
+		thumb-up-skin: Embed(source="assets/circle.png"); 
+		thumb-down-skin: Embed(source="assets/circle.png"); 
+		thumb-over-skin: Embed(source="assets/circle.png"); 
+	}		
+      
