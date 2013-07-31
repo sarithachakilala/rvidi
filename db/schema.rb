@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130730104057) do
+ActiveRecord::Schema.define(:version => 20130731053446) do
 
   create_table "apis", :force => true do |t|
     t.string   "name"
@@ -36,19 +36,19 @@ ActiveRecord::Schema.define(:version => 20130730104057) do
     t.integer  "user_id"
     t.integer  "director_id"
     t.integer  "show_id"
-    t.integer  "show_order"
+    t.integer  "show_order",       :default => 0
     t.string   "status"
     t.string   "name"
     t.string   "description"
     t.string   "thumbnail_url"
     t.string   "download_url"
     t.string   "kaltura_entry_id"
-    t.datetime "created_at",       :null => false
-    t.datetime "updated_at",       :null => false
+    t.datetime "created_at",                        :null => false
+    t.datetime "updated_at",                        :null => false
     t.string   "title"
     t.string   "start_time"
     t.string   "end_time"
-    t.float    "duration"
+    t.float    "duration",         :default => 1.0
     t.string   "published_status"
   end
 
@@ -173,7 +173,7 @@ ActiveRecord::Schema.define(:version => 20130730104057) do
     t.boolean  "enable_download",                                 :default => false
     t.integer  "download_preference"
     t.string   "download_url"
-    t.float    "cameo_duration",                                  :default => 15.0
+    t.float    "cameo_duration",                                  :default => 60.0
   end
 
   create_table "users", :force => true do |t|
