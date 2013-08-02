@@ -48,8 +48,8 @@ class Show < ActiveRecord::Base
   validates :contributor_preferences_password, :presence => true, :if => Proc.new {|cpp| cpp.contributor_preferences == "password_protected" }
   validates :duration, :inclusion => {:in => 60..600 } # In Minutes
   validates :cameo_duration, :inclusion => { :in => 1..60 } # In Seconds
-  
-  
+
+
   # Callbacks
   # ------
   #
@@ -150,7 +150,7 @@ class Show < ActiveRecord::Base
   def push_stitched_video_to_kaltura(id, timestamp, client, ks, cameo)
     new_file = File.open("#{steam_download_path}/show_#{id}_#{timestamp}.mpg") if File.exists?("#{steam_download_path}/show_#{id}_#{timestamp}.mpg")
     media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
-    if media_entry.status == 1
+    if media_entry.status.to_i == 1
       cameo.set_uploaded_video_details(media_entry)
       # File.delete("#{steam_download_path}/show_#{id}_#{timestamp}.mpg")
       update_attributes(:download_url =>  media_entry.download_url)
@@ -236,7 +236,7 @@ class Show < ActiveRecord::Base
       remaining_duration
     end
   end
-  
+
 end
 
 
