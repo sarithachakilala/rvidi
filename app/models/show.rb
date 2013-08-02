@@ -23,10 +23,10 @@ class Show < ActiveRecord::Base
   end
   
   attr_accessible :user_id, :title, :description, :display_preferences,
-    :display_preferences_password, :contributor_preferences,
-    :contributor_preferences_password, :need_review,
-    :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
-    :download_preference, :download_url, :cameo_duration
+  :display_preferences_password, :contributor_preferences,
+  :contributor_preferences_password, :need_review,
+  :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
+  :download_preference, :download_url, :cameo_duration
 
   after_create :create_permalink
 
@@ -44,12 +44,12 @@ class Show < ActiveRecord::Base
   validates :display_preferences, :presence => true
   validates :contributor_preferences, :presence => true
   validates :display_preferences_password, :presence => true,
-    :if => Proc.new {|dpp| dpp.display_preferences == Show::Contributor_Preferences::PASSWORD_PROTECTED }
+  :if => Proc.new {|dpp| dpp.display_preferences == Show::Contributor_Preferences::PASSWORD_PROTECTED }
   validates :contributor_preferences_password, :presence => true, :if => Proc.new {|cpp| cpp.contributor_preferences == "password_protected" }
   validates :duration, :inclusion => {:in => 60..600 } # In Minutes
   validates :cameo_duration, :inclusion => { :in => 1..60 } # In Seconds
-            
- 
+  
+  
   # Callbacks
   # ------
   #
@@ -136,7 +136,7 @@ class Show < ActiveRecord::Base
     end
     
     `cat #{val.join(' ')} > "#{steam_download_path}/show_#{id}_#{timestamp}.mpg"`  #concatinating the cameos
-     push_stitched_video_to_kaltura(id, timestamp, client, ks, cameo)
+    push_stitched_video_to_kaltura(id, timestamp, client, ks, cameo)
   end
 
   def steam_download_path
@@ -236,7 +236,7 @@ class Show < ActiveRecord::Base
       remaining_duration
     end
   end
- 
+  
 end
 
-  
+
