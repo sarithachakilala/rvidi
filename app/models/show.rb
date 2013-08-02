@@ -154,6 +154,9 @@ class Show < ActiveRecord::Base
       cameo.set_uploaded_video_details(media_entry)
       # File.delete("#{steam_download_path}/show_#{id}_#{timestamp}.mpg")
       update_attributes(:download_url =>  media_entry.download_url)
+      return true
+    else
+      return false
     end
   end
 
