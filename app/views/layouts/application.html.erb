@@ -27,25 +27,29 @@
     -->
   </head>
   <body>
-    <div class="container body_bg" style="background-color:#e3e4e6;"> 
-      <div class="highlight">
+    <div class=" body_bg">
+     <div class="highlight"> 
+      <div class="container"> 
+       
+        <!-- Header start here -->
         <div class="graphic_bg">
-          <%= render :partial => "layouts/header" %>
-          <%= render :partial => "layouts/flash_messages" %>
-          <%= render :partial => "ajax_indicator" %>
-          <%= yield %>
-        </div>
-      </div>
-
-      <!-- FOOTER -->
-      <%= render :partial => "layouts/footer" %>
-    </div>
-
-    <%##* Loading Javascripts. Loading in last, will load the page much faster. %>    
-    <%= javascript_include_tag "application" %>
-    <script src="/assets/recorder/AC_OETags.js" language="javascript"></script>
-    <script src="/assets/recorder/history/history.js" language="javascript"></script>
-    <script type='text/javascript'>
+          <div class="row-fluid">
+           <%= render :partial => "layouts/header" %>
+           <%= render :partial => "layouts/flash_messages" %>
+           <%= render :partial => "ajax_indicator" %>
+           <%= yield %>
+         </div>  <!-- Header end here -->
+       </div>
+     </div>
+     <!-- FOOTER -->
+     <%= render :partial => "layouts/footer" %>
+   </div>
+   
+   <%##* Loading Javascripts. Loading in last, will load the page much faster. %>    
+   <%= javascript_include_tag "application" %>
+   <script src="/assets/recorder/AC_OETags.js" language="javascript"></script>
+   <script src="/assets/recorder/history/history.js" language="javascript"></script>
+   <script type='text/javascript'>
       // Script for Carousel
       !function ($) {
         $(function(){
