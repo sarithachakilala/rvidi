@@ -117,7 +117,7 @@ class UsersController < ApplicationController
     my_friends = FriendMapping.where(:user_id => current_user.id, :status => "accepted").collect(&:friend_id)
     my_friends_show = Show.where(:user_id => my_friends)
 
-    collected_shows = (my_shows + my_friends_show + Show.public_protected_shows).uniq
+    collected_shows = (my_shows + my_friends_show + Show.public_protected_shows).compact.uniq
 
     @most_viewed = collected_shows.sort_by { |show| show.number_of_views }.reverse
     @latest_show =  Show.limit(6).order('created_at desc')
