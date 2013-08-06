@@ -277,7 +277,7 @@ class ShowsController < ApplicationController
     end_set_val = params[:status] == "end" ? Time.now : ""
     @show.update_attributes(:end_set => end_set_val)
     if params[:status] == "end"
-      @show.download_complete_show(session[:client], session[:ks])
+      donwload_status = @show.download_complete_show(session[:client], session[:ks])
       redirect_to edit_show_path(@show.id), :notice => "Successfully Show got #{params[:status]}ed."
     else
       redirect_to show_path(:id=>@show.id), :notice => "Successfully Show got #{params[:status]}ed."

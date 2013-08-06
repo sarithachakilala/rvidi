@@ -11,8 +11,12 @@
       </div>
       <!-- To Download complete show -->
       <% if show.download_video?(current_user) %>
-        <div class="span1">
-          <%= link_to "<i class='downloadsprite-dorrange'></i>".html_safe, show.download_url, :title => 'download' %>
+        <div class="span2">
+          <%# if show.download_url.present? %>
+              <%= link_to "<i class='downloadsprite-dorrange'></i>".html_safe, show.download_url, :title => 'download' %>
+            <%# else %>
+              <%#= "Downloading is not Successful" %>
+            <%# end %>
         </div>
       <% end %>
       <div class="span2 ratings_line">
