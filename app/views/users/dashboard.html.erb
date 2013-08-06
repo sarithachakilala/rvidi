@@ -16,14 +16,14 @@
           <div class="font_weight_bold">You have <%= @cameo_invitations.count %> <%= link_to "  cameo invitation", notification_user_path(:id => current_user.id) %></div>
         <% end %>
         <% @show_notifications.each do |k,v| %>
-          <% show = Show.find(k) %>
-          <div class="font_weight_bold"> Your show <%= link_to "#{show.title} ".capitalize, show_path(:id=>show.permalink) %>has <%= link_to "#{v.length} cameos", show_path(:id=> show.permalink, :to_contribute => "yes") %> </div>
+          <% show = Show.find_by_id(k) %>
+          <div class="font_weight_bold"> Your show <%= link_to "#{show.title} ".capitalize, show_path(:id => show.permalink) %>has <%= link_to "#{v.length} cameos", show_path(:id=> show.permalink, :to_contribute => "yes") %> </div>
         <%end%>
         <% @cameo_contributors.each do |k,v| %>
-          <% show = Show.find(k) %>
+          <% show = Show.find_by_id (k) %>
           <div class="font_weight_bold"> <%= v.length%> new cameos have been posted after you in show <%= link_to "#{show.title} ".capitalize, show_path(:id=> show.permalink, :to_contribute => "yes") %></div>
         <% end %>
-        <% if @notifications.count>0 %>
+        <% if @notifications.count > 0 %>
           <div class="font_weight_bold">You have  <%= @notifications.count %> <%= link_to " friend Requests", notification_user_path(current_user.id) %></div>
         <% end %>
       </div>

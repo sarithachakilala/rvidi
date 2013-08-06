@@ -7,4 +7,8 @@ class Notification < ActiveRecord::Base
   validates :to_email, :presence => {:unless => "to_id"}
   validates :to_id, :presence => {:unless => "to_email"}
 
+  # Associations
+
+  belongs_to :show
+
 end
