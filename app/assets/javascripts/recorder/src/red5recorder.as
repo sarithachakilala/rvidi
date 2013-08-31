@@ -200,6 +200,7 @@ private  function prepareStreams():void {
 			Security.showSettings(SecurityPanel.DEFAULT);
 		}
 		camera.setMode(myRecorder.width,myRecorder.height,myRecorder.fps);
+    camera.setQuality(0, 100);
 		myWebcam.attachCamera(camera);
 		nsOutGoing.attachCamera(camera);
 		myRecorder.cameraDetected=true;

@@ -1,10 +1,10 @@
 <object classid="clsid:d27cdb6e-ae6d-11cf-96b8-444553540000" 
-        width="400"
-        height="300"
+        width="800"
+        height="600"
         id="red5recorder"
         data="/assets/recorder/red5recorder.swf"
         align="middle">
-  <param name=FlashVars value="fileName=<%= URI::escape(Cameo.get_stream_name(current_user, time_stamp)) %>&serverPath=<%= URI::escape(streaming_server_path) %>&width=400&height=300&maxLength=<%= cameo_max_duration %>" />
+  <param name=FlashVars value="fileName=<%= URI::escape(Cameo.get_stream_name(current_user, time_stamp)) %>&serverPath=<%= URI::escape(streaming_server_path) %>&width=800&height=600&fps=50&maxLength=<%= cameo_max_duration %>" />
   <param name="movie" value="/assets/recorder/red5recorder.swf" />
   <param name="quality" value="high" />
   <param name="bgcolor" value="#ffffff" />
@@ -20,10 +20,10 @@
   <!--[if !IE]>-->
   <object type="application/x-shockwave-flash" 
           data="/assets/recorder/red5recorder.swf"
-          width="400"
-          height="300"
+          width="800"
+          height="600"
           id="red5recorder">
-    <param name=FlashVars value="fileName=<%= URI::escape(Cameo.get_stream_name(current_user, time_stamp)) %>&serverPath=<%= URI::escape(streaming_server_path) %>&width=400&height=300&maxLength=<%= cameo_max_duration %>" />
+    <param name=FlashVars value="fileName=<%= URI::escape(Cameo.get_stream_name(current_user, time_stamp)) %>&serverPath=<%= URI::escape(streaming_server_path) %>&width=800&height=600&fps=50&maxLength=<%= cameo_max_duration %>" />
     <param name="movie" value="/assets/recorder/red5recorder.swf" />
     <param name="quality" value="high" />
     <param name="bgcolor" value="#ffffff" />

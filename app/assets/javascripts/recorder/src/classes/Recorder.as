@@ -4,10 +4,10 @@ package classes
 	{
 		public var maxLength:int=90;
 		public var fileName:String="video";
-		public var width:int=320;
-		public var height:int=240;
+		public var width:int=800;
+		public var height:int=600;
 		public var server:String="rtmp://localhost/oflaDemo/";
-		public var fps:int=15;
+		public var fps:int=30;
 		public var microRate:int=100;
 		public var showVolume:Boolean=true;
 		public var recordingText:String="Recording...";
