@@ -14,8 +14,8 @@ set :application, 'rvidi.qwinixtech.com'
 
 set :deploy_to, "#{base_path}/#{app_name}"
 
-#set :branch, 'development'
-set :branch, 'video-quality'
+set :branch, 'development'
+#set :branch, 'video-quality'
 set :port, 1022
 
 set :rails_env, 'staging'
