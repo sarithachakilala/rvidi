@@ -211,7 +211,7 @@ class CameosController < ApplicationController
       cameo_max_duration = show.get_max_cameo_duration current_user
     end
     
-    if duration <= cameo_max_duration
+    if duration <= cameo_max_duration && File.extname(file) != ".flv"
       Cameo.convert_file_to_flv(current_user, file, session[:timestamp])
     else
       session[:limit_reached] = true
