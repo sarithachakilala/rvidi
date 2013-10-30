@@ -3,3 +3,8 @@ class ApisController < InheritedResources::Base
 
   belongs_to :documentation
 end
+
+
+
+
+
