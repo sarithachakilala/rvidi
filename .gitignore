@@ -19,3 +19,4 @@
 /nbproject
 /public/uploads/
 config/database.yml
+.ruby-*
