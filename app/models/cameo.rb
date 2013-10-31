@@ -108,7 +108,7 @@ class Cameo < ActiveRecord::Base
 
     def get_flv_file_path(current_user, cameo_tt)
       if Rails.env == 'development'
-        File.open("#{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv")
+        File.open("#{Rails.root.to_s}/tmp/streams/#{current_user.id}_#{cameo_tt}.flv")
       else
         File.open("/var/www/apps/rvidi/shared/temp_streams/#{current_user.id}_#{cameo_tt}.flv")
       end
