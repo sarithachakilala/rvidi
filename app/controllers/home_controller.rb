@@ -18,11 +18,12 @@ class HomeController < ApplicationController
   def my_file
     begin
       if Rails.env == 'development'
-        send_file "#{Rails.root.to_s}/tmp/#{current_user.id}_#{session[:timestamp]}.flv", :type => 'video/x-flv'
+        send_file "#{Rails.root.to_s}/tmp/streams/#{current_user.id}_#{session[:timestamp]}.flv", :type => 'video/x-flv'
       else
         send_file "/var/www/apps/rvidi/shared/temp_streams/#{current_user.id}_#{session[:timestamp]}.flv", :type => 'video/x-flv'
       end
-    rescue
+    rescue Exception => e
+      logger.debug e.message
       render :nothing => true
     end
   end
