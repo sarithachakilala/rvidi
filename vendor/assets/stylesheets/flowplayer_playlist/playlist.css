@@ -18,7 +18,7 @@
 }
 
 .clips a {
-    background:url(/media/img/global/gradient/h80.png);
+    background:url(/assets/flowplayer_playlist/h80.png);
     display:block;
     background-color:#fefeff;
     padding:12px 15px;
@@ -37,7 +37,7 @@
 }
 
 .clips a.playing, .clips a.paused, .clips a.progress {
-    background:url(/media/img/playlist/light.png) no-repeat 0px -69px;
+    background:url(/assets/flowplayer_playlist/light.png) no-repeat 0px -69px;
     width:225px;
     border:0;
 }
@@ -80,7 +80,7 @@
 }
 
 .clips.petrol a.playing, .clips.petrol a.paused, .clips.petrol a.progress {
-    background:url(/media/img/playlist/dark.png) no-repeat 0px -69px;
+    background:url(/assets/flowplayer_playlist/dark.png) no-repeat 0px -69px;
     border:0;
 }
 
@@ -101,7 +101,7 @@
     background-color:#274D58;
 }
 
-.clips.petrol a.playing:hover, .clips.petrol a.paused:hover, 
+.clips.petrol a.playing:hover, .clips.petrol a.paused:hover,
 .clips.petrol a.progress:hover {
     background-color:transparent !important;
 }
@@ -115,7 +115,7 @@
 }
 
 .clips.low a.playing, .clips.low a.paused, .clips.low a.progress {
-    background-image:url(/media/img/playlist/light_small.png);
+    background-image:url(/assets/flowplayer_playlist/light_small.png);
     background-position:0 -55px;
 }
 
@@ -133,7 +133,7 @@ a.go {
     display:block;
     width:18px;
     height:18px;
-    background:url(/media/img/playlist/arrow/up.png) no-repeat;
+    background:url(/assets/flowplayer_playlist/up.png) no-repeat;
     margin:5px 0 5px 105px;
     cursor:pointer;
 }
@@ -143,15 +143,15 @@ a.go:hover, a.go.down:hover {
 }
 
 a.go.down {
-    background-image:url(/media/img/playlist/arrow/down.png);
+    background-image:url(/assets/flowplayer_playlist/down.png);
 }
 
 .petrol a.go {
-    background-image:url(/media/img/playlist/arrow/up_dark.png);
+    background-image:url(/assets/flowplayer_playlist/up_dark.png);
 }
 
 .petrol a.go.down {
-    background-image:url(/media/img/playlist/arrow/down_dark.png);
+    background-image:url(/assets/flowplayer_playlist/down_dark.png);
 }
 
 a.go.disabled {
