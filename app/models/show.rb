@@ -21,7 +21,7 @@ class Show < ActiveRecord::Base
     NON_FRIEND = 1
     NOT_AUTHENTICATED = 2
   end
-  
+
   attr_accessible :user_id, :title, :description, :display_preferences,
     :display_preferences_password, :contributor_preferences,
     :contributor_preferences_password, :need_review,
@@ -47,18 +47,18 @@ class Show < ActiveRecord::Base
   validates :display_preferences_password, :presence => true,
     :if => Proc.new {|dpp| dpp.display_preferences == Show::Contributor_Preferences::PASSWORD_PROTECTED }
   validates :contributor_preferences_password, :presence => true, :if => Proc.new {|cpp| cpp.contributor_preferences == "password_protected" }
-  validates :duration, :inclusion => {:in => 60..600 } # In Minutes
+  # validates :duration, :inclusion => {:in => 60..600 } # In Minutes
   validates :cameo_duration, :inclusion => { :in => 1..60 } # In Seconds
 
 
   # Callbacks
   # ------
   #
-  # 
+  #
   # Scopes
-  scope :public_shows, where(:display_preferences => "public")  
-  scope :public_private_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'private')  
-  scope :public_protected_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'password_protected')  
+  scope :public_shows, where(:display_preferences => "public")
+  scope :public_private_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'private')
+  scope :public_protected_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'password_protected')
 
 
   # CLASS METHODS
@@ -70,10 +70,10 @@ class Show < ActiveRecord::Base
   def update_active_cameos(cameos_arr)
     cameos.each do|cameo|
       if cameos_arr.include?(cameo.id.to_s)
-        cameo.update_attributes(:status => "enabled") 
+        cameo.update_attributes(:status => "enabled")
       else
-        cameo.update_attributes(:status => "disabled") 
-      end 
+        cameo.update_attributes(:status => "disabled")
+      end
     end
   end
 
@@ -95,9 +95,9 @@ class Show < ActiveRecord::Base
     self.kaltura_playlist_id = playlist.id
     self.save
   end
-  
+
   def create_playlist
-    if cameos.present? 
+    if cameos.present?
       client = Cameo.get_kaltura_client(user_id)
       if kaltura_playlist_id.present?
         playlist = client.playlist_service.get(kaltura_playlist_id)
@@ -109,7 +109,7 @@ class Show < ActiveRecord::Base
       end
     end
   end
-  
+
   def create_permalink
     if self.title
       self.permalink = self.title.to_permalink + "-#{self.id}"
@@ -122,7 +122,7 @@ class Show < ActiveRecord::Base
     self.download_preference = nil
     save
   end
-  
+
   def download_complete_show(client, ks)
     cameo = Cameo.new
     val = []
@@ -135,7 +135,7 @@ class Show < ActiveRecord::Base
       #File.delete("#{steam_download_path}.avi")  if File.exists?("#{steam_download_path}.avi")
       #File.delete("#{steam_download_path}.mpg")  if File.exists?("#{steam_download_path}.mpg")
     end
-    
+
     `cat #{val.join(' ')} > "#{steam_download_path}/show_#{id}_#{timestamp}.mpg"`  #concatinating the cameos
     push_stitched_video_to_kaltura(id, timestamp, client, ks, cameo)
   end
@@ -185,8 +185,8 @@ class Show < ActiveRecord::Base
     else
       is_friend = false
     end
-    
-    return true if self.display_preferences == Show::Display_Preferences::PUBLIC || is_director 
+
+    return true if self.display_preferences == Show::Display_Preferences::PUBLIC || is_director
     if self.display_preferences == Show::Display_Preferences::PRIVATE && is_friend
       true
     else
@@ -209,8 +209,8 @@ class Show < ActiveRecord::Base
     else
       is_friend = false
     end
-    
-    return true if self.contributor_preferences == Show::Contributor_Preferences::PUBLIC || is_director 
+
+    return true if self.contributor_preferences == Show::Contributor_Preferences::PUBLIC || is_director
     if self.contributor_preferences == Show::Contributor_Preferences::PRIVATE && is_friend
       true
     else
@@ -226,7 +226,7 @@ class Show < ActiveRecord::Base
 
   def get_max_cameo_duration current_user
     if new_record?
-      remaining_duration = self.duration * 60 
+      remaining_duration = self.duration * 60
     else
       remaining_duration = (self.duration) - (self.cameos.map(&:duration).compact.sum)
     end

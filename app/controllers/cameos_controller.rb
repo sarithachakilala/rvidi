@@ -1,7 +1,7 @@
 class CameosController < ApplicationController
   before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy, :validate_video, :video_player]
   before_filter :redirect_to_root_page, :only=>[:index]
-  
+
   def index
     @cameos = Cameo.all
 
@@ -27,12 +27,12 @@ class CameosController < ApplicationController
     @show = Show.find(params[:show_id])
     @show_preference = @show.set_contributor_preference(current_user, session[:contribution_preference])
 
-    @contribution_preference = params[:preference].present? ? params[:preference] : @show.contributor_preferences 
-    
+    @contribution_preference = params[:preference].present? ? params[:preference] : @show.contributor_preferences
+
     ## Get the friend list
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
     @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
-    
+
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @cameo }
@@ -49,34 +49,35 @@ class CameosController < ApplicationController
       @cameo.status = (@cameo.show.need_review == true) ? Cameo::Status::Pending : Cameo::Status::Enabled
     end
 
-    if params[:cameo][:cameos][:video_file].present?
-      file = Cameo.get_flv_file_path(current_user, session[:timestamp])
-    else
-      file = Cameo.get_cameo_file(current_user, session[:timestamp])
-    end
-    @cameo.set_cameo_duration(file)
+    # if params[:cameo][:cameos][:video_file].present?
+    #   file = Cameo.get_flv_file_path(current_user, session[:timestamp])
+    # else
+    #   file = Cameo.get_cameo_file(current_user, session[:timestamp])
+    # end
 
-    if @cameo.show_duration_not_excedded?
-      begin
-        media_entry = @cameo.upload_video_to_kaltura(file, session[:client], session[:ks])
-        @cameo.set_uploaded_video_details(media_entry)
-      rescue Exception => e
-        flash[:alert] = e.message
-        redirect_to new_cameo_path(:show_id => @cameo.show_id, :director_id => @cameo.director_id)
-        return
-      end
-    else
-      flash[:alert] = "Show duration excedded!!"
-      redirect_to new_cameo_path(:show_id => @cameo.show_id, :director_id => @cameo.director_id)
-      return
-    end
-    @success = @cameo.save
-    @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
+    # @cameo.set_cameo_duration(file)
+
+    # if @cameo.show_duration_not_excedded?
+    #   begin
+    #     media_entry = @cameo.upload_video_to_kaltura(file, session[:client], session[:ks])
+    #     @cameo.set_uploaded_video_details(media_entry)
+    #   rescue Exception => e
+    #     flash[:alert] = e.message
+    #     redirect_to new_cameo_path(:show_id => @cameo.show_id, :director_id => @cameo.director_id)
+    #     return
+    #   end
+    # else
+    #   flash[:alert] = "Show duration excedded!!"
+    #   redirect_to new_cameo_path(:show_id => @cameo.show_id, :director_id => @cameo.director_id)
+    #   return
+    # end
+    # @success = @cameo.save
+    # @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
 
     respond_to do |format|
-      if @success
+      if @cameo.save
         @show = @cameo.show
-        invite_friend(params[:selected_friends],  @show.id) if params[:selected_friends].present?
+        # invite_friend(params[:selected_friends],  @show.id) if params[:selected_friends].present?
         format.html { redirect_to edit_cameo_path(@cameo), notice: 'Cameo was successfully Saved, Once you Publish your cameo it will added to the Show.'}
         format.js {}
         format.json { render json: @cameo, status: :created, location: @cameo }
@@ -103,42 +104,46 @@ class CameosController < ApplicationController
     File.delete("#{@cameo.id}.avi") if File.exists?("#{@cameo.id}.avi")
   end
 
-  
+
 
   def update
     @cameo = Cameo.find(params[:id])
     @cameo.published_status = "published"
-    @contributed_users = Cameo.where(:show_id=>@cameo.show_id).collect{|cameo| cameo.user_id if (cameo.user_id != @cameo.director_id) && (cameo.user_id != current_user.id)}.uniq
-    @contributed_users.compact.each do |each_contributer|
-      notification = Notification.create!(:show_id => @cameo.show_id,
-        :to_id => each_contributer, :from_id => @cameo.director_id,
-        :status => "others_contributed", :content =>"They also contributed",
-        :read_status => false)
-    end
-    if (@cameo.user_id != @cameo.director_id)
-      #Creating a notification to the director
-      notification = Notification.create(:show_id=>@cameo.show_id, :from_id=>@cameo.user_id, :to_id => @cameo.director_id, :status => "contributed", :content =>"Added a Cameo", :read_status => false)
-      notification.save!
 
-      #checking whether user is friend or not
-      @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
-      friend = FriendMapping.where(:user_id=> @cameo.show.user_id, :friend_id => current_user.id, :status => "accepted" )
-      pending_request = FriendMapping.where(:user_id=> @cameo.show.user_id, :friend_id => current_user.id, :status => "pending" )
-      User.friendmapping_creation(@cameo.show.user_id, current_user.id, "accepted")  if @invited.present? && !friend.present?
-      
-      #updating the pending request
-      if pending_request.present?
-        pending_request.first.update_attributes(:status =>"accepted")
-        pending_request2 = FriendMapping.where(:friend_id=> @cameo.show.user_id, :user_id => current_user.id, :status => "pending" )
-        pending_request2.first.update_attributes(:status =>"accepted")
-        notification = Notification.where(:to_id => current_user.id, :from_id => @cameo.show.user_id).first
-        notification.update_attributes(:status => "accepted", :read_status => true)
-      end
-    end
+    # TODO move comunications to observer
+    # @contributed_users = Cameo.where(:show_id=>@cameo.show_id).collect{|cameo| cameo.user_id if (cameo.user_id != @cameo.director_id) && (cameo.user_id != current_user.id)}.uniq
+    # @contributed_users.compact.each do |each_contributer|
+    #   notification = Notification.create!(:show_id => @cameo.show_id,
+    #     :to_id => each_contributer, :from_id => @cameo.director_id,
+    #     :status => "others_contributed", :content =>"They also contributed",
+    #     :read_status => false)
+    # end
+
+    # TODO move communications to observers
+    # if (@cameo.user_id != @cameo.director_id)
+    #   #Creating a notification to the director
+    #   notification = Notification.create(:show_id=>@cameo.show_id, :from_id=>@cameo.user_id, :to_id => @cameo.director_id, :status => "contributed", :content =>"Added a Cameo", :read_status => false)
+    #   notification.save!
+
+    #   #checking whether user is friend or not
+    #   @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
+    #   friend = FriendMapping.where(:user_id=> @cameo.show.user_id, :friend_id => current_user.id, :status => "accepted" )
+    #   pending_request = FriendMapping.where(:user_id=> @cameo.show.user_id, :friend_id => current_user.id, :status => "pending" )
+    #   User.friendmapping_creation(@cameo.show.user_id, current_user.id, "accepted")  if @invited.present? && !friend.present?
+
+    #   #updating the pending request
+    #   if pending_request.present?
+    #     pending_request.first.update_attributes(:status =>"accepted")
+    #     pending_request2 = FriendMapping.where(:friend_id=> @cameo.show.user_id, :user_id => current_user.id, :status => "pending" )
+    #     pending_request2.first.update_attributes(:status =>"accepted")
+    #     notification = Notification.where(:to_id => current_user.id, :from_id => @cameo.show.user_id).first
+    #     notification.update_attributes(:status => "accepted", :read_status => true)
+    #   end
+    # end
 
     @cameo.attributes = params[:cameo]
     if params[:cameo][:start_time].present? && params[:cameo][:end_time].present?
-      Cameo.clipping_video(@cameo, session[:client], session[:ks], params[:cameo][:start_time], params[:cameo][:end_time] )
+      # Cameo.clipping_video(@cameo, session[:client], session[:ks], params[:cameo][:start_time], params[:cameo][:end_time] )
     end
     respond_to do |format|
       @show = @cameo.show
@@ -183,7 +188,7 @@ class CameosController < ApplicationController
       notification.save!
     end
   end
-  
+
   def cameo_clipping
     @cameo =  Cameo.find params[:selected_cameo]
     Cameo.clipping_video(@cameo, session[:client], session[:ks],
@@ -220,7 +225,7 @@ class CameosController < ApplicationController
     logger.debug "4"
     session[:cameo_max_duration] = cameo_max_duration
     redirect_to video_player_path
-    
+
   end
 
   def video_player
@@ -241,5 +246,5 @@ class CameosController < ApplicationController
     render :layout => false
 
   end
-  
+
 end

@@ -11,87 +11,91 @@
         <div class="font-size-12"><%= @show.director.full_name.titlecase %></div>
       </div>
 
-
       <% selected_cameo = @show.cameos('show_order asc').first %>
-      <!-- Show Player -->
-      <div id="show_<%= @show.id %>_kaltura_player_container" class="">
-        <!-- <img src="/assets/video_img.png" alt=""> -->
-        <% if params[:controller] == 'shows' && params[:action] == 'show' %>
-          <%= render :partial => "shows/player/cameo_player", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
-        <% else %>
-          <%= render :partial => "shows/player/director_playlist", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
-        <% end %>
-      </div>
+      <% if selected_cameo.present? %>
+        <div class="row-fluid">
+          <!-- Show Player -->
+          <div id="show_<%= @show.id %>_kaltura_player_container" class="span7">
+            <!-- <img src="/assets/video_img.png" alt=""> -->
+            <% if params[:controller] == 'shows' && params[:action] == 'show' %>
+              <%= render :partial => "shows/player/cameo_player", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
+            <% else %>
+              <%= render :partial => "shows/player/cameo_player_without_playlist", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
+            <% end %>
+          </div>
 
-<%#*<div class="span5" style="height:360px;overflow:auto;">%>
-<%#= render :partial=>"shows/player/cameo_contributors", :locals=> {:show => @show, :selected_cameo=>selected_cameo} %>
-<%#*</div>%>
-
-      <!-- Clipping Sider -->
-      <div class ="row-fluid" style="margin-top: 8px;">
-        <div class="video-clipping-slider">
-          <%= render :partial => 'shows/player/video_clipping_slider',
-            :locals => { :cameo => selected_cameo} %>
+          <div class="span5" style="height:360px;overflow:auto;">
+            <%= render :partial=>"shows/player/cameo_contributors", :locals=> {:show => @show, :selected_cameo=>selected_cameo} %>
+          </div>
         </div>
-        <div class="span2">
-          <button class="btn btn-warning clip_video">Clip Video</button>
+
+        <!-- Clipping Sider -->
+        <div class ="row-fluid" style="margin-top: 8px;">
+          <div class="video-clipping-slider">
+            <%= render :partial => 'shows/player/video_clipping_slider',
+              :locals => { :cameo => selected_cameo} %>
+          </div>
+          <div class="span2">
+            <button class="btn btn-warning clip_video">Clip Video</button>
+          </div>
+          <%= hidden_field_tag 'cameo_start_time', 0 %>
+          <%= hidden_field_tag 'cameo_end_time', selected_cameo.duration %>
+          <%= hidden_field_tag 'selected_cameo', selected_cameo.id %>
         </div>
-        <%= hidden_field_tag 'cameo_start_time', 0 %>
-        <%= hidden_field_tag 'cameo_end_time', selected_cameo.duration %>
-        <%= hidden_field_tag 'selected_cameo', selected_cameo.id %>
-      </div>
 
 
 
-      <div class="">
+        <div class="">
 
-      </div>
-      <!-- Ends -->
+        </div>
+        <!-- Ends -->
+      <% end -%>
 
     </div>
     <div class="row-fluid">
-      <div class="cl-10"></div>  
+      <div class="cl-10"></div>
 
       <% @contribution_percentage = @contribution_percentage.present? ? @contribution_percentage : 0%>
-      
-      <div class="span2"> 
+
+      <div class="span2">
         <div class="progress progress-striped">
           <div class="bar" style="width:<%= @contribution_percentage %>%;"></div>
-        </div>
-      </div>
-      <div class="span1 font_weight_bold"><%= @contribution_percentage.round(2)%>%</div>
+               </div>
+               </div>
+               <div class="span1 font_weight_bold"><%= @contribution_percentage.round(2)%>%</div>
 
-      <% if @show.end_set.present? && @show.enable_download.present? %>
-        <div class="row-fluid">
-          <div class="span1">
-            <%= link_to "<i class='downloadsprite-dorrange'></i>".html_safe, @show.download_url, :title => 'download' %>
+               <% if @show.end_set.present? && @show.enable_download.present? %>
+                 <div class="row-fluid">
+                <div class="span1">
+                  <%= link_to "<i class='downloadsprite-dorrange'></i>".html_safe, @show.download_url, :title => 'download' %>
+                </div>
+              </div>
+            <% end %>
+
+            <div class="span12">
+              <%= content_tag :div, @show.description, :class=>"edit_contributor_text" %>
+            </div>
           </div>
         </div>
-      <% end %>
-
-       <div class="span12">
-        <%= content_tag :div, @show.description, :class=>"edit_contributor_text" %>
       </div>
     </div>
-   </div>
-  </div>
-</div>
 
-<% content_for :js_with_script_tags do %>
-  <script type="text/javascript">
-    jQuery(document).ready(function($){
-      $( "#slider-range" ).slider({
-        range: true,
-        min: 0,
-        max: <%= selected_cameo.duration.to_i %>,
-        values: [ 0, <%= selected_cameo.duration.to_i %> ],
-        slide: function( event, ui ) {
-          $( "#slider-range-value" ).text( ui.values[ 0 ] + " to " + ui.values[ 1 ] + ' (Seconds)' );
-          $('#cameo_start_time').val(ui.values[ 0 ]);
-          $('#cameo_end_time').val(ui.values[ 1 ]);
+    <% content_for :js_with_script_tags do %>
+      <script type="text/javascript">
+        jQuery(document).ready(function($){
+          $( "#slider-range" ).slider({
+            range: true,
+            min: 0,
+            max: <%= selected_cameo.duration.to_i %>,
+            values: [ 0, <%= selected_cameo.duration.to_i %> ],
+            slide: function( event, ui ) {
+              $( "#slider-range-value" ).text( ui.values[ 0 ] + " to " + ui.values[ 1 ] + ' (Seconds)' );
+              $('#cameo_start_time').val(ui.values[ 0 ]);
+              $('#cameo_end_time').val(ui.values[ 1 ]);
 
-        }
-      });
-    });
-  </script>
-<% end %>
+            }
+          });
+        });
+      </script>
+    <% end %>
+

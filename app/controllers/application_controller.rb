@@ -1,9 +1,9 @@
 class ApplicationController < ActionController::Base
   include SessionsHelper
   helper_method :current_user
-  before_filter :set_locale, :get_kaltura_session
-  
-  ## this function can be called in before filter of any controllers 
+  before_filter :set_locale
+
+  ## this function can be called in before filter of any controllers
   ## helpfull for paginating
   def parse_filters_from_url
     @current_page = params[:page] || "1"
@@ -17,14 +17,14 @@ class ApplicationController < ActionController::Base
     @query = params['query']
 
   end
-  
+
   def set_locale
     I18n.locale = params[:locale] || I18n.default_locale
   end
 
   # METHODS for authentication redirections STARTS
   def require_user
-    unless current_user.present?   
+    unless current_user.present?
       store_location
       respond_to do |format|
         if params[:through]
@@ -56,21 +56,6 @@ class ApplicationController < ActionController::Base
     @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id].present?
   end
 
-  def get_kaltura_session
-    begin
-      if current_user.present?
-        session[:client] ||= Cameo.get_kaltura_client(current_user.id)
-        session[:ks] ||= session[:client].ks
-        p "user loggedin! session is #{session[:ks]}"
-      else
-        session[:client] = Cameo.get_kaltura_client(User.first) 
-        session[:ks] ||= session[:client].ks
-      end
-    rescue Kaltura::KalturaAPIError => e
-      p "Handling Kaltura::KalturaAPIError exception ------- 1"
-      p e.message
-    end
-  end
 
   protect_from_forgery
 end

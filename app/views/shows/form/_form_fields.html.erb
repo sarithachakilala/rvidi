@@ -72,7 +72,7 @@
 
     <!-- Duration -->
     <div class="control-group">
-      <label class="control-label  blue_label" for="inputPassword">Limit Show Time(in min)</label>
+      <label class="control-label  blue_label" for="inputPassword">Limit Show Time <br />(in min)</label>
       <div class="controls">
         <%= f.number_field :duration, :class => "show-show-tag  js-required span2", :placeholder => "Limit Show Time", :min=>0, :max=>10, :value => (@show.duration.present? ? (@show.duration/60).to_i : 10) %>
         <%= custom_error_message_no_margin(@show, :duration) %>
@@ -80,7 +80,7 @@
     </div>
 
     <div class="control-group">
-      <label class="control-label  blue_label" for="inputPassword">Limit Cameo time (in Seconds)</label>
+      <label class="control-label  blue_label" for="inputPassword">Limit Cameo time <br />(in Seconds)</label>
       <div class="controls">
         <%= f.number_field :cameo_duration, :class => "show-show-tag  js-required span2",
                            :placeholder => "Limit Cemeo Time" %>
