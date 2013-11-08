@@ -15,7 +15,7 @@
  *= require customized_css
  *= require dev_styles
  *= require social-share-button
-
+ *= require flowplayer_playlist/playlist
  *= require handyCSS
  *= require new_styles
 */
