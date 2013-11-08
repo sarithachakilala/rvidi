@@ -1,4 +1,4 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
 
 gem 'rails', '3.2.13'
 gem 'jquery-rails'
@@ -10,7 +10,7 @@ gem 'omniauth-facebook', '1.4.0'                     # For Integrating Facebook
 gem 'omniauth-twitter'                               # For Integrating Twitter
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'rest-client'                                    # Simple HTTP and REST client for Ruby, inspired by the Sinatra microframework style of specifying actions: get, put, post, delete.
-gem "rmagick"
+gem "rmagick", :platforms => :ruby
 gem "carrierwave"
 # To add file uploads to the application
 gem 'actionview-encoded_mail_to'
@@ -24,15 +24,19 @@ gem 'koala'
 gem 'twitter'
 gem 'linkedin', :git => "git://github.com/pengwynn/linkedin.git"
 gem 'social-share-button'
+gem 'streamio-ffmpeg'
 
 # DB Related
 gem 'pg'
 gem "bcrypt-ruby", :require => "bcrypt"              # To encrpty the user password
+gem 'railroady'
+gem 'carrierwave-video'
+gem 'carrierwave-video-thumbnailer'
 
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
-  
+
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # Fixed the vesion of therubyracer because of Segmentation Fault + Ruby 1.9.3p392
   gem 'therubyracer',  '0.11.3', :platforms => :ruby # Necessary, to Provide Javascrtpt Runtime.
@@ -56,15 +60,16 @@ group :development, :test do
   gem 'shoulda-matchers'                             # making tests easy
   gem 'email_spec', '~> 1.2.1'                       # for testing emails in rspec and cucumber
   gem 'database_cleaner'                             # for cleaning the database between test suites
-  gem 'cucumber-rails', '~>1.3.0', :require => false # integration testing  
+  gem 'cucumber-rails', '~>1.3.0', :require => false # integration testing
   gem 'webrat'                                       # writing acceptance tests
-  gem 'minitest', '4.7.4'                            # dependency for webrat or capybara; not sure 
-  gem 'capybara'                        # integration testing tool for rack based web applications; simulates user interaction with web app
+  gem 'minitest', '4.7.4'                            # dependency for webrat or capybara; not sure
+  # gem 'capybara'                        # integration testing tool for rack based web applications; simulates user interaction with web app
   gem 'headless', '>= 0.1.0'                         # capybara webkit driver
   gem 'launchy'                                      # capybara dependency
   gem 'simplecov', :require => false                 # for providing test coverage statistics
-  gem 'capybara-webkit', :git => "git://github.com/thoughtbot/capybara-webkit.git" # Capybara driver for headless WebKit so you can test Javascript web apps
+  # gem 'capybara-webkit', :git => "git://github.com/thoughtbot/capybara-webkit.git" # Capybara driver for headless WebKit so you can test Javascript web apps
   gem 'rb-readline', '~> 0.4.2'
+  gem 'nokogiri'
 end
 
 group :development do
@@ -78,5 +83,5 @@ group :development do
   gem 'capistrano-deepmodules'
   gem 'capistrano_colors'
   gem 'capistrano-ext'
-  gem 'capistrano-deploytags'  
+  gem 'capistrano-deploytags'
 end

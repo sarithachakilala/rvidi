@@ -12,6 +12,10 @@ Rvidi::Application.routes.draw do
 
   get "password_resets/new"
 
+  match "/hdfvr/avc_settings.php" => "home#avc_settings"
+  match "/hdfvr/save_video_to_db.php" => "home#saved_video"
+  match "/hdfvr/jpg_encoder_download.php" => "home#save_snapshoot"
+
   match "/auth/twitter/callback" => "sessions#create"
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
@@ -28,7 +32,7 @@ Rvidi::Application.routes.draw do
   end
   resources :videos
   resources :cameos do
-    collection do 
+    collection do
       post 'check_password'
       get 'cameo_clipping'
     end
@@ -48,7 +52,7 @@ Rvidi::Application.routes.draw do
       get 'download_complete_show'
     end
   end
-  
+
   resources :sessions
 
   get "home/index"
@@ -56,10 +60,10 @@ Rvidi::Application.routes.draw do
 
   get "sign_in" => "sessions#new", :as => "sign_in"
   get "sign_up" => "users#new", :as => "sign_up"
-  
+
   resources :users do
     member do
-      get 'oauth_failure'    
+      get 'oauth_failure'
       get 'profile'
       get 'getting_started'
       get 'dashboard', :path => "/home"
@@ -79,11 +83,11 @@ Rvidi::Application.routes.draw do
   end
   resources :home do
     collection do
-      get 'terms_condition' 
-      # post 'friends_list' 
+      get 'terms_condition'
+      # post 'friends_list'
     end
   end
 
   root :to => "home#index"
-  
+
 end

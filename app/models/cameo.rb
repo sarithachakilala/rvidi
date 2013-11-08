@@ -11,29 +11,29 @@ class Cameo < ActiveRecord::Base
 
   attr_accessor :video_file, :audio_file, :recorded_file, :name_flag, :thumbnail_url_flag,
     :download_url_flag
-  attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, 
-    :description, :thumbnail_url, :download_url, :duration,
-    :video_file, :audio_file, :recorded_file, :title, :start_time,
-    :end_time, :published_status
+  attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name, :description, :title, :published_status
+     # :start_time,:video_file, :audio_file, :recorded_file, :end_time, :download_url, :duration, :thumbnail_url
+
 
   # Associations
   belongs_to :show
   belongs_to :user
   belongs_to :director, :class_name => "User", :foreign_key => "director_id"
+  has_one :file, class_name: "CameoFile"
 
   after_initialize :set_flags
 
   # Validations
+  validates :name, :presence => true
+  validates :show_id, :presence => true, :numericality => true
   validates :director_id, :presence => true, :numericality => true
   validates :user_id, :presence => true, :numericality => true
-  validates :status, :presence => true, 
+  validates :status, :presence => true,
     :inclusion => { :in => %w(pending disabled enabled),
     :message => "%{value} is not a valid status" }
   validates :name, :presence => true, :if => :name_flag_set?
-  validates :thumbnail_url, :presence => true, :if => :thumbnail_url_flag_set?
-  validates :download_url, :presence => true, :if => :download_url_flag_set?
   #validate :cameo_duration_limit_for_show
-  
+
   # Callbacks
   #before_destroy :delete_kaltura_video
 
@@ -45,12 +45,12 @@ class Cameo < ActiveRecord::Base
   def name_flag_set?
     @name_flag == true
   end
-  
+
   def thumbnail_url_flag_set?
     @thumbnail_url_flag == true
   end
 
-  def download_url_flag_set? 
+  def download_url_flag_set?
     @download_url_flag == true
   end
 
@@ -97,9 +97,7 @@ class Cameo < ActiveRecord::Base
     def convert_file_to_flv(current_user, file, cameo_tt)
       if Rails.env == 'development'
         `ffmpeg -i #{file.tempfile.to_path.to_s} -c:v libx264 -ar 22050 -crf 28 -y #{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv`
-        
         #`ffmpeg -i #{file.tempfile.to_path.to_s} -ar 22050 -y #{Rails.root.to_s}/tmp/#{current_user.id}_#{cameo_tt}.flv`
-        
       else
         `avconv -i #{file.tempfile.to_path.to_s} -c:v libx264 -ar 22050 -crf 28 -y "/var/www/apps/rvidi/shared/temp_streams/#{current_user.id}_#{cameo_tt}.flv"`
       end
@@ -186,8 +184,11 @@ class Cameo < ActiveRecord::Base
       "#{current_user.id}_#{tstamp}"
     end
 
-
+    # Interface to modifying the video with ffmpeg
     def clipping_video(cameo, client, ks, start_time, end_time )
+
+      VideoConvert.clip( file , end_time, start_time)
+
       end_time = end_time.to_i
       start_time = start_time.to_i
       first_temp_file = File.join(Rails.root, 'tmp', "#{cameo.id}.flv")
@@ -215,16 +216,16 @@ class Cameo < ActiveRecord::Base
         File.delete(second_temp_file)
       end
     end
-    
+
   end
-  
+
   # Methods to manage Videos using Kaltura Ends
   # INSTANCE METHODS
   def delete_kaltura_video
     client = Cameo.get_kaltura_client(self.user_id)
     client.base_entry_service.delete(kaltura_entry_id, client.ks)
   end
-  
+
   def upload_video_to_kaltura(video, client, ks)
     media_entry = Kaltura::KalturaMediaEntry.new
     media_entry.name = user.present? ? user.full_name.titlecase : "downloading_user"
@@ -239,7 +240,7 @@ class Cameo < ActiveRecord::Base
     media_entry = get_kaltura_video(client, created_entry.id)
     media_entry
   end
-  
+
   def set_uploaded_video_details(media_entry)
     self.status = self.status || "pending"
     self.name =  media_entry.name
@@ -253,7 +254,7 @@ class Cameo < ActiveRecord::Base
   def get_kaltura_video(client, kaltura_entry_id)
     client.base_entry_service.get(kaltura_entry_id)
   end
-  
+
   def latest_cameo_order
     Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).first.try(:show_order) || 0
   end
@@ -271,7 +272,7 @@ class Cameo < ActiveRecord::Base
     show.contributor_preferences == Show::Contributor_Preferences::PUBLIC ||
       show.director == current_user
   end
-  
+
 end
 
 

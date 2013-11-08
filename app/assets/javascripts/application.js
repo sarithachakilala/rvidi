@@ -18,7 +18,6 @@
 //= require facebook
 //= require js-validations
 //= require utilities
-//= require kaltura_scripts
 //= require rvidi
 //= require social-share-button
 

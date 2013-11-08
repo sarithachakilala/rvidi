@@ -3,12 +3,12 @@ class ShowsController < ApplicationController
   before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
   before_filter :parse_filters_from_url
   before_filter :redirect_to_root_page, :only => [:index]
-  
+
   def index
     @shows = Show.all
 
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @shows }
     end
   end
@@ -19,15 +19,9 @@ class ShowsController < ApplicationController
     else
       @show = Show.find(params[:id])
     end
-    begin
-      @show.create_playlist
-    rescue Kaltura::KalturaAPIError => e
-      flash[:notice] = "Kaltura API request timeout. Please try later."
-      redirect_to root_url
-      return
-    end
+
     @show_preference = @show.set_display_preference(current_user, session[:display_preference])
-    
+
     # to update the duration by getting the video duration from kaltura...
     #    show_cameo = @show.cameos.where(:duration => 0.0)
     #    show_cameo.each do |each_cameo|
@@ -47,7 +41,7 @@ class ShowsController < ApplicationController
 
     @display_prefernce = params[:preference].present? ? params[:preference] : @show.display_preferences
     @show.update_attribute(:number_of_views, (@show.number_of_views.to_i+1))
-    
+
     @cameo = Cameo.find(params[:cameo_id]) if params[:cameo_id]
     @show_comments = Comment.get_latest_show_commits(@show.id, 3)
     @all_comments = @show.comments
@@ -59,7 +53,7 @@ class ShowsController < ApplicationController
       @notification.update_all(:read_status =>true) if @notification
     end
     respond_to do |format|
-      format.html 
+      format.html
       format.json { render json: @show }
     end
   end
@@ -68,20 +62,20 @@ class ShowsController < ApplicationController
   def new
 
     ## Get a time stamp and store it in hidden field of the form .
-    ## This time stamp is used for generating the file name 
+    ## This time stamp is used for generating the file name
     ## This helps the create action to find the exact file uploaded by the user, (doesn't matter if 2 or more users are recording concurrently.)
     session[:timestamp] = nil
     session[:timestamp] = Time.now.to_i
     Cameo.delete_old_flv_files
     ## Get the object.
     @show = current_user.shows.build(:display_preferences => "private", :contributor_preferences => "private")
-    
+
     ## Buidling the cameo
     @cameo = @show.cameos.build
-    
+
     ## Get the friend list
     @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
-    
+
     respond_to do |format|
       format.html
       format.json { render json: @show }
@@ -90,36 +84,9 @@ class ShowsController < ApplicationController
 
   def create
     @show = Show.new(params[:show])
-    @cameo = @show.cameos.first
-    @cameo.set_fields_and_flags
-    if @cameo.video_file.present?
-      file = Cameo.get_flv_file_path(current_user, session[:timestamp])
-    else
-      file= Cameo.get_cameo_file(current_user, session[:timestamp])
-    end
-    @show.duration = @show.duration * 60
+    @show.duration = @show.duration.to_i
+
     if @show.save
-      if file.present?
-        cameo_duration = Cameo.get_video_duration(file)
-        if cameo_duration < @show.duration
-          begin
-            media_entry = @cameo.upload_video_to_kaltura(file, session[:client], session[:ks])
-            @cameo.set_uploaded_video_details(media_entry)
-            @cameo.set_cameo_duration(file)
-            @cameo.save
-          rescue Exception => e
-            @show.destroy
-            flash[:alert] = e.message
-            redirect_to new_show_path
-            return
-          end
-        else
-          @show.destroy
-          flash[:alert] = "Maximum show limit is reached!!"
-          redirect_to new_show_path
-          return
-        end
-      end
       @success = true
     else
       #show error message
@@ -128,8 +95,8 @@ class ShowsController < ApplicationController
 
     respond_to do |format|
       if @success
-        invite_friend(params[:selected_friends]) if params[:selected_friends].present?
-        invite_friend_toshow_after_create(params[:email], @show) if params[:email].present?
+        # invite_friend(params[:selected_friends]) if params[:selected_friends].present?
+        # invite_friend_toshow_after_create(params[:email], @show) if params[:email].present?
         format.html { redirect_to @show, notice: 'Show was successfully created. The system will take few minutes to convert the video. Please check back after few minutes.' }
         format.js {}
         format.json { render json: @show, status: :created, location: @show }
@@ -149,13 +116,13 @@ class ShowsController < ApplicationController
     # finding the duration of sum of all cameos
     # @show.caluculating_percentage_and_duration(@show)
     if @show.cameos.present?
-      array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration)
+      array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration) #TODO change this to .sum(&:duration), move the count to postgre if possible
       @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
       @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / @show.duration
     else
       @contribution_percentage = 0
     end
-   
+
     if session[:uid].present?
       uid = session[:uid]
       User.configure_twitter(session[:auth_token], session[:auth_secret])
@@ -234,7 +201,7 @@ class ShowsController < ApplicationController
     RvidiMailer.delay.invite_friend_to_show(email, current_user, show.id)
     InviteFriend.create(:director_id => show.user_id, :show_id => show.id,
       :contributor_email => email, :status =>"invited" )
-    
+
     flash[:notice] = "Your invitation will be sent as soon as you publish the show"
     notification = Notification.new(:show_id => show.id, :from_id => current_user.id,
       :to_id => '', :status => "contribute",
@@ -267,7 +234,7 @@ class ShowsController < ApplicationController
       redirect_to show_path(:id => @show.permalink), :notice => "Invalid Password: Please enter the correct password! "
     end
   end
-  
+
   def status_update
      if params[:show_id].split("-").size > 1
       @show = Show.find(params[:show_id].split("-").last)
