@@ -11,22 +11,21 @@
         <div class="font-size-12"><%= @show.director.full_name.titlecase %></div>
       </div>
 
-      <div class="row-fluid">
-        <% selected_cameo = @show.cameos('show_order asc').first %>
-        <!-- Show Player -->
-        <div id="show_<%= @show.id %>_kaltura_player_container" class="span7">
-          <!-- <img src="/assets/video_img.png" alt=""> -->
-          <% if params[:controller] == 'shows' && params[:action] == 'show' %>
-            <%= render :partial => "shows/player/cameo_player", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
-          <% else %>
-            <%= render :partial => "shows/player/cameo_player_without_playlist", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
-          <% end %>
-        </div>
 
-        <div class="span5" style="height:360px;overflow:auto;">
-          <%= render :partial=>"shows/player/cameo_contributors", :locals=> {:show => @show, :selected_cameo=>selected_cameo} %>
-        </div>
+      <% selected_cameo = @show.cameos('show_order asc').first %>
+      <!-- Show Player -->
+      <div id="show_<%= @show.id %>_kaltura_player_container" class="">
+        <!-- <img src="/assets/video_img.png" alt=""> -->
+        <% if params[:controller] == 'shows' && params[:action] == 'show' %>
+          <%= render :partial => "shows/player/cameo_player", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
+        <% else %>
+          <%= render :partial => "shows/player/director_playlist", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
+        <% end %>
       </div>
+
+<%#*<div class="span5" style="height:360px;overflow:auto;">%>
+<%#= render :partial=>"shows/player/cameo_contributors", :locals=> {:show => @show, :selected_cameo=>selected_cameo} %>
+<%#*</div>%>
 
       <!-- Clipping Sider -->
       <div class ="row-fluid" style="margin-top: 8px;">
@@ -67,22 +66,23 @@
 
     </div>
   </div>
+</div>
 
-  <% content_for :js_with_script_tags do %>
-    <script type="text/javascript">
-      jQuery(document).ready(function($){
-        $( "#slider-range" ).slider({
-          range: true,
-          min: 0,
-          max: <%= selected_cameo.duration.to_i %>,
-          values: [ 0, <%= selected_cameo.duration.to_i %> ],
-          slide: function( event, ui ) {
-            $( "#slider-range-value" ).text( ui.values[ 0 ] + " to " + ui.values[ 1 ] + ' (Seconds)' );
-            $('#cameo_start_time').val(ui.values[ 0 ]);
-            $('#cameo_end_time').val(ui.values[ 1 ]);
+<% content_for :js_with_script_tags do %>
+  <script type="text/javascript">
+    jQuery(document).ready(function($){
+      $( "#slider-range" ).slider({
+        range: true,
+        min: 0,
+        max: <%= selected_cameo.duration.to_i %>,
+        values: [ 0, <%= selected_cameo.duration.to_i %> ],
+        slide: function( event, ui ) {
+          $( "#slider-range-value" ).text( ui.values[ 0 ] + " to " + ui.values[ 1 ] + ' (Seconds)' );
+          $('#cameo_start_time').val(ui.values[ 0 ]);
+          $('#cameo_end_time').val(ui.values[ 1 ]);
 
-          }
-        });
+        }
       });
-    </script>
-  <% end %>
+    });
+  </script>
+<% end %>
