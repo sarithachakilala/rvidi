@@ -38,13 +38,17 @@
   </div>
 
 <% else %>
-  <%= form_for @cameo, :html => {:class => "js-validated-form form-horizontal cameo-form", :multipart => true, :target => 'iframe-video-container' } do |f| %>
+  <%= form_for @cameo, :html => {:class => "js-validated-form form-horizontal cameo-form",
+                                 :multipart => true,
+                                 :target => 'iframe-video-container' } do |f| %>
 
-    <!-- Form fields (Black Box) -->
-    <%= render :partial => "cameos/form/cameo_form_block", :locals => { :f => f, :title=>"Cameo Details" } %>
+    <!-- Form fields - Cameo Deatils (Black Box) -->
+    <%= render :partial => "cameos/form/cameo_form_block",
+               :locals => { :f => f, :title=>"Cameo Details" } %>
 
-    <!-- Record the Opening Cameo (White Box) -->
-    <%= render :partial => "shows/form/record_cameo_block", :locals => { :f => f, :title=>"Record the Cameo" } %>
+    <!-- Recording Section (White Box) -->
+    <%#= render :partial => "shows/form/record_cameo_block",
+                            :locals => { :f => f, :title=>"Record the Cameo" } %>
 
     <!-- Invite Friends from Facebook and Twitter (White Box) -->
     <% if @cameo.invite_my_friend_to_this_show?(current_user) %>

@@ -75,7 +75,7 @@ class CameosController < ApplicationController
     # @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
 
     respond_to do |format|
-      if @cameo.save
+      if @cameo.save!
         @show = @cameo.show
         # invite_friend(params[:selected_friends],  @show.id) if params[:selected_friends].present?
         format.html { redirect_to edit_cameo_path(@cameo), notice: 'Cameo was successfully Saved, Once you Publish your cameo it will added to the Show.'}

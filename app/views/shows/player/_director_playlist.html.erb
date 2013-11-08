@@ -22,23 +22,38 @@
 
   <div class="span4">
     <div class="clips petrol" id="sortable">
-      <!-- single playlist entry -->
-      <a href="<%= configatron.site_address_full %>/assets/c.flv" class=" first ui-state-default">
-        Palm trees and the Sun
-        <span>HTTP streaming</span>
-        <em>0:20 min</em>
-      </a>
+      <% show.cameos.each_with_index do |cameo, index| %>
+        <div>
+          <div style="float: left;width:25px;">
+            <div style="height:25px;">
+              <% status = cameo.status== "enabled" ? true : false%>
+              <%= check_box_tag('active_cameos[]', cameo.id, checked = status,
+                :class => 'cameo_check')  %>
+            </div>
+            <div style="height:25px;">
+              <%= link_to "<i class='sprite-into-icon'></i>".html_safe, cameo_path(cameo),
+                :class => 'not-playlist',
+                :method => :delete,
+                :confirm => "Are you sure to remove this Cameo?",
+                :remote => true %>
+            </div>
+          </div>
 
-      <a href="<%= configatron.site_address_full %>/assets/ab.flv" class="ui-state-default">
-        Happy feet inside a car
-        <span>HTTP streaming</span>
-        <em>0:20 min</em>
-      </a>
-      <a href="<%= configatron.site_address_full %>/assets/test.flv" class="ui-state-default">
-        Happy feet inside a car
-        <span>HTTP streaming</span>
-        <em>0:20 min</em>
-      </a>
+          <div style="float:left; width:220px;">
+            <a href="<%= "#{configatron.site_address_full}/assets/video_#{index + 1}.flv" %>"
+               class="pl-entry">
+              <% thumbnail = cameo.thumbnail_url.present? ? cameo.thumbnail_url : "/assets/default_image.png"  %>
+              <%= image_tag thumbnail, :class => "pull-left margin-right-10 height-40" %>
+              <%= cameo.title %>
+              <span>HTTP streaming</span>
+              <em>0:20 min</em>
+            </a>
+          </div>
+          <div style="float: left">
+          </div>
+        </div>
+        <div style="clear:both;"></div>
+      <% end %>
     </div>
   </div>
 

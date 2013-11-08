@@ -13,21 +13,22 @@
 
       <% selected_cameo = @show.cameos('show_order asc').first %>
       <% if selected_cameo.present? %>
-        <div class="row-fluid">
-          <!-- Show Player -->
-          <div id="show_<%= @show.id %>_kaltura_player_container" class="span7">
-            <!-- <img src="/assets/video_img.png" alt=""> -->
-            <% if params[:controller] == 'shows' && params[:action] == 'show' %>
-              <%= render :partial => "shows/player/cameo_player", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
-            <% else %>
-              <%= render :partial => "shows/player/cameo_player_without_playlist", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
-            <% end %>
-          </div>
 
-          <div class="span5" style="height:360px;overflow:auto;">
-            <%= render :partial=>"shows/player/cameo_contributors", :locals=> {:show => @show, :selected_cameo=>selected_cameo} %>
-          </div>
+        <!-- Show Player -->
+        <div id="show_<%= @show.id %>_kaltura_player_container" class="">
+          <!-- <img src="/assets/video_img.png" alt=""> -->
+          <% if params[:controller] == 'shows' && params[:action] == 'show' %>
+            <%= render :partial => "shows/player/cameo_player", :locals => { :cameo => selected_cameo, :height =>"360px", :width => "100%" } %>
+          <% else %>
+            <%= render :partial => "shows/player/director_playlist", 
+                       :locals => { :cameo => selected_cameo, :show => @show,
+                       :height =>"360px", :width => "100%" } %>
+          <% end %>
         </div>
+
+        <%#*<div class="span5" style="height:360px;overflow:auto;">%>
+          <%#= render :partial=>"shows/player/cameo_contributors", :locals=> {:show => @show, :selected_cameo=>selected_cameo} %>
+        <%#*</div>%>
 
         <!-- Clipping Sider -->
         <div class ="row-fluid" style="margin-top: 8px;">
@@ -86,8 +87,8 @@
           $( "#slider-range" ).slider({
             range: true,
             min: 0,
-            max: <%= selected_cameo.duration.to_i %>,
-            values: [ 0, <%= selected_cameo.duration.to_i %> ],
+            max: <%= "5" %>,
+            values: [ 0, 1 ],
             slide: function( event, ui ) {
               $( "#slider-range-value" ).text( ui.values[ 0 ] + " to " + ui.values[ 1 ] + ' (Seconds)' );
               $('#cameo_start_time').val(ui.values[ 0 ]);

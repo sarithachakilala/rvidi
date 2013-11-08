@@ -38,5 +38,6 @@
       </div>
   </div>
 <% else %>
-  <%= render :partial => "show_page", :locals=>{:show => show, :cameo => cameo, :show_comments => show_comments, :all_comments => all_comments}%>
+  <%= render :partial => "show_page", :locals => {:show => show, :cameo => cameo,
+                          :show_comments => show_comments, :all_comments => all_comments} %>
 <% end %>

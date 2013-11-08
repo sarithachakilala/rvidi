@@ -9,8 +9,8 @@
   <div class="accordion-group plus-minus-container">
     <div class="accordion-heading">
 
-      <%= f.hidden_field :start_time %>
-      <%= f.hidden_field :end_time %>
+      <%#= f.hidden_field :start_time %>
+      <%#= f.hidden_field :end_time %>
       <div class="accordion-toggle changeable-plus-minus" data-toggle="collapse" data-parent="#accordion1" href="#collapseOne">
 
         <!-- Heading -->
@@ -45,7 +45,7 @@
         <%= f.hidden_field :user_id, :value => current_user.id, :class => "cameo-user-id" %>
         <%= f.hidden_field :show_id, :value => @cameo.show_id, :class => "cameo-show-id" %>
         <%= f.hidden_field :director_id, :value => @cameo.director_id, :class => "cameo-director-id" %>
-        <%= f.hidden_field :cameo_duration, :value => @cameo.duration, :class => "cameo-director-id" %>
+        <%#= f.hidden_field :cameo_duration, :value => @cameo.duration, :class => "cameo-director-id" %>
 
         <!-- Content to show HTML5 Recorder Ends -->
         <% if params[:id].present? %>

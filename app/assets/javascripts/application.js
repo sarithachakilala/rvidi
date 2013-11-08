@@ -21,7 +21,7 @@
 //= require rvidi
 //= require social-share-button
 //= require flowplayer_playlist/flowplayer-3.2.12.min
-//= require flowplayer_playlist/flowplayer.playlist-3.2.10.min
+//= require flowplayer_playlist/flowplayer.playlist-3.2.10
 
 
 // Global ajax activity indicators.

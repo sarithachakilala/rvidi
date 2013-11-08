@@ -17,13 +17,13 @@
   width:290px;
 }
 
-.clips a {
+.clips a.pl-entry {
   background:url(/assets/flowplayer_playlist/h80.png);
   display:block;
   background-color:#fefeff;
   padding:12px 15px;
   height:46px;
-  width:260px;
+  width:222px;
   font-size:12px;
   border:1px outset #ccc;
   text-decoration:none;
@@ -73,7 +73,7 @@
 
 /* petrol colored */
 
-.clips.petrol a {
+.clips.petrol a.pl-entry {
   background-color:#193947;
   color:#fff;
   border:1px outset #193947;
@@ -82,23 +82,23 @@
 .clips.petrol a.playing, .clips.petrol a.paused, .clips.petrol a.progress {
   background:url(/assets/flowplayer_playlist/dark.png) no-repeat 0px -69px;
   border:0;
-  background-size: 290px 140px;
+ /* background-size: 250px 140px;*/
 }
 
 .clips.petrol a.paused {
   background-position:0 0;
 }
 
-.clips.petrol a span {
+.clips.petrol a.pl-entry span {
   color:#aaa;
 }
 
-.clips.petrol a em {
+.clips.petrol a.pl-entry em {
   color:#FCA29A;
   font-weight:bold;
 }
 
-.clips.petrol a:hover {
+.clips.petrol a.pl-entry:hover {
   background-color:#274D58;
 }
 

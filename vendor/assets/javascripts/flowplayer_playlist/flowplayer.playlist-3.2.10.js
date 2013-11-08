@@ -103,7 +103,7 @@
                 }
 
                 function getEls() {
-                        var els = wrap.find("a");
+                        var els = wrap.find("a.pl-entry");
                         return els.length ? els : wrap.children();
                 }
 //}}}

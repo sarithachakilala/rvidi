@@ -6,28 +6,18 @@
       <img src="/assets/flowplayer_playlist/play_text_large.png" class="button" alt="" />
     </a>
   </div>
-  
+
   <div class="span4">
     <div class="clips petrol">
       <!-- single playlist entry -->
-      <a href="<%= configatron.site_address_full %>/assets/c.flv" class="first">
-        Palm trees and the Sun
-        <span>HTTP streaming</span>
-        <em>0:20 min</em>
-      </a>
-
-      <a href="<%= configatron.site_address_full %>/assets/ab.flv">
-        Happy feet inside a car
-        <span>HTTP streaming</span>
-        <em>0:20 min</em>
-      </a>
-
-      <a href="<%= configatron.site_address_full %>/assets/test.flv">
-        Park side life
-        <span>HTTP streaming</span>
-        <em>0:20 min</em>
-      </a>
-
+      <% show.cameos.each_with_index do |cameo, index| %>
+        <a href="<%= "#{configatron.site_address_full}/assets/video_#{index + 1}.flv" %>"
+           class="first pl-entry">
+          <%= cameo.title %>
+          <span>HTTP streaming</span>
+          <em>0:20 min</em>
+        </a>
+      <% end %>
     </div>
   </div>
 
