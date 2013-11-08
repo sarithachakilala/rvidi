@@ -293,3 +293,10 @@ class Cameo < ActiveRecord::Base
 end
 
 
+
+
+
+
+
+
+
