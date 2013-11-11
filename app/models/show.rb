@@ -61,12 +61,15 @@ class Show < ActiveRecord::Base
   scope :public_protected_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'password_protected')
 
 
-  # CLASS METHODS
+
+  # CLASS METHODS,
+  # TODO move to an scope
   def self.my_shows(current_user_id)
     self.where(:user_id => current_user_id)
   end
 
   # INSTANCE METHODS
+  # TODO need a test
   def update_active_cameos(cameos_arr)
     cameos.each do|cameo|
       if cameos_arr.include?(cameo.id.to_s)
@@ -77,6 +80,7 @@ class Show < ActiveRecord::Base
     end
   end
 
+  # REMOVE
   def build_playlist
     client = Cameo.get_kaltura_client(user_id)
     playlist = Kaltura::KalturaPlaylist.new
@@ -96,6 +100,7 @@ class Show < ActiveRecord::Base
     self.save
   end
 
+  # REMOVE
   def create_playlist
     if cameos.present?
       client = Cameo.get_kaltura_client(user_id)
@@ -110,6 +115,7 @@ class Show < ActiveRecord::Base
     end
   end
 
+  # TODO use gem friendly id
   def create_permalink
     if self.title
       self.permalink = self.title.to_permalink + "-#{self.id}"
@@ -117,17 +123,21 @@ class Show < ActiveRecord::Base
     end
   end
 
+
   def disable_download
     self.enable_download = false
     self.download_preference = nil
     save
   end
 
+
+  # TODO  move the wget, avconv to a library and Test it
   def download_complete_show(client, ks)
     cameo = Cameo.new
     val = []
     timestamp = Time.now.to_i
     cameos.each do |each_cameo|
+      # this is to be moved to CameoFile
       `wget -O "#{steam_download_path}/#{each_cameo.id}_#{timestamp}.avi" "#{each_cameo.download_url}"` #downloading each cameo
       `avconv -i "#{steam_download_path}/#{each_cameo.id}_#{timestamp}.avi" -qscale:v 1 "#{steam_download_path}/#{each_cameo.id}_#{timestamp}".mpg`   #for processing the input stream
       val << "#{steam_download_path}/#{each_cameo.id}_#{timestamp}.mpg"
@@ -140,6 +150,7 @@ class Show < ActiveRecord::Base
     push_stitched_video_to_kaltura(id, timestamp, client, ks, cameo)
   end
 
+  # REMOVE
   def steam_download_path
     if Rails.env == 'development'
       File.join(Rails.root, 'tmp', 'downloaded_streams')
@@ -148,6 +159,7 @@ class Show < ActiveRecord::Base
     end
   end
 
+  # REMOVE
   def push_stitched_video_to_kaltura(id, timestamp, client, ks, cameo)
     new_file = File.open("#{steam_download_path}/show_#{id}_#{timestamp}.mpg") if File.exists?("#{steam_download_path}/show_#{id}_#{timestamp}.mpg")
     media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
@@ -161,6 +173,7 @@ class Show < ActiveRecord::Base
     end
   end
 
+  # Check where is used and justify with a test
   def download_video?(current_user)
     if end_set.present? && enable_download.present?
       case download_preference
@@ -176,6 +189,7 @@ class Show < ActiveRecord::Base
     end
   end
 
+  # Refactoring with test justification
   def set_display_preference(current_user, display_preference)
 
     if current_user == director
@@ -200,6 +214,7 @@ class Show < ActiveRecord::Base
     end
   end
 
+  # Refactoring with test justifiction
   def set_contributor_preference(current_user, contributor_preference)
 
     if current_user == director
@@ -224,6 +239,11 @@ class Show < ActiveRecord::Base
     end
   end
 
+
+
+  # Refactoring with test justification
+  # it shoueld return only active cameos dration if this conditions
+  # it shold return the total duration if this condition
   def get_max_cameo_duration current_user
     if new_record?
       remaining_duration = self.duration * 60
