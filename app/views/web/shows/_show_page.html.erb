@@ -7,7 +7,7 @@
   <!-- Kaltura Playlist -->
   <div id="show_<%= show.id %>_kaltura_player_container">
     <% selected_cameo = (cameo.present? && cameo.status =="enabled" && cameo.published_status == "published") ? cameo :  show.cameos('show_order asc').where(:status=> "enabled", :published_status => "published").first%>
-    <% if params[:controller] == 'shows' && params[:action] == 'show' %>
+    <% if params[:controller] == 'web/shows' && params[:action] == 'show' %>
 
       <%= render :partial => 'web/shows/player/rvidiplayer_playlist',
                  :locals => {:show => @show} %>
@@ -20,7 +20,7 @@
     <% end %>
   </div>
 
-  <% if params[:controller] == 'shows' && params[:action] != 'show' %>
+  <% if params[:controller] == 'web/shows' && params[:action] != 'show' %>
     <%= render :partial => "web/edit/players_and_contributers", :locals => {:show => show} %>
   <% end %>
 

@@ -151,7 +151,7 @@ module Web
       respond_to do |format|
         @show = @cameo.show
         if @cameo.save
-          format.html { redirect_to web_cameo_path(@show), 
+          format.html { redirect_to web_show_path(@show),
                                     :notice => 'Cameo was successfully Published.' }
           format.json { head :no_content }
         else

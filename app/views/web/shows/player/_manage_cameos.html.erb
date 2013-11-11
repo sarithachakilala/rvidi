@@ -17,7 +17,7 @@
         <!-- Show Player -->
         <div id="show_<%= @show.id %>_kaltura_player_container" class="">
           <!-- <img src="/assets/video_img.png" alt=""> -->
-          <% if params[:controller] == 'shows' && params[:action] == 'show' %>
+          <% if params[:controller] == 'web/shows' && params[:action] == 'show' %>
             <%= render :partial => "web/shows/player/cameo_player",
                        :locals => { :cameo => selected_cameo,
                                     :height =>"360px",
