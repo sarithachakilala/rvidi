@@ -21,16 +21,25 @@ require 'spec_helper'
 describe CameosController do
 
   describe "Create" do
-    before :all
-      @show = Factory :show
+    before :all do
+      @show = FactoryGirl.create :show
+      @user = FactoryGirl.create :user
     end
-    let(:valid_attributes) { { "video_id" => "1" } }
+
 
     it "should accept a video file as object" do
-      expect {
-          post :create, {:cameo => valid_attributes}, valid_session
-        }.to change(CameoFile, :count).by(1)
+      login( @user )
+      @cameo_attributes =  {
+        show_id: @show.id,
+        name: "testing cameo",
+        user_id: @user.id
+      }
+      post :create, {:cameo => @cameo_attributes}
+      response.should redirect_to(assigns(:cameo))
+      # expect {
+      #   }.to change(CameoFile, :count).by(1)
     end
+
   end
 
   # # This should return the minimal set of attributes required to create a valid

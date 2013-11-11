@@ -3,6 +3,7 @@ ENV["RAILS_ENV"] ||= 'test'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'rspec/autorun'
+require 'pry'
 
 
 # Requires supporting ruby files with custom matchers and macros, etc,
@@ -39,6 +40,7 @@ RSpec.configure do |config|
 
   # for using factory methods
   config.include FactoryGirl::Syntax::Methods
+  config.include SpecTestHelper, :type => :controller
 
   # for cleaning the database everytime specs are run
   config.before(:suite) do

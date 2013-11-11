@@ -29,7 +29,8 @@ gem 'streamio-ffmpeg'
 # DB Related
 gem 'pg'
 gem "bcrypt-ruby", :require => "bcrypt"              # To encrpty the user password
-gem 'railroady'
+
+#video libs
 gem 'carrierwave-video'
 gem 'carrierwave-video-thumbnailer'
 
@@ -51,6 +52,10 @@ gem 'jquery-rails'
 gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_jobs
 
 group :development, :test do
+  gem 'pry'
+  gem 'pry-doc'
+  gem 'pry-rails'
+  gem 'railroady'
   gem 'turn', :require => false                      # Pretty printed test output
   gem 'spork', '~> 0.9.2'                            # for fast running of tests
   gem 'faker'                                        # for building fake data
@@ -63,13 +68,13 @@ group :development, :test do
   gem 'cucumber-rails', '~>1.3.0', :require => false # integration testing
   gem 'webrat'                                       # writing acceptance tests
   gem 'minitest', '4.7.4'                            # dependency for webrat or capybara; not sure
-  # gem 'capybara'                        # integration testing tool for rack based web applications; simulates user interaction with web app
   gem 'headless', '>= 0.1.0'                         # capybara webkit driver
   gem 'launchy'                                      # capybara dependency
   gem 'simplecov', :require => false                 # for providing test coverage statistics
-  # gem 'capybara-webkit', :git => "git://github.com/thoughtbot/capybara-webkit.git" # Capybara driver for headless WebKit so you can test Javascript web apps
   gem 'rb-readline', '~> 0.4.2'
   gem 'nokogiri'
+  # gem 'capybara'                        # integration testing tool for rack based web applications; simulates user interaction with web app
+  # gem 'capybara-webkit', :git => "git://github.com/thoughtbot/capybara-webkit.git" # Capybara driver for headless WebKit so you can test Javascript web apps
 end
 
 group :development do

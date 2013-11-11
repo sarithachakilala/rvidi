@@ -41,6 +41,7 @@ class CameosController < ApplicationController
 
   def create
     # To find the contributed users.
+    raise params.inspect
     @cameo = Cameo.new(params[:cameo])
     @cameo.published_status = "save_cameo"
     if @cameo.user_id == @cameo.director_id

@@ -1,12 +1,12 @@
 class User < ActiveRecord::Base
-  
+
   attr_accessor :password, :password_confirmation, :terms_conditions
 
   attr_accessible :email, :password, :password_confirmation, :username, :city, :state, :country,
     :description, :uid, :terms_conditions, :first_name, :last_name, :image, :remote_image_url
-    
+
   #Associations
-  
+
   has_many :authentications
   has_many :shows, :dependent => :destroy
   has_many :cameos, :dependent => :destroy
@@ -32,16 +32,16 @@ class User < ActiveRecord::Base
   validate :check_password_confirmation, :on => :create,
     :if => Proc.new { |user| user.password.present? && user.password_confirmation.present? }
 
-  validates :terms_conditions, :acceptance => true,
+  validates :terms_conditions, :acceptance => {:accept => true},
     :on => :create
 
   #Callbacks
-  
+
   before_save :encrypt_password
 
   #Gem Related
   mount_uploader :image, ImageUploader
-  
+
   # CLASS METHODS
   class << self
     def authenticate(login, password)
@@ -55,7 +55,7 @@ class User < ActiveRecord::Base
       authentication.oauth_expires_at = Time.at(auth.credentials.expires_at) if auth.credentials.expires_at.present?
       authentication.save!
     end
-  
+
     def from_omniauth(auth)
       user = User.new
       user = (auth.provider == "facebook") ? user_facebook_details(auth,user) : user_twitter_details(auth,user)
@@ -101,14 +101,14 @@ class User < ActiveRecord::Base
         required_user
       end
     end
-  
+
     def fetching_facebook
       @graph = Koala::Facebook::API.new(@fb_access_token)
       profile = @graph.get_object("me")
       @profile_image = @graph.get_picture("me")
       friends = @graph.get_connections("me", "friends?fields=id, name, picture.type(large)")
     end
-  
+
     def friendmapping_creation(from, friend, stautus)
       friend_requst1 = FriendMapping.new(:user_id =>from, :friend_id=>friend, :status => stautus, :request_from => from)
       friend_requst2 = FriendMapping.new(:user_id =>friend, :friend_id=> from, :status => stautus)
@@ -162,19 +162,19 @@ class User < ActiveRecord::Base
   def is_director?(show)
     (self.id == show.user_id)
   end
-  
+
   def full_name
     (first_name.to_s + " " + last_name.to_s).strip.titlecase
   end
-  
+
   def match_password?(password)
     self.password_hash == BCrypt::Engine.hash_secret(password, self.password_salt)
   end
 
   def provider_does_not_exist?
-    authentications = Authentication.where(:user_id => self.id)    
+    authentications = Authentication.where(:user_id => self.id)
   end
-  
+
   def send_password_reset
     self.password_reset_token = SecureRandom.urlsafe_base64
     self.password_reset_sent_at = Time.zone.now
