@@ -11,7 +11,7 @@
 
       <!-- Show LinkedIn Facebook Buttons -->
       <div class="span6" > 
-        <% unless params[:controller] =="shows" && params[:action] == "new" %>
+        <% unless params[:controller] =="web/shows" && params[:action] == "new" %>
           <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"),
             '#', :class => "btn  btn-primary add_from_facebook" %>
           <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), "/auth/twitter?fetch_invities=true&show_id=#{params[:id]}", :class=>"btn btn-info" %>

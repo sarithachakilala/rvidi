@@ -37,11 +37,13 @@
   </div>  
    <div class="hr_bg_welcome" style="">
       <div class="text_align_center add_cameo_btn">
-         <%= link_to "Go Back", root_url, :class => "btn btn-info", :style => "margin-top:8px;" %>
+         <%= link_to "Go Back", root_url, :class => "btn btn-info",
+                      :style => "margin-top:8px;" %>
       </div>
   </div>
 <% else %>
-  <%= render :partial => "web/shows/show_page", :locals => {:show => show, :cameo => cameo,
-                                                      :show_comments => show_comments,
-                                                      :all_comments => all_comments} %>
+  <%= render :partial => "web/shows/show_page", :locals => {:show => show,
+                                                            :cameo => cameo,
+                                                            :show_comments => show_comments,
+                                                            :all_comments => all_comments} %>
 <% end %>
