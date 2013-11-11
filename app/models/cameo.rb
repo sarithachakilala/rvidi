@@ -11,7 +11,7 @@ class Cameo < ActiveRecord::Base
 
   attr_accessor :video_file, :audio_file, :recorded_file, :name_flag, :thumbnail_url_flag,
                 :download_url_flag
-              
+
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name,
                   :description, :title, :published_status
   # :start_time,:video_file, :audio_file, :recorded_file, :end_time, :download_url, :duration, :thumbnail_url
@@ -32,7 +32,7 @@ class Cameo < ActiveRecord::Base
   validates :status, :presence => true,
     :inclusion => { :in => %w(pending disabled enabled),
     :message => "%{value} is not a valid status" }
-  validates :name, :presence => true, :if => :name_flag_set?
+  validates :name, :presence => true #, :if => :name_flag_set?
   #validate :cameo_duration_limit_for_show
 
   # Callbacks
@@ -55,7 +55,7 @@ class Cameo < ActiveRecord::Base
 
     `mkdir rvidi_streams/rvidi_user_#{user.id}` unless File.directory?(user_directory).present?
     `mkdir rvidi_streams/rvidi_user_#{user.id}/show_#{show.id}` unless File.directory?(show_directory).present?
-   
+
     `mv #{temp_file_path}/#{temp_file_name} #{final_file_path}/#{final_file_name}`
   end
 

@@ -5,9 +5,9 @@ module SpecTestHelper
   end
 
   def login(user)
-    debugger
     user = User.where(:login => user.to_s).first if user.is_a?(Symbol)
     request.session[:user] = user.id
+    current_user = user
   end
 
   def current_user
