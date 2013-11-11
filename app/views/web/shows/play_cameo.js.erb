@@ -23,8 +23,8 @@ $('.video-clipping-slider').html('<%= j(render :partial => 'web/shows/player/vid
 $( "#slider-range" ).slider({
 range: true,
 min: 0,
-max: <%= @cameo.duration.to_i %>,
-values: [ 0, <%= @cameo.duration.to_i %> ],
+max: 1<%#= @cameo.duration.to_i %>,
+values: [ 0, 1<%#= @cameo.duration.to_i %> ],
 slide: function( event, ui ) {
 $( "#slider-range-value" ).text( ui.values[ 0 ] + " to " + ui.values[ 1 ] + ' (Seconds)' );
 $('#cameo_start_time').val(ui.values[ 0 ]);

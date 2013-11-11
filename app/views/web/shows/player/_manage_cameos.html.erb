@@ -18,7 +18,7 @@
         <div id="show_<%= @show.id %>_kaltura_player_container" class="">
           <!-- <img src="/assets/video_img.png" alt=""> -->
           <% if params[:controller] == 'web/shows' && params[:action] == 'show' %>
-            <%= render :partial => "web/shows/player/cameo_player",
+            <%= render :partial => "web/shows/player/rvidi_playlist",
                        :locals => { :cameo => selected_cameo,
                                     :height =>"360px",
                                     :width => "100%" } %>
@@ -43,7 +43,7 @@
             <button class="btn btn-warning clip_video">Clip Video</button>
           </div>
           <%= hidden_field_tag 'cameo_start_time', 0 %>
-          <%= hidden_field_tag 'cameo_end_time', selected_cameo.duration %>
+          <%#= hidden_field_tag 'cameo_end_time', selected_cameo.duration %>
           <%= hidden_field_tag 'selected_cameo', selected_cameo.id %>
         </div>
 

@@ -33,9 +33,9 @@ module Web
 
       # finding the duration of sum of all cameos
       if @show.cameos.present?
-        array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
-        @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
-        @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / @show.duration
+#        array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
+#        @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+#        @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / @show.duration
       else
         @contribution_percentage = 0
       end
