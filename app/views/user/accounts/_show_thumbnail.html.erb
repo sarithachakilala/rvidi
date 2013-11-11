@@ -1,0 +1,35 @@
+<% li_extra_class = current_user.is_director?(show) ? "lengthier" : "" %>
+<li class="thumbnail_fivegroup <%= li_extra_class %>" style="">
+  <div class="thumbnail" style="height:176px;">
+    <div class="triangle-with-shadow item">  
+      <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
+      <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe,
+                  web_show_path(:id => show.permalink) %>
+    </div>
+    <div class="row-fluid caption1">
+      <div class="span9">
+        <div class="thumbnail_title">
+          <%= link_to show.title.capitalize.truncate(12),
+                      web_show_path(:id => show.permalink) %>
+        </div>
+        <div class="thumbnail_name">
+          <%= show.director.full_name.titlecase %>
+        </div>
+        <% contribution = show.cameos.where(:status => "enabled",
+                                            :published_status => "published").count %>
+        <div class="thumbnail_contributor"><%= contribution %> Contributors </div>
+        <% if current_user.is_director?(show) %>
+          <div class="thumbnail_contributor margin-top-5">
+            <%= link_to "Edit Show", edit_web_show_path(show),
+                        :class=>" btn btn-mini btn-info" %>
+          </div>
+        <% end %>
+      </div>
+      <div class="span3"> 
+        <i class="sprite-thumbnail_title_icon"></i>
+      </div>
+      <% preference = (show.display_preferences == "public") ? "sprite2-unlockgrey-icon" : "sprite2-lockorrange-icon" %>
+      <div> <i class= <%= preference %> ></i></div>
+    </div>
+  </div>
+</li>

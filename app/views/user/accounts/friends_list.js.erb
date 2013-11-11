@@ -1,0 +1,3 @@
+$("#div_show_friends").html("<%= j(render :partial => "/users/friends_list", 
+                                          :locals => {:users => @users,
+                                                      :search_val => params[:search_value]} ) %>")

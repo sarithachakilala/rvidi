@@ -1,0 +1,29 @@
+<%= form_for @show, :url => web_shows_path,
+             :method => :post,
+             :html => {:class => "form-horizontal show-cameo-form",
+                       :multipart => true,
+                       :target => 'iframe-video-container'} do |f| %>
+
+  <!-- Form fields (Black Box) -->
+  <%= render :partial => "web/shows/form/show_details",
+                          :locals => { :f => f, :title=>"Show Details" } %>
+
+  <!-- Record the Opening Cameo (White Box) -->
+  <% render :partial => "web/shows/form/record_cameo_block",
+                         :locals => { :f => f, :title=>"Record the Opening Cameo" } %>
+
+  <!-- Invite Friends from Facebook and Twitter (White Box) -->
+  <%  render :partial=> "web/shows/form/invite_friends_block", :locals =>{ :f => f } %>
+
+  <!-- Show Publish Button which submits the form -->
+  <div class="buttons_height">
+    <div class=" hr_bg" style="">
+      <div class="text_align_center newshow_btn">
+        <%= f.submit "Publish Show", 
+                     :class => "btn btn-warning publish-show-btn",
+                     :id => "validate_new_show" %>
+      </div>
+    </div>
+  </div>
+
+<% end %>

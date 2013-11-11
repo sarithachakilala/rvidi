@@ -1,0 +1,279 @@
+<div class="login_container" style = "padding-top:18px;">
+  <div class="row-fluid">
+    <div class="span1"> 
+      <div class="">
+        <% if @user.image? %>
+          <%= image_tag @user.image_url, :class => "friend_image"  %>
+        <% else %>
+          <img alt="" src="/assets/default_image.png" class="friend_image" />
+        <% end %>
+      </div>
+    </div>
+    <div class="span11">
+      <div class="myvision_title" style= "font-size:27px;">Welcome back, <%= @user.full_name.titlecase %>!</div>
+      <div class="margin_top_10">
+        <% if @cameo_invitations.count>0 %>
+          <div class="font_weight_bold">You have <%= @cameo_invitations.count %>
+            <%= link_to "cameo invitation",
+              notification_user_account_path(:id => current_user.id) %>
+          </div>
+        <% end %>
+        <% @show_notifications.each do |k,v| %>
+          <% show = Show.find_by_id(k) %>
+          <div class="font_weight_bold"> Your show <%= link_to "#{show.title} ".capitalize, web_show_path(:id => show.permalink) %>has <%= link_to "#{v.length} cameos", web_show_path(:id=> show.permalink, :to_contribute => "yes") %> </div>
+        <%end%>
+        <% @cameo_contributors.each do |k,v| %>
+          <% show = Show.find_by_id (k) %>
+          <div class="font_weight_bold"> <%= v.length%> new cameos have been posted after you in show <%= link_to "#{show.title} ".capitalize, web_show_path(:id=> show.permalink, :to_contribute => "yes") %></div>
+        <% end %>
+        <% if @notifications.count > 0 %>
+          <div class="font_weight_bold">You have  <%= @notifications.count %> <%= link_to " friend Requests", notification_user_account_path(current_user.id) %></div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="login_container1">
+  <div class="carousel slide" id="myCarousel1" style="margin-top: 20px;">
+    <div class="carousel-inner">
+      <% if @newest_shows.present? %>
+        <% @newest_shows.each_with_index do |show, index| %>
+          <div class="<%= index == 0 ? "active" : "" %> item ">
+            <div class="container">
+              <div class="carousel-caption">
+                <div class="row-fluid">
+                  <div class="span6">
+                    <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
+                    <%= link_to "<img alt='300x200' src='#{thumbnail}' style= 'padding-left:60px;' class='thumbnail_image_widht'>".html_safe,
+                                web_show_path(show) %>
+                  </div>
+                  <div class="span1"></div>
+                  <div class="span5">
+                    <div class="slider_header">
+                      <%= link_to show.title.capitalize, web_show_path(:id => show.permalink) %></div>
+                    <div class="sub_title"><%= show.director.full_name.titlecase %></div>
+                    <div class="slider_text">
+                      <%= show.description %>
+                    </div>
+                    <% show_contributers = Cameo.where(:show_id=>show.id).collect(&:user_id)%>
+                    <% if show_contributers.present? %>
+                      <div class="five_title">Contributors</div>
+                      <div class="">
+                        <% show_contributers.take(5).each do |each_contributer|%>
+                          <% user = User.find(each_contributer)%>
+                          <% thumbnail = user.image_url.present? ? user.image_url : "/assets/default_image.png"  %>
+                          <div class="contributors_image_detail">
+                            <%= image_tag thumbnail ,
+                              :class => "details_image_sizesmall",
+                              :style => "height:32px;" %>
+                          </div>
+                        <%  end %>
+                      </div>
+                    <% end %>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+    <a data-slide="prev" href="#myCarousel1" class="left carousel-control sprite-leftarrow-icon" ></a>
+    <a data-slide="next" href="#myCarousel1" class="right carousel-control sprite-rightarrow-icon"></a>
+  </div>
+</div>
+
+<div class="row-fluid">
+  <div style="padding-left: 20px;" class="span12"> 
+    <div class="tabbable"> 
+      <ul class="nav nav-tabs" style="padding-left:17px;">
+        <li class="active"><a data-toggle="tab" href="#tab1">My Shows</a></li>
+        <li><a data-toggle="tab" href="#tab2">My Cameos</a></li>
+        <li><a data-toggle="tab" href="#tab3">Most Viewed</a></li>
+        <li><a data-toggle="tab" href="#tab4">Most Commented</a></li>
+        <li><a data-toggle="tab" href="#tab5">Newest</a></li>
+      </ul>
+      <div class="tab-content tab-content_margin">
+        <div id="tab1" class="tab-pane active tab-changeable" style="padding-bottom:40px;">
+          <div class="span text_align_right">
+            <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active",
+              :id => "showsthumb" %>
+            <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "showslist" %>
+
+          </div>
+
+          <% if current_user.shows.present? %>
+            <% current_user.shows.each_slice(5) do|slice| %>
+              <div class="showsthumb_formats showsformat">
+                <div class="row-fluid">
+                  <ul class="thumbnails margin_top_5">
+                    <% slice.each do|show| %>
+                      <%= render :partial => "show_thumbnail", :locals => { :show => show } %>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+              <div class="showslist_formats showsformat hide">
+                <% slice.each do|show| %>
+                  <div class="row-fluid">
+                    <ul class="thumbnails">
+                      <li class="span12">
+                        <%= render :partial => "shows_list", :locals => { :show => show } %>
+                      </li>
+                    </ul>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="row-fluid">No Shows Exist for <%= current_user.full_name.titlecase %></div>
+          <% end %>
+        </div>
+
+        <div id="tab2" class="tab-pane tab-changeable" style="padding-bottom:40px;">
+          <div class="span text_align_right"> 
+            <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active",
+              :id => "cameosthumb" %>
+            <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "cameoslist" %>
+          </div>
+          <% if @contributed_cameos.present? %>
+            <% @contributed_cameos.each_slice(5) do|contr_slice| %>
+              <div class="cameosthumb_formats showsformat" style="margin-top:32px;">
+                <div class="row-fluid">
+                  <ul class="thumbnails margin_top_5">
+                    <% contr_slice.each do|cameo| %>
+                      <%= render :partial => "cameo_thumbnail", :locals => { :cameo => cameo } %>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+              <div class="cameoslist_formats showsformat hide">
+                <% contr_slice.each do|cameo| %>
+                  <ul class="thumbnails">
+                    <li class="span12">
+                      <%= render :partial => "cameo_list", :locals => { :cameo => cameo } %>
+                    </li>
+                  </ul>
+                <% end %>
+              </div>
+            <% end %>
+          <% else %>
+            <div class="row-fluid">No Contributions Exist by <%= current_user.full_name.titlecase %></div>
+          <% end %>
+          <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
+        </div>
+
+        <div id="tab3" class="tab-pane tab-changeable" style="padding-bottom:40px;">
+          <div class="span text_align_right">
+            <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active",
+              :id => "showsthumb" %>
+            <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "showslist" %>
+          </div>
+          <% if @most_viewed.present? %>
+            <% @most_viewed.each_slice(5) do|shows_slice| %>
+              <div class="showsthumb_formats showsformat">
+                <div class="row-fluid">
+                  <ul class="thumbnails margin_top_5">
+                    <% shows_slice.each do|show| %>
+                      <%= render :partial => "show_thumbnail", :locals => { :show => show } %>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="showslist_formats showsformat hide">
+                <% shows_slice.each do|show| %>
+                  <div class="row-fluid">
+                    <ul class="thumbnails">
+                      <%= render :partial => "shows_list", :locals => { :show => show } %>
+                    </ul>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% else %>
+            No Shows Added to the Application Yet
+          <% end %>
+          <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
+        </div>
+        <div id="tab4" class="tab-pane tab-changeable" style="padding-bottom:40px;">
+          <div class="span text_align_right">
+            <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active", :id => "thumbs" %>
+            <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "lists" %>
+          </div>
+          <% if @commented_shows.present? %>
+            <% @commented_shows.order('comm_count desc').each_slice(4) do|shows_slice| %>
+              <div class="thumbs_formats showsformat">
+                <div class="row-fluid">
+                  <ul class="thumbnails">
+                    <% shows_slice.each do|show| %>
+                      <% show = Show.find(show)%>
+                      <%= render :partial => "show_thumbnail", :locals => { :show => show } %>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+              <div class="lists_formats showsformat hide">
+                <% shows_slice.each do|show| %>
+                  <div class="row-fluid">
+                    <ul class="thumbnails">
+                      <% show = Show.find(show)%>
+                      <%= render :partial => "shows_list", :locals => { :show => show } %>
+                    </ul>
+                  </div>
+                <% end %>
+              </div>
+            <%end%>
+          <% else %>
+            No Commented Shows Yet
+          <% end %>
+          <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
+        </div>
+
+
+        <div id="tab5" class="tab-pane tab-changeable" style="padding-bottom:40px;">
+          <div class="span text_align_right">
+            <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active",
+              :id => "showsthumb" %>
+            <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "showslist" %>
+          </div>
+          <% if @latest_show.present? %>
+            <% @latest_show.each_slice(5) do|shows_slice| %>
+              <div class="showsthumb_formats showsformat">
+                <div class="row-fluid">
+                  <ul class="thumbnails margin_top_5">
+                    <% shows_slice.each do|show| %>
+                      <%= render :partial => "show_thumbnail", :locals => { :show => show } %>
+                    <% end %>
+                  </ul>
+                </div>
+              </div>
+              <div class="showslist_formats showsformat hide">
+                <% shows_slice.each do|show| %>
+                  <div class="row-fluid">
+                    <ul class="thumbnails">
+                      <%= render :partial => "shows_list", :locals => { :show => show } %>
+                    </ul>
+                  </div>
+                <% end %>
+              </div>
+            <% end %>
+          <% else %>
+            No Shows Added to the Application Yet
+          <% end %>
+          <!-- <div class="see_more text_align_right margin_top_10"> See more</div> -->
+        </div>
+
+      </div>
+    </div>
+    <div class="span3 text_align_center"></div>
+    <div class="hr_bg_welcome"> 
+      <div class="text_align_center login_and_account"> 
+        <%= link_to "<i class='sprite-camera-white'></i>Start a new show".html_safe,
+                    new_web_show_path, :class => "btn btn-warning" %>
+      </div>
+    </div>
+  </div>
+
+</div>

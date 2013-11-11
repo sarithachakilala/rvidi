@@ -3,12 +3,14 @@
     <div class="span3">
       <div class="detailsview_image_div item">
         <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
-        <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe, show_path(show) %> </div>
+        <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe, web_show_path(show) %> </div>
     </div>
     <div class="span9">
       <div class="row-fluid">
         <div class="span4">
-          <div class="details_title"><%= link_to show.title.capitalize, show_path(:id=>show.permalink) %></div>
+          <div class="details_title">
+            <%= link_to show.title.capitalize, web_show_path(:id => show.permalink) %>
+          </div>
           <div class="thumbnail_name"><%= show.director.full_name.titlecase %> </div>
         </div>
         <% show_contributers = Cameo.where(:show_id=>show.id, :status => "enabled", :published_status => "published").collect(&:user_id)%>

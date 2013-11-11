@@ -1,0 +1,80 @@
+<% content_for :js_with_script_tags do %>
+  <div id="fb-root"></div>
+  <script>
+    (function (d, s, id) {
+      var js, fjs = d.getElementsByTagName(s)[0];
+      if (d.getElementById(id)) return;
+      js = d.createElement(s);
+      js.id = id;
+      js.src = "//connect.facebook.net/en_US/all.js";
+      fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+  </script>
+
+  <script type="text/javascript">
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId      : '<%= configatron.facebook_app_id %>', // App ID
+        status     : true, // check login status
+        cookie     : true, // enable cookies to allow the server to access the session
+        xfbml      : true  // parse XFBML
+      });
+    }
+      
+    //Facebook Send Message to a friend
+    $(document).on('click', '.button-facebook-friend-invite', function(e){
+      e.preventDefault();
+      facebook_send_message($(this).attr('id'), '<%= j current_user.full_name %>', '<%= current_user.id %>');
+    });
+  </script>
+<% end %>
+
+<div class="myvision_container">
+  <div class="row-fluid">
+    <div class="span12 frinds_container_padding">
+      <!-- Details view start here -->
+      <div class="row-fluid" >
+        <div class="span4"> 
+          <div class="myvision_title_dark span">
+            My Friends 
+          </div>
+          <div class="">
+            Add new ones at right.
+          </div>
+        </div>
+        <div class="span8">
+          <div class="margin_bottom_si" > 
+            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from Facebook"), '#',
+              :class => "btn  btn-primary add_from_facebook" %>
+            <%= link_to raw("<i class=\"sprite-facebook-white \"></i>Add from twitter"), '/auth/twitter?fetch_friends=true',
+                        :class => "btn btn-info twitter_invite" %>
+          </div>
+
+          <div class="input-prepend input-append search_padding">
+            <span class="add-on prepend_background" ><i class="icon-search"></i></span>
+            <input type="text" placeholder="Search by Name or Email"
+                   class="input-xlarge" id="search_value" />
+            <span class="btn add-on btn-warning" id = "search_friends">Go</span>
+          </div>
+        </div>
+      </div>
+      <div id="div_show_friends" class="margin-bottom-10 selects-container">
+        <%= twitter_friends_or_existing_friends(@friends, @twitter_friends, 'friend_request') %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<% content_for :js_with_script_tags do %>
+  <script type="text/javascript">
+    jQuery(document).ready(function($){
+      $('.add_from_facebook').click(function(e){
+        e.preventDefault();
+        invite_friends();
+      });
+    });
+  </script>
+
+
+
+<% end %>

@@ -9,26 +9,40 @@
           <div class="btn-group">
             <a class="btn btn-inverse dropdown-toggle" data-toggle="dropdown" href="#" style="line-height: 12px;">
               <span class="pull-left" style="margin-right:10px;">
-                Hi <%= current_user.first_name %><br>
+                Hi <%= current_user.first_name %><br />
                 <span style="font-size:11px;color:whitesmoke;">Your Account</span>
               </span>
               <i class="sprite-downarrow-white pull-right"></i>
               <div class="clearfix"></div>
             </a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Home", dashboard_user_path(current_user.id), :tabindex => "-1" %></li>
-              <li><%= link_to "My Friends", friends_user_path(current_user.id), :tabindex => "-1" %></li>
-              <li><%= link_to "My Account", profile_user_path(current_user.id), :tabindex => "-1" %></li>
-              <li><%= link_to "Notifications", notification_user_path(current_user.id), :tabindex => "-1" %></li>
+              <li><%= link_to "Home", dashboard_user_account_path(current_user.id),
+                              :tabindex => "-1" %></li>
+              <li><%= link_to "My Friends", friends_user_account_path(current_user.id),
+                              :tabindex => "-1" %></li>
+              <li><%= link_to "My Account", profile_user_account_path(current_user.id),
+                               :tabindex => "-1" %></li>
+              <li><%= link_to "Notifications",
+                               notification_user_account_path(current_user.id),
+                               :tabindex => "-1" %></li>
               <li><%#= link_to "Public shows", root_url, :tabindex => "-1" %></li>
             </ul>
           </div>
-          <%= link_to "My Shows", shows_path, :class => "btn btn-primary login_btn_padding" %>
-          <%= link_to "New Shows", new_show_path, :class => "btn btn-primary login_btn_padding" %>
-          <%= link_to "Log Out", sign_out_path, :class => "btn btn-info login_btn_padding" %>
+          <%= link_to "My Shows", web_shows_path,
+                      :class => "btn btn-primary login_btn_padding" %>
+          <%= link_to "New Shows", new_web_show_path,
+                      :class => "btn btn-primary login_btn_padding" %>
+          <%= link_to "Log Out", user_sign_out_path,
+                      :method => :delete,
+                      :class => "btn btn-info login_btn_padding"
+                      %>
         <% else %>
-          <%= link_to "<i class='sprite-camera-small'></i>Get Started".html_safe, sign_up_path(:from_id => params[:from_id], :email=> params[:email]), :class => "btn btn-warning" %>
-          <%= link_to "Log in", sign_in_path, :class => "btn btn-info login_btn_padding" %>
+          <%= link_to "<i class='sprite-camera-small'></i>Get Started".html_safe,
+                      user_sign_up_path(:from_id => params[:from_id],
+                                       :email=> params[:email]),
+                      :class => "btn btn-warning" %>
+          <%= link_to "Log in", user_sign_in_path,
+                      :class => "btn btn-info login_btn_padding" %>
         <% end %>
       </div>
     </div>

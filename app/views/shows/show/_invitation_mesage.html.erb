@@ -1,8 +1,0 @@
-<% user =  User.find(params[:from_id])%>
-<div class="login_container">
-  <div class="font_weight_bold">
-    "Hello, <%= user.full_name %> has invited you to contribute to this video. Click <%= link_to "Add a cameo".html_safe, sign_up_path(:from_id => params[:from_id], :email=> params[:email])%> to contribute!"
-  </div>
-</div>
-
-<%= hidden_field_tag :through, params[:email] %>

@@ -37,7 +37,7 @@ $(document).ready(function(){
   
   $('#validate_new_show').on('click', function(event){
     status = "true";
-    $(this).closest('form').attr('action', '/shows').attr('target', '_self');
+    $(this).closest('form').attr('action', '/web/shows').attr('target', '_self');
     status = edit_show();
     if(status == "false") {
       event.preventDefault();
@@ -48,7 +48,7 @@ $(document).ready(function(){
   });
   $('#validate_new_cameo').on('click', function(event){
     status = "true";
-    $(this).closest('form').attr('action', '/cameos').
+    $(this).closest('form').attr('action', '/web/cameos').
     addClass('js-validated-form').attr('target', '_self');
     status = new_cameo();
     if(status == "false") {

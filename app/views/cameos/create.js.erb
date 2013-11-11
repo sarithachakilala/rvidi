@@ -1,5 +1,0 @@
-<% if @success %>
-  window.location.href = "<%= show_url(@cameo.show_id) %>";
-<% else %>  
-  alert('errors : --- '+"<%= @cameo.errors.full_messages.join(',') %>");
-<% end %>

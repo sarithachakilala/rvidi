@@ -28,10 +28,17 @@ class ApplicationController < ActionController::Base
       store_location
       respond_to do |format|
         if params[:through]
-          format.html{ redirect_to sign_up_path(:email =>params[:through], :invited_from =>params[:director_id]), :notice => "You need to Sign In / Register with rVidi to perform this Action" }
+          format.html do
+            redirect_to user_sign_up_path(:email => params[:through],
+                                          :invited_from => params[:director_id]),
+                        :notice => "You need to Sign In / Register with rVidi to perform this Action"
+          end
         else
-          format.html{ redirect_to sign_in_path, :notice => "You need to Sign In / Register with rVidi to perform this Action" }
-          format.js{ render "/shared/redirect_to_a_new_page", :locals=>{:url=>sign_in_path} }
+          format.html{
+            redirect_to user_sign_in_path,
+                        :notice => "You need to Sign In / Register with rVidi to perform this Action" }
+          format.js{ render "/shared/redirect_to_a_new_page",
+                             :locals => { :url => user_sign_in_path} }
           format.json { head :no_content }
         end
       end
@@ -39,7 +46,8 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_to_root_page
-    redirect_to current_user.present? ? dashboard_user_path(current_user.id) : root_url
+    redirect_to current_user.present? ? dashboard_user_account_path(current_user.id) :
+                                        root_url
   end
   # METHODS for authentication redirections ENDS
 
@@ -55,7 +63,6 @@ class ApplicationController < ActionController::Base
   def current_user
     @current_user ||= User.find_by_id(session[:user_id]) if session[:user_id].present?
   end
-
 
   protect_from_forgery
 end

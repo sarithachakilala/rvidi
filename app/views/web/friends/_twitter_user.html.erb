@@ -1,0 +1,24 @@
+<div class="friend-box row-fluid">
+  <div class="span4">
+    <div style="width:80px;height:80px;background-color:#c1c1c1;" class="friend_image">
+      <%= image_tag friend.profile_image_url, :class => "details_image_sizesmall" %>
+    </div>
+  </div>
+
+  <div class="span8">
+
+    <!-- Full Name of the Friend -->
+    <%= content_tag :span, friend.screen_name,
+                    :class=>"font-size-14 bold text-color-blue" %>
+
+    <div class="cl-10"></div>
+
+    <!-- Button to invite facebook friend -->
+    <% if request_from == "show_request" %>
+      <a href="https://twitter.com/intent/tweet?screen_name=<%= friend.screen_name %>&text=rvidi.qwinixtech.com/shows/<%=  params[:id] %>?from_id=<%= current_user.id%>" class="btn btn-warning btn-mini">Tweet</a>
+    <% else %>
+      <a href="https://twitter.com/intent/tweet?screen_name=<%= friend.screen_name %>&text=rvidi.qwinixtech.com/users/new?from_id=<%= current_user.id%>" class="btn btn-warning btn-mini">Tweet</a>
+    <% end %>
+  </div>
+
+</div>

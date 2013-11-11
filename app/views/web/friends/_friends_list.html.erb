@@ -1,0 +1,52 @@
+<div id= "main_frame">
+  <ul class="thumbnails">
+    <li class="span12">
+      <% if @users.present? %>
+        <% @users.each do |each_user_detail| %>
+          <% if each_user_detail.id != session[:user_id] %>
+          <% shows = Show.where(:user_id => each_user_detail.id).count %>
+          <% cameos = Cameo.where(:director_id => each_user_detail.id).count %>
+            <div class="row-fluid frinds_row_margin">
+              <div class="span4"> 
+                <div class="row-fluid"> 
+                  <div class="span4">
+                    <div class="friend_image"> 
+                      <img  src="/assets/OCP0154256_P_Portrait-of-a-young-man.png" alt="300x200" />
+                    </div> 
+                  </div>
+                  <div class="span8">
+                    <label class="checkbox inline width-100-percent ">
+                    <%= check_box_tag('selected_friends[]', each_user_detail.id,
+                                      :checked => false, :class => 'checkbox-input') %>
+                    <%= "#{each_user_detail.full_name}"%>
+                    <%#= check_box_tag(each_user_detail.id, '', checked = false, :class => 'child_ckeck')  %> <%#= each_user_detail.full_name%>
+                    <div class="friends_show"> <%= shows %> shows,&nbsp;
+                      <span style="color:#f89406;"><%= cameos %> cameos </span>
+                    </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            <% end %>
+          <% end %>
+      <% else %>
+        <div class="row-fluid frinds_row_margin">
+          <% if params[:email_valid] == "true" %>
+            Do you want to send an invitation to the user: <%= params[:search_val]%>
+            <%= link_to "Confirm to send an invite",
+                        invite_friend_toshow_web_shows_path(:email => params[:search_val],
+                                                        :email_from => session[:user_id],
+                                                        :show_id => params[:page_id]),
+                        :class=> "btn btn-info" %>
+          <% end %>
+        </div>
+      <% end %>
+      <div class="span4">
+        <label class="checkbox inline select-all-label">
+          Select all
+        </label>
+          <!-- <span class="btn add-on btn-warning" id = "invite_friend">Invite Friend</span> -->
+      </div>
+    </li>
+  </ul>
+</div>

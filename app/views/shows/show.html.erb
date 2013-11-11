@@ -1,9 +1,0 @@
-<% if params[:email].present? || params[:from_id].present? %>
-  <% @invited = "yes" %>
-  <%= render :partial=>"shows/show/invitation_mesage",:locals => { :show => @show} %>
-<% end %>
-
-<%= render :partial => "show", :locals => { :show => @show,
-                                            :cameo => @cameo,
-                                            :show_comments => @show_comments,
-                                            :all_comments => @all_comments } %>
