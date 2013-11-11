@@ -5,6 +5,6 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   provider :twitter, configatron.twitter_consumer_key, configatron.twitter_consumer_secret
 end
 
-OmniAuth.config.on_failure = UsersController.action(:oauth_failure)
+OmniAuth.config.on_failure = User::AccountsController.action(:oauth_failure)
 # https://api.twitter.com/1/
 

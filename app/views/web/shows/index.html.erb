@@ -1,0 +1,30 @@
+<table>
+  <tr>
+    <th>User</th>
+    <th>Title</th>
+    <th>Description</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+<div draggable="true" ondrag="sortList()">
+  This text <strong>may</strong> be dragged.
+</div>
+  <% @shows.each do |show| %>
+    <tr>
+      <td><%= show.user_id %></td>
+      <td><%= link_to show.title, show %></td>
+      <td><%= show.description %></td>
+      <td><%= link_to 'Edit', edit_web_show_path(show),
+                              :id => "link_edit_#{show.title.downcase.split(' ').join('_')}" %>
+      </td>
+      <td><%= link_to 'Destroy', [:web, show], method: :delete, 
+                                 data: { confirm: 'Are you sure?' },
+                                 id: "link_destroy_#{show.title.downcase.split(' ').join('_')}" %></td>
+    </tr>
+  <% end %>
+</table>
+<br />
+
+<%= link_to 'New Show', new_web_show_path %>
+

@@ -1,0 +1,97 @@
+<% content_for :google_map do %>
+  <script type="text/javascript"
+  src="https://maps.googleapis.com/maps/api/js?sensor=false&libraries=places"></script>
+  <script src="//www.google.com/jsapi" type="text/javascript"></script>
+  <%= javascript_include_tag 'google_map/map_related' %>
+  <script type="text/javascript">google.load('search', '1');</script>
+
+<% end %>
+
+
+<%= form_for @user, :url => user_accounts_path,
+             :method => :post,
+             :html => { :class => "js-validated-form" } do |f| %>
+
+  <%= f.hidden_field :city %>
+  <%= f.hidden_field :state %>
+  <%= f.hidden_field :country %>
+
+  <div class="login_container">
+    <div class="row-fluid">
+      <div class="span6">
+        <div class="login_title"> Already an rVidi member?
+          <%= link_to "Log In", user_sign_in_path %>
+        </div>
+        <p> Ready to start a new show... or see who's contributed since you last logged in? Welcome back! </p>
+        <br />
+        <br />
+        <div class="login_title">Login with Facebook or Twitter </div>
+        <%= link_to "<i class='sprite-facebook-white'></i>Login with Facebook".html_safe, "/auth/facebook", id: "sign_in", class: "btn btn-primary" %>
+          <%= link_to "<i class='sprite-twitter-white'></i>Login with Twitter".html_safe, "/auth/twitter", id: "sign_in", class: "btn btn-info" %>
+
+            <p class="margin_top_10"> rVidi makes it easy for you to reach out to anyone in your network... no need to remember their contact info. Access your friends and followers by logging on here.</p>
+          </div>
+          <div class="span2 text_align_center">
+            <i class="sprite-or-icon" style="margin-top: 125px;"></i>
+          </div>
+
+          <div class="span4 text_align_center">
+            <div class="login_title">Create a New Account</div>
+            <%= hidden_field_tag :from_id, params[:from_id]%>
+            <%= hidden_field_tag :from_email, params[:email]%>
+            <%= hidden_field_tag :invited_from, params[:invited_from] %>
+
+            <div><%= f.text_field :username, :class => "span12 js-required", :placeholder => "User Name" %></div>
+            <div><%= f.text_field :first_name, :class => "span12 js-required", :placeholder => "First Name" %></div>
+            <div><%= f.text_field :last_name, :class => "span12 js-required", :placeholder => "Last Name" %></div>
+            <% if params[:email].present? %>
+              <div>
+                <%= f.text_field :email, :class => "span12 js-required", :placeholder => "Email Address", :value => params[:email], :readonly=>true %></div>
+            <% else %>
+              <div><%= f.text_field :email, :class => "span12 js-required", :placeholder => "Email Address" %></div>
+            <% end %>
+            <div><%= f.password_field :password, :class => "span12 js-required", :placeholder => "Choose a Password" %></div>
+            <div><%= f.password_field :password_confirmation, :class => "span12 js-required", :placeholder => "Re-type Password" %></div>
+            <div>
+              <%= text_field_tag 'location_name', '', :class => "span12",
+                :id => 'jQueryCityAutocomplete' %>
+            </div>
+
+            <div>
+              <%= f.check_box :terms_conditions %>
+              <span> I agree to the <%= link_to "Terms and Condition", "/home/terms_condition", :target => "_blank" %></span>
+            </div>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="pull-right">
+            <br/>
+            <%= recaptcha_tags :public_key => '6Ld0H-ESAAAAAJKKxhs4c5wZ_yLlRSN9vAuj98GJ', :ssl => true, :display => {:theme => 'white'} %>
+          </div>
+        </div>
+        <div class="row-fluid">
+          <div class="pull-right">
+            <br/>
+            <%= link_to "Cancel", home_index_path, :class => 'btn' %>
+            <i class="sprite-or-icon_black" style=""></i>
+            <%= f.submit 'Create Account', :class => "btn btn-warning" %>
+          </div>
+        </div>
+      </div>
+      <!-- login container end here -->
+    <% end %>
+
+    <% content_for :js do %>
+      facebookLogin("<%= configatron.facebook_app_id %>");
+    <% end %>
+
+    <div id="map-container" style="width:50px; height: 50px; display: none !important;"></div>
+
+    <% content_for :js_with_script_tags do %>
+      <script type="text/javascript">
+        jQuery(document).ready(function(){
+          Google_Map.init(39.9332968,-105.1332093);
+          Google_Map.location_autocomplete("jQueryCityAutocomplete");
+        });
+      </script>
+    <% end %>

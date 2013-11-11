@@ -1,0 +1,45 @@
+<div class="thumbnail">
+  <div class="row-fluid caption">
+    <div class="span3">
+      <div class="detailsview_image_div item" style="height:95px;">
+        <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
+        <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe,
+          web_show_path(show) %>
+      </div>
+    </div>
+    <div class="span9">
+      <div class="row-fluid">
+        <div class="span4">
+          <div class="details_title">
+            <%= link_to show.title.capitalize, web_show_path(:id => show.permalink) %>
+          </div>
+          <div class="thumbnail_name">
+            <%= show.director.full_name.titlecase %></div>
+        </div>
+        <% show_contributers = Cameo.where(:show_id => show.id,
+          :status => "enabled", :published_status => "published").collect(&:user_id)%>
+        <div class="span8 text_align_right">
+          <div style="padding-right: 4px;" class="pull-right">
+            <% show_contributers.take(5).each do |each_contributer|%>
+              <% user = User.find(each_contributer)%>
+              <% thumbnail = user.image_url.present? ? user.image_url : "/assets/default_image.png"  %>
+              <div class="contributors_image_detail">
+                <%= image_tag thumbnail, :class => "details_image_sizesmall" %>
+              </div>
+            <%end %>
+            <i class="sprite-thumbnail_title_icon"></i>
+            <% preference = (show.display_preferences == "public") ? "sprite2-unlockgrey-icon" : "sprite2-lockorrange-icon" %>
+            <i class= <%= preference %> ></i>
+          </div>
+        </div>
+      </div>
+      <div class="span11">
+        <%= show.description %>
+      </div>
+      <div class="span11">
+        <div class="pull-right font_weight_bold">
+          <%= show.number_of_views %>views</div>
+      </div>
+    </div>
+  </div>
+</div>

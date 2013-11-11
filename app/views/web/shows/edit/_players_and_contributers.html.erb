@@ -1,0 +1,35 @@
+<div class="row-fluid">
+  <div class="span4 marging_none cameo_friends" style="margin-left:10px;">
+  <% if show.cameos.present? %>
+    <% show.cameos('show_order asc').each do|show_cameo| %>
+      <% if show_cameo.status== "enabled" %>
+        <% cameo_div_class = (show_cameo.id == selected_cameo.id) ? "active-cameo" : "" %>
+        <div class="row-fluid show-cameo-detail <%= cameo_div_class %>" id="show_<%= show_cameo.show_id %>_cameo_<%= show_cameo.id %>_detail">
+          <div class="span3">
+            <div class="contributors_image">
+              <% thumbnail = show_cameo.user.image_url.present? ? show_cameo.user.image_url : "/assets/default_image.png"  %>
+              <div class="contributors_image_size"> <%= image_tag thumbnail, :class => "details_image_sizesmall" %></div>
+            </div>
+          </div>
+          <div class="span7 cameo_friends_text">
+            <%= link_to show_cameo.user.full_name,
+                        play_cameo_web_show_path(:id => show.id,
+                                                 :cameo_id => show_cameo.id),
+                                                 :remote => true %>
+          </div>
+          <div class="span1 cameo_friends_text">
+            <%= link_to "<i class= downloadsprite-dorrange ></i>".html_safe,
+                        "#{show_cameo.download_url}", :class=> "span6"%>
+          </div>
+
+        </div>
+      <% end %>
+    <% end %>
+  <% else %>
+    <div class="row-fluid">
+      <div class="span12">No Contributions Added to this Show.</div>
+    </div>
+  <% end %>
+
+</div>
+</div>

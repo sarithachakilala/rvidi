@@ -13,7 +13,7 @@ set :git_enable_submodules, 1
 
 set :scm, 'git'
 set :user, 'deploy'
-set :repository, 'git@github.com:dputtannaiah/rvidi.git'
+set :repository, 'git@git.qwinixtech.com:repositories/rails/rvidi.git'
 set :base_path, '/var/www/apps'
 set :normalize_asset_timestamps, false
 

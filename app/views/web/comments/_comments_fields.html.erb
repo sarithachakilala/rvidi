@@ -1,0 +1,15 @@
+<div class="cl-20"></div>
+<%= form_for [:web, comment], :remote => true do|f| %>
+  <div class='row-fluid'>
+    <div class='span12'>
+      <%= f.text_area :body, :cols => 150, :rows => 6, :placeholder => "Comment here", :class => "comment-body" %>
+      <%= f.hidden_field :show_id, :value => comment.show_id %>
+      <%= f.hidden_field :user_id, :value => current_user.id %>
+      <%= f.hidden_field :user_name, :value => current_user.username %>
+    </div>
+  </div>
+  <div class='row-fluid'>
+    <%= f.submit "Save Comment", :class => 'btn btn-info pull-right margin-right-10' %>
+    <div class="cl"></div>
+  </div>
+<% end %>

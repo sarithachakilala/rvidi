@@ -1,0 +1,1 @@
+$("#show_<%= @comment.show_id %>_add_comments_div").html("<%= j(render :partial => "web/comments/comments_fields", :locals => { :comment => @comment }) %>")

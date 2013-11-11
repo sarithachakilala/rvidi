@@ -1,0 +1,37 @@
+<div class="thumbnail">
+  <div class="row-fluid caption">
+    <div class="span3">
+      <div class="detailsview_image_div item" style="height:95px;">
+        <% thumbnail = cameo.present? ? cameo.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
+        <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe, 
+                    web_cameo_path(cameo) %>
+      </div>
+    </div>
+    <div class="span9">
+      <div class="row-fluid">
+        <div class="span4">
+
+          <div class="thumbnail_title">
+            <%= link_to cameo.show.title, web_show_path(:id => cameo.show.permalink) %>
+          </div>
+          <div class="details_name">
+            <%= link_to cameo.title.present? ? cameo.title.capitalize : "No Title" ,
+                        web_cameo_path(:id => cameo.id), :class=>"thumbnail_name" %>
+          </div>
+          <div class="thumbnail_contributor">
+            <%= current_user.full_name.titlecase %>
+          </div>
+        </div>
+        <div class="span8 text_align_right">
+          <div style="padding-right: 4px;" class="pull-right">
+            <% user = User.find(cameo.user_id)%>
+            <% thumbnail = user.image_url.present? ? user.image_url : "/assets/default_image.png"  %>
+            <div class="contributors_image_detail">
+              <%= image_tag thumbnail, :class => "details_image_sizesmall"  %>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

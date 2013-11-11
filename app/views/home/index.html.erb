@@ -9,12 +9,18 @@
               <div class="row-fluid">
                 <div class="span6">
                   <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
-                  <%= link_to "<img alt='300x200' src='#{thumbnail}' style= 'padding-left:60px;' class='thumbnail_image_widht'>".html_safe, show_path(show) %>
+                  <%= link_to "<img alt='300x200' src='#{thumbnail}' style= 'padding-left:60px;' class='thumbnail_image_widht'>".html_safe,
+                              web_show_path(show) %>
                 </div>
                 <div class="span1"></div>
                 <div class="span5">
-                  <div class="slider_header"><%= link_to show.title.capitalize, show_path(:id=>show.permalink) %></div>
-                  <div class="sub_title"><%= show.director.full_name.titlecase %></div>
+                  <div class="slider_header">
+                    <%= link_to show.title.capitalize, 
+                                web_show_path(:id => show.permalink) %>
+                  </div>
+                  <div class="sub_title">
+                    <%= show.director.full_name.titlecase %>
+                  </div>
                   <div class="slider_text">
                     <%= show.description %>
                   </div>
@@ -25,7 +31,11 @@
                       <% show_contributers.take(5).each do |each_contributer|%>
                         <% user = User.find(each_contributer)%>
                         <% thumbnail = user.image_url.present? ? user.image_url : "/assets/default_image.png"  %>
-                        <div class="contributors_image_detail"> <%= image_tag thumbnail , :class => "details_image_sizesmall", :style => "height:32px;" %></div>
+                        <div class="contributors_image_detail">
+                          <%= image_tag thumbnail ,
+                                         :class => "details_image_sizesmall",
+                                         :style => "height:32px;" %>
+                        </div>
                       <%  end %>
                     </div>
                   <% end %>
@@ -162,18 +172,34 @@
         <div class="text_align_center" style="width: 140px;margin-left: 22px;">
           <div class="side_title text_align_center"> How It Works</div>
           <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
-          <%= link_to "<i class='sprite-account-icon'></i>".html_safe, sign_up_path, :class => "text_align_center" %>
-          <div class="text_align_center acc_text"><%= link_to "Create An Account", sign_up_path, :class=>"text_align_center acc_text"%> </div>
+          <%= link_to "<i class='sprite-account-icon'></i>".html_safe,
+                      user_sign_up_path, :class => "text_align_center" %>
+          <div class="text_align_center acc_text">
+          <%= link_to "Create An Account", user_sign_up_path,
+                      :class => "text_align_center acc_text"%> </div>
           <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
-          <%= link_to "<i class='sprite-camera-big'></i>".html_safe, sign_up_path, :class => "text_align_center" %>
-          <div class="text_align_center acc_text"><%= link_to "Start Your Show", sign_up_path, :class=>"text_align_center show_text"%> </div>
+          <%= link_to "<i class='sprite-camera-big'></i>".html_safe, 
+                      user_sign_up_path, :class => "text_align_center" %>
+          <div class="text_align_center acc_text">
+            <%= link_to "Start Your Show", user_sign_up_path,
+                         :class=>"text_align_center show_text"%>
+          </div>
 
           <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
-          <%= link_to "<i class='sprite-peoples-icon'></i>".html_safe, sign_up_path, :class => "text_align_center" %>
-          <div class="text_align_center Participate_text"><%= link_to "Invite Others To Participate", sign_up_path, :class=>"text_align_center Participate_text"%> </div>
+          <%= link_to "<i class='sprite-peoples-icon'></i>".html_safe,
+                      user_sign_up_path, :class => "text_align_center" %>
+          <div class="text_align_center Participate_text">
+            <%= link_to "Invite Others To Participate",
+                        user_sign_up_path,
+                        :class => "text_align_center Participate_text" %>
+          </div>
           <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
-          <%= link_to "<i class='sprite-reel-icon'></i>".html_safe, sign_up_path, :class => "text_align_center" %>
-          <div class="text_align_center acc_text"><%= link_to "Contribute To An Existing Show", sign_up_path, :class=>"text_align_center acc_text"%> </div>
+          <%= link_to "<i class='sprite-reel-icon'></i>".html_safe,
+              user_sign_up_path, :class => "text_align_center" %>
+          <div class="text_align_center acc_text">
+            <%= link_to "Contribute To An Existing Show", user_sign_up_path,
+                 :class=>"text_align_center acc_text"%>
+          </div>
 
         </div>
       </div>
