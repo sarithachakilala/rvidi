@@ -19,6 +19,41 @@ describe Cameo do
     }.to change(Cameo, :count).by(1)
   end
 
+
+
+  describe "Creation callbacks" do
+    before :all do
+      @show = FactoryGirl.build :show
+      @cameo = FactoryGirl.build :cameo, :show => @show
+    end
+
+    it "should call the enabling callback on create" do
+      @cameo.should_receive :auto_enable
+      @cameo.run_callbacks(:save) { false }
+    end
+
+    it "should be enabled if user is director" do
+      @cameo.user_id, @cameo.director_id = [23,23]
+      @cameo.send :auto_enable
+      @cameo.status.should be Cameo::Status::Enabled
+    end
+
+    it "should not be enabled if user is not director and show needs review " do
+      @cameo.user_id, @cameo.director_id = [23,25]
+      @show.stub!(:need_review?).and_return(true)
+      @cameo.send :auto_enable
+      @cameo.status.should be Cameo::Status::Pending
+    end
+
+    it "should be enable if user is not director and show doesn't need review " do
+      @cameo.user_id, @cameo.director_id = [23,25]
+      @show.stub!(:need_review?).and_return(false)
+      @cameo.send :auto_enable
+      @cameo.status.should be Cameo::Status::Enabled
+    end
+
+  end
+
   # expecting it to have a __FILE__
 
   #   file: if is an upload

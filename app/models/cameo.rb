@@ -20,12 +20,13 @@ class Cameo < ActiveRecord::Base
   belongs_to :show
   belongs_to :user
   belongs_to :director, :class_name => "User", :foreign_key => "director_id"
+
   has_one :file, class_name: "CameoFile"
 
   after_initialize :set_flags
+  before_save :auto_enable, on: :create
 
   # Validations
-  #validates :name, :presence => true
   validates :show_id, :presence => true, :numericality => true
   validates :director_id, :presence => true, :numericality => true
   validates :user_id, :presence => true, :numericality => true
@@ -91,6 +92,14 @@ class Cameo < ActiveRecord::Base
   def set_fields_and_flags
     set_fields
     set_flags
+  end
+
+  def auto_enable
+    if user_id == director_id || ( user_id != director_id && !show.need_review? )
+      self.status = Cameo::Status::Enabled
+    else
+      self.status = Cameo::Status::Pending
+    end
   end
 
   # Class Methods

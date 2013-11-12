@@ -33,10 +33,12 @@ describe Web::CameosController do
         show_id: @show.id,
         name: "testing cameo",
         user_id: @user.id,
+        director_id: @user.id,
         file: fixture_file_upload("spec/fixtures/videos/sample.mp4")
       }
       post :create, {:cameo => @cameo_attributes}
-      response.should redirect_to(assigns(:cameo))
+      response.should redirect_to( edit_cameo_url(assigns(:cameo)) )
+      response.should be_success
       # expect {
       #   }.to change(CameoFile, :count).by(1)
     end

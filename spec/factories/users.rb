@@ -10,11 +10,19 @@ FactoryGirl.define do
     "rvidi_qwinix_#{n}"
   end
 
+  sequence :first_name do |n|
+    "user dummy #{n}"
+  end
+
+  sequence :last_name do |n|
+    "last dummy #{n}"
+  end
+
 
   factory :user do
-    first_name "user dummy"
-    last_name "Mini Quinix"
-    username "rvidi_qwinix"
+    first_name
+    last_name
+    username
     email
     password "password"
     password_confirmation "password"

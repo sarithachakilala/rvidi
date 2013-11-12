@@ -6,12 +6,12 @@ module SpecTestHelper
 
   def login(user)
     user = User.where(:login => user.to_s).first if user.is_a?(Symbol)
-    request.session[:user] = user.id
-    current_user = user
+    request.session[:user_id] = user.id
+    current_user
   end
 
   def current_user
-    User.find(request.session[:user])
+    controller.send :current_user
   end
 
 end
