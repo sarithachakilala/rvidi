@@ -52,21 +52,13 @@ class Show < ActiveRecord::Base
 
 
   # Callbacks
-  # ------
-  #
-  #
+  #------
+  
   # Scopes
   scope :public_shows, where(:display_preferences => "public")
   scope :public_private_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'private')
   scope :public_protected_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'password_protected')
-
-
-
-  # CLASS METHODS,
-  # TODO move to an scope
-  def self.my_shows(current_user_id)
-    self.where(:user_id => current_user_id)
-  end
+  scope :my_shows, proc {|current_user_id| where(:user_id => current_user_id) }
 
   # INSTANCE METHODS
   # TODO need a test
@@ -80,41 +72,6 @@ class Show < ActiveRecord::Base
     end
   end
 
-  # REMOVE
-  def build_playlist
-    client = Cameo.get_kaltura_client(user_id)
-    playlist = Kaltura::KalturaPlaylist.new
-    playlist.name = "#{title}"
-    playlist.playlist_type = Kaltura::KalturaPlaylistType::STATIC_LIST
-    playlist.type = Kaltura::KalturaEntryType::AUTOMATIC
-    playlist.playlist_content = if cameos.present?
-      "#{cameos.enabled.order('show_order ASC').map(&:kaltura_entry_id).join(',')}"
-    else
-      ""
-    end
-    logger.debug "********"
-    logger.debug playlist.playlist_content
-    logger.debug "********"
-    playlist = client.playlist_service.add(playlist)
-    self.kaltura_playlist_id = playlist.id
-    self.save
-  end
-
-  # REMOVE
-  def create_playlist
-    if cameos.present?
-      client = Cameo.get_kaltura_client(user_id)
-      if kaltura_playlist_id.present?
-        playlist = client.playlist_service.get(kaltura_playlist_id)
-        client.playlist_service.delete(playlist.id) if playlist.present?
-        self.kaltura_playlist_id = nil
-        build_playlist
-      else
-        build_playlist
-      end
-    end
-  end
-
   # TODO use gem friendly id
   def create_permalink
     if self.title
@@ -122,7 +79,6 @@ class Show < ActiveRecord::Base
       self.save
     end
   end
-
 
   def disable_download
     self.enable_download = false
@@ -149,45 +105,7 @@ class Show < ActiveRecord::Base
     `cat #{val.join(' ')} > "#{steam_download_path}/show_#{id}_#{timestamp}.mpg"`  #concatinating the cameos
     push_stitched_video_to_kaltura(id, timestamp, client, ks, cameo)
   end
-
-  # REMOVE
-  def steam_download_path
-    if Rails.env == 'development'
-      File.join(Rails.root, 'tmp', 'downloaded_streams')
-    else
-      "/var/www/apps/rvidi/shared/streams/downloaded_streams"
-    end
-  end
-
-  # REMOVE
-  def push_stitched_video_to_kaltura(id, timestamp, client, ks, cameo)
-    new_file = File.open("#{steam_download_path}/show_#{id}_#{timestamp}.mpg") if File.exists?("#{steam_download_path}/show_#{id}_#{timestamp}.mpg")
-    media_entry = cameo.upload_video_to_kaltura(new_file, client, ks)
-    if media_entry.status.to_i == 1
-      cameo.set_uploaded_video_details(media_entry)
-      # File.delete("#{steam_download_path}/show_#{id}_#{timestamp}.mpg")
-      update_attributes(:download_url =>  media_entry.download_url)
-      return true
-    else
-      return false
-    end
-  end
-
-  # Check where is used and justify with a test
-  def download_video?(current_user)
-    if end_set.present? && enable_download.present?
-      case download_preference
-      when Show::Download_Preferences::ME
-        director == current_user
-      when Show::Download_Preferences::FRIENDS
-        current_user == director || current_user.is_friend?(director)
-      when Show::Download_Preferences::PUBLIC
-        true
-      end
-    else
-      false
-    end
-  end
+ 
 
   # Refactoring with test justification
   def set_display_preference(current_user, display_preference)
