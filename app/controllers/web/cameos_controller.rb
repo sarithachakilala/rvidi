@@ -1,11 +1,11 @@
 module Web
-  
+
   class CameosController < Web::BaseController
 
     before_filter :require_user, :only => [:new, :create, :edit, :update,
       :destroy, :validate_video,
       :video_player]
-                                         
+
     before_filter :redirect_to_root_page, :only => [:index]
 
     def index
@@ -31,7 +31,7 @@ module Web
       Cameo.delete_old_flv_files
       @cameo = Cameo.new(:show_id => params[:show_id],
         :director_id => params[:director_id])
-                      
+
       @show = Show.find(params[:show_id])
       @show_preference = @show.set_contributor_preference(current_user,
         session[:contribution_preference])
@@ -40,7 +40,7 @@ module Web
 
       ## Get the friends list
       @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
-      @invited = InviteFriend.where(:director_id=> @show.user_id, 
+      @invited = InviteFriend.where(:director_id=> @show.user_id,
         :show_id=> @show.id, :contributor_id => current_user.id,
         :status => "invited" ) if @current_user
 
@@ -52,15 +52,9 @@ module Web
 
     def create
       # To find the contributed users.
-      @cameo = Cameo.new(params[:cameo])
+      @cameo = Cameo.new( params[:cameo] )
       @cameo.published_status = "save_cameo"
-      if @cameo.user_id == @cameo.director_id
-        @cameo.status = Cameo::Status::Enabled
-      else
-        @cameo.status = (@cameo.show.need_review == true) ? Cameo::Status::Pending : Cameo::Status::Enabled
-      end
-     
-      # @success = @cameo.save
+
       # @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
 
       respond_to do |format|
@@ -178,7 +172,7 @@ module Web
           :show_id=> @show.id,
           :contributor_id => @user.id,
           :status =>"invited")
-        notification = Notification.new(:show_id => @show.id, 
+        notification = Notification.new(:show_id => @show.id,
           :from_id => current_user.id,
           :to_id=> @user.id,
           :status => "contribute",
@@ -245,5 +239,5 @@ module Web
     end
 
   end
-  
+
 end

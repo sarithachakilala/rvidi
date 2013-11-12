@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
 
-  sequence :name do |n|
+  sequence :title do |n|
     "cameo_#{n}_video"
   end
 
@@ -18,7 +18,7 @@ FactoryGirl.define do
     status Cameo::Status::Enabled
     show_id 1
     show_order 1
-    name
+    title
     description
   end
 

@@ -48,9 +48,6 @@ group :assets do
 
 end
 
-gem 'jquery-rails'
-gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_jobs
-
 group :development, :test do
   gem 'pry'
   gem 'pry-doc'
@@ -91,3 +88,8 @@ group :development do
   gem 'capistrano-ext'
   gem 'capistrano-deploytags'
 end
+
+group :test do
+  gem "shoulda-callback-matchers"
+end
+

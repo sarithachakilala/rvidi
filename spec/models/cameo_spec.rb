@@ -9,9 +9,11 @@ describe Cameo do
 
   it{ should validate_presence_of(:user_id)  }
   it{ should validate_presence_of(:director_id)  }
-  it{ should validate_presence_of(:status)  }
+  Cameo::Status::All.each do |allowed|
+    it{ should allow_value(allowed).for(:status)   }
+  end
   it{ should validate_presence_of(:show_id)  }
-  it{ should validate_presence_of(:name)  }
+  it{ should validate_presence_of(:title)  }
 
   it "should create a valid factory" do
     expect{
@@ -27,10 +29,7 @@ describe Cameo do
       @cameo = FactoryGirl.build :cameo, :show => @show
     end
 
-    it "should call the enabling callback on create" do
-      @cameo.should_receive :auto_enable
-      @cameo.run_callbacks(:save) { false }
-    end
+    it { should callback(:auto_enable).before(:validation) }
 
     it "should be enabled if user is director" do
       @cameo.user_id, @cameo.director_id = [23,23]

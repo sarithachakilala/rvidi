@@ -1,19 +1,21 @@
 class Cameo < ActiveRecord::Base
 
   module Status
+    All = ['enabled', 'pending', 'disabled']
     Enabled   = 'enabled'
     Pending   = 'pending'
     Disabled  = 'disabled'
+
   end
 
   MAX_LENGTH = 60
   STANDARD_LENGTH = 60
 
-  attr_accessor :video_file, :audio_file, :recorded_file, :name_flag, 
+  attr_accessor :video_file, :audio_file, :recorded_file, :name_flag,
                 :thumbnail_url_flag, :download_url_flag
 
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name,
-                  :description, :title, :published_status
+                  :description, :title, :published_status, :file, :file_attributes
 
   # Associations
   belongs_to :show
@@ -21,23 +23,19 @@ class Cameo < ActiveRecord::Base
   belongs_to :director, :class_name => "User", :foreign_key => "director_id"
 
   has_one :file, class_name: "CameoFile"
+  accepts_nested_attributes_for :file
 
   after_initialize :set_flags
-  before_save :auto_enable, on: :create
+  before_validation :auto_enable, on: :create
 
   # Validations
   validates :show_id, :presence => true, :numericality => true
   validates :director_id, :presence => true, :numericality => true
   validates :user_id, :presence => true, :numericality => true
   validates :status, :presence => true,
-    :inclusion => { :in => %w(pending disabled enabled),
-    :message => "%{value} is not a valid status" }
-  #validates :name, :presence => true #, :if => :name_flag_set?
-  #validate :cameo_duration_limit_for_show
+    :inclusion => { :in => Cameo::Status::All, :message => "%{value} is not a valid status" }
+  validates :title, :presence => true
 
-  # Callbacks
-  #after_save :upload_video
-  #before_destroy :delete_kaltura_video
 
   # Scopes
   scope :enabled, where("status like ?", Cameo::Status::Enabled )
@@ -81,7 +79,7 @@ class Cameo < ActiveRecord::Base
 
   def set_fields
     self.status = Cameo::Status::Enabled
-    self.published_status = "published"
+    self.published_status = "published"  # TODO refactor this for getting proper test
   end
 
   def set_flags
