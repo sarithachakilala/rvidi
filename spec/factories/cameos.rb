@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
 
-  sequence :name do |n|
+  sequence :title do |n|
     "cameo_#{n}_video"
   end
 
@@ -14,11 +14,12 @@ FactoryGirl.define do
   factory :cameo do
     # ex: association :user, factory: :user, name: "test system02", :op_sub_code => "02"
     association :user, factory: :user
+    association :show, factory: :show
     director_id 1
     status Cameo::Status::Enabled
     show_id 1
     show_order 1
-    name
+    title
     description
   end
 
