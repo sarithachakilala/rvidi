@@ -69,7 +69,7 @@ class Cameo < ActiveRecord::Base
   end
 
   def auto_enable
-    if user_id == director_id || ( user_id != director_id && !show.need_review? )
+    if user_id == director_id || ( show && user_id != director_id && !show.need_review? )
       self.status = Cameo::Status::Enabled
     else
       self.status = Cameo::Status::Pending
