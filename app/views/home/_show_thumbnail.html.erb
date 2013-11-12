@@ -1,7 +1,8 @@
 <li class="span3">
   <div class="thumbnail">
     <div class="triangle-with-shadow">
-      <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
+    <% thumbnail = "/assets/photo_background_2916660.jpeg" %>
+    <%# thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
       <%= link_to "<img alt='300x200' src='#{thumbnail}' class='thumbnail_image_widht'>".html_safe,
                   web_show_path(:id => show.permalink) %>
     </div>
