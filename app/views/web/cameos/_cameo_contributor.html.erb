@@ -18,8 +18,8 @@
 
     <div class="span4">
       <!-- Thumbnail of Video -->
-      <% thumbnail = cameo.thumbnail_url.present? ? cameo.thumbnail_url : "/assets/default_image.png"  %>
-      <%= image_tag thumbnail, :class => "pull-left margin-right-10 height-40" %>
+      <%# thumbnail = cameo.thumbnail_url.present? ? cameo.thumbnail_url : "/assets/default_image.png"  %>
+      <%#= image_tag thumbnail, :class => "pull-left margin-right-10 height-40" %>
     </div>
 
     <div class="span7 cameo_friends_text" style="padding-top:0px;">
@@ -32,7 +32,7 @@
       <!-- Cameo title -->
       <div class="font-size-11 pull-left text-color-dark-gray"> <%= cameo.title || "No Title" %></div>
       <div class="cl"></div>
-      <div class="font-size-10 pull-left text-color-dark-gray"><%= "#{cameo.duration} sec" if cameo.duration.present? %></div>
+      <div class="font-size-10 pull-left text-color-dark-gray"><%#= "#{cameo.duration} sec" if cameo.duration.present? %></div>
     </div>
   </div>
 </div>

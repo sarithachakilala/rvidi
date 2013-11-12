@@ -70,7 +70,7 @@ $(document).ready(function(){
       alert("your cameo will be clipped shortly")
     }
     jQuery.ajax({
-      url: "/cameos/cameo_clipping",
+      url: "/web/cameos/cameo_clipping",
       data: {
         start_time: $('#cameo_start_time').val(),
         end_time: $('#cameo_end_time').val() ,
@@ -99,7 +99,7 @@ $(document).ready(function(){
       }
     });  
     $.ajax({
-      url: "/shows/invite_friend.js",
+      url: "/web/shows/invite_friend.js",
       data: {
         checked_friends: child_id,
         page_id: $('#id').val()
@@ -114,7 +114,7 @@ $(document).ready(function(){
     email = $('#search_value').val()
     var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     $.ajax({
-      url: "/users/friends_list.js",
+      url: "/web/users/friends_list.js",
       data: {
         search_val:$('#search_value').val() ,
         email_valid: regex.test(email)
@@ -127,7 +127,7 @@ $(document).ready(function(){
     email = $('#search_value_to_invite').val()
     var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     $.ajax({
-      url: "/shows/friends_list.js",
+      url: "/web/shows/friends_list.js",
       data: {
         search_val:$('#search_value_to_invite').val() ,
         email_valid: regex.test(email),

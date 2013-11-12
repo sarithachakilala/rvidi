@@ -43,8 +43,8 @@
           <div style="float:left; width:220px;">
             <a href="<%= "#{configatron.site_address_full}/assets/video_#{index + 1}.flv" %>"
                class="pl-entry">
-              <% thumbnail = cameo.thumbnail_url.present? ? cameo.thumbnail_url : "/assets/default_image.png"  %>
-              <%= image_tag thumbnail, :class => "pull-left margin-right-10 height-40" %>
+              <%# thumbnail = cameo.thumbnail_url.present? ? cameo.thumbnail_url : "/assets/default_image.png"  %>
+              <%#= image_tag thumbnail, :class => "pull-left margin-right-10 height-40" %>
               <%= cameo.title %>
               <span>HTTP streaming</span>
               <em>0:20 min</em>

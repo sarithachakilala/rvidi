@@ -33,9 +33,9 @@ module Web
 
       # finding the duration of sum of all cameos
       if @show.cameos.present?
-        array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
-        @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
-        @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / @show.duration
+        #        array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
+        #        @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+        #        @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / @show.duration
       else
         @contribution_percentage = 0
       end
@@ -100,7 +100,7 @@ module Web
           # invite_friend(params[:selected_friends]) if params[:selected_friends].present?
           # invite_friend_toshow_after_create(params[:email], @show) if params[:email].present?
           format.html { redirect_to web_show_path(@show),
-                        :notice => 'Show was successfully created. The system will take few minutes to convert the video. Please check back after few minutes.' }
+            :notice => 'Show was successfully created. The system will take few minutes to convert the video. Please check back after few minutes.' }
           format.js {}
           format.json { render json: @show, status: :created, location: @show }
         else
@@ -119,9 +119,10 @@ module Web
       # finding the duration of sum of all cameos
       # @show.caluculating_percentage_and_duration(@show)
       if @show.cameos.present?
-        array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration) #TODO change this to .sum(&:duration), move the count to postgre if possible
-        @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
-        @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / @show.duration
+        #        array_of_cameo_duration = @show.cameos.where(:status => "enabled").collect(&:duration) #TODO change this to .sum(&:duration), move the count to postgre if possible
+        #        @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+        #        @contribution_percentage = ((@sum_duration_of_cameos || 0.0 ) * 100) / @show.duration
+        @contribution_percentage = 0
       else
         @contribution_percentage = 0
       end
@@ -150,7 +151,7 @@ module Web
           params[:active_cameos].present? ? @show.update_active_cameos(params[:active_cameos]) : @show.cameos.update_all(:status => "disabled")
           #@show.create_playlist if @show.cameos.present? && @show.cameos.enabled.present?
           format.html { redirect_to web_show_path(@show),
-                          :notice => 'Show was successfully updated.' }
+            :notice => 'Show was successfully updated.' }
           format.json { head :no_content }
         else
           format.html { render action: "edit" }

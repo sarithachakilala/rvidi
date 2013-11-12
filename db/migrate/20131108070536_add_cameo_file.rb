@@ -9,7 +9,7 @@ class AddCameoFile < ActiveRecord::Migration
       t.string :audio_file
       t.string :recorded_file
       t.string :download_url
-      t.string :duration
+      t.float :duration, :default => 0.0
       t.string :thumbnail_file
       t.integer :number_of_views
       t.string :filename

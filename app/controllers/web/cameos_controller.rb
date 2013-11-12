@@ -2,8 +2,11 @@ module Web
   
   class CameosController < Web::BaseController
 
-    before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy, :validate_video, :video_player]
-    before_filter :redirect_to_root_page, :only=>[:index]
+    before_filter :require_user, :only => [:new, :create, :edit, :update,
+      :destroy, :validate_video,
+      :video_player]
+                                         
+    before_filter :redirect_to_root_page, :only => [:index]
 
     def index
       @cameos = Cameo.all
@@ -26,15 +29,20 @@ module Web
       session[:timestamp] = nil
       session[:timestamp] = Time.now.to_i
       Cameo.delete_old_flv_files
-      @cameo = Cameo.new(:show_id => params[:show_id], :director_id => params[:director_id])
+      @cameo = Cameo.new(:show_id => params[:show_id],
+        :director_id => params[:director_id])
+                      
       @show = Show.find(params[:show_id])
-      @show_preference = @show.set_contributor_preference(current_user, session[:contribution_preference])
+      @show_preference = @show.set_contributor_preference(current_user,
+        session[:contribution_preference])
 
       @contribution_preference = params[:preference].present? ? params[:preference] : @show.contributor_preferences
 
-      ## Get the friend list
+      ## Get the friends list
       @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
-      @invited = InviteFriend.where(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
+      @invited = InviteFriend.where(:director_id=> @show.user_id, 
+        :show_id=> @show.id, :contributor_id => current_user.id,
+        :status => "invited" ) if @current_user
 
       respond_to do |format|
         format.html # new.html.erb
@@ -51,29 +59,7 @@ module Web
       else
         @cameo.status = (@cameo.show.need_review == true) ? Cameo::Status::Pending : Cameo::Status::Enabled
       end
-
-      # if params[:cameo][:cameos][:video_file].present?
-      #   file = Cameo.get_flv_file_path(current_user, session[:timestamp])
-      # else
-      #   file = Cameo.get_cameo_file(current_user, session[:timestamp])
-      # end
-
-      # @cameo.set_cameo_duration(file)
-
-      # if @cameo.show_duration_not_excedded?
-      #   begin
-      #     media_entry = @cameo.upload_video_to_kaltura(file, session[:client], session[:ks])
-      #     @cameo.set_uploaded_video_details(media_entry)
-      #   rescue Exception => e
-      #     flash[:alert] = e.message
-      #     redirect_to new_cameo_path(:show_id => @cameo.show_id, :director_id => @cameo.director_id)
-      #     return
-      #   end
-      # else
-      #   flash[:alert] = "Show duration excedded!!"
-      #   redirect_to new_cameo_path(:show_id => @cameo.show_id, :director_id => @cameo.director_id)
-      #   return
-      # end
+     
       # @success = @cameo.save
       # @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
 
@@ -95,19 +81,16 @@ module Web
 
     def edit
       @cameo = Cameo.find(params[:id])
-      donwload = `wget -O "#{@cameo.id}.avi" "#{@cameo.download_url}"`
-      duration = `ffmpeg -i "#{@cameo.id}.avi" 2>&1 | grep Duration | cut -d ' ' -f 4 | sed s/,//`
-      @cameo_duration = duration.split(':')[0].to_i*3600 + duration.split(':')[1].to_i*60 + duration.split(':')[2].to_i if duration.present?
+      @cameo_duration = CameoFile.get_file_duration("#{@cameo.id}.avi")
       @show = @cameo.show
       if @show.cameos.present?
-        array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
-        @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+#        array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
+#        @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+        @sum_duration_of_cameos = 0
       end
       @remaining_contribution = @show.duration.to_f - @sum_duration_of_cameos.to_f
       File.delete("#{@cameo.id}.avi") if File.exists?("#{@cameo.id}.avi")
     end
-
-
 
     def update
       @cameo = Cameo.find(params[:id])
@@ -152,7 +135,7 @@ module Web
         @show = @cameo.show
         if @cameo.save
           format.html { redirect_to web_show_path(@show),
-                                    :notice => 'Cameo was successfully Published.' }
+            :notice => 'Cameo was successfully Published.' }
           format.json { head :no_content }
         else
           format.html { render action: "edit" }
@@ -181,8 +164,8 @@ module Web
                                        :director_id => @show.user_id)
       else
         redirect_to new_web_cameo_path(:show_id => params[:show_id],
-                                       :director_id => @show.user_id),
-                                       :notice => "Invalid Password: Please enter the correct password! "
+          :director_id => @show.user_id),
+          :notice => "Invalid Password: Please enter the correct password! "
       end
     end
 
@@ -192,14 +175,14 @@ module Web
       friends.each do |each_friend|
         @user = User.find(each_friend)
         InviteFriend.create(:director_id=> @show.user_id,
-                            :show_id=> @show.id,
-                            :contributor_id => @user.id,
-                            :status =>"invited")
+          :show_id=> @show.id,
+          :contributor_id => @user.id,
+          :status =>"invited")
         notification = Notification.new(:show_id => @show.id, 
-                                        :from_id => current_user.id,
-                                        :to_id=> @user.id,
-                                        :status => "contribute",
-                                        :content=>" has Requested you to contribute for their Show ")
+          :from_id => current_user.id,
+          :to_id=> @user.id,
+          :status => "contribute",
+          :content=>" has Requested you to contribute for their Show ")
         notification.save!
       end
     end
@@ -222,7 +205,7 @@ module Web
         logger.debug "3"
       end
 
-      duration = Cameo.get_video_duration(file)
+      duration = CameoFile.get_file_duration(file)
 
       if params[:cameo].present? && params[:cameo][:show_id].present?
         show = Show.find_by_id params[:cameo][:show_id]

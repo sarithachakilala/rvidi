@@ -49,14 +49,13 @@
         <%= f.hidden_field :user_id, :class => "cameo-user-id" %>
         <%= f.hidden_field :show_id, :class => "cameo-show-id" %>
         <%= f.hidden_field :director_id, :class => "cameo-director-id" %>
-        <%#= f.hidden_field :cameo_duration, :value => @cameo.duration, :class => "cameo-director-id" %>
 
         <!-- Content to show HTML5 Recorder Ends -->
         <% if params[:id].present? %>
 
           <div id="show_<%= @cameo.show_id %>_kaltura_player_container">
             <% selected_cameo = Cameo.find(params[:id])%>
-            <%= render :partial => "web/shows/player/cameo_player_without_playlist",
+            <%#= render :partial => "web/shows/player/cameo_player_without_playlist",
                        :locals => { :cameo => selected_cameo,
                                     :width => "100%", :height => "400px" } %>
             <div id="slider-range"
@@ -64,7 +63,7 @@
                  title="Video Clipper">
             </div>
             <div id="slider-range-value" style="margin-left: 34px; margin-top: 5px;">
-              <%= "0 to #{@cameo.duration} (Seconds)" %>
+              <%#= "0 to #{@cameo.duration} (Seconds)" %>
             </div>
           </div>
         <% end %>
@@ -80,8 +79,8 @@
       $( "#slider-range" ).slider({
         range: true,
         min: 0,
-        max: <%= @cameo.duration.to_i %>,
-        values: [ 0, <%= @cameo.duration.to_i %> ],
+        max: 1<%#= @cameo.duration.to_i %>,
+        values: [ 0, 1<%#= @cameo.duration.to_i %> ],
         slide: function( event, ui ) {
           $( "#slider-range-value" ).text( ui.values[ 0 ] + " to " + ui.values[ 1 ] + ' (Seconds)' );
           $('#cameo_start_time').val(ui.values[ 0 ]);
