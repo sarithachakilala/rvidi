@@ -23,7 +23,7 @@ class CameosController < ApplicationController
     session[:timestamp] = nil
     session[:timestamp] = Time.now.to_i
     Cameo.delete_old_flv_files
-    @cameo = Cameo.new(:show_id => params[:show_id], :director_id => params[:director_id])
+    @cameo = Cameo.new(:show_id => params[:show_id], :director_id => params[:director_id] )
     @show = Show.find(params[:show_id])
     @show_preference = @show.set_contributor_preference(current_user, session[:contribution_preference])
 
@@ -43,12 +43,9 @@ class CameosController < ApplicationController
     # To find the contributed users.
     raise params.inspect
     @cameo = Cameo.new(params[:cameo])
+    @cameo.user_id = current_user.id
     @cameo.published_status = "save_cameo"
-    if @cameo.user_id == @cameo.director_id
-      @cameo.status = Cameo::Status::Enabled
-    else
-      @cameo.status = (@cameo.show.need_review == true) ? Cameo::Status::Pending : Cameo::Status::Enabled
-    end
+
 
     # if params[:cameo][:cameos][:video_file].present?
     #   file = Cameo.get_flv_file_path(current_user, session[:timestamp])
