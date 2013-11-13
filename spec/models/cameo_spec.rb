@@ -16,9 +16,8 @@ describe Cameo do
   it{ should validate_presence_of(:title)  }
 
   it "should create a valid factory" do
-    expect{
-      cameo = FactoryGirl.create :cameo
-    }.to change(Cameo, :count).by(1)
+    cameo = FactoryGirl.build :cameo
+    cameo.should be_valid
   end
 
 
@@ -53,19 +52,15 @@ describe Cameo do
 
   end
 
-  # expecting it to have a __FILE__
+  describe "Thumbnails" do
+    before :all do
+      @cameo = FactoryGirl.build :cameo
+      @cameo.stub!(:file).and_return(nil)
+    end
+    it "should return a placeholder image from the system if file have no thumbnail" do
+      @cameo.thumbnail_url.should match /\/assets\/dummy.jpeg/
+    end
+  end
 
-  #   file: if is an upload
-  #   should be doing this
 
-  #   if is a record show be doind this
-
-
-  #   If media server is hosted by if __FILE__ == $PROGRAM_NAME
-  #     should move the file to media server
-  #     get and URl
-  #   end
-
-  #   if media server is external provider
-  #     should move the file to external provider and get and ID and url
 end
