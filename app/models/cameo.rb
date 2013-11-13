@@ -68,14 +68,6 @@ class Cameo < ActiveRecord::Base
     set_flags
   end
 
-  def auto_enable
-    if user_id == director_id || ( show && user_id != director_id && !show.need_review? )
-      self.status = Cameo::Status::Enabled
-    else
-      self.status = Cameo::Status::Pending
-    end
-  end
-
   def latest_cameo_order
     Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).
           first.try(:show_order) || 0
@@ -85,6 +77,21 @@ class Cameo < ActiveRecord::Base
     show.contributor_preferences == Show::Contributor_Preferences::PUBLIC ||
       show.director == current_user
   end
+
+  def thumbnail_url
+    "/assets/dummy.jpeg"
+  end
+
+  private
+
+    def auto_enable
+      if user_id == director_id || ( show && user_id != director_id && !show.need_review? )
+        self.status = Cameo::Status::Enabled
+      else
+        self.status = Cameo::Status::Pending
+      end
+    end
+
 
 end
 

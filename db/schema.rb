@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131111102315) do
+ActiveRecord::Schema.define(:version => 20131113063039) do
 
   create_table "apis", :force => true do |t|
     t.string   "name"
@@ -41,7 +41,7 @@ ActiveRecord::Schema.define(:version => 20131111102315) do
     t.string   "audio_file"
     t.string   "recorded_file"
     t.string   "download_url"
-    t.float    "duration",        :default => 0.0
+    t.string   "duration"
     t.string   "thumbnail_file"
     t.integer  "number_of_views"
     t.string   "filename"
@@ -52,8 +52,9 @@ ActiveRecord::Schema.define(:version => 20131111102315) do
     t.integer  "height"
     t.integer  "bit_rate"
     t.boolean  "success"
-    t.datetime "created_at",                       :null => false
-    t.datetime "updated_at",                       :null => false
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+    t.string   "file"
   end
 
   create_table "cameos", :force => true do |t|

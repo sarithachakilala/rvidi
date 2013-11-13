@@ -5,6 +5,8 @@ class CameoFile < ActiveRecord::Base
   #Gem Related
   mount_uploader :file, VideoFileUploader
 
+  before_destroy :remove_file!
+
   def set_success(format, opts)
     self.success = true
   end
@@ -29,11 +31,11 @@ class CameoFile < ActiveRecord::Base
   end
 
   def avconv_convert_from_avi_to_mpg(input_file, output_file)
-    `avconv -i #{input_file} -qscale:v 1 #{output_file}` 
+    `avconv -i #{input_file} -qscale:v 1 #{output_file}`
   end
 
   def concatinate_files_to_single_file(file_paths, stitched_file)
-    `cat #{file_paths.join(' ')} > #{stitched_file}` 
+    `cat #{file_paths.join(' ')} > #{stitched_file}`
   end
 
 end

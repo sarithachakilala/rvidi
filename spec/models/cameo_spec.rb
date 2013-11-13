@@ -16,9 +16,8 @@ describe Cameo do
   it{ should validate_presence_of(:title)  }
 
   it "should create a valid factory" do
-    expect{
-      cameo = FactoryGirl.create :cameo
-    }.to change(Cameo, :count).by(1)
+    cameo = FactoryGirl.build :cameo
+    cameo.should be_valid
   end
 
 
