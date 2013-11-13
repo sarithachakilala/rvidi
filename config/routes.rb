@@ -50,11 +50,12 @@ Rvidi::Application.routes.draw do
   match "/hdfvr/jpg_encoder_download.php" => "home#save_snapshoot"
 
 
+  match 'file-render' => 'home#my_file', :as => :my_file
+  
   namespace(:web) {
     
     match 'video-player' => 'cameos#video_player', :as => :video_player
     match 'validate-video' => 'cameos#validate_video', :as => :validate_video
-    match 'file-render' => 'home#my_file', :as => :my_file
     
     resources :comments do
       collection do

@@ -28,6 +28,10 @@ class CameoFile < ActiveRecord::Base
     end
   end
 
+  def self.get_stream_name current_user, tstamp
+    "#{current_user.id}_#{tstamp}"
+  end
+
   def avconv_convert_from_avi_to_mpg(input_file, output_file)
     `avconv -i #{input_file} -qscale:v 1 #{output_file}` 
   end
@@ -36,4 +40,6 @@ class CameoFile < ActiveRecord::Base
     `cat #{file_paths.join(' ')} > #{stitched_file}` 
   end
 
+ 
+  
 end

@@ -31,6 +31,7 @@ module Web
       #Cameo.delete_old_flv_files
       @cameo = Cameo.new(:show_id => params[:show_id],
                          :director_id => params[:director_id], :user_id => current_user.id)
+      @cameo.build_file
 
       @show = Show.find(params[:show_id])
       @show_preference = @show.set_contributor_preference(current_user,
@@ -60,7 +61,7 @@ module Web
       respond_to do |format|
         if @cameo.save!
           @show = @cameo.show
-          # invite_friend(params[:selected_friends],  @show.id) if params[:selected_friends].present?
+          invite_friend(params[:selected_friends],  @show.id) if params[:selected_friends].present?
           format.html { redirect_to edit_web_cameo_path(@cameo), notice: 'Cameo was successfully Saved, Once you Publish your cameo it will added to the Show.'}
           format.js {}
           format.json { render json: @cameo, status: :created, location: @cameo }
@@ -194,8 +195,8 @@ module Web
       if params[:show].present? && params[:show][:cameos_attributes].present? && params[:show][:cameos_attributes]['0'][:video_file].present?
         file = params[:show][:cameos_attributes]['0'][:video_file]
         logger.debug "2"
-      elsif params[:cameo].present? && params[:cameo][:cameos].present? && params[:cameo][:cameos][:video_file].present?
-        file = params[:cameo][:cameos][:video_file]
+      elsif params[:cameo].present? && params[:cameo][:file_attributes].present?
+        file = params[:cameo][:file_attributes]
         logger.debug "3"
       end
 
@@ -208,12 +209,12 @@ module Web
         show = Show.new(params[:show])
         cameo_max_duration = show.get_max_cameo_duration current_user
       end
-      if duration <= cameo_max_duration && File.extname(file.original_filename) != ".flv"
-        Cameo.convert_file_to_flv(current_user, file, session[:timestamp])
-      else
-        session[:limit_reached] = true
-        Cameo.delete_uploaded_file(file)
-      end
+#      if duration <= cameo_max_duration && File.extname(file.original_filename) != ".flv"
+#        Cameo.convert_file_to_flv(current_user, file, session[:timestamp])
+#      else
+#        session[:limit_reached] = true
+#        Cameo.delete_uploaded_file(file)
+#      end
       logger.debug "4"
       session[:cameo_max_duration] = cameo_max_duration
       redirect_to web_video_player_path
@@ -226,10 +227,10 @@ module Web
       else
         if params[:cameo].present? && params[:cameo][:show_id].present?
           show = Show.find_by_id(params[:cameo][:show_id])
-          @cameo_max_duration = show.get_max_cameo_duration current_user
+          @cameo_max_duration = 2#show.get_max_cameo_duration current_user
         else
           show = current_user.shows.build params[:show]
-          @cameo_max_duration = show.get_max_cameo_duration current_user
+          @cameo_max_duration = 2 #show.get_max_cameo_duration current_user
         end
       end
       session[:type] = params[:type]

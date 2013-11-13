@@ -177,7 +177,7 @@ class Show < ActiveRecord::Base
     if new_record?
       remaining_duration = self.duration * 60
     else
-      remaining_duration = (self.duration) - (self.cameos.map(&:duration).compact.sum)
+      remaining_duration = 15 #(self.duration) - (self.cameos.map(&:duration).compact.sum)
     end
     return remaining_duration if user_id == current_user.id
     if cameo_duration < remaining_duration

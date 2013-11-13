@@ -1,0 +1,82 @@
+<div id="collapseTwo" class="accordion-body collapse in">
+  <div class="accordion-inner">
+
+    <div class="border-bottom-black margin-bottom-20"></div>
+
+    <!-- Display the recording options (Capture from Webcam or Upload Video file) -->
+    <div class="row-fluid margin-bottom-50">
+      <div class="span4 text_align_center cursor-pointer" id="camera-me">
+        <i class="sprite-camera-big"></i>
+        <div class="font_weight_bold">
+          Click here to record a video clip
+        </div>
+        <div> (60 seconds or less)</div>
+      </div>
+      <div class="span4 text_align_center">
+        <i class="sprite-or-icon_black"></i>
+      </div>
+
+      <div class="span4 text_align_center video-player-text" style="cursor:pointer;">
+        <div class="font_weight_bold">
+          Upload clip from your computer
+        </div><br />
+        <!-- <a class="btn btn-info " href="#">Choose</a> -->
+        <%= f.hidden_field :user_id, :value => current_user.id,
+          :class => "show-cameo-user-id" %>
+        <%= f.hidden_field :director_id, :value => current_user.id,
+          :class => "show-cameo-director-id" %>
+        <%= f.hidden_field :status, :value => "enabled", :class => "show-cameo-status" %>
+        <%= hidden_field_tag 'tstamp', @tstamp %>
+        <%= f.fields_for :file do |file| %>
+          <div class="">
+            <label for="fileToUpload" style="" class="label-upload-file">
+              <%= t('user_profile.upload_image') %>
+            </label>
+            <div style="position:absolute;left:-999px;">
+              <%= file.file_field :path, :style => 'width:250px;', :id => 'fileToUpload' %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+
+    <!-- Video Recorder -->
+
+    <div id="div_record_video_holder" class="hide" style="width:800px; margin:0px auto;">
+      <iframe src="<%= web_video_player_path(:type => 'RECORD') %>" frameborder="0" scrolling="no" name="iframe-video-container" class="iframe-video-container"></iframe>
+    </div>
+  </div>
+</div>
+
+<% content_for :js_with_script_tags do %>
+  <script type="text/javascript">
+    $(document).on('click', '#camera-me', function(event) {
+
+      // Show the SWF Recorder
+      //$('#div_record_video_holder').toggle();
+      //$(this).closest('form').attr('action', '<%#= j web_video_player_path(:type => 'RECORD') %>');
+      //$(this).closest('form').removeClass('js-validated-form');
+      //$(this).closest('form').submit();
+      //return event.preventDefault();
+    });
+
+   // $(document).on('change', '#fileToUpload', function(e) {
+      //e.preventDefault();
+      //var status = check_file();
+     // if(status) {
+        //$('#div_record_video_holder').show();
+       // $(this).closest('form').attr('action', '<%#= j web_validate_video_path %>');
+       // $(this).closest('form').removeClass('js-validated-form');
+       // $(this).closest('form').submit();
+      //}
+
+    //});
+
+    //$(document).on('click', '.video-player-text', function(){
+      //$('#div_record_video_holder').toggle();
+      //$(this).closest('form').attr('action', '<%#= j web_video_player_path %>');
+     //$(this).closest('form').removeClass('js-validated-form');
+     //$(this).closest('form').submit();
+    //});
+  </script>
+<% end %>

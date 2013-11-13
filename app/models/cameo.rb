@@ -23,7 +23,8 @@ class Cameo < ActiveRecord::Base
   belongs_to :director, :class_name => "User", :foreign_key => "director_id"
 
   has_one :file, class_name: "CameoFile"
-  accepts_nested_attributes_for :file
+  accepts_nested_attributes_for :file, :allow_destroy => true,
+                                :reject_if => proc {|file| file['path'].blank?}
 
   after_initialize :set_flags
   before_validation :auto_enable, on: :create
