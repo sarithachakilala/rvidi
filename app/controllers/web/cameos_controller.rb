@@ -28,13 +28,13 @@ module Web
     def new
       session[:timestamp] = nil
       session[:timestamp] = Time.now.to_i
-      Cameo.delete_old_flv_files
+      #Cameo.delete_old_flv_files
       @cameo = Cameo.new(:show_id => params[:show_id],
-        :director_id => params[:director_id])
+                         :director_id => params[:director_id], :user_id => current_user.id)
 
       @show = Show.find(params[:show_id])
       @show_preference = @show.set_contributor_preference(current_user,
-        session[:contribution_preference])
+                                                          session[:contribution_preference])
 
       @contribution_preference = params[:preference].present? ? params[:preference] : @show.contributor_preferences
 

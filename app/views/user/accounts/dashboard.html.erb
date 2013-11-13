@@ -44,7 +44,8 @@
               <div class="carousel-caption">
                 <div class="row-fluid">
                   <div class="span6">
-                    <% thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
+                    <% thumbnail = "/assets/photo_background_2916660.jpeg" %>
+                    <%# thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
                     <%= link_to "<img alt='300x200' src='#{thumbnail}' style= 'padding-left:60px;' class='thumbnail_image_widht'>".html_safe,
                                 web_show_path(show) %>
                   </div>

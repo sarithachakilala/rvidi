@@ -86,37 +86,53 @@ class Show < ActiveRecord::Base
     save
   end
 
+  def steam_download_path
+    if Rails.env == 'development'
+      File.join(Rails.root, 'tmp', 'downloaded_streams')
+    else
+      "/var/www/apps/rvidi/shared/streams/downloaded_streams"
+    end
+  end
 
-  # TODO  move the wget, avconv to a library and Test it
   def download_complete_show(client, ks)
     cameo = Cameo.new
-    val = []
+    file_paths = []
     timestamp = Time.now.to_i
-    cameos.each do |each_cameo|
+    cameos.each do |cameo|
       # this is to be moved to CameoFile
-      `wget -O "#{steam_download_path}/#{each_cameo.id}_#{timestamp}.avi" "#{each_cameo.download_url}"` #downloading each cameo
-      `avconv -i "#{steam_download_path}/#{each_cameo.id}_#{timestamp}.avi" -qscale:v 1 "#{steam_download_path}/#{each_cameo.id}_#{timestamp}".mpg`   #for processing the input stream
-      val << "#{steam_download_path}/#{each_cameo.id}_#{timestamp}.mpg"
-      logger.debug "********* #{each_cameo.id} ************"
+      from_file = cameo.download_url
+      to_file = "#{steam_download_path}/#{cameo.id}_#{timestamp}.avi"
+      CameoFile.wget_download(from_file, to_file)
+      
+      input_file = "#{steam_download_path}/#{cameo.id}_#{timestamp}.avi"
+      output_file = "#{steam_download_path}/#{cameo.id}_#{timestamp}.mpg"
+      
+      CameoFile.avconv_convert_from_avi_to_mpg(input_file, output_file)
+      file_paths << output_file
+      
       #File.delete("#{steam_download_path}.avi")  if File.exists?("#{steam_download_path}.avi")
       #File.delete("#{steam_download_path}.mpg")  if File.exists?("#{steam_download_path}.mpg")
     end
 
-    `cat #{val.join(' ')} > "#{steam_download_path}/show_#{id}_#{timestamp}.mpg"`  #concatinating the cameos
-    push_stitched_video_to_kaltura(id, timestamp, client, ks, cameo)
+    stitched_file = "#{steam_download_path}/show_#{id}_#{timestamp}.mpg"
+    CameoFile.concatinate_files_to_single_file(file_paths, stitched_file)
   end
- 
+
+  def current_user_is_a_director?(current_user)
+    current_user == director
+  end
+  
+  def current_user_is_a_friend_of_director?(current_user)
+    current_user.present? && current_user.is_friend?(director)
+  end
 
   # Refactoring with test justification
   def set_display_preference(current_user, display_preference)
 
-    if current_user == director
-      is_director = true
-    elsif current_user.present? && current_user.is_friend?(director)
-      is_friend = true
-    else
-      is_friend = false
-    end
+    # current_user is director OR
+    # current_user is a friend of director
+    is_director = current_user_is_a_director?(current_user)
+    is_friend = current_user_is_a_friend_of_director?(current_user)
 
     return true if self.display_preferences == Show::Display_Preferences::PUBLIC || is_director
     if self.display_preferences == Show::Display_Preferences::PRIVATE && is_friend
@@ -135,13 +151,10 @@ class Show < ActiveRecord::Base
   # Refactoring with test justifiction
   def set_contributor_preference(current_user, contributor_preference)
 
-    if current_user == director
-      is_director = true
-    elsif current_user.present? && current_user.is_friend?(director)
-      is_friend = true
-    else
-      is_friend = false
-    end
+    # current_user is director OR
+    # current_user is a friend of director
+    is_director = current_user_is_a_director?(current_user)
+    is_friend = current_user_is_a_friend_of_director?(current_user)
 
     return true if self.contributor_preferences == Show::Contributor_Preferences::PUBLIC || is_director
     if self.contributor_preferences == Show::Contributor_Preferences::PRIVATE && is_friend
@@ -156,8 +169,6 @@ class Show < ActiveRecord::Base
       Show::Contributor_Preferences::NOT_AUTHENTICATED
     end
   end
-
-
 
   # Refactoring with test justification
   # it shoueld return only active cameos dration if this conditions

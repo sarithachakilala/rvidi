@@ -307,3 +307,4 @@ def download_video?(current_user)
     false
   end
 end
+

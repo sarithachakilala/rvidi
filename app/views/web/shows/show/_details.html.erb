@@ -10,16 +10,7 @@
         <i class= "<%= video_icon %>"></i> 
       </div>
       <!-- To Download complete show -->
-      <% if show.download_video?(current_user) %>
-        <div class="span2">
-  <%# if show.download_url.present? %>
-          <%= link_to "<i class='downloadsprite-dorrange'></i>".html_safe,
-            show.download_url, :title => 'download' %>
-  <%# else %>
-  <%#= "Downloading is not Successful" %>
-  <%# end %>
-        </div>
-      <% end %>
+      
       <div class="span2 ratings_line">
         <%= show.number_of_views %> views
       </div>
@@ -100,22 +91,22 @@ Thanks for taking time to view my video creation!
             <div class="border-bottom-black"></div>
             <div id="show_<%= show.id %>_show_comments_div"
                  class='show-comments-container'>
-              <%= render :partial => "web/comments/show_comments_list",
-                         :locals => { :show_comments => show_comments,
-                                      :all_comments => all_comments, :show => show } %>
+                   <%= render :partial => "web/comments/show_comments_list",
+                     :locals => { :show_comments => show_comments,
+                     :all_comments => all_comments, :show => show } %>
             </div>
 
             <div class="span">
               <% if current_user.present? %>
-                <%= link_to "Add Comment", new_web_comment_path(:show_id => show.id), 
-                            :class => "btn btn-primary pull-right margin-right-10 ",
-                            :remote => true %>
+                <%= link_to "Add Comment", new_web_comment_path(:show_id => show.id),
+                  :class => "btn btn-primary pull-right margin-right-10 ",
+                  :remote => true %>
                 <div class="cl"></div>
                 <div id="show_<%= show.id %>_add_comments_div"></div>
               <% else %>
                 <%= link_to "Sign In", user_sign_in_path %> Or
                 <%= link_to "Join", user_sign_up_path(:from_id => params[:from_id],
-                                                      :email=> params[:email]) %>
+                  :email=> params[:email]) %>
                 to add a comment
               <% end %>
             </div>

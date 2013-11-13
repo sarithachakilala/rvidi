@@ -1,7 +1,8 @@
 <li class="thumbnail_fivegroup" style="">
   <div class="thumbnail">
     <div class="triangle-with-shadow item">  
-      <% thumbnail = cameo.present? ? cameo.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
+      <% thumbnail = "/assets/photo_background_2916660.jpeg" %>
+      <%# thumbnail = cameo.present? ? cameo.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
       <%= link_to "<img class='thumbnail_image_widht_five' src='#{thumbnail}' alt='300x200'><span class='play'></span>".html_safe,
         web_cameo_path(:id => cameo.id) %>
     </div>

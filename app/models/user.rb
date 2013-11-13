@@ -183,7 +183,7 @@ class User < ActiveRecord::Base
   end
 
   def is_friend?(director)
-    FriendMapping.is_my_friend?(self, director).first
+    FriendMapping.exists?(["user_id = ? AND friend_id = ? ", id, director.id])
   end
 
 end

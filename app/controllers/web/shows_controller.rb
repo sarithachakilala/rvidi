@@ -68,7 +68,7 @@ module Web
       ## This helps the create action to find the exact file uploaded by the user, (doesn't matter if 2 or more users are recording concurrently.)
       session[:timestamp] = nil
       session[:timestamp] = Time.now.to_i
-      Cameo.delete_old_flv_files
+      #Cameo.delete_old_flv_files
       ## Get the object.
       @show = current_user.shows.build(:display_preferences => "private", :contributor_preferences => "private")
 
