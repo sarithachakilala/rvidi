@@ -9,8 +9,8 @@
                           :locals => { :f => f, :title=>"Show Details" } %>
 
   <!-- Record the Opening Cameo (White Box) -->
-  <% render :partial => "web/shows/form/record_cameo_block",
-                         :locals => { :f => f, :title=>"Record the Opening Cameo" } %>
+  <%= render :partial => "web/shows/form/record_cameo_block",
+                         :locals => { :f => f, :title => "Record the Opening Cameo" } %>
 
   <!-- Invite Friends from Facebook and Twitter (White Box) -->
   <%  render :partial=> "web/shows/form/invite_friends_block", :locals =>{ :f => f } %>

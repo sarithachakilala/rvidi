@@ -70,10 +70,12 @@ module Web
       session[:timestamp] = Time.now.to_i
       #Cameo.delete_old_flv_files
       ## Get the object.
-      @show = current_user.shows.build(:display_preferences => "private", :contributor_preferences => "private")
+      @show = current_user.shows.build(:display_preferences => "private",
+                                       :contributor_preferences => "private")
 
-      ## Buidling the cameo
-      @cameo = @show.cameos.build
+      ## Buidling a cameo and cameo_file
+      cameo = @show.cameos.build
+      cameo.build_file
 
       ## Get the friend list
       @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
@@ -85,10 +87,11 @@ module Web
     end
 
     def create
-      @show = Show.new(params[:show])
+      @show = current_user.shows.build(params[:show])
       @show.duration = @show.duration.to_i
-
-      if @show.save
+      
+      if @show.save!
+        
         @success = true
       else
         #show error message

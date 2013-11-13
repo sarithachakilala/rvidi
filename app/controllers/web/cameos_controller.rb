@@ -30,12 +30,12 @@ module Web
       session[:timestamp] = Time.now.to_i
       #Cameo.delete_old_flv_files
       @cameo = Cameo.new(:show_id => params[:show_id],
-                         :director_id => params[:director_id], :user_id => current_user.id)
+        :director_id => params[:director_id], :user_id => current_user.id)
       @cameo.build_file
 
       @show = Show.find(params[:show_id])
       @show_preference = @show.set_contributor_preference(current_user,
-                                                          session[:contribution_preference])
+        session[:contribution_preference])
 
       @contribution_preference = params[:preference].present? ? params[:preference] : @show.contributor_preferences
 
@@ -55,13 +55,17 @@ module Web
       # To find the contributed users.
       @cameo = Cameo.new( params[:cameo] )
       @cameo.published_status = "save_cameo"
+      
 
       # @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
 
       respond_to do |format|
         if @cameo.save!
+          logger.debug "*******"
+          logger.debug @cameo.file.file.inspect
+          logger.debug "*******"
           @show = @cameo.show
-          invite_friend(params[:selected_friends],  @show.id) if params[:selected_friends].present?
+          #invite_friend(params[:selected_friends],  @show.id) if params[:selected_friends].present?
           format.html { redirect_to edit_web_cameo_path(@cameo), notice: 'Cameo was successfully Saved, Once you Publish your cameo it will added to the Show.'}
           format.js {}
           format.json { render json: @cameo, status: :created, location: @cameo }
@@ -79,8 +83,8 @@ module Web
       @cameo_duration = CameoFile.get_file_duration("#{@cameo.id}.avi")
       @show = @cameo.show
       if @show.cameos.present?
-#        array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
-#        @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
+        #        array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
+        #        @sum_duration_of_cameos = array_of_cameo_duration.compact.inject{|sum,x| sum + x }
         @sum_duration_of_cameos = 0
       end
       @remaining_contribution = @show.duration.to_f - @sum_duration_of_cameos.to_f
@@ -155,8 +159,8 @@ module Web
         @contribution_prefernce = "checked"
         session[:contribution_preference] = "checked"
         redirect_to new_web_cameo_path(:preference => @contribution_prefernce,
-                                       :show_id => params[:show_id],
-                                       :director_id => @show.user_id)
+          :show_id => params[:show_id],
+          :director_id => @show.user_id)
       else
         redirect_to new_web_cameo_path(:show_id => params[:show_id],
           :director_id => @show.user_id),
@@ -209,12 +213,12 @@ module Web
         show = Show.new(params[:show])
         cameo_max_duration = show.get_max_cameo_duration current_user
       end
-#      if duration <= cameo_max_duration && File.extname(file.original_filename) != ".flv"
-#        Cameo.convert_file_to_flv(current_user, file, session[:timestamp])
-#      else
-#        session[:limit_reached] = true
-#        Cameo.delete_uploaded_file(file)
-#      end
+      #      if duration <= cameo_max_duration && File.extname(file.original_filename) != ".flv"
+      #        Cameo.convert_file_to_flv(current_user, file, session[:timestamp])
+      #      else
+      #        session[:limit_reached] = true
+      #        Cameo.delete_uploaded_file(file)
+      #      end
       logger.debug "4"
       session[:cameo_max_duration] = cameo_max_duration
       redirect_to web_video_player_path

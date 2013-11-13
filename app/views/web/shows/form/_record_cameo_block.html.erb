@@ -1,25 +1,41 @@
 <div class="white-transparent-box accordion" id="accordion2">
   <div class="accordion-group plus-minus-container">
     <div class="accordion-heading">
-      
+
       <div class="accordion-toggle changeable-plus-minus" data-toggle="collapse"
            data-parent="#accordion2" href="#collapseTwo">
-        
+
         <!-- Heading -->
         <%= content_tag :h2, title, :class=>"pull-left" %>
-        
+
         <!-- Toggle Icon -->
         <i class="sprite-minus-small plus-minus-i pull-right margin-top-10"> </i>
-        
+
         <div class="cl"></div>
-        
+
       </div>
     </div>
-    
+
     <!-- Rendering the form fields -->
     <%= f.fields_for :cameos do |cameo_builder| %>
+
+      <%= cameo_builder.hidden_field :user_id, :value => current_user.id,
+        :class => "show-cameo-user-id" %>
+      <%= cameo_builder.hidden_field :director_id, :value => current_user.id,
+        :class => "show-cameo-director-id" %>
+      <%= cameo_builder.hidden_field :status, :value => "enabled",
+        :class => "show-cameo-status" %>
+
+      <label for="inputPassword" class="control-label  blue_label">
+        Give your cameo a title
+      </label>
+      <div class="controls">
+        <%= cameo_builder.text_field :title, :placeholder => 'Give your cameo a title',
+          :class => 'show-show-tag' %>
+      </div>
+
       <%= render :partial => "web/shows/player/record_or_upload",
-                 :locals => { :cameo_builder => cameo_builder } %>
+        :locals => { :cameo_builder => cameo_builder } %>
     <% end %>
   </div>
 </div>

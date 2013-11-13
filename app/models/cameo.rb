@@ -24,13 +24,17 @@ class Cameo < ActiveRecord::Base
 
   has_one :file, class_name: "CameoFile"
   accepts_nested_attributes_for :file, :allow_destroy => true,
-                                :reject_if => proc {|file| file['path'].blank?}
+                                :reject_if => proc {|file| file['file'].blank?}
 
   after_initialize :set_flags
   before_validation :auto_enable, on: :create
 
   # Validations
-  validates :show_id, :presence => true, :numericality => true
+  validates :show_id, 
+            :presence => true,
+            :numericality => true,
+            :if => proc {|cameo| cameo.show_id.present? }
+
   validates :director_id, :presence => true, :numericality => true
   validates :user_id, :presence => true, :numericality => true
   validates :status, :presence => true,

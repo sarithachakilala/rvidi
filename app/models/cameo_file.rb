@@ -1,5 +1,7 @@
 class CameoFile < ActiveRecord::Base
 
+  attr_accessible :file
+  
   belongs_to :cameo
 
   #Gem Related

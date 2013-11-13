@@ -23,17 +23,18 @@ class Show < ActiveRecord::Base
   end
 
   attr_accessible :user_id, :title, :description, :display_preferences,
-    :display_preferences_password, :contributor_preferences,
-    :contributor_preferences_password, :need_review,
-    :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
-    :download_preference, :download_url, :cameo_duration
+                  :display_preferences_password, :contributor_preferences,
+                  :contributor_preferences_password, :need_review,
+                  :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
+                  :download_preference, :download_url, :cameo_duration
 
   after_create :create_permalink
 
   # Associations
   belongs_to :director, :class_name => "User", :foreign_key => "user_id"
   has_many :cameos, :dependent => :destroy
-  accepts_nested_attributes_for :cameos
+  accepts_nested_attributes_for :cameos, :allow_destroy => true
+
   has_many :comments, :dependent => :destroy
   has_many :notifications, :dependent => :destroy
   has_many :invite_friends, :dependent => :destroy
