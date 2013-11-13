@@ -20,3 +20,5 @@
 /public/uploads/
 config/database.yml
 .ruby-*
+spec/uploads/videos/cameo_file
+spec/uploads/videos/tmp

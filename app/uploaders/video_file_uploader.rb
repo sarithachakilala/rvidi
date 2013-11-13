@@ -4,6 +4,18 @@ class VideoFileUploader < CarrierWave::Uploader::Base
   include CarrierWave::Video
   include CarrierWave::Video::Thumbnailer
 
+
+  before :cache, :save_original_filename
+
+  def save_original_filename(file)
+    model.original_filename ||= file.original_filename if file.respond_to?(:original_filename)
+  end
+
+
+  def filename
+     "#{secure_token(20)}.#{file.extension}" if original_filename.present?
+  end
+
   version :thumb do
     process thumbnail: [{format: 'png', quality: 10, size: 192, strip: true, logger: Rails.logger}]
     def full_filename for_file
@@ -40,6 +52,13 @@ class VideoFileUploader < CarrierWave::Uploader::Base
     "#{Rails.root}/#{primary_folder}videos/tmp"
   end
 
+
+  protected
+
+    def secure_token(length=16)
+      var = :"@#{mounted_as}_secure_token"
+      model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
+    end
 
 
 

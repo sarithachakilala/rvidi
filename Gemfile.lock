@@ -353,6 +353,7 @@ DEPENDENCIES
   linkedin!
   minitest (= 4.7.4)
   multi_json (= 1.7.2)
+  net-ssh
   nokogiri
   omniauth-facebook (= 1.4.0)
   omniauth-twitter

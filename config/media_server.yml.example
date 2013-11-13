@@ -1,0 +1,16 @@
+development:
+  host: localhost
+  folder: /Library/WowzaMediaServer-3.6.3/content
+
+test:
+  host: localhost
+  folder: /Library/WowzaMediaServer-3.6.3/content
+
+staging:
+
+demo:
+
+production:
+  host: server???
+  folder: folder????
+
