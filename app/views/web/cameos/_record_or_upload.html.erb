@@ -30,7 +30,7 @@
         <%= f.fields_for :file do |file| %>
           <div class="">
             <label for="fileToUpload" style="" class="label-upload-file">
-              <%= t('user_profile.upload_image') %>
+              Upload File
             </label>
             <div style="position:absolute;left:-999px;">
               <%= file.file_field :file, :style => 'width:250px;', :id => 'fileToUpload' %>

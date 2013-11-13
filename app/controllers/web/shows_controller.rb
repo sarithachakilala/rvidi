@@ -89,17 +89,10 @@ module Web
     def create
       @show = current_user.shows.build(params[:show])
       @show.duration = @show.duration.to_i
-      
-      if @show.save!
-        
-        @success = true
-      else
-        #show error message
-        @success = false
-      end
-
       respond_to do |format|
-        if @success
+        if @show.valid?
+
+          @show.save
           # invite_friend(params[:selected_friends]) if params[:selected_friends].present?
           # invite_friend_toshow_after_create(params[:email], @show) if params[:email].present?
           format.html { redirect_to web_show_path(@show),
@@ -107,6 +100,12 @@ module Web
           format.js {}
           format.json { render json: @show, status: :created, location: @show }
         else
+          
+          ## Buidling a cameo and cameo_file
+          @show.cameos = []
+          cameo = @show.cameos.build
+          cameo.build_file
+          
           p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
           format.html { render 'new'}
           format.js {}

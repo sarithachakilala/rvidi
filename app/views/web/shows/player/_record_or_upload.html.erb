@@ -24,7 +24,7 @@
         <%= cameo_builder.fields_for :file do |file| %>
           <div class="">
             <label for="fileToUpload" style="" class="label-upload-file">
-              <%= t('user_profile.upload_image') %>
+             Upload File
             </label>
             <div style="position:absolute;left:-999px;">
               <%= file.file_field :file, :style => 'width:250px;', :id => 'fileToUpload' %>
@@ -49,9 +49,9 @@
 
       // Show the SWF Recorder
       $('#div_record_video_holder').toggle();
-      $(this).closest('form').attr('action', '<%= j web_video_player_path(:type => 'RECORD') %>');
-      $(this).closest('form').removeClass('js-validated-form');
-      $(this).closest('form').submit();
+      //$(this).closest('form').attr('action', '<%#= j web_video_player_path(:type => 'RECORD') %>');
+      //$(this).closest('form').removeClass('js-validated-form');
+      //$(this).closest('form').submit();
       //return event.preventDefault();
     });
 
@@ -59,19 +59,19 @@
       e.preventDefault();
       var status = check_file();
       if(status) {
-        $('#div_record_video_holder').show();
-        $(this).closest('form').attr('action', '<%= j web_validate_video_path %>');
-        $(this).closest('form').removeClass('js-validated-form');
+        //$('#div_record_video_holder').show();
+        //$(this).closest('form').attr('action', '<%#= j web_validate_video_path %>');
+      //  $(this).closest('form').removeClass('js-validated-form');
         $(this).closest('form').submit();
       }
 
-    });
+    //});
 
     $(document).on('click', '.video-player-text', function(){
-      $('#div_record_video_holder').toggle();
-      $(this).closest('form').attr('action', '<%= j web_video_player_path %>');
-      $(this).closest('form').removeClass('js-validated-form');
-      $(this).closest('form').submit();
+      //$('#div_record_video_holder').toggle();
+      //$(this).closest('form').attr('action', '<%#= j web_video_player_path %>');
+     // $(this).closest('form').removeClass('js-validated-form');
+      //$(this).closest('form').submit();
     });
   </script>
 <% end %>

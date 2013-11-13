@@ -80,7 +80,7 @@ module Web
 
     def edit
       @cameo = Cameo.find(params[:id])
-      @cameo_duration = CameoFile.get_file_duration("#{@cameo.id}.avi")
+      #@cameo_duration = CameoFile.get_file_duration("#{@cameo.id}.avi")
       @show = @cameo.show
       if @show.cameos.present?
         #        array_of_cameo_duration = @show.cameos.where(:status => "enabled", :published_status => "published").collect(&:duration)
