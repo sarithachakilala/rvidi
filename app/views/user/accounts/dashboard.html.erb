@@ -1,6 +1,6 @@
 <div class="login_container" style = "padding-top:18px;">
   <div class="row-fluid">
-    <div class="span1"> 
+    <div class="span1">
       <div class="">
         <% if @user.image? %>
           <%= image_tag @user.image_url, :class => "friend_image"  %>
@@ -44,10 +44,7 @@
               <div class="carousel-caption">
                 <div class="row-fluid">
                   <div class="span6">
-                    <% thumbnail = "/assets/photo_background_2916660.jpeg" %>
-                    <%# thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
-                    <%= link_to "<img alt='300x200' src='#{thumbnail}' style= 'padding-left:60px;' class='thumbnail_image_widht'>".html_safe,
-                                web_show_path(show) %>
+                    <%= link_to image_tag(show.cameos.first.thumbnail_url, :atl => "300x200", :style => 'padding-left:60px;', :class => 'thumbnail_image_widht' ), web_show_path(show) %>
                   </div>
                   <div class="span1"></div>
                   <div class="span5">
@@ -86,8 +83,8 @@
 </div>
 
 <div class="row-fluid">
-  <div style="padding-left: 20px;" class="span12"> 
-    <div class="tabbable"> 
+  <div style="padding-left: 20px;" class="span12">
+    <div class="tabbable">
       <ul class="nav nav-tabs" style="padding-left:17px;">
         <li class="active"><a data-toggle="tab" href="#tab1">My Shows</a></li>
         <li><a data-toggle="tab" href="#tab2">My Cameos</a></li>
@@ -133,7 +130,7 @@
         </div>
 
         <div id="tab2" class="tab-pane tab-changeable" style="padding-bottom:40px;">
-          <div class="span text_align_right"> 
+          <div class="span text_align_right">
             <%= link_to "", "javascript:void(0);", :class => "sprite-list-icon-lite display_formats active",
               :id => "cameosthumb" %>
             <%= link_to "", "javascript:void(0);", :class => "sprite-details-icon-lite display_formats", :id => "cameoslist" %>
@@ -269,8 +266,8 @@
       </div>
     </div>
     <div class="span3 text_align_center"></div>
-    <div class="hr_bg_welcome"> 
-      <div class="text_align_center login_and_account"> 
+    <div class="hr_bg_welcome">
+      <div class="text_align_center login_and_account">
         <%= link_to "<i class='sprite-camera-white'></i>Start a new show".html_safe,
                     new_web_show_path, :class => "btn btn-warning" %>
       </div>
