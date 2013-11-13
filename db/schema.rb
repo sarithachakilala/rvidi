@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131113063039) do
+ActiveRecord::Schema.define(:version => 20131113085501) do
 
   create_table "apis", :force => true do |t|
     t.string   "name"
@@ -52,9 +52,10 @@ ActiveRecord::Schema.define(:version => 20131113063039) do
     t.integer  "height"
     t.integer  "bit_rate"
     t.boolean  "success"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.string   "file"
+    t.string   "original_filename"
   end
 
   create_table "cameos", :force => true do |t|

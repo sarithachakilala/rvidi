@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Show do
   # pending "add some examples to (or delete) #{__FILE__}"
 
-  before(:all) do    
+  before(:all) do
     User.destroy_all
   end
 
@@ -22,10 +22,12 @@ describe Show do
   it{ should have_many(:cameos) }
   it{ should have_many(:comments) }
 
-  context "Class Methods" do
-  end
 
-  context "Instance Methods" do
+  describe  "create single show" do
+    @pending
+    it "should concatenate all videos in one single long show" do
+
+    end
   end
 
 end

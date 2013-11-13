@@ -33,6 +33,7 @@ gem "bcrypt-ruby", :require => "bcrypt"              # To encrpty the user passw
 #video libs
 gem 'carrierwave-video'
 gem 'carrierwave-video-thumbnailer'
+gem 'net-ssh'
 
 # Gems used only for assets and not required
 # in production environments by default.
