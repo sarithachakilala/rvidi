@@ -1,17 +1,3 @@
-<% content_for :js_with_script_tags do %>
-  <script type="text/javascript">
-    $(function() {
-      // set up player without "internal" playlists
-      $f("player2", "http://releases.flowplayer.org/swf/flowplayer-3.2.16.swf", {
-        clip: {baseUrl: "<%= root_url %>" }
-
-
-        // use playlist plugin. again loop is true
-      }).playlist("div.petrol", {loop:true});
-    });
-  </script>
-<% end %>
-
 <!-- player container and a splash image (play button) -->
 <div class="row-fluid">
   <div class="span7" style="width: 500px; height:350px;">
@@ -32,7 +18,7 @@
             </div>
             <div style="height:25px;">
               <%= link_to "<i class='sprite-into-icon'></i>".html_safe,
-                          web_cameo_path(cameo),
+                web_cameo_path(cameo),
                 :class => 'not-playlist',
                 :method => :delete,
                 :confirm => "Are you sure to remove this Cameo?",
@@ -43,11 +29,11 @@
           <div style="float:left; width:220px;">
             <a href="<%= "#{configatron.site_address_full}/assets/video_#{index + 1}.flv" %>"
                class="pl-entry">
-              <%# thumbnail = cameo.thumbnail_url.present? ? cameo.thumbnail_url : "/assets/default_image.png"  %>
-              <%#= image_tag thumbnail, :class => "pull-left margin-right-10 height-40" %>
-              <%= cameo.title %>
-              <span>HTTP streaming</span>
-              <em>0:20 min</em>
+  <%# thumbnail = cameo.thumbnail_url.present? ? cameo.thumbnail_url : "/assets/default_image.png"  %>
+  <%#= image_tag thumbnail, :class => "pull-left margin-right-10 height-40" %>
+                 <%= cameo.title %>
+              <!--<span>HTTP streaming</span>
+              <em>0:20 min</em> -->
             </a>
           </div>
           <div style="float: left">
@@ -60,7 +46,11 @@
 
 </div>
 
-<!-- configure entries inside playlist using standard HTML -->
+<% content_for :js_with_script_tags do %>
+  <script type="text/javascript">
+    wowzaStreamingServerPlaylist();
+  </script>
+<% end %>
 
 
 

@@ -14,8 +14,8 @@
         <a href="<%= cameo.file.media_server.rtmp_streaming_url %>"
            class="first pl-entry">
           <%= cameo.title %>
-          <span>HTTP streaming</span>
-          <em>0:20 min</em>
+          <!--<span>HTTP streaming</span>
+          <em>0:20 min</em> -->
         </a>
       <% end %>
     </div>
@@ -28,26 +28,6 @@
 
 <% content_for :js_with_script_tags do %>
   <script type="text/javascript">
-    $(function() {
-      // set up player without "internal" playlists
-      $f("player2", "http://releases.flowplayer.org/swf/flowplayer-3.2.16.swf", {
-        // common configuration for each clip
-        clip: {
-
-          // each clip uses the rtmp provider
-          provider: 'rtmp',
-          autoplay: true
-        },
-        plugins: {
-          rtmp: {
-            url: "flowplayer.rtmp-3.2.12.swf",
-            netConnectionUrl: 'rtmp://localhost/vod'
-          }
-        }
-
-
-        // use playlist plugin. again loop is true
-      }).playlist("div.petrol", {loop:true});
-    });
+   wowzaStreamingServerPlaylist();
   </script>
 <% end %>

@@ -1,5 +1,4 @@
 <div id="collapseTwo" class="accordion-body collapse in">
-
   <div class="accordion-inner">
 
     <div class="border-bottom-black"></div>
@@ -19,88 +18,82 @@
           <!-- <img src="/assets/video_img.png" alt=""> -->
           <% if params[:controller] == 'web/shows' && params[:action] == 'show' %>
             <%= render :partial => "web/shows/player/rvidi_playlist",
-                       :locals => { :cameo => selected_cameo,
-                                    :height =>"360px",
-                                    :width => "100%" } %>
+              :locals => { :cameo => selected_cameo,
+              :height =>"360px",
+              :width => "100%" } %>
           <% else %>
             <%= render :partial => "web/shows/player/director_playlist",
-                       :locals => { :cameo => selected_cameo, :show => @show,
-                       :height =>"360px", :width => "100%" } %>
+              :locals => { :cameo => selected_cameo, :show => @show,
+              :height =>"360px", :width => "100%" } %>
           <% end %>
         </div>
 
-        <%#*<div class="span5" style="height:360px;overflow:auto;">%>
-          <%#= render :partial=>"shows/player/cameo_contributors", :locals=> {:show => @show, :selected_cameo=>selected_cameo} %>
-        <%#*</div>%>
+  <%#*<div class="span5" style="height:360px;overflow:auto;">%>
+  <%#= render :partial=>"shows/player/cameo_contributors", :locals=> {:show => @show, :selected_cameo=>selected_cameo} %>
+  <%#*</div>%>
 
         <!-- Clipping Sider -->
-        <div class ="row-fluid" style="margin-top: 8px;">
+        <!--<div class ="row-fluid" style="margin-top: 8px;">
           <div class="video-clipping-slider">
-            <%= render :partial => 'web/shows/player/video_clipping_slider',
-              :locals => { :cameo => selected_cameo} %>
+  <%#= render :partial => 'web/shows/player/video_clipping_slider',
+  :locals => { :cameo => selected_cameo} %>
           </div>
           <div class="span2">
             <button class="btn btn-warning clip_video">Clip Video</button>
           </div>
-          <%= hidden_field_tag 'cameo_start_time', 0 %>
-          <%#= hidden_field_tag 'cameo_end_time', selected_cameo.duration %>
-          <%= hidden_field_tag 'selected_cameo', selected_cameo.id %>
-        </div>
-
-
-
-        <div class="">
-
-        </div>
+  <%#= hidden_field_tag 'cameo_start_time', 0 %>
+  <%#= hidden_field_tag 'cameo_end_time', selected_cameo.duration %>
+  <%#= hidden_field_tag 'selected_cameo', selected_cameo.id %>
+        </div> -->
         <!-- Ends -->
       <% end -%>
 
     </div>
-    <div class="row-fluid">
+  <!---  <div class="row-fluid">
       <div class="cl-10"></div>
 
-      <% @contribution_percentage = @contribution_percentage.present? ? @contribution_percentage : 0%>
+      <%# @contribution_percentage = @contribution_percentage.present? ? @contribution_percentage : 0 %>
 
       <div class="span2">
         <div class="progress progress-striped">
-          <div class="bar" style="width:<%= @contribution_percentage %>%;"></div>
-               </div>
-               </div>
-               <div class="span1 font_weight_bold"><%= @contribution_percentage.round(2)%>%</div>
-
-               <% if @show.end_set.present? && @show.enable_download.present? %>
-                 <div class="row-fluid">
-                <div class="span1">
-                  <%= link_to "<i class='downloadsprite-dorrange'></i>".html_safe,
-                              @show.download_url, :title => 'download' %>
-                </div>
-              </div>
-            <% end %>
-
-            <div class="span12">
-              <%= content_tag :div, @show.description, :class=>"edit_contributor_text" %>
-            </div>
-          </div>
+          <div class="bar" style="width:<%#= "#{@contribution_percentage}%" %>;"></div>
         </div>
       </div>
-    </div>
+      <div class="span1 font_weight_bold"><%#= "#{@contribution_percentage.round(2)}%"%>
+      </div>
 
-    <% content_for :js_with_script_tags do %>
-      <script type="text/javascript">
-        jQuery(document).ready(function($){
-          $( "#slider-range" ).slider({
-            range: true,
-            min: 0,
-            max: <%= "5" %>,
-            values: [ 0, 1 ],
-            slide: function( event, ui ) {
-              $( "#slider-range-value" ).text( ui.values[ 0 ] + " to " + ui.values[ 1 ] + ' (Seconds)' );
-              $('#cameo_start_time').val(ui.values[ 0 ]);
-              $('#cameo_end_time').val(ui.values[ 1 ]);
+      <%# if @show.end_set.present? && @show.enable_download.present? %>
+        <div class="row-fluid">
+          <div class="span1">
+            <%#= link_to "<i class='downloadsprite-dorrange'></i>".html_safe,
+              @show.download_url, :title => 'download' %>
+          </div>
+        </div>
+      <%# end %>
 
-            }
-          });
-        });
-      </script>
-    <% end %>
+      <div class="span12">
+        <%#= content_tag :div, @show.description, :class=>"edit_contributor_text" %>
+      </div>
+    </div> -->
+  </div>
+</div>
+
+<% content_for :js_with_script_tags do %>
+  <script type="text/javascript">
+    //  jQuery(document).ready(function($){
+    //   $( "#slider-range" ).slider({
+    //   range: true,
+    // min: 0,
+    //max: <%= "5" %>,
+    //values: [ 0, 1 ],
+    //slide: function( event, ui ) {
+    //$( "#slider-range-value" ).text( ui.values[ 0 ] + " to " + ui.values[ 1 ] + ' (Seconds)' );
+    //$('#cameo_start_time').val(ui.values[ 0 ]);
+    //$('#cameo_end_time').val(ui.values[ 1 ]);
+
+    //}
+    //});
+    //});
+  </script>
+<% end %>
 

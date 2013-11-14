@@ -444,3 +444,29 @@ function readURL(input) {
   }
 
 }
+
+// Streaming server playlist
+function wowzaStreamingServerPlaylist() {
+  // set up player without "internal" playlists
+  $f("player2", "http://releases.flowplayer.org/swf/flowplayer-3.2.16.swf", {
+    // common configuration for each clip
+    clip: {
+
+      // each clip uses the rtmp provider
+      provider: 'rtmp',
+      autoplay: true
+    },
+    plugins: {
+      rtmp: {
+        url: "flowplayer.rtmp-3.2.12.swf",
+        netConnectionUrl: 'rtmp://localhost/vod'
+      }
+    }
+
+
+  // use playlist plugin. again loop is true
+  }).playlist("div.petrol", {
+    loop:true
+  });
+}
+
