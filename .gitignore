@@ -19,6 +19,7 @@
 /nbproject
 /public/uploads/
 config/database.yml
+config/media_server.yml
 .ruby-*
 .rvmrc*
 spec/uploads/videos/cameo_file

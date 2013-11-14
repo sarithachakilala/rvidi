@@ -10,6 +10,10 @@ class CameoFile < ActiveRecord::Base
   #Gem Related
   mount_uploader :file, VideoFileUploader
 
+  #Callbacks
+
+  after_create :move_file_to_media_server
+
   before_destroy :remove_file!
 
   def set_success(format, opts)
@@ -56,6 +60,11 @@ class CameoFile < ActiveRecord::Base
 
   def media_server
     @media_server ||= MediaServer.new(self)
+  end
+
+  def move_file_to_media_server
+    logger.debug "Moving to media server...."
+    self.media_server.move_to_server
   end
 
 end
