@@ -86,7 +86,7 @@ class Cameo < ActiveRecord::Base
   end
 
   def thumbnail_url
-    Rvidi::Application::IMAGES_DUMMY_FILE
+    (file.file.present? && file.file.thumb.url) ? file.file.thumb.url : Rvidi::Application::IMAGES_DUMMY_FILE
   end
 
   private

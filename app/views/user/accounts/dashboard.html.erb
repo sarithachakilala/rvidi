@@ -44,7 +44,7 @@
               <div class="carousel-caption">
                 <div class="row-fluid">
                   <div class="span6">
-                    <%= link_to image_tag(show.cameos.first.thumbnail_url, :atl => "300x200", :style => 'padding-left:60px;', :class => 'thumbnail_image_widht' ), web_show_path(show) %>
+                    <%= link_to image_tag(show.first_cameo_thumb, :atl => "300x200", :style => 'padding-left:60px;', :class => 'thumbnail_image_widht' ), web_show_path(show) %>
                   </div>
                   <div class="span1"></div>
                   <div class="span5">

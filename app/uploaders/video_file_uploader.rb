@@ -48,7 +48,7 @@ class VideoFileUploader < CarrierWave::Uploader::Base
   end
 
   def cache_dir
-    primary_folder = Rails.env.test? ?  "spec/uploads/" : "uploads/"
+    primary_folder = Rails.env.test? ?  "spec/uploads/" : "public/uploads/"
     "#{Rails.root}/#{primary_folder}videos/tmp"
   end
 
