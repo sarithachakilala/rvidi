@@ -89,6 +89,9 @@ class Cameo < ActiveRecord::Base
     (file.present? && file.file.present? && file.file.thumb.url) ? file.file.thumb.url : Rvidi::Application::IMAGES_DUMMY_FILE
   end
 
+  def rtmp_streaming_url
+    (file && file.file) ? file.media_server.rtmp_streaming_url : "faked"
+  end
   private
 
     def auto_enable
