@@ -86,7 +86,7 @@ class Cameo < ActiveRecord::Base
   end
 
   def thumbnail_url
-    (file.file.present? && file.file.thumb.url) ? file.file.thumb.url : Rvidi::Application::IMAGES_DUMMY_FILE
+    (file.present? && file.file.present? && file.file.thumb.url) ? file.file.thumb.url : Rvidi::Application::IMAGES_DUMMY_FILE
   end
 
   private
@@ -100,7 +100,7 @@ class Cameo < ActiveRecord::Base
     end
 
     def move_file_movie_to_server
-      file.media_server.move_to_server
+      file.media_server.move_to_server if file.present?
     end
 
 
