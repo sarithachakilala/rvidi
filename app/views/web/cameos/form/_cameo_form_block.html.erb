@@ -58,13 +58,13 @@
             <%#= render :partial => "web/shows/player/cameo_player_without_playlist",
                        :locals => { :cameo => selected_cameo,
                                     :width => "100%", :height => "400px" } %>
-            <div id="slider-range"
+            <!-- <div id="slider-range"
                  style="width: 68%;margin-left: 34px; margin-top: 8px;"
                  title="Video Clipper">
             </div>
             <div id="slider-range-value" style="margin-left: 34px; margin-top: 5px;">
               <%#= "0 to #{@cameo.duration} (Seconds)" %>
-            </div>
+            </div> -->
           </div>
         <% end %>
       </div>
@@ -75,19 +75,19 @@
 
 <% content_for :js_with_script_tags do %>
   <script type="text/javascript">
-    jQuery(document).ready(function($){
-      $( "#slider-range" ).slider({
-        range: true,
-        min: 0,
-        max: 1<%#= @cameo.duration.to_i %>,
-        values: [ 0, 1<%#= @cameo.duration.to_i %> ],
-        slide: function( event, ui ) {
-          $( "#slider-range-value" ).text( ui.values[ 0 ] + " to " + ui.values[ 1 ] + ' (Seconds)' );
-          $('#cameo_start_time').val(ui.values[ 0 ]);
-          $('#cameo_end_time').val(ui.values[ 1 ]);
+    //jQuery(document).ready(function($){
+      //$( "#slider-range" ).slider({
+      //  range: true,
+       // min: 0,
+        //max: 1<%#= @cameo.duration.to_i %>,
+        //values: [ 0, 1<%#= @cameo.duration.to_i %> ],
+        //slide: function( event, ui ) {
+          //$( "#slider-range-value" ).text( ui.values[ 0 ] + " to " + ui.values[ 1 ] + ' (Seconds)' );
+          //$('#cameo_start_time').val(ui.values[ 0 ]);
+          //$('#cameo_end_time').val(ui.values[ 1 ]);
 
-        }
-      });
-    });
+        //}
+      //});
+    //});
   </script>
 <% end %>

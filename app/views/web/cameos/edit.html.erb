@@ -3,7 +3,8 @@
              :multipart => true } do |f| %>
   
   <!-- Form fields (Black Box) -->
-  <%= render :partial => "web/cameos/form/cameo_form_block", :locals => { :f => f, :title=>"Cameo Details" } %>
+  <%= render :partial => "web/cameos/form/cameo_form_block",
+             :locals => { :f => f, :title => "Cameo Details" } %>
   
   <!-- Record the Opening Cameo (White Box) -->
   <%#= render :partial => "shows/form/record_cameo_block", :locals => { :f => f, :title=>"Upload / Record another Cameo" } %>

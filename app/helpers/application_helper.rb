@@ -23,9 +23,9 @@ module ApplicationHelper
   def twitter_friends_or_existing_friends(friends, twitter_friends, request)
     
     if twitter_friends.present?
-      render :partial => 'friends/twitter_users', :locals => {:twitter_friends => twitter_friends, :request_from=> request}
+      render :partial => 'web/friends/twitter_users', :locals => {:twitter_friends => twitter_friends, :request_from=> request}
     else
-      render :partial => 'friends/rvidi_users', :locals => {:users => friends}
+      render :partial => 'web/friends/rvidi_users', :locals => {:users => friends}
     end
   end
 

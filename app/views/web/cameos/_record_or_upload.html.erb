@@ -5,18 +5,18 @@
 
     <!-- Display the recording options (Capture from Webcam or Upload Video file) -->
     <div class="row-fluid margin-bottom-50">
-      <div class="span4 text_align_center cursor-pointer" id="camera-me">
+      <!-- <div class="span4 text_align_center cursor-pointer" id="camera-me">
         <i class="sprite-camera-big"></i>
         <div class="font_weight_bold">
           Click here to record a video clip
         </div>
         <div> (60 seconds or less)</div>
-      </div>
-      <div class="span4 text_align_center">
+      </div> -->
+      <!-- <div class="span4 text_align_center">
         <i class="sprite-or-icon_black"></i>
-      </div>
+      </div> -->
 
-      <div class="span4 text_align_center video-player-text" style="cursor:pointer;">
+      <div class="span12 text_align_center video-player-text" style="cursor:pointer;">
         <div class="font_weight_bold">
           Upload clip from your computer
         </div><br />
@@ -60,23 +60,22 @@
       //return event.preventDefault();
     });
 
-   // $(document).on('change', '#fileToUpload', function(e) {
-      //e.preventDefault();
-      //var status = check_file();
-     // if(status) {
+    $(document).on('change', '#fileToUpload', function(e) {
+      e.preventDefault();
+      var status = check_file();
+      //if(!status) {
         //$('#div_record_video_holder').show();
-       // $(this).closest('form').attr('action', '<%#= j web_validate_video_path %>');
-       // $(this).closest('form').removeClass('js-validated-form');
-       // $(this).closest('form').submit();
+        // $(this).closest('form').attr('action', '<%#= j web_validate_video_path %>');
+        // $(this).closest('form').removeClass('js-validated-form');
+        //$(this).closest('form').submit();
       //}
-
-    //});
+    });
 
     //$(document).on('click', '.video-player-text', function(){
-      //$('#div_record_video_holder').toggle();
-      //$(this).closest('form').attr('action', '<%#= j web_video_player_path %>');
-     //$(this).closest('form').removeClass('js-validated-form');
-     //$(this).closest('form').submit();
+    //$('#div_record_video_holder').toggle();
+    //$(this).closest('form').attr('action', '<%#= j web_video_player_path %>');
+    //$(this).closest('form').removeClass('js-validated-form');
+    //$(this).closest('form').submit();
     //});
   </script>
 <% end %>

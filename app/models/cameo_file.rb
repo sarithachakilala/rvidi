@@ -2,7 +2,6 @@ class CameoFile < ActiveRecord::Base
 
   class MoviewError < Exception::StandardError; end
 
-
   attr_accessible :file
 
   belongs_to :cameo

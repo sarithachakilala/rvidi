@@ -306,7 +306,7 @@ function HandlePlaceholderItemSubmit(element) {
   }
 }
 function check_file(){
-  str=document.getElementById('fileToUpload').value.toUpperCase();
+  str = document.getElementById('fileToUpload').value.toUpperCase();
   suffix=".MP4";
   suffix2=".MOV";
   suffix3=".AVI";
@@ -459,7 +459,7 @@ function wowzaStreamingServerPlaylist() {
     plugins: {
       rtmp: {
         url: "flowplayer.rtmp-3.2.12.swf",
-        netConnectionUrl: 'rtmp://localhost/vod'
+        netConnectionUrl: 'rtmp://localhost:1935/rvidi/'
       }
     }
 
