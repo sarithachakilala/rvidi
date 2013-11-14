@@ -54,7 +54,7 @@ class Show < ActiveRecord::Base
 
   # Callbacks
   #------
-  
+
   # Scopes
   scope :public_shows, where(:display_preferences => "public")
   scope :public_private_shows, where('display_preferences LIKE ? OR display_preferences LIKE ?','public', 'private')
@@ -104,13 +104,13 @@ class Show < ActiveRecord::Base
       from_file = cameo.download_url
       to_file = "#{steam_download_path}/#{cameo.id}_#{timestamp}.avi"
       CameoFile.wget_download(from_file, to_file)
-      
+
       input_file = "#{steam_download_path}/#{cameo.id}_#{timestamp}.avi"
       output_file = "#{steam_download_path}/#{cameo.id}_#{timestamp}.mpg"
-      
+
       CameoFile.avconv_convert_from_avi_to_mpg(input_file, output_file)
       file_paths << output_file
-      
+
       #File.delete("#{steam_download_path}.avi")  if File.exists?("#{steam_download_path}.avi")
       #File.delete("#{steam_download_path}.mpg")  if File.exists?("#{steam_download_path}.mpg")
     end
@@ -122,7 +122,7 @@ class Show < ActiveRecord::Base
   def current_user_is_a_director?(current_user)
     current_user == director
   end
-  
+
   def current_user_is_a_friend_of_director?(current_user)
     current_user.present? && current_user.is_friend?(director)
   end
@@ -147,6 +147,10 @@ class Show < ActiveRecord::Base
     else
       Show::Display_Preferences::NOT_AUTHENTICATED
     end
+  end
+
+  def first_cameo_thumb
+    cameos.first.thumbnail_url ? thumbnail_url : "/assets/dummy.jpeg"
   end
 
   # Refactoring with test justifiction
