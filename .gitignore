@@ -16,10 +16,12 @@
 
 # Ignore all System specific and Editor specific files
 *.DS_Store
-/nbproject
-/public/uploads/
+nbproject
+public/uploads/*
 config/database.yml
 config/media_server.yml
 .ruby-*
+.rvmrc*
 spec/uploads/videos/cameo_file
 spec/uploads/videos/tmp
+config/ssh/id_rsa.pub

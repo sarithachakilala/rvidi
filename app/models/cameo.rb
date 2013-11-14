@@ -29,8 +29,10 @@ class Cameo < ActiveRecord::Base
   after_initialize :set_flags
   before_validation :auto_enable, on: :create
 
+  after_create :move_file_movie_to_server
+
   # Validations
-  validates :show_id, 
+  validates :show_id,
             :presence => true,
             :numericality => true,
             :if => proc {|cameo| cameo.show_id.present? }
@@ -84,9 +86,12 @@ class Cameo < ActiveRecord::Base
   end
 
   def thumbnail_url
-    "/assets/dummy.jpeg"
+    (file.present? && file.file.present? && file.file.thumb.url) ? file.file.thumb.url : Rvidi::Application::IMAGES_DUMMY_FILE
   end
 
+  def rtmp_streaming_url
+    (file && file.file) ? file.media_server.rtmp_streaming_url : "faked"
+  end
   private
 
     def auto_enable
@@ -95,6 +100,10 @@ class Cameo < ActiveRecord::Base
       else
         self.status = Cameo::Status::Pending
       end
+    end
+
+    def move_file_movie_to_server
+      file.media_server.move_to_server if file.present?
     end
 
 

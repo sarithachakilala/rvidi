@@ -1,16 +1,26 @@
+require 'net/sftp'
+
 class CameoFile::MediaServer
 
   attr_accessor :config
 
   def initialize( cameo_file )
     @cameo_file = cameo_file
-    @config = YAML.load_file("#{Rails.root}/config/media_server.yml")[Rails.env]
+    load_confi_yaml
     start_connection if Rails.env.production?
   end
 
+  def load_confi_yaml
+    @config = YAML.load_file("#{Rails.root}/config/media_server.yml")["development"] # TODO make a switch to user external servers in case needed
+  end
+
   def start_connection
-    @session = Net::SSH.start(@ftpIp, @ftpUser, :password => @ftpPass)
+    @session = Net::SSH.start(@config["host"], @config["username"], keys: @config["ssh_keys"])
     @conn = Net::SFTP::Session.new(@session).connect!
+  end
+
+  def set_config( attr_name, attr_value )
+    @config[attr_name] = attr_value
   end
 
   def move_to_server
@@ -31,7 +41,6 @@ class CameoFile::MediaServer
 
 
   def move_to_local_folder
-    #`cp #{@cameo_file.file.path} #{@config["folder"]}/`
     `rsync -avz #{@cameo_file.file.path} #{@config["folder"]}/`
   end
 
@@ -41,14 +50,14 @@ class CameoFile::MediaServer
 
   def destroy_file
     if Rails.env.production?
+
     else
       `rm -fR #{path}`
     end
   end
 
   def upload_file
-    # somethign like this
-    # @conn.upload! @cameo_file.file.path, @config["folder"]
+    @conn.upload! @cameo_file.file.path, @config["folder"]
   end
 
 

@@ -150,7 +150,7 @@ class Show < ActiveRecord::Base
   end
 
   def first_cameo_thumb
-    cameos.first.thumbnail_url ? cameos.first.thumbnail_url : "/assets/dummy.jpeg"
+    (cameos.first) ? cameos.first.thumbnail_url : Rvidi::Application::IMAGES_DUMMY_FILE
   end
 
   # Refactoring with test justifiction

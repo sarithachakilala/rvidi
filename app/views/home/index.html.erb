@@ -8,15 +8,13 @@
             <div class="carousel-caption">
               <div class="row-fluid">
                 <div class="span6">
-                  <%= thumbnail = "/assets/photo_background_2916660.jpeg" %>
-                  <%# thumbnail = show.cameos.present? ? show.cameos.first.thumbnail_url : "/assets/photo_background_2916660.jpeg" %>
-                  <%= link_to "<img alt='300x200' src='#{thumbnail}' style= 'padding-left:60px;' class='thumbnail_image_widht'>".html_safe,
-                              web_show_path(show) %>
+
+                  <%= link_to( image_tag(show.first_cameo_thumb, :alt => '300x200', :style => 'padding-left:60px;', :class => 'thumbnail_image_widht'), web_show_path(show) %>
                 </div>
                 <div class="span1"></div>
                 <div class="span5">
                   <div class="slider_header">
-                    <%= link_to show.title.capitalize, 
+                    <%= link_to show.title.capitalize,
                                 web_show_path(:id => show.permalink) %>
                   </div>
                   <div class="sub_title">
@@ -52,7 +50,7 @@
   <a data-slide="next" href="#myCarousel" class="right carousel-control sprite-rightarrow-icon"></a>
 </div>
 
-<div class="container"> 
+<div class="container">
   <div class="row-fluid">
     <div class="span9" style="padding-left: 20px;">
       <div class="tabbable">
@@ -179,7 +177,7 @@
           <%= link_to "Create An Account", user_sign_up_path,
                       :class => "text_align_center acc_text"%> </div>
           <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
-          <%= link_to "<i class='sprite-camera-big'></i>".html_safe, 
+          <%= link_to "<i class='sprite-camera-big'></i>".html_safe,
                       user_sign_up_path, :class => "text_align_center" %>
           <div class="text_align_center acc_text">
             <%= link_to "Start Your Show", user_sign_up_path,

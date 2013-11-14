@@ -5,7 +5,6 @@ FactoryGirl.define do
   factory :cameo_file do
     # ex: association :user, factory: :user, name: "test system02", :op_sub_code => "02"
     association :cameo, factory: :cameo
-
   end
 
 end

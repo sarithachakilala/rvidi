@@ -55,15 +55,12 @@ module Web
       # To find the contributed users.
       @cameo = Cameo.new( params[:cameo] )
       @cameo.published_status = "save_cameo"
-      
+
 
       # @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
 
       respond_to do |format|
         if @cameo.save!
-          logger.debug "*******"
-          logger.debug @cameo.file.file.inspect
-          logger.debug "*******"
           @show = @cameo.show
           #invite_friend(params[:selected_friends],  @show.id) if params[:selected_friends].present?
           format.html { redirect_to edit_web_cameo_path(@cameo), notice: 'Cameo was successfully Saved, Once you Publish your cameo it will added to the Show.'}

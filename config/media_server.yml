@@ -1,16 +1,22 @@
 development:
   host: localhost
-  folder: /usr/local/WowzaMediaServer/content
-  protocol: rtmp
-  application: vod
-  port: 1935
-
-test:
-  host: localhost
-  folder: /usr/local/WowzaMediaServer/content
+  folder: /Library/WowzaMediaServer-3.6.3/content/rvidi
   protocol: rtmp
   application: rvidi
   port: 1935
+  ssh_keys: [config/ssh/id_rsa.pub]
+  username: root
+
+
+test:
+  host: latizana.com
+  folder: /Library/WowzaMediaServer-3.6.3/content/rvidi
+  protocol: rtmp
+  application: rvidi
+  port: 1935
+  ssh_key: [config/ssh/id_rsa.pub]
+  username: root
+
 
 staging:
 
