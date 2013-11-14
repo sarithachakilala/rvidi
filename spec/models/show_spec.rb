@@ -30,4 +30,13 @@ describe Show do
     end
   end
 
+  describe "deafult cameo images" do
+
+    it "should return dummy image if no cameos exist" do
+      show = FactoryGirl.build :show
+      show.first_cameo_thumb.should eq(Rvidi::Application::IMAGES_DUMMY_FILE)
+    end
+
+  end
+
 end

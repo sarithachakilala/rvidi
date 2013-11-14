@@ -30,7 +30,7 @@ class Cameo < ActiveRecord::Base
   before_validation :auto_enable, on: :create
 
   # Validations
-  validates :show_id, 
+  validates :show_id,
             :presence => true,
             :numericality => true,
             :if => proc {|cameo| cameo.show_id.present? }
@@ -84,7 +84,7 @@ class Cameo < ActiveRecord::Base
   end
 
   def thumbnail_url
-    "/assets/dummy.jpeg"
+    Rvidi::Application::IMAGES_DUMMY_FILE
   end
 
   private

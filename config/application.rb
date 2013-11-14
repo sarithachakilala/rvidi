@@ -84,5 +84,8 @@ module Rvidi
       :request_specs => true
       g.fixture_replacement :factory_girl, :dir => "spec/factories"
     end
+
+    # Dummy files
+    IMAGES_DUMMY_FILE = "/assets/dummy.jpeg"
   end
 end
