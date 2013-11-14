@@ -1,18 +1,14 @@
 class CameoFile < ActiveRecord::Base
 
-  class MoviewError < Exception::StandardError
+  class MoviewError < Exception::StandardError; end
 
-  end
+
   attr_accessible :file
 
   belongs_to :cameo
 
   #Gem Related
   mount_uploader :file, VideoFileUploader
-
-  #Callbacks
-
-  after_create :move_file_to_media_server
 
   before_destroy :remove_file!
 
@@ -62,9 +58,5 @@ class CameoFile < ActiveRecord::Base
     @media_server ||= MediaServer.new(self)
   end
 
-  def move_file_to_media_server
-    logger.debug "Moving to media server...."
-    self.media_server.move_to_server
-  end
 
 end

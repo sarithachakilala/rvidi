@@ -29,6 +29,8 @@ class Cameo < ActiveRecord::Base
   after_initialize :set_flags
   before_validation :auto_enable, on: :create
 
+  after_create :move_file_movie_to_server
+
   # Validations
   validates :show_id,
             :presence => true,
@@ -95,6 +97,10 @@ class Cameo < ActiveRecord::Base
       else
         self.status = Cameo::Status::Pending
       end
+    end
+
+    def move_file_movie_to_server
+      file.media_server.move_to_server
     end
 
 

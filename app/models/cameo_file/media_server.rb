@@ -41,7 +41,6 @@ class CameoFile::MediaServer
 
 
   def move_to_local_folder
-    #`cp #{@cameo_file.file.path} #{@config["folder"]}/`
     `rsync -avz #{@cameo_file.file.path} #{@config["folder"]}/`
   end
 
