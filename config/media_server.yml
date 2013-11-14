@@ -1,13 +1,13 @@
 development:
   host: localhost
-  folder: /Library/WowzaMediaServer-3.6.3/content/rvidi
+  folder: /usr/local/WowzaMediaServer/content
   protocol: rtmp
-  application: rvidi
+  application: vod
   port: 1935
 
 test:
   host: localhost
-  folder: /Library/WowzaMediaServer-3.6.3/content/rvidi
+  folder: /usr/local/WowzaMediaServer/content
   protocol: rtmp
   application: rvidi
   port: 1935

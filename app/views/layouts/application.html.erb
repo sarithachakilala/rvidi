@@ -1,23 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>rVidi</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <meta property="og:url" content="<%= configatron.site_address_full %>">
-  <meta property="og:image" content="<%= "#{configatron.site_address_full}/assets/logo/rvidifb.png" %>">
-  <meta property="og:description" content="rVidi is great tool for video straming and recording">
-  <meta property="og:type" content="website">
-  <meta property="og:title" content="rVidi">
-  <meta property="og:site_name" content="rVidi">
+  <head>
+    <meta charset="utf-8">
+    <title>rVidi</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <meta property="og:url" content="<%= configatron.site_address_full %>">
+    <meta property="og:image" content="<%= "#{configatron.site_address_full}/assets/logo/rvidifb.png" %>">
+    <meta property="og:description" content="rVidi is great tool for video straming and recording">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="rVidi">
+    <meta property="og:site_name" content="rVidi">
 
-  <%= stylesheet_link_tag "social-share-button.scss", :media => "all" %>
-  <%= stylesheet_link_tag "application", :media => "all" %>
-  <%= csrf_meta_tags %>
+    <%= stylesheet_link_tag "social-share-button.scss", :media => "all" %>
+    <%= stylesheet_link_tag "application", :media => "all" %>
+    <%= csrf_meta_tags %>
 
-  <!-- Fav and touch icons, Necessary for SEO Purpose. Images need to be Added.  -->
+    <!-- Fav and touch icons, Necessary for SEO Purpose. Images need to be Added.  -->
     <!--
       <link rel="apple-touch-icon-precomposed" sizes="144x144" href="assets/ico/apple-touch-icon-144-precomposed.png">
       <link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/ico/apple-touch-icon-114-precomposed.png">
@@ -27,41 +27,39 @@
     -->
   </head>
   <body>
-    <div class=" body_bg">
-     <div class="highlight"> 
-      <div class="container"> 
-       
-        <!-- Header start here -->
-        <div class="graphic_bg">
-          <div class="row-fluid">
-           <%= render :partial => "layouts/header" %>
-           <%= render :partial => "layouts/flash_messages" %>
-           <%= render :partial => "ajax_indicator" %>
-           <%= yield %>
-         </div>  <!-- Header end here -->
-       </div>
-     </div>
-     <!-- FOOTER -->
-   </div>
-     <%= render :partial => "layouts/footer" %>
-   
-   <%##* Loading Javascripts. Loading in last, will load the page much faster. %>    
-   <%= javascript_include_tag "application" %>
-   <script src="/assets/recorder/AC_OETags.js" language="javascript"></script>
-   <script src="/assets/recorder/history/history.js" language="javascript"></script>
-   <script type='text/javascript'>
+    <div class="body_bg">
+      <div class="highlight">
+        <div class="container">
+
+          <!-- Header start here -->
+          <div class="graphic_bg">
+            <div class="row-fluid">
+              <%= render :partial => "layouts/header" %>
+              <%= render :partial => "layouts/flash_messages" %>
+              <%= render :partial => "ajax_indicator" %>
+              <%= yield %>
+            </div>  <!-- Header end here -->
+          </div>
+        </div>
+        <!-- FOOTER -->
+      </div>
+    </div>
+    <%= render :partial => "layouts/footer" %>
+
+<%##* Loading Javascripts. Loading in last, will load the page much faster. %>    
+    <%= javascript_include_tag "application" %>
+    <script src="/assets/recorder/AC_OETags.js" language="javascript"></script>
+    <script src="/assets/recorder/history/history.js" language="javascript"></script>
+    <script type='text/javascript'>
       // Script for Carousel
-      !function ($) {
+        !function ($) {
         $(function(){
           // carousel demo
           $('#myCarousel').carousel()
         })
       }(window.jQuery)
-      </script>
-      <script src="http://code.jquery.com/jquery-1.9.1.js"></script>
-      <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-      <%= yield :js_with_script_tags %>
-      <%= yield :google_map %>
-    </body>
+    </script>
+    <%= yield :js_with_script_tags %>
+    <%= yield :google_map %>
   </body>
-  </html>
+</html>

@@ -11,7 +11,7 @@
     <div class="clips petrol">
       <!-- single playlist entry -->
       <% show.cameos.each_with_index do |cameo, index| %>
-        <a href="<%= "#{configatron.site_address_full}/assets/video_#{index + 1}.flv" %>"
+        <a href="<%= cameo.file.media_server.rtmp_streaming_url %>"
            class="first pl-entry">
           <%= cameo.title %>
           <span>HTTP streaming</span>
@@ -31,7 +31,19 @@
     $(function() {
       // set up player without "internal" playlists
       $f("player2", "http://releases.flowplayer.org/swf/flowplayer-3.2.16.swf", {
-        clip: {baseUrl: "<%= root_url %>" }
+        // common configuration for each clip
+        clip: {
+
+          // each clip uses the rtmp provider
+          provider: 'rtmp',
+          autoplay: true
+        },
+        plugins: {
+          rtmp: {
+            url: "flowplayer.rtmp-3.2.12.swf",
+            netConnectionUrl: 'rtmp://localhost/vod'
+          }
+        }
 
 
         // use playlist plugin. again loop is true

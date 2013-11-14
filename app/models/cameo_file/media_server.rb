@@ -22,15 +22,16 @@ class CameoFile::MediaServer
   end
 
   def http_streaming_url
-    "http://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/mp4:#{@cameo_file.file.filename}/manifest.f4m"
+    "http://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/mp4:#{File.basename(@cameo_file.file.path)}/manifest.f4m"
   end
 
   def rtmp_streaming_url
-    "rtmp://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/#{@cameo_file.file.filename}"
+    "rtmp://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/mp4:#{File.basename(@cameo_file.file.path)}"
   end
 
 
   def move_to_local_folder
+    #`cp #{@cameo_file.file.path} #{@config["folder"]}/`
     `rsync -avz #{@cameo_file.file.path} #{@config["folder"]}/`
   end
 
