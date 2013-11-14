@@ -12,7 +12,6 @@ describe Cameo do
   Cameo::Status::All.each do |allowed|
     it{ should allow_value(allowed).for(:status)   }
   end
-  it{ should validate_presence_of(:show_id)  }
   it{ should validate_presence_of(:title)  }
 
   it "should create a valid factory" do

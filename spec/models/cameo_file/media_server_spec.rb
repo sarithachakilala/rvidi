@@ -2,14 +2,18 @@ require 'spec_helper'
 
 describe CameoFile::MediaServer do
 
+  before :all do
+    @cameo_file = FactoryGirl.build :cameo_file
+    @cameo_file.file = File.open("spec/fixtures/videos/sample.mp4")
+    @cameo_file.save!
+  end
+
+  after :all do
+    @cameo_file.destroy
+  end
 
   describe "working with media server" do
 
-    before :all do
-      @cameo_file = FactoryGirl.build :cameo_file
-      @cameo_file.file = File.open("spec/fixtures/videos/sample.mp4")
-      @cameo_file.save!
-    end
 
     it "should have a config folder and host" do
       @cameo_file.media_server.config["host"].should be_instance_of(String)
@@ -23,6 +27,23 @@ describe CameoFile::MediaServer do
       path.should eq("#{@cameo_file.media_server.config["folder"]}/#{@cameo_file.file.filename}")
       @cameo_file.media_server.destroy_file
       File.exists?(path).should be_false
+    end
+
+
+    describe "Errors" do
+
+      it "should rise an Error if connection is not possible" do
+        expect{
+          @cameo_file.media_server.set_config "host", "albuquerque"
+          @cameo_file.media_server.start_connection
+        }.to raise_exception
+      end
+
+      it "should connect" do
+        @cameo_file.media_server.load_confi_yaml
+        @cameo_file.media_server.start_connection
+      end
+
     end
 
   end

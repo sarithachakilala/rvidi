@@ -20,5 +20,7 @@
 /public/uploads/
 config/database.yml
 .ruby-*
+.rvmrc*
 spec/uploads/videos/cameo_file
 spec/uploads/videos/tmp
+config/ssh/id_rsa.pub
