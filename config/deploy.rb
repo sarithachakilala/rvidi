@@ -22,8 +22,6 @@ set :app_name, 'rvidi'
 set :application, 'rvidi.qwinixtech.com'
 set :shared_children, shared_children + %w{public/uploads}
 
-before "deploy:assets:precompile"
-
 after 'deploy', 'deploy:migrate'
 after 'deploy', 'deploy:cleanup'
 after 'deploy', 'delayed_job:restart' # To Restart delayed_job after deploying the code
