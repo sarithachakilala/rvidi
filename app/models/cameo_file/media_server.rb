@@ -1,4 +1,4 @@
-require 'net/sftp'
+# require 'net/sftp'
 
 class CameoFile::MediaServer
 
