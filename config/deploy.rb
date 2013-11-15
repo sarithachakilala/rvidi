@@ -22,6 +22,9 @@ set :app_name, 'rvidi'
 set :application, 'rvidi.qwinixtech.com'
 set :shared_children, shared_children + %w{public/uploads}
 
+before "deploy:assets:precompile", "deploy:copy_database_yml"
+before "deploy:assets:precompile", "deploy:copy_media_server_yml"
+
 after 'deploy', 'deploy:migrate'
 after 'deploy', 'deploy:cleanup'
 after 'deploy', 'delayed_job:restart' # To Restart delayed_job after deploying the code
@@ -36,19 +39,11 @@ namespace :deploy do
 
   desc "Symlink shared configs and folders on each release."
   task :copy_database_yml do
-    unless File.exists?( "#{shared_path}/config/database.yml" )
-      run "mkdir -p #{shared_path}/config"
-      run "cp #{release_path}/config/database.yml.example #{shared_path}/config/database.yml"
-      run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-    end
+    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
   end
 
   task :copy_media_server_yml do
-    unless File.exists?( "#{shared_path}/config/media_server.yml" )
-      run "mkdir -p #{shared_path}/config"
-      run "cp #{release_path}/config/media_server.yml.example #{shared_path}/config/media_server.yml"
-      run "ln -nfs #{shared_path}/config/media_server.yml #{release_path}/config/media_server.yml"
-    end
+    run "ln -nfs #{shared_path}/config/media_server.yml #{release_path}/config/media_server.yml"
   end
 
   # To reset database connection, while deploying
