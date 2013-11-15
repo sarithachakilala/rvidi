@@ -3,12 +3,16 @@ class CameoFile < ActiveRecord::Base
   class MoviewError < Exception::StandardError; end
 
   attr_accessible :file
+  serialize :metadata, Hash
 
   belongs_to :cameo
 
   #Gem Related
   mount_uploader :file, VideoFileUploader
 
+  before_save :get_file_duration
+  before_save :get_file_size
+  before_save :get_file_metadata
   before_destroy :remove_file!
 
   def set_success(format, opts)
@@ -24,7 +28,7 @@ class CameoFile < ActiveRecord::Base
   end
 
   def get_file_duration
-    self.duration ||= file_movie.duration
+    self.duration ||= self.file_movie.duration
   end
 
 
@@ -33,7 +37,7 @@ class CameoFile < ActiveRecord::Base
   end
 
   def get_file_metadata
-    @metadata ||= {duration: file_movie.duration,
+    self.metadata ||= {duration: file_movie.duration,
     bitrate: file_movie.bitrate,
     size: file_movie.size,
     video_stream: file_movie.video_stream,
@@ -55,6 +59,10 @@ class CameoFile < ActiveRecord::Base
 
   def media_server
     @media_server ||= MediaServer.new(self)
+  end
+
+  def rtmp_streaming_url
+    media_server.rtmp_streaming_url
   end
 
 

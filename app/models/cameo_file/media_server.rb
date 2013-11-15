@@ -32,11 +32,11 @@ class CameoFile::MediaServer
   end
 
   def http_streaming_url
-    "http://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/mp4:#{File.basename(@cameo_file.file.path)}/manifest.f4m"
+    "http://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/mp4:#{File.basename(@cameo_file.file.path.to_s)}/manifest.f4m"
   end
 
   def rtmp_streaming_url
-    "rtmp://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/#{get_file_extension(@cameo_file.file.path)}:#{File.basename(@cameo_file.file.path)}"
+    "rtmp://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/#{get_file_extension(@cameo_file)}:#{File.basename(@cameo_file.file.path.to_s)}"
   end
 
 
@@ -61,10 +61,9 @@ class CameoFile::MediaServer
   end
 
   private
-  
-  def get_file_extension(file)
-    extension = File.extname(file).gsub(".", '')
-    extension == 'flv' ? 'flv' : 'mp4'
+
+  def get_file_extension(cameo_file)
+    cameo_file.file ? File.extname(cameo_file.file.path.to_s).gsub(".", '') : "mp4"
   end
   # # upload a file to a remote server
   # Net::SCP.upload!("remote.host.com", "username",

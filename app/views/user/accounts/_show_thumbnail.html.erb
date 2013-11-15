@@ -2,7 +2,7 @@
 <li class="thumbnail_fivegroup <%= li_extra_class %>" style="">
   <div class="thumbnail" style="height:176px;">
     <div class="triangle-with-shadow item">
-      <%= link_to ( image_tag(show.first_cameo_thumb, :alt => '300x200', :class => 'thumbnail_image_widht_five') << '<span class=\'play\'></span>'.html_safe ), web_show_path(:id => show.permalink) %>
+      <%= link_to ( image_tag(show.first_cameo_thumb, :class => 'thumbnail_image_widht_five') << '<span class=\'play\'></span>'.html_safe ), web_show_path(:id => show.permalink) %>
     </div>
     <div class="row-fluid caption1">
       <div class="span9">

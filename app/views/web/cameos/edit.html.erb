@@ -1,14 +1,11 @@
 <%= form_for [:web, @cameo],
              :html => {:class => "js-validated-form form-horizontal cameo-form",
              :multipart => true } do |f| %>
-  
+
   <!-- Form fields (Black Box) -->
-  <%= render :partial => "web/cameos/form/cameo_form_block",
-             :locals => { :f => f, :title => "Cameo Details" } %>
-  
-  <!-- Record the Opening Cameo (White Box) -->
-  <%#= render :partial => "shows/form/record_cameo_block", :locals => { :f => f, :title=>"Upload / Record another Cameo" } %>
-  
+  <%= render :partial => "web/cameos/form/cameo_form_block", :locals => { :f => f, :title => "Cameo Details" } %>
+
+
   <!-- Invite Friends from Facebook and Twitter (White Box) -->
   <% if @cameo.invite_my_friend_to_this_show?(current_user) %>
     <%= render :partial=> "web/shows/form/invite_friends_block", :locals =>{ :f => f } %>
@@ -22,6 +19,6 @@
       </div>
     </div>
   </div>
-  
+
 <% end %>
 

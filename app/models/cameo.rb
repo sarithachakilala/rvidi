@@ -17,6 +17,10 @@ class Cameo < ActiveRecord::Base
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name,
                   :description, :title, :published_status, :file, :file_attributes
 
+
+  # Delegations
+  delegate :duration, :metadata, :rtmp_streaming_url, :to => :file
+
   # Associations
   belongs_to :show
   belongs_to :user
@@ -45,7 +49,10 @@ class Cameo < ActiveRecord::Base
 
 
   # Scopes
-  scope :enabled, where("status like ?", Cameo::Status::Enabled )
+  Status::All.each do |status|
+    scope status.to_sym, where("status like ?", status )
+  end
+  scope :asc, order( "show_order asc" )
 
   # METHODS
 
@@ -85,8 +92,8 @@ class Cameo < ActiveRecord::Base
       show.director == current_user
   end
 
-  def thumbnail_url
-    (file.present? && file.file.present? && file.file.thumb.url) ? file.file.thumb.url : Rvidi::Application::IMAGES_DUMMY_FILE
+  def thumbnail_url( format = :thumb )
+    (file.present? && file.file.present? && file.file.send(format).url) ? file.file.send(format).url : Rvidi::Application::IMAGES_DUMMY_FILE
   end
 
   def rtmp_streaming_url

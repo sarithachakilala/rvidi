@@ -8,7 +8,9 @@
           <div class="span3">
             <div class="contributors_image">
               <% thumbnail = show_cameo.user.image_url.present? ? show_cameo.user.image_url : "/assets/default_image.png"  %>
-              <div class="contributors_image_size"> <%= image_tag thumbnail, :class => "details_image_sizesmall" %></div>
+              <div class="contributors_image_size">
+                <%= image_tag(thumbnail), :class => "details_image_sizesmall" %>
+              </div>
             </div>
           </div>
           <div class="span7 cameo_friends_text">

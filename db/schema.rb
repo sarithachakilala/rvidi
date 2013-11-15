@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20131113085501) do
+ActiveRecord::Schema.define(:version => 20131115054947) do
 
   create_table "apis", :force => true do |t|
     t.string   "name"
@@ -34,12 +34,13 @@ ActiveRecord::Schema.define(:version => 20131113085501) do
 
   create_table "cameo_files", :force => true do |t|
     t.integer  "cameo_id"
-    t.float    "duration",          :default => 0.0
+    t.string   "duration"
     t.integer  "filesize"
-    t.datetime "created_at",                         :null => false
-    t.datetime "updated_at",                         :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.string   "file"
     t.string   "original_filename"
+    t.text     "metadata"
   end
 
   create_table "cameos", :force => true do |t|

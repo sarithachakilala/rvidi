@@ -5,10 +5,10 @@ $(document).ready(function(){
   $( "#sortable" ).sortable();
   $( "#sortable" ).disableSelection();
 
-  
+
   checking_display_pwd_field();
   checking_contributor_pwd_field();
-  
+
   $(".show-display-preferences").on('click',function(){
     checking_display_pwd_field();
   });
@@ -20,7 +20,7 @@ $(document).ready(function(){
   //    To Change the + / - icon on click
   $('.plus-minus-container').on('click','.changeable-plus-minus',function(){
     var icon_elem = $(this).find('.plus-minus-i').first()
-    if($(this).hasClass('collapsed')){            
+    if($(this).hasClass('collapsed')){
       icon_elem.removeClass('sprite-plus-small')
       icon_elem.addClass('sprite-minus-small')
     }else{
@@ -31,7 +31,7 @@ $(document).ready(function(){
 
   //    To highlight labels on selecting the radio buttons
   $('div.radio-inputs-container').on('click','input.radio-input',function(){
-    var container = $(this).parents('.radio-inputs-container').first();        
+    var container = $(this).parents('.radio-inputs-container').first();
     var all_label_elems = container.find('label.radio');
     var label_elem = $(this).parents('.radio').first();
 
@@ -58,7 +58,7 @@ $(document).ready(function(){
         $(selects_container).addClass('checked-all');
       });
     }
-  });  
+  });
 
   $(".clip_video").on('click', function(event){
     event.preventDefault();
@@ -85,19 +85,19 @@ $(document).ready(function(){
         $('#ajax-indicator').hide();
       }
     });
-    
+
   });
 
   $(".selects-container").on('click','#invite_friend', function(){
     var child_id = [];
     $(".child_ckeck").each(function()
-    {   
-      var each_id = '#'+this.id;        
+    {
+      var each_id = '#'+this.id;
       if($('#' + this.id).is(":checked"))
       {
         child_id.push(this.id);
       }
-    });  
+    });
     $.ajax({
       url: "/web/shows/invite_friend.js",
       data: {
@@ -107,7 +107,7 @@ $(document).ready(function(){
       cache: false,
       dataType: 'script'
     });
-  }); 
+  });
 
   // Get the list of friends list based on search criteria
   $('#search_friends').on('click',function(){
@@ -121,7 +121,7 @@ $(document).ready(function(){
       },
       cache: false
     });
-  }); 
+  });
 
   $('#search_friends_to_invite').on('click',function(){
     email = $('#search_value_to_invite').val()
@@ -135,7 +135,7 @@ $(document).ready(function(){
       },
       cache: false
     });
-  });     
+  });
 
   $(document).on('click','.display_formats',function(){
     var container = $(this).parents('.tab-changeable').first()
@@ -287,7 +287,7 @@ window.onload = function() {
   }
 };
 
-function PlaceholderFormSubmit(oForm) {    
+function PlaceholderFormSubmit(oForm) {
   for (var i = 0; i < oForm.elements.length; i++) {
     var curElement = oForm.elements[i];
     HandlePlaceholderItemSubmit(curElement);
@@ -343,7 +343,7 @@ function check_file(){
   else {
     return true;
   }
-  
+
 }
 
 $(function() {
@@ -446,15 +446,14 @@ function readURL(input) {
 }
 
 // Streaming server playlist
-function wowzaStreamingServerPlaylist() {
+function wowzaStreamingServerPlaylist( player, autoplay ) {
   // set up player without "internal" playlists
-  $f("player2", "http://releases.flowplayer.org/swf/flowplayer-3.2.16.swf", {
+  $f( player , "http://releases.flowplayer.org/swf/flowplayer-3.2.16.swf", {
     // common configuration for each clip
     clip: {
-
       // each clip uses the rtmp provider
       provider: 'rtmp',
-      autoplay: true
+      autoplay: autoplay
     },
     plugins: {
       rtmp: {
@@ -466,7 +465,7 @@ function wowzaStreamingServerPlaylist() {
 
   // use playlist plugin. again loop is true
   }).playlist("div.petrol", {
-    loop:true
+    loop: autoplay
   });
 }
 

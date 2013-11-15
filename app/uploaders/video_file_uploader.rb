@@ -17,27 +17,33 @@ class VideoFileUploader < CarrierWave::Uploader::Base
   end
 
   version :thumb do
-    process thumbnail: [{format: 'png', quality: 10, size: 192, strip: true, logger: Rails.logger}]
+    process thumbnail: [
+      {format: 'png', quality: 10, size: 142, strip: true, logger: Rails.logger}
+    ]
     def full_filename for_file
-      png_name for_file, version_name
+      %Q{#{version_name}_#{for_file.chomp(File.extname(for_file))}.png}
     end
   end
 
-  def png_name for_file, version_name
-    %Q{#{version_name}_#{for_file.chomp(File.extname(for_file))}.png}
+  version :screen do
+    process thumbnail: [
+      {format: 'png', quality: 10, size: 789, strip: true, logger: Rails.logger}
+    ]
+    def full_filename for_file
+      %Q{#{version_name}_#{for_file.chomp(File.extname(for_file))}.png}
+    end
+  end
+
+  version :player do
+    process thumbnail: [
+      {format: 'png', quality: 10, size: 789, strip: true, logger: Rails.logger}
+    ]
+    def full_filename for_file
+      %Q{#{version_name}_#{for_file.chomp(File.extname(for_file))}.png}
+    end
   end
 
 
-  #process encode_video: [:mp4, callbacks: { after_transcode: :set_success } ]
-  # Include RMagick or MiniMagick support:
-  # include CarrierWave::RMagick
-  # include CarrierWave::MiniMagick
-
-  # Include the Sprockets helpers for Rails 3.1+ asset pipeline compatibility:
-  # include Sprockets::Helpers::RailsHelper
-  # include Sprockets::Helpers::IsolatedHelper
-
-  # Choose what kind of storage to use for this uploader:
   storage :file
 
   def store_dir

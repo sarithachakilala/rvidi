@@ -149,8 +149,8 @@ class Show < ActiveRecord::Base
     end
   end
 
-  def first_cameo_thumb
-    (cameos.first) ? cameos.first.thumbnail_url : Rvidi::Application::IMAGES_DUMMY_FILE
+  def first_cameo_thumb( format = :thumb )
+    (cameos.first) ? cameos.first.thumbnail_url(format) : Rvidi::Application::IMAGES_DUMMY_FILE
   end
 
   # Refactoring with test justifiction
