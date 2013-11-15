@@ -93,7 +93,7 @@ class Cameo < ActiveRecord::Base
   end
 
   def thumbnail_url( format = :thumb )
-    (file.present? && file.file.present? && file.file.send(format).url) ? file.file.send(format).url : Rvidi::Application::IMAGES_DUMMY_FILE
+    (file && file.present? && file.file.present? && file.file.send(format).url) ? file.file.send(format).url : Rvidi::Application::IMAGES_DUMMY_FILE
   end
 
   def rtmp_streaming_url
