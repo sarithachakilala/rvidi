@@ -14,8 +14,9 @@ set :git_enable_submodules, 1
 set :scm, 'git'
 set :user, 'deploy'
 set :repository, 'git@git.qwinixtech.com:repositories/rails/rvidi.git'
-set :base_path, '/var/www/apps'
+set :base_path, '/u01/apps/qwinix'
 set :normalize_asset_timestamps, false
+set :default_shell, "/bin/bash -l"
 
 set :app_name, 'rvidi'
 set :application, 'rvidi.qwinixtech.com'
@@ -40,10 +41,14 @@ namespace :deploy do
     run "mkdir -p #{shared_path}/config"
     run "cp -f #{release_path}/config/database.yml.example #{shared_path}/config/database.yml"
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
-
-    # run "mkdir -p #{shared_path}/private"
-    # run "ln -nfs #{shared_path}/private #{release_path}/private"
   end
+
+  task :copy_media_server_yml do
+    run "mkdir -p #{shared_path}/config"
+    run "cp -f #{release_path}/config/media_server.yml.example #{shared_path}/config/media_server.yml"
+    run "ln -nfs #{shared_path}/config/media_server.yml #{release_path}/config/media_server.yml"
+  end
+
   # To reset database connection, while deploying
   # desc 'kill pgsql users so database can be dropped'
   # task :kill_postgres_connections do
@@ -51,7 +56,7 @@ namespace :deploy do
   # end
 end
 
-namespace :delayed_job do 
+namespace :delayed_job do
   desc "Restart the delayed_job process"
   task :restart, :roles => :app do
     run "cd #{current_path}; RAILS_ENV=#{stage} script/delayed_job restart"

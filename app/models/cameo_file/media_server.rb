@@ -11,7 +11,7 @@ class CameoFile::MediaServer
   end
 
   def load_confi_yaml
-    @config = YAML.load_file("#{Rails.root}/config/media_server.yml")["development"] # TODO make a switch to user external servers in case needed
+    @config = YAML.load_file("#{Rails.root}/config/media_server.yml")[Rails.env] # TODO make a switch to user external servers in case needed
   end
 
   def start_connection
