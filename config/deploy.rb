@@ -73,3 +73,14 @@ task :query_login do
     info capture("shopt -q login_shell && echo 'Login shell' || echo 'Not login shell'")
   end
 end
+
+
+# This is the standard Phusion Passenger restart code. You will probably already
+# have something like this (if you have already got Capistrano set up).
+namespace :deploy do
+  task :start do ; end
+  task :stop do ; end
+  task :restart, roles: :app, except: { no_release: true } do
+    run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+  end
+end
