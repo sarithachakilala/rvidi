@@ -22,7 +22,7 @@ set :app_name, 'rvidi'
 set :application, 'rvidi.qwinixtech.com'
 set :shared_children, shared_children + %w{public/uploads}
 
-before "deploy:assets:precompile", "deploy:copy_database_yml"
+before "deploy:assets:precompile"
 
 after 'deploy', 'deploy:migrate'
 after 'deploy', 'deploy:cleanup'
