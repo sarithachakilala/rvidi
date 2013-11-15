@@ -65,3 +65,14 @@ end
 
 
 
+# Capistrano 3.0.x
+task :query_interactive do
+  on 'me@remote' do
+    info capture("[[ $- == *i* ]] && echo 'Interactive' || echo 'Not interactive'")
+  end
+end
+task :query_login do
+  on 'me@remote' do
+    info capture("shopt -q login_shell && echo 'Login shell' || echo 'Not login shell'")
+  end
+end
