@@ -1,6 +1,6 @@
 class CameoFile < ActiveRecord::Base
 
-  class MoviewError < Exception::StandardError; end
+  class MoviewError < StandardError; end
 
   attr_accessible :file
   serialize :metadata, Hash
