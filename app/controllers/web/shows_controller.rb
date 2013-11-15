@@ -1,5 +1,5 @@
 module Web
-  
+
   class ShowsController < Web::BaseController
 
     before_filter :require_user, :only => [:new, :create, :edit, :update, :destroy]
@@ -100,14 +100,13 @@ module Web
           format.js {}
           format.json { render json: @show, status: :created, location: @show }
         else
-          
           ## Buidling a cameo and cameo_file
           @show.cameos = []
           cameo = @show.cameos.build
           cameo.build_file
-          
+
           p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
-          format.html { render 'new'}
+          format.html { render 'new', :error => 'Please check form data'}
           format.js {}
           format.json { render json: @show.errors, status: :unprocessable_entity }
         end
