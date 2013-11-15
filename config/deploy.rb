@@ -38,15 +38,19 @@ namespace :deploy do
 
   desc "Symlink shared configs and folders on each release."
   task :copy_database_yml do
-    run "mkdir -p #{shared_path}/config"
-    run "cp -f #{release_path}/config/database.yml.example #{shared_path}/config/database.yml"
-    run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    unless File.exists?( "#{shared_path}/config/database.yml" )
+      run "mkdir -p #{shared_path}/config"
+      run "cp #{release_path}/config/database.yml.example #{shared_path}/config/database.yml"
+      run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    end
   end
 
   task :copy_media_server_yml do
-    run "mkdir -p #{shared_path}/config"
-    run "cp -f #{release_path}/config/media_server.yml.example #{shared_path}/config/media_server.yml"
-    run "ln -nfs #{shared_path}/config/media_server.yml #{release_path}/config/media_server.yml"
+    unless File.exists?( "#{shared_path}/config/media_server.yml" )
+      run "mkdir -p #{shared_path}/config"
+      run "cp #{release_path}/config/media_server.yml.example #{shared_path}/config/media_server.yml"
+      run "ln -nfs #{shared_path}/config/media_server.yml #{release_path}/config/media_server.yml"
+    end
   end
 
   # To reset database connection, while deploying
