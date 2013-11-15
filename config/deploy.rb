@@ -16,7 +16,7 @@ set :user, 'deploy'
 set :repository, 'git@git.qwinixtech.com:repositories/rails/rvidi.git'
 set :base_path, '/u01/apps/qwinix'
 set :normalize_asset_timestamps, false
-set :default_shell, "/bin/bash -l"
+set :default_shell, :bash
 
 set :app_name, 'rvidi'
 set :application, 'rvidi.qwinixtech.com'
