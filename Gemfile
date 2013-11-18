@@ -82,8 +82,8 @@ group :development do
   gem 'quiet_assets'                                 # To Avoid Asset Pipeline Log in Development
 
   # To Deploy the Application using Capistrano
-  gem 'rvm-capistrano'
   gem 'capistrano'
+  gem 'rvm-capistrano'
   gem 'capistrano-deepmodules'
   gem 'capistrano_colors'
   gem 'capistrano-ext'
