@@ -4,7 +4,7 @@
         id="red5recorder"
         data="/assets/recorder/red5recorder.swf"
         align="middle">
-  <param name=FlashVars value="fileName=<%= URI::escape(CameoFile.get_stream_name(current_user, time_stamp)) %>&serverPath=<%= URI::escape(streaming_server_path) %>&width=800&height=500&fps=50&maxLength=<%= cameo_max_duration %>" />
+  <param name=FlashVars value="fileName=<%= URI::escape(CameoFile.get_stream_name(current_user, time_stamp)) %>&serverPath=<%= URI::escape(streaming_server_path) %>&width=800&height=500&fps=50&maxLength=<%= 600 %>" />
   <param name="movie" value="/assets/recorder/red5recorder.swf" />
   <param name="quality" value="high" />
   <param name="bgcolor" value="#ffffff" />
@@ -23,7 +23,7 @@
           width="800"
           height="500"
           id="red5recorder">
-    <param name=FlashVars value="fileName=<%= URI::escape(CameoFile.get_stream_name(current_user, time_stamp)) %>&serverPath=<%= URI::escape(streaming_server_path) %>&width=800&height=500&fps=50&maxLength=<%= cameo_max_duration %>" />
+    <param name=FlashVars value="fileName=<%= URI::escape(CameoFile.get_stream_name(current_user, time_stamp)) %>&serverPath=<%= URI::escape(streaming_server_path) %>&width=800&height=500&fps=50&maxLength=<%= 600 %>" />
     <param name="movie" value="/assets/recorder/red5recorder.swf" />
     <param name="quality" value="high" />
     <param name="bgcolor" value="#ffffff" />

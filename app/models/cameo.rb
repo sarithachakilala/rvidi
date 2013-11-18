@@ -12,10 +12,10 @@ class Cameo < ActiveRecord::Base
   STANDARD_LENGTH = 60
 
   attr_accessor :video_file, :audio_file, :recorded_file, :name_flag,
-                :thumbnail_url_flag, :download_url_flag
+    :thumbnail_url_flag, :download_url_flag, :timestamp
 
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name,
-                  :description, :title, :published_status, :file, :file_attributes
+    :description, :title, :published_status, :file, :file_attributes
 
 
   # Delegations
@@ -28,18 +28,18 @@ class Cameo < ActiveRecord::Base
 
   has_one :file, class_name: "CameoFile"
   accepts_nested_attributes_for :file, :allow_destroy => true,
-                                :reject_if => proc {|file| file['file'].blank?}
+    :reject_if => proc {|file| file['file'].blank?}
 
   after_initialize :set_flags
   before_validation :auto_enable, on: :create
 
-  after_create :move_file_movie_to_server
+  after_create :move_file_movie_to_server, :delete_file
 
   # Validations
   validates :show_id,
-            :presence => true,
-            :numericality => true,
-            :if => proc {|cameo| cameo.show_id.present? }
+    :presence => true,
+    :numericality => true,
+    :if => proc {|cameo| cameo.show_id.present? }
 
   validates :director_id, :presence => true, :numericality => true
   validates :user_id, :presence => true, :numericality => true
@@ -84,7 +84,7 @@ class Cameo < ActiveRecord::Base
 
   def latest_cameo_order
     Cameo.where('show_id = ?', show_id).order('show_order desc').limit(1).
-          first.try(:show_order) || 0
+      first.try(:show_order) || 0
   end
 
   def invite_my_friend_to_this_show?(current_user)
@@ -99,19 +99,39 @@ class Cameo < ActiveRecord::Base
   def rtmp_streaming_url
     (file && file.file) ? file.media_server.rtmp_streaming_url : "faked"
   end
+
+  def link_cameo_file(current_user, cameo_tt, cameo_src_type)
+    if cameo_src_type == 'record'
+      self.build_file
+      get_flv_file_path(current_user, cameo_tt)
+    end
+  end
+  
+  def get_flv_file_path(current_user, cameo_tt)
+    if Rails.env == 'development'
+      self.file.file = File.open("#{self.file.media_server.server_path}#{current_user.id}_#{cameo_tt}.flv")
+    else
+      self.file.file = File.open("#{self.file.media_server.server_path}#{current_user.id}_#{cameo_tt}.flv")
+    end
+  end
+
+  def delete_file
+    file.media_server.delete_file_from_media_server(user_id, timestamp)
+  end
+
   private
 
-    def auto_enable
-      if user_id == director_id || ( show && user_id != director_id && !show.need_review? )
-        self.status = Cameo::Status::Enabled
-      else
-        self.status = Cameo::Status::Pending
-      end
+  def auto_enable
+    if user_id == director_id || ( show && user_id != director_id && !show.need_review? )
+      self.status = Cameo::Status::Enabled
+    else
+      self.status = Cameo::Status::Pending
     end
-
-    def move_file_movie_to_server
-      file.media_server.move_to_server if file.present?
-    end
+  end
+  
+  def move_file_movie_to_server
+    file.media_server.move_to_server if file.present?
+  end
 
 
 end

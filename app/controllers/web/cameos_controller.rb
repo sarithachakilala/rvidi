@@ -31,6 +31,7 @@ module Web
       #Cameo.delete_old_flv_files
       @cameo = Cameo.new(:show_id => params[:show_id],
         :director_id => params[:director_id], :user_id => current_user.id)
+      @cameo.timestamp = session[:timestamp]
       @cameo.build_file
 
       @show = Show.find(params[:show_id])
@@ -54,8 +55,9 @@ module Web
     def create
       # To find the contributed users.
       @cameo = Cameo.new( params[:cameo] )
+      @cameo.timestamp = session[:timestamp]
       @cameo.published_status = "save_cameo"
-
+      @cameo.link_cameo_file(current_user, session[:timestamp], params[:cameo_src_type])
 
       # @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
 
@@ -142,9 +144,10 @@ module Web
 
     def destroy
       @cameo = Cameo.find(params[:id])
+      show = @cameo.show
       @cameo.destroy
       respond_to do |format|
-        format.html { redirect_to web_cameos_url }
+        format.html { redirect_to web_show_path(show)}
         format.js {}
         format.json { head :no_content }
       end
