@@ -16,7 +16,7 @@ set :deploy_to, "#{base_path}/#{app_name}"
 
 set :branch, 'master'
 #set :branch, 'video-quality'
-set :port, 1122
+#set :port, 1122
 
 set :rails_env, 'staging'
 set :deploy_env, 'staging'
