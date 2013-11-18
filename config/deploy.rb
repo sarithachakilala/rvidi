@@ -5,12 +5,6 @@ require 'capistrano-deploytags'
 require 'capistrano/ext/multistage'
 require "delayed/recipes" # Required for delayed_jobs
 
-set :default_environment, {
-  'PATH' => "#{deploy_to}/bin:$PATH",
-  'GEM_HOME' => "#{deploy_to}/gems"
-}
-
-
 set :rvm_ruby_string, 'ruby-1.9.3-p429@rvidi'
 set :rvm_path, "$HOME/.rvm"
 set :rvm_bin_path, "$HOME/.rvm/bin"

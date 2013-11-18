@@ -11,6 +11,11 @@ set :application, 'rvidi.qwinixtech.com'
 
 set :deploy_to, "#{base_path}/#{app_name}"
 
+set :default_environment, {
+  'PATH' => "#{deploy_to}/bin:$PATH",
+  'GEM_HOME' => "#{deploy_to}/gems"
+}
+
 set :branch, 'master'
 #set :branch, 'video-quality'
 #set :port, 1122
