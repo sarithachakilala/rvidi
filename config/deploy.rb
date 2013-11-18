@@ -1,3 +1,4 @@
+require 'rvm/capistrano'
 require 'bundler/capistrano'
 require 'capistrano_colors'
 require 'capistrano-deploytags'
@@ -5,8 +6,6 @@ require 'capistrano/ext/multistage'
 require "delayed/recipes" # Required for delayed_jobs
 
 set :default_shell, '/bin/bash -l'
-
-require 'rvm/capistrano'
 
 set :rvm_ruby_string, 'ruby-1.9.3-p429@rvidi'
 set :rvm_path, "$HOME/.rvm"
