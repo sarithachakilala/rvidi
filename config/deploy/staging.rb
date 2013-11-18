@@ -1,9 +1,9 @@
 server '162.243.94.70', :app, :web, :db, :primary => true
 
 # RVM Settings
-require 'rvm/capistrano'
-# Add RVM's lib directory to the load path.
-$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
+
+## Add RVM's lib directory to the load path.
+#$:.unshift(File.expand_path('./lib', ENV['rvm_path']))
 
 set :deploy_via, :remote_cache
 set :app_name, 'rvidi'
