@@ -1,4 +1,4 @@
-server '68.168.252.184', :app, :web, :db, :primary => true
+server '162.243.94.70', :app, :web, :db, :primary => true
 
 # RVM Settings
 require 'rvm/capistrano'
