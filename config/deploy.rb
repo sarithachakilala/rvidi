@@ -5,7 +5,11 @@ require 'capistrano-deploytags'
 require 'capistrano/ext/multistage'
 require "delayed/recipes" # Required for delayed_jobs
 
-set :default_shell, '/bin/bash -l'
+set :default_environment, {
+  'PATH' => "#{deploy_to}/bin:$PATH",
+  'GEM_HOME' => "#{deploy_to}/gems"
+}
+
 
 set :rvm_ruby_string, 'ruby-1.9.3-p429@rvidi'
 set :rvm_path, "$HOME/.rvm"
@@ -47,6 +51,7 @@ namespace :deploy do
 
   desc "Symlink shared configs and folders on each release."
   task :copy_database_yml do
+    puts "hello Entering the copying process ----"
     run "mkdir -p #{shared_path}/config"
     run "cp -f #{release_path}/config/database.yml.example #{shared_path}/config/database.yml"
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
