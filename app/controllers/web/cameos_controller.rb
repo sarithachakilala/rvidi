@@ -142,9 +142,10 @@ module Web
 
     def destroy
       @cameo = Cameo.find(params[:id])
+      show = @cameo.show
       @cameo.destroy
       respond_to do |format|
-        format.html { redirect_to web_cameos_url }
+        format.html { redirect_to web_show_path(show)}
         format.js {}
         format.json { head :no_content }
       end
