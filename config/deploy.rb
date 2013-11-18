@@ -7,7 +7,7 @@ require "delayed/recipes" # Required for delayed_jobs
 set :rvm_ruby_string, 'ruby-1.9.3-p429@rvidi'
 set :rvm_path, "$HOME/.rvm"
 set :rvm_bin_path, "$HOME/.rvm/bin"
-set :rvm_type, :system
+set :rvm_type, :user
 
 set :stages, ["staging", "demo"]
 set :default_stage, "staging"
