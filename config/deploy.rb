@@ -51,7 +51,7 @@ namespace :deploy do
   end
 
   task :copy_media_server_yml do
-    run "ln -nfs #{shared_path}/config/media_server.yml #{release_path}/config/media_server.yml"
+    run "ln -nfs #{shared_path}/config/media_server.yml.example #{release_path}/config/media_server.yml"
   end
 
   # To reset database connection, while deploying

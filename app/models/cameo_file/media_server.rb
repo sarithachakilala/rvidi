@@ -64,12 +64,16 @@ class CameoFile::MediaServer
     if Rails.env == 'development'
       `rm -f #{server_path}#{user_id}_#{timestamp}.flv`
     else
-     `rm -f #{server_path}#{user_id}_#{timestamp}.flv`
+      `rm -f #{server_path}#{user_id}_#{timestamp}.flv`
     end
   end
 
   def server_path
-    "/usr/local/WowzaMediaServer-3.6.3/content/"
+    if Rails.env == 'development'
+      "/usr/local/WowzaMediaServer-3.6.3/content/"
+    else
+      "/usr/local/WowzaMediaServer-3.6.2/content/"
+    end
   end
 
   private
