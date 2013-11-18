@@ -13,7 +13,7 @@ set :git_enable_submodules, 1
 
 set :scm, 'git'
 set :user, 'deploy'
-set :repository, 'git@git.qwinixtech.com:repositories/rails/rvidi.git'
+set :repository, 'git@gitlab.qwinixtech.com:repositories/rails/rvidi.git'
 set :base_path, '/u01/apps/qwinix'
 set :normalize_asset_timestamps, false
 set :default_shell, :bash
