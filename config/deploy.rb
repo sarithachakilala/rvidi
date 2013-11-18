@@ -28,6 +28,9 @@ set :app_name, 'rvidi'
 set :application, 'rvidi.qwinixtech.com'
 set :shared_children, shared_children + %w{public/uploads}
 
+before 'deploy:setup', 'rvm:install_rvm'
+before 'deploy:setup', 'rvm:install_ruby'
+
 before "deploy:assets:precompile", "deploy:copy_database_yml"
 before "deploy:assets:precompile", "deploy:copy_media_server_yml"
 
