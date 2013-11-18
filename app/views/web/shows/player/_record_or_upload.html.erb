@@ -37,9 +37,9 @@
 
     <!-- Video Recorder -->
 
-    <!--<div id="div_record_video_holder" class="hide" style="width:800px; margin:0px auto;">
-      <iframe src="<%#= web_video_player_path(:type => 'RECORD') %>" frameborder="0" scrolling="no" name="iframe-video-container" class="iframe-video-container"></iframe>
-    </div> -->
+    <div id="div_record_video_holder" class="hide" style="width:800px; margin:0px auto;">
+      <iframe src="<%= web_video_player_path(:type => 'RECORD') %>" frameborder="0" scrolling="no" name="iframe-video-container" class="iframe-video-container"></iframe>
+    </div>
   </div>
 </div>
 
@@ -49,10 +49,10 @@
 
       // Show the SWF Recorder
       $('#div_record_video_holder').toggle();
-      //$(this).closest('form').attr('action', '<%#= j web_video_player_path(:type => 'RECORD') %>');
-      //$(this).closest('form').removeClass('js-validated-form');
-      //$(this).closest('form').submit();
-      //return event.preventDefault();
+      $(this).closest('form').attr('action', '<%#= j web_video_player_path(:type => 'RECORD') %>');
+      $(this).closest('form').removeClass('js-validated-form');
+      $(this).closest('form').submit();
+      return event.preventDefault();
     });
 
     $(document).on('change', '#fileToUpload', function(e) {
@@ -62,7 +62,7 @@
         //$('#div_record_video_holder').show();
         //$(this).closest('form').attr('action', '<%#= j web_validate_video_path %>');
       //  $(this).closest('form').removeClass('js-validated-form');
-        $(this).closest('form').submit();
+        //$(this).closest('form').submit();
       }
 
     //});

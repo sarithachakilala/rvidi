@@ -38,19 +38,19 @@ class CameoFile < ActiveRecord::Base
 
   def get_file_metadata
     self.metadata ||= {duration: file_movie.duration,
-    bitrate: file_movie.bitrate,
-    size: file_movie.size,
-    video_stream: file_movie.video_stream,
-    video_codec: file_movie.video_codec,
-    colorspace: file_movie.colorspace,
-    resolution: file_movie.resolution,
-    width: file_movie.width,
-    height: file_movie.height,
-    frame_rate: file_movie.frame_rate,
-    audio_stream: file_movie.audio_stream,
-    audio_codec: file_movie.audio_codec,
-    audio_sample_rate: file_movie.audio_sample_rate,
-    audio_channels: file_movie.audio_channels}
+      bitrate: file_movie.bitrate,
+      size: file_movie.size,
+      video_stream: file_movie.video_stream,
+      video_codec: file_movie.video_codec,
+      colorspace: file_movie.colorspace,
+      resolution: file_movie.resolution,
+      width: file_movie.width,
+      height: file_movie.height,
+      frame_rate: file_movie.frame_rate,
+      audio_stream: file_movie.audio_stream,
+      audio_codec: file_movie.audio_codec,
+      audio_sample_rate: file_movie.audio_sample_rate,
+      audio_channels: file_movie.audio_channels}
   end
 
   def get_file_size
@@ -65,5 +65,10 @@ class CameoFile < ActiveRecord::Base
     media_server.rtmp_streaming_url
   end
 
+  
+
+  private
+
+  
 
 end
