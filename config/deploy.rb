@@ -48,7 +48,6 @@ namespace :deploy do
 
   desc "Symlink shared configs and folders on each release."
   task :copy_database_yml do
-    puts "hello Entering the copying process ----"
     run "mkdir -p #{shared_path}/config"
     run "cp -f #{release_path}/config/database.yml.example #{shared_path}/config/database.yml"
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
@@ -56,7 +55,10 @@ namespace :deploy do
   end
 
   task :copy_media_server_yml do
-    run "ln -nfs #{shared_path}/config/media_server.yml.example #{release_path}/config/media_server.yml"
+    run "mkdir -p #{shared_path}/config"
+    run "cp -f #{release_path}/config/media_server.yml.example #{shared_path}/config/media_server.yml"
+    run "ln -nfs #{shared_path}/config/media_server.yml #{release_path}/config/media_server.yml"
+    run "rm -f #{release_path}/config/media_server.yml.example"
   end
 
   # To reset database connection, while deploying
