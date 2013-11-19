@@ -24,10 +24,10 @@ class CameoFile::MediaServer
   end
 
   def move_to_server
-    if Rails.env.development?
-      move_to_local_folder
-    else
+    if Rails.env.production?
       upload_file
+    else
+      move_to_local_folder
     end
   end
 
