@@ -1,8 +1,14 @@
+require 'rvm/capistrano'
 require 'bundler/capistrano'
 require 'capistrano_colors'
 require 'capistrano-deploytags'
 require 'capistrano/ext/multistage'
 require "delayed/recipes" # Required for delayed_jobs
+
+set :rvm_ruby_string, 'ruby-1.9.3-p429@rvidi'
+set :rvm_path, "$HOME/.rvm"
+set :rvm_bin_path, "$HOME/.rvm/bin"
+set :rvm_type, :user
 
 set :stages, ["staging", "demo"]
 set :default_stage, "staging"
@@ -13,7 +19,7 @@ set :git_enable_submodules, 1
 
 set :scm, 'git'
 set :user, 'deploy'
-set :repository, 'git@git.qwinixtech.com:repositories/rails/rvidi.git'
+set :repository, 'git@gitlab.qwinixtech.com:repositories/rails/rvidi.git'
 set :base_path, '/u01/apps/qwinix'
 set :normalize_asset_timestamps, false
 set :default_shell, :bash
@@ -21,6 +27,9 @@ set :default_shell, :bash
 set :app_name, 'rvidi'
 set :application, 'rvidi.qwinixtech.com'
 set :shared_children, shared_children + %w{public/uploads}
+
+before 'deploy:setup', 'rvm:install_rvm'
+before 'deploy:setup', 'rvm:install_ruby'
 
 before "deploy:assets:precompile", "deploy:copy_database_yml"
 before "deploy:assets:precompile", "deploy:copy_media_server_yml"
@@ -39,11 +48,17 @@ namespace :deploy do
 
   desc "Symlink shared configs and folders on each release."
   task :copy_database_yml do
+    run "mkdir -p #{shared_path}/config"
+    run "cp -f #{release_path}/config/database.yml.example #{shared_path}/config/database.yml"
     run "ln -nfs #{shared_path}/config/database.yml #{release_path}/config/database.yml"
+    run "rm -f #{release_path}/config/database.yml.example"
   end
 
   task :copy_media_server_yml do
+    run "mkdir -p #{shared_path}/config"
+    run "cp -f #{release_path}/config/media_server.yml.example #{shared_path}/config/media_server.yml"
     run "ln -nfs #{shared_path}/config/media_server.yml #{release_path}/config/media_server.yml"
+    run "rm -f #{release_path}/config/media_server.yml.example"
   end
 
   # To reset database connection, while deploying

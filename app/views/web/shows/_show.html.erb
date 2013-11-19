@@ -1,9 +1,9 @@
-  <!-- current user is the director of the show -->
+<!-- current user is the director of the show -->
 <% if current_user.present? && show.user_id==current_user.id %>
   <%= render :partial => "web/shows/show_page",
-              :locals=> {:show => show, :cameo => cameo,
-                          :show_comments => show_comments,
-                          :all_comments => all_comments} %>
+    :locals=> {:show => show, :cameo => cameo,
+    :show_comments => show_comments,
+    :all_comments => all_comments} %>
   <!-- If the show is protected  -->
 <% elsif @display_prefernce == "password_protected" && !@non_rvidi_user_invitation.present?  %>
   <div class="login_container">
@@ -34,16 +34,16 @@
     <div class="">
       <h3 id="myModalLabel">This Show is Private and you are not invited to this Show yet or your are not friend of the show director</h3>
     </div>
-  </div>  
-   <div class="hr_bg_welcome" style="">
-      <div class="text_align_center add_cameo_btn">
-         <%= link_to "Go Back", root_url, :class => "btn btn-info",
-                      :style => "margin-top:8px;" %>
-      </div>
+  </div>
+  <div class="hr_bg_welcome" style="">
+    <div class="text_align_center add_cameo_btn">
+      <%= link_to "Go Back", root_url, :class => "btn btn-info",
+        :style => "margin-top:8px;" %>
+    </div>
   </div>
 <% else %>
   <%= render :partial => "web/shows/show_page", :locals => {:show => show,
-                                                            :cameo => cameo,
-                                                            :show_comments => show_comments,
-                                                            :all_comments => all_comments} %>
+    :cameo => cameo,
+    :show_comments => show_comments,
+    :all_comments => all_comments} %>
 <% end %>

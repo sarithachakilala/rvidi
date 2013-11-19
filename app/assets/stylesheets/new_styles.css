@@ -16,7 +16,7 @@
   margin: 20px 38px 10px 38px;
   padding: 30px 0px;
   /*width:100%; */
-  
+
 }
 
 .white-transparent-box h1, .white-transparent-box h2, .white-transparent-box h3, .white-transparent-box h4, .white-transparent-box h5, .white-transparent-box h6 {
@@ -117,4 +117,14 @@
   z-index: 99999;
   background: #000;
   color:#fff;
+}
+
+.div-cameo-btns {
+  width: 250px; margin:-10px auto;
+}
+
+.div-cameo-btns .div-btn {
+  text-align: center;
+  float:left;
+  margin:0px auto;
 }

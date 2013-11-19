@@ -9,7 +9,11 @@ module ApplicationHelper
 	end
 
   def streaming_server_path
-    Rails.env == 'development' ? ("rtmp://localhost/oflaDemo/") : ("rtmp://red5.qwinixtech.com/oflaDemo/")
+      if Rails.env == 'development'
+        "rtmp://localhost/rvidi-recording/"
+      else
+        "rtmp://162.243.94.70:1935/rvidi-recording/"
+      end
   end
 
   def get_show_id(object)

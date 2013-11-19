@@ -56,13 +56,14 @@ if ( hasProductInstall && !hasRequestedVersion ) {
 	// DO NOT MODIFY THE FOLLOWING FOUR LINES
 	// Location visited after installation is complete if installation is required
 	var MMPlayerType = (isIE == true) ? "ActiveX" : "PlugIn";
+  var Server = "rtmp://localhost/webcamrecording"
 	var MMredirectURL = window.location;
     document.title = document.title.slice(0, 47) + " - Flash Player Installation";
     var MMdoctitle = document.title;
 
 	AC_FL_RunContent(
 		"src", "playerProductInstall",
-		"FlashVars", "MMredirectURL="+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+"",
+		"FlashVars", "server=" +Server+'&MMredirectURL='+MMredirectURL+'&MMplayerType='+MMPlayerType+'&MMdoctitle='+MMdoctitle+"",
 		"width", "100%",
 		"height", "100%",
 		"align", "middle",

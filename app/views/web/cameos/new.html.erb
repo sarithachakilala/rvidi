@@ -18,7 +18,9 @@
                            :multipart => true,
                            :target => 'iframe-video-container' } do |f| %>
 
-    <!-- Form fields - Cameo Deatils (Black Box) -->
+  <%= hidden_field_tag 'cameo_src_type', "upload" %>
+  
+  <!-- Form fields - Cameo Deatils (Black Box) -->
     <%= render :partial => "web/cameos/form/cameo_form_block",
       :locals => { :f => f, :title => "Cameo Details" } %>
 

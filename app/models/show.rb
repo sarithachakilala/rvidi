@@ -33,7 +33,7 @@ class Show < ActiveRecord::Base
   # Associations
   belongs_to :director, :class_name => "User", :foreign_key => "user_id"
   has_many :cameos, :dependent => :destroy
-  accepts_nested_attributes_for :cameos, :allow_destroy => true
+  #accepts_nested_attributes_for :cameos, :allow_destroy => true
 
   has_many :comments, :dependent => :destroy
   has_many :notifications, :dependent => :destroy

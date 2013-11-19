@@ -96,7 +96,7 @@ module Web
           # invite_friend(params[:selected_friends]) if params[:selected_friends].present?
           # invite_friend_toshow_after_create(params[:email], @show) if params[:email].present?
           format.html { redirect_to web_show_path(@show),
-            :notice => 'Show was successfully created. The system will take few minutes to convert the video. Please check back after few minutes.' }
+            :notice => 'Show was successfully created.' }
           format.js {}
           format.json { render json: @show, status: :created, location: @show }
         else

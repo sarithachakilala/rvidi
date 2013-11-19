@@ -3,9 +3,9 @@
     <div class="accordion-heading">
 
       <div class="accordion-toggle changeable-plus-minus"
-                  data-toggle="collapse"
-                  data-parent="#accordion1"
-                  href="#collapseOne">
+           data-toggle="collapse"
+           data-parent="#accordion1"
+           href="#collapseOne">
 
         <!-- Heading -->
         <%= content_tag :h2, @cameo.title, :class=>"pull-left" %>
@@ -29,10 +29,10 @@
 
         <div id="show_<%= params[:id] %>_kaltura_player_container">
           <a href="<%= @cameo.rtmp_streaming_url %>"
-              style="display:block;width:789px;height:444px;"
-              id="player2">
-              <%= image_tag @cameo.thumbnail_url(:screen), alt: @cameo.title %>
-              <span class='play'></span>
+             style="display:block;width:789px;height:444px;"
+             id="player2">
+               <%= image_tag @cameo.thumbnail_url(:screen), alt: @cameo.title %>
+            <span class='play'></span>
           </a>
         </div>
       </div>
@@ -42,9 +42,18 @@
 
 <div class="buttons_height">
   <div class=" hr_bg" style="">
-    <div class="text_align_center newshow_btn">
-      <%= link_to "Go Back", dashboard_user_account_path(current_user.id),
-                  :class => "btn  btn-info " %>
+    <div class="div-cameo-btns" style="">
+      <div class="div-btn" style="margin-right:20px;">
+        <%= link_to "Go Back", dashboard_user_account_path(current_user.id),
+          :class => "btn  btn-info " %>
+      </div>
+      <div class="div-btn" style="">
+        <%= link_to "Delete",  web_cameo_path(@cameo),
+            :method => :delete,
+            :confirm => 'Are You Sure?',
+            :class => "btn  btn-info " %>
+      </div>
+      <div class="clear" style="clear:both"></div>
     </div>
   </div>
 </div>

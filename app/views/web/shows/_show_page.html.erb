@@ -1,26 +1,28 @@
-<div class="player-box">
-  <div class="padding-left-10">
-    <div class="font-size-16 bold"><%= show.title.capitalize %></div>
-    <div class="font-size-12"><%= show.director.full_name.titlecase %></div>
+<% if show.cameos.present? %>
+  <div class="player-box">
+    <div class="padding-left-10">
+      <div class="font-size-16 bold"><%= show.title.capitalize %></div>
+      <div class="font-size-12"><%= show.director.full_name.titlecase %></div>
+    </div>
+
+    <div id="show_<%= show.id %>_kaltura_player_container">
+      <% selected_cameo = (cameo.present? && cameo.status =="enabled" && cameo.published_status == "published") ? cameo :  show.cameos.asc.enabled.pending.first %>
+      <%= render( :partial => 'web/shows/player/rvidiplayer_playlist',
+                  :locals => {:show => @show} ) if @show.cameos.count > 0 %>
+    </div>
+
+    <% if params[:controller] == 'web/shows' && params[:action] != 'show' %>
+      <%= render :partial => "web/edit/players_and_contributers", :locals => {:show => show} %>
+    <% end %>
+
   </div>
-
-  <div id="show_<%= show.id %>_kaltura_player_container">
-    <% selected_cameo = (cameo.present? && cameo.status =="enabled" && cameo.published_status == "published") ? cameo :  show.cameos.asc.enabled.pending.first %>
-      <%= render( :partial => 'web/shows/player/rvidiplayer_playlist', :locals => {:show => @show} ) if @show.cameos.count > 0 %>
-  </div>
-
-  <% if params[:controller] == 'web/shows' && params[:action] != 'show' %>
-    <%= render :partial => "web/edit/players_and_contributers", :locals => {:show => show} %>
-  <% end %>
-
-</div>
+<% end %>
 
 <!-- Show Details -->
 <%= render :partial=> "web/shows/show/details", :locals => {:show => show,
-                                                  :cameo => cameo,
-                                                  :show_comments => show_comments,
-                                                  :all_comments => all_comments} %>
-
+                                                            :cameo => cameo,
+                                                            :show_comments => show_comments,
+                                                            :all_comments => all_comments} %>
 
 <div class="">
   <div class="buttons_height_100">
@@ -30,38 +32,38 @@
           <% unless @show.try(:end_set) && (@show.end_set < Time.now) %>
             <% if show.contributor_preferences != Show::Contributor_Preferences::PRIVATE %>
               <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe,
-                          new_web_cameo_path(:show_id => show.id,
-                                         :director_id => show.user_id,
-                                         :from => params[:from],
-                                         :through => params[:email],
-                                         :from_id => params[:from_id]),
-                          :class => "btn btn-info", :style => '' %>
+                new_web_cameo_path(:show_id => show.id,
+                :director_id => show.user_id,
+                :from => params[:from],
+                :through => params[:email],
+                :from_id => params[:from_id]),
+                :class => "btn btn-info", :style => '' %>
               <i class="sprite-or-icon_black" style=""></i>
             <% elsif show.contributor_preferences == Show::Contributor_Preferences::PRIVATE &&
                 current_user.present? && show.user_id==current_user.id %>
               <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe,
-                          new_web_cameo_path(:show_id => show.id,
-                                        :director_id => show.user_id,
-                                        :from => params[:from],
-                                        :through => params[:email],
-                                        :from_id => params[:from_id]),
-                          :class => "btn btn-info" %>
+                new_web_cameo_path(:show_id => show.id,
+                :director_id => show.user_id,
+                :from => params[:from],
+                :through => params[:email],
+                :from_id => params[:from_id]),
+                :class => "btn btn-info" %>
               <i class="sprite-or-icon_black" style=''></i>
             <% elsif show.contributor_preferences == "private" && @invited.present? %>
               <%= link_to "<i class='sprite-reel-white'></i> Add a Cameo".html_safe,
-                          new_web_cameo_path(:show_id => show.id,
-                                        :director_id => show.user_id,
-                                        :from => params[:from],
-                                        :through => params[:email],
-                                        :from_id => params[:from_id]),
-                          :class => "btn btn-info" %>
+                new_web_cameo_path(:show_id => show.id,
+                :director_id => show.user_id,
+                :from => params[:from],
+                :through => params[:email],
+                :from_id => params[:from_id]),
+                :class => "btn btn-info" %>
               <i class="sprite-or-icon_black"  style=''></i>
             <% end %>
           <% end %>
         <% end %>
 
         <%= link_to "<i class='sprite-camera-white'></i> Start a New Show".html_safe,
-                    new_web_show_path, :class => "btn btn-warning" %>
+          new_web_show_path, :class => "btn btn-warning" %>
       </div>
     </div>
   </div>

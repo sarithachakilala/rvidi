@@ -60,6 +60,18 @@ class CameoFile::MediaServer
     @conn.upload! @cameo_file.file.path, @config["folder"]
   end
 
+  def delete_file_from_media_server(user_id, timestamp)
+    if Rails.env == 'development'
+      `rm -f #{server_path}#{user_id}_#{timestamp}.flv`
+    else
+      `rm -f #{server_path}#{user_id}_#{timestamp}.flv`
+    end
+  end
+
+  def server_path
+    "/usr/local/WowzaMediaServer/content/rvidi/"
+  end
+
   private
 
   def get_file_extension(cameo_file)
