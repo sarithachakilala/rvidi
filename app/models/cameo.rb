@@ -108,11 +108,7 @@ class Cameo < ActiveRecord::Base
   end
   
   def get_flv_file_path(current_user, cameo_tt)
-    if Rails.env == 'development'
-      self.file.file = File.open("#{self.file.media_server.server_path}#{current_user.id}_#{cameo_tt}.flv")
-    else
-      self.file.file = File.open("#{self.file.media_server.server_path}#{current_user.id}_#{cameo_tt}.flv")
-    end
+    self.file.file = File.open("#{self.file.media_server.server_path}#{current_user.id}_#{cameo_tt}.flv")
   end
 
   def delete_file
