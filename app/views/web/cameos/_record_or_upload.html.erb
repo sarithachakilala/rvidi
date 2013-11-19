@@ -27,7 +27,7 @@
           :class => "show-cameo-director-id" %>
         <%= f.hidden_field :status, :value => "enabled", :class => "show-cameo-status" %>
         <%= hidden_field_tag 'tstamp', @tstamp %>
-        <%= f.fields_for :file do |file| %>
+        <%= f.fields_for :files do |file| %>
           <div class="">
             <label for="fileToUpload" style="" class="label-upload-file">
               Upload File

@@ -61,5 +61,54 @@ describe Cameo do
     end
   end
 
+  describe "transcoding to mp4" do
+
+    before :all do
+      @cameo_file = FactoryGirl.build :cameo_file
+      @cameo_file.file = File.open("spec/fixtures/videos/sample.flv")
+      @cameo_file.save!
+      @cameo = @cameo_file.cameo
+    end
+
+    after :all do
+      @cameo.destroy
+    end
+
+    it "should transcode any input format to mp4 if not mp4 format is given" do
+      expect{
+        @cameo.generate_mp4( :web )
+      }.to change(CameoFile, :count).by(1)
+      @cameo.reload
+      @cameo.files.size.should eq(2)
+      @cameo.files[0].filename.should_not eq(@cameo.files[1].filename)
+      @cameo.files[1].metadata["video_codec"] = "h264"
+    end
+
+    it "not generate more than 1 movie to each device" do
+      @cameo.files.where( "id != #{@cameo.files.first.id}" ).destroy_all
+
+      expect{
+        @cameo.generate_mp4( :web )
+      }.to change(CameoFile, :count).by(1)
+
+      expect{
+        @cameo.generate_mp4( :web )
+      }.to change(CameoFile, :count).by(0)
+    end
+
+    it "should return original video if video for device doesn't exists" do
+      @cameo.get_video_for(:web).should eq( @cameo.files.first )
+    end
+
+    it "should return a proper transcoded profile given a device " do
+      expect{
+        @cameo.generate_mp4( :web )
+      }.to change(CameoFile, :count).by(1)
+      @cameo.reload
+      @cameo.get_video_for(:web).should eq( @cameo.files[1] )
+    end
+
+  end
+
 
 end

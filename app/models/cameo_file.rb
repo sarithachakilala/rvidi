@@ -7,6 +7,8 @@ class CameoFile < ActiveRecord::Base
 
   belongs_to :cameo
 
+  attr_accessible :device, :cameo_id, :filesize, :duration, :metadata
+
   #Gem Related
   mount_uploader :file, VideoFileUploader
 
@@ -63,6 +65,15 @@ class CameoFile < ActiveRecord::Base
 
   def rtmp_streaming_url
     media_server.rtmp_streaming_url
+  end
+
+  def filename
+    File.basename(file.path)
+  end
+
+  def get_transcode( format = :web )
+    options= {}
+    file_movie.transcode("#{File.dirname(file.path)}/#{file.get_new_filename.gsub(/\..*?$/, "")}.mp4", options)
   end
 
 

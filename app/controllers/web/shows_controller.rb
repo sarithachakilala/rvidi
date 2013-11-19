@@ -103,7 +103,7 @@ module Web
           ## Buidling a cameo and cameo_file
           @show.cameos = []
           cameo = @show.cameos.build
-          cameo.build_file
+          cameo.files.build
 
           p "%"*80; p "errors while saving show ------------ : #{@show.errors}"
           format.html { render 'new', :error => 'Please check form data'}

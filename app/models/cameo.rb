@@ -15,19 +15,18 @@ class Cameo < ActiveRecord::Base
                 :thumbnail_url_flag, :download_url_flag
 
   attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name,
-                  :description, :title, :published_status, :file, :file_attributes
+                  :description, :title, :published_status, :files, :files_attributes
 
 
-  # Delegations
-  delegate :duration, :metadata, :rtmp_streaming_url, :to => :file
+
 
   # Associations
   belongs_to :show
   belongs_to :user
   belongs_to :director, :class_name => "User", :foreign_key => "director_id"
 
-  has_one :file, class_name: "CameoFile"
-  accepts_nested_attributes_for :file, :allow_destroy => true,
+  has_many :files, class_name: "CameoFile", :dependent => :destroy
+  accepts_nested_attributes_for :files, :allow_destroy => true,
                                 :reject_if => proc {|file| file['file'].blank?}
 
   after_initialize :set_flags
@@ -92,13 +91,55 @@ class Cameo < ActiveRecord::Base
       show.director == current_user
   end
 
-  def thumbnail_url( format = :thumb )
-    (file && file.present? && file.file.present? && file.file.send(format).url) ? file.file.send(format).url : Rvidi::Application::IMAGES_DUMMY_FILE
+  def files?
+    (files.count > 0)
   end
 
-  def rtmp_streaming_url
-    (file && file.file) ? file.media_server.rtmp_streaming_url : "faked"
+  def downloable_files?
+    files? && files.first.file.present?
   end
+
+  def thumbnail_url( format = :thumb, device_format  = :web  )
+    video = get_video_for(device_format)
+    ( downloable_files? && video.file.send(format).url) ? video.file.send(format).url : Rvidi::Application::IMAGES_DUMMY_FILE
+  end
+
+  def rtmp_streaming_url( format = :web )
+    ( downloable_files? ) ? get_video_for(format).media_server.rtmp_streaming_url : "faked"
+  end
+
+  def video_format_exists?(format)
+    self.files.where( device: format.to_s ).count > 0
+  end
+
+  def generate_mp4( format = :web )
+    if files.count > 0 && !video_format_exists?(format)
+      new_cameo_file = CameoFile.new
+      new_file = files.first.get_transcode(format)
+      new_cameo_file.file = new_file
+      new_cameo_file.device = format.to_s
+      files << new_cameo_file
+      save!
+      File.delete new_file.path
+      true
+    else
+      false
+    end
+
+  end
+
+  def get_video_for(format = :web)
+    video_format_exists?(format) ? self.files.where( :device => format.to_s ).first : self.files.first
+  end
+
+  def duration( format = :web )
+    video_format_exists?(format) ? get_video_for(format).duration : 0
+  end
+
+  def metadata( format = :web )
+    video_format_exists?(format) ? get_video_for(format).metadata : {}
+  end
+
   private
 
     def auto_enable
@@ -110,7 +151,11 @@ class Cameo < ActiveRecord::Base
     end
 
     def move_file_movie_to_server
-      file.media_server.move_to_server if file.present?
+      if files.first.present?
+        files.first.media_server.move_to_server
+        generate_mp4( :web )
+        get_video_for( :web ).media_server.move_to_server
+      end
     end
 
 

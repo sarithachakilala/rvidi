@@ -16,6 +16,10 @@ class VideoFileUploader < CarrierWave::Uploader::Base
      "#{secure_token(20)}.#{file.extension}" if original_filename.present?
   end
 
+  def get_new_filename
+     "#{random_name(20)}.#{file.extension}"
+  end
+
   version :thumb do
     process thumbnail: [
       {format: 'png', quality: 10, size: 142, strip: true, logger: Rails.logger}
@@ -61,9 +65,13 @@ class VideoFileUploader < CarrierWave::Uploader::Base
 
   protected
 
+    def random_name(length=16)
+      SecureRandom.hex(length/2)
+    end
+
     def secure_token(length=16)
       var = :"@#{mounted_as}_secure_token"
-      model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.hex(length/2))
+      model.instance_variable_get(var) or model.instance_variable_set(var, random_name(length) )
     end
 
 

@@ -31,7 +31,7 @@ module Web
       #Cameo.delete_old_flv_files
       @cameo = Cameo.new(:show_id => params[:show_id],
         :director_id => params[:director_id], :user_id => current_user.id)
-      @cameo.build_file
+      @cameo.files.build
 
       @show = Show.find(params[:show_id])
       @show_preference = @show.set_contributor_preference(current_user,

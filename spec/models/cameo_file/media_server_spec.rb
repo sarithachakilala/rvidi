@@ -39,11 +39,6 @@ describe CameoFile::MediaServer do
         }.to raise_exception
       end
 
-      it "should connect" do
-        @cameo_file.media_server.load_confi_yaml
-        @cameo_file.media_server.start_connection
-      end
-
     end
 
   end
