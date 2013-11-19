@@ -9,7 +9,7 @@ module ApplicationHelper
 	end
 
   def streaming_server_path
-    Rails.env == 'development' ? ("rtmp://localhost/webcamrecording/") : ("rtmp://localhost/webcamrecording/")
+    "rtmp://localhost/rvidi-recording/"
   end
 
   def get_show_id(object)
