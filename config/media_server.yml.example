@@ -11,7 +11,7 @@ test:
   folder: /Library/WowzaMediaServer/content/rvidi
 
 staging:
-  host: rvidi.qwinixtech.com
+  host: 162.243.94.70
   folder: /usr/local/WowzaMediaServer/content/rvidi
   protocol: rtmp
   application: rvidi
