@@ -70,9 +70,9 @@ class CameoFile::MediaServer
 
   def server_path
     if Rails.env == 'development'
-      "/usr/local/WowzaMediaServer-3.6.3/content/"
+      "/usr/local/WowzaMediaServer/content/"
     else
-      "/usr/local/WowzaMediaServer-3.6.2/content/"
+      "/usr/local/WowzaMediaServer/content/"
     end
   end
 
