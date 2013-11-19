@@ -12,7 +12,7 @@ module ApplicationHelper
       if Rails.env == 'development'
         "rtmp://localhost/rvidi-recording/"
       else
-        "rtmp://162.243.94.70:1935/rvidi-recording/"
+        "rtmp://localhost:1935/rvidi-recording/"
       end
   end
 
