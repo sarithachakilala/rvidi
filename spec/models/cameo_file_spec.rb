@@ -44,7 +44,7 @@ describe CameoFile do
     end
 
     it "should return duration and cache in db" do
-      @cameo_file.get_file_duration.should be 596.46 #Fixed number given fixed movie in fixtures
+      @cameo_file.get_file_duration.to_f.should be 596.46 #Fixed number given fixed movie in fixtures
       @cameo_file.save
       @cameo_file.reload
       @cameo_file.duration.to_f.should be 596.46

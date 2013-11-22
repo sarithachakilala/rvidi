@@ -58,7 +58,7 @@ module Web
       @cameo = Cameo.new( params[:cameo] )
       @cameo.timestamp = session[:timestamp]
       @cameo.published_status = "save_cameo"
-      @cameo.link_cameo_file(current_user, session[:timestamp], params[:cameo_src_type])
+      # @cameo.link_cameo_file(current_user, session[:timestamp], params[:cameo_src_type])
 
       # @invited = InviteFriend.where(:director_id=> @cameo.show.user_id, :show_id=> @cameo.show.id, :contributor_id=>current_user.id, :status =>"invited" ) if @current_user
 

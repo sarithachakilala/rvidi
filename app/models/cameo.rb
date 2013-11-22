@@ -30,7 +30,7 @@ class Cameo < ActiveRecord::Base
   after_initialize :set_flags
   before_validation :auto_enable, on: :create
 
-  after_create :move_file_movie_to_server, :delete_file
+  after_create :move_file_movie_to_server #, :delete_file
 
   # Validations
   validates :show_id,
@@ -151,9 +151,9 @@ class Cameo < ActiveRecord::Base
     self.file.file = File.open("#{self.file.media_server.server_path}#{current_user.id}_#{cameo_tt}.flv")
   end
 
-  def delete_file
-    file.media_server.delete_file_from_media_server(user_id, timestamp)
-  end
+  # def delete_file
+  #   file.media_server.delete_file_from_media_server(user_id, timestamp)
+  # end
 
   def move_file_movie_to_server
     if files.first.present?

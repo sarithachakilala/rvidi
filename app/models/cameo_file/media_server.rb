@@ -4,8 +4,8 @@ class CameoFile::MediaServer
 
   attr_accessor :config
 
-  def initialize( cameo_file )
-    @cameo_file = cameo_file
+  def initialize( file )
+    @video_file = file
     load_confi_yaml
     start_connection if Rails.env.production?
   end
@@ -32,20 +32,20 @@ class CameoFile::MediaServer
   end
 
   def http_streaming_url
-    "http://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/mp4:#{File.basename(@cameo_file.file.path.to_s)}/manifest.f4m"
+    "http://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/mp4:#{File.basename(@video_file.path.to_s)}/manifest.f4m"
   end
 
   def rtmp_streaming_url
-    "rtmp://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/#{get_file_extension(@cameo_file)}:#{File.basename(@cameo_file.file.path.to_s)}"
+    "rtmp://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/#{get_file_extension(@video_file)}:#{File.basename(@video_file.path.to_s)}"
   end
 
 
   def move_to_local_folder
-    `rsync -avz #{@cameo_file.file.path} #{@config["folder"]}/`
+    `rsync -avz #{@video_file.path} #{@config["folder"]}/`
   end
 
   def path
-    "#{@config["folder"]}/#{@cameo_file.file.filename}"
+    "#{@config["folder"]}/#{@video_file.filename}"
   end
 
   def destroy_file
@@ -57,7 +57,7 @@ class CameoFile::MediaServer
   end
 
   def upload_file
-    @conn.upload! @cameo_file.file.path, @config["folder"]
+    @conn.upload! @video_file.path, @config["folder"]
   end
 
   def delete_file_from_media_server(user_id, timestamp)
@@ -74,8 +74,8 @@ class CameoFile::MediaServer
 
   private
 
-  def get_file_extension(cameo_file)
-    cameo_file.file ? File.extname(cameo_file.file.path.to_s).gsub(".", '') : "mp4"
+  def get_file_extension(video_file)
+    video_file.present? ? File.extname(video_file.path.to_s).gsub(".", '') : "mp4"
   end
   # # upload a file to a remote server
   # Net::SCP.upload!("remote.host.com", "username",

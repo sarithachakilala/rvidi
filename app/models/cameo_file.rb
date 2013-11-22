@@ -60,7 +60,7 @@ class CameoFile < ActiveRecord::Base
   end
 
   def media_server
-    @media_server ||= MediaServer.new(self)
+    @media_server ||= MediaServer.new(self.file)
   end
 
   def rtmp_streaming_url

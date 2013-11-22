@@ -65,7 +65,7 @@ describe Cameo do
 
     before :all do
       @cameo_file = FactoryGirl.build :cameo_file
-      @cameo_file.file = File.open("spec/fixtures/videos/sample.flv")
+      @cameo_file.file = File.open("spec/fixtures/videos/sample.mp4")
       @cameo_file.save!
       @cameo = @cameo_file.cameo
     end
