@@ -75,7 +75,7 @@ module Web
 
       ## Buidling a cameo and cameo_file
       cameo = @show.cameos.build
-      cameo.build_file
+      cameo.files.build
 
       ## Get the friend list
       @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")

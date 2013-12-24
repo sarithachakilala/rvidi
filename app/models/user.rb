@@ -32,7 +32,7 @@ class User < ActiveRecord::Base
   validate :check_password_confirmation, :on => :create,
     :if => Proc.new { |user| user.password.present? && user.password_confirmation.present? }
 
-  validates :terms_conditions, :acceptance => {:accept => 1}, :on => :create
+  validates :terms_conditions, :acceptance => {:accept => '1'}, :on => :create
 
   #Callbacks
 

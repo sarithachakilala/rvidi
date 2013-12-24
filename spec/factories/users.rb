@@ -26,6 +26,6 @@ FactoryGirl.define do
     email
     password "password"
     password_confirmation "password"
-    terms_conditions 1
+    terms_conditions '1'
   end
 end
