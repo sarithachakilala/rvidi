@@ -69,7 +69,8 @@ class CameoFile::MediaServer
   end
 
   def server_path
-    "/usr/local/WowzaMediaServer/content/rvidi/"
+    # "/usr/local/WowzaMediaServer/content/rvidi/"
+    "/Library/WowzaMediaServer-3.6.3/content/rvidi-recording/"
   end
 
   private

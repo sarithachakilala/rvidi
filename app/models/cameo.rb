@@ -123,7 +123,6 @@ class Cameo < ActiveRecord::Base
     else
       false
     end
-
   end
 
   def get_video_for(format = :web)
@@ -138,17 +137,16 @@ class Cameo < ActiveRecord::Base
     video_format_exists?(format) ? get_video_for(format).metadata : {}
   end
 
-  private
-
   def link_cameo_file(current_user, cameo_tt, cameo_src_type)
     if cameo_src_type == 'record'
-      self.build_file
       get_flv_file_path(current_user, cameo_tt)
     end
   end
 
+  private
   def get_flv_file_path(current_user, cameo_tt)
-    self.file.file = File.open("#{self.file.media_server.server_path}#{current_user.id}_#{cameo_tt}.flv")
+    file = self.files.build
+    file.file = File.open("#{file.media_server.server_path}#{current_user.id}_#{cameo_tt}.flv")
   end
 
   # def delete_file
@@ -170,7 +168,6 @@ class Cameo < ActiveRecord::Base
       self.status = Cameo::Status::Pending
     end
   end
-
 
 end
 
