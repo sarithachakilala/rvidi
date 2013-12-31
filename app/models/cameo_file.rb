@@ -72,9 +72,8 @@ class CameoFile < ActiveRecord::Base
   end
 
   def get_transcode( format = :web )
-    options= {}
+    options= { custom: "-vf 'scale=492:trunc(ow/a/2)*2'" }
     file_movie.transcode("#{File.dirname(file.path)}/#{file.get_new_filename.gsub(/\..*?$/, "")}.mp4", options)
   end
-
 
 end
