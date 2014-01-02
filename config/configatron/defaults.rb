@@ -47,3 +47,6 @@ configatron.service_url = 'http://www.kaltura.com'
 configatron.time_out = 60
 configatron.user_name = 'Raghavendra Joshi'
 configatron.user_id = 'rjsohi@qwinixtech.com'
+
+## Media server info (Wowza)
+configatron.media_server_path = "/Library/WowzaMediaServer-3.6.3/content/rvidi-recording/"

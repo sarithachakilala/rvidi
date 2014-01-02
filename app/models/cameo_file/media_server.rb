@@ -39,7 +39,6 @@ class CameoFile::MediaServer
     "rtmp://#{@config["host"]}:#{@config["port"]}/#{@config["application"]}/#{get_file_extension(@video_file)}:#{File.basename(@video_file.path.to_s)}"
   end
 
-
   def move_to_local_folder
     `rsync -avz #{@video_file.path} #{@config["folder"]}/`
   end
@@ -69,8 +68,7 @@ class CameoFile::MediaServer
   end
 
   def server_path
-    # "/usr/local/WowzaMediaServer/content/rvidi/"
-    "/Library/WowzaMediaServer-3.6.3/content/rvidi-recording/"
+    configatron.media_server_path
   end
 
   private
