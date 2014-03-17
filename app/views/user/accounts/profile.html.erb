@@ -199,7 +199,8 @@
     <div class="span12">
       <div class="hr_bg_welcome">
         <div class="text_align_center login_and_account">
-          <%= f.submit "Get started", :class => "btn btn-warning" , :style => "margin-top:8px;" %>
+          <% submit_text = @user.new_record? ? "Get started" : "Save" %>
+          <%= f.submit submit_text, :class => "btn btn-warning" , :style => "margin-top:8px;" %>
         </div>
       </div>
     </div>

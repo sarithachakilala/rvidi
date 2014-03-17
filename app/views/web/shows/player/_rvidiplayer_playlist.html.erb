@@ -1,14 +1,14 @@
 
 <!-- player container and a splash image (play button) -->
 <div class="row-fluid">
-  <div class="span7" style="width:556px; height:313px;">
+  <div class="span7" style="width:556px; height:250px;">
     <a class="player plain" id="player2">
       <img src="<%= show.first_cameo_thumb(:player) %>" class="button" alt="" />
     </a>
   </div>
 
   <div class="span4">
-    <div class="clips petrol">
+    <div class="clips petrol" style="height:250px;overflow:auto;">
       <!-- single playlist entry -->
       <% show.cameos.each_with_index do |cameo, index| %>
         <a href="<%= cameo.rtmp_streaming_url %>"
