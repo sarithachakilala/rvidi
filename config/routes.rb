@@ -9,11 +9,10 @@ Rvidi::Application.routes.draw do
     end
   end
 
+  get 'auth/:provider/callback', to: 'user/sessions#create'
   namespace(:user) {
 
     get "password_resets/new"
-    match "/auth/twitter/callback" => "/sessions#create"
-    match 'auth/:provider/callback', to: 'sessions#create'
     delete 'sign_out', to: 'sessions#destroy', :as => :sign_out
 
     resources :password_resets
