@@ -50,7 +50,7 @@ function get_facebook_friends() {
     fields: 'email,name,id,picture'
   }, function(response) {
     jQuery.ajax({
-      url: "/users/add_facebook_friends",
+      url: "/user/accounts/add_facebook_friends",
       data: JSON.stringify(response),
       type: 'POST',
       headers: {
