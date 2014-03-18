@@ -8,7 +8,7 @@
       <% verify_existing_user = Authentication.where(:uid => friend['id']) %>
       <% unless verify_existing_user.present? %>
         <div class="span4">
-          <%= render :partial=>"friends/facebook_user", :locals=> {:friend => friend} %>
+          <%= render :partial=>"/web/friends/facebook_user", :locals=> {:friend => friend} %>
         </div>
       <% end %>
     <% end %>
