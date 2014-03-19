@@ -5,7 +5,7 @@ function facebook_send_message(element_id, name, from_id) {
     method: 'send',
     to: element_id,
     name: 'Sign up for rvidi - Just like '+name+'!',
-    link: 'http://rvidi.qwinixtech.com/users/new?from_id='+from_id,
+    link: 'http://rvidi.qwinixtech.com/user/accounts/new?from_id='+from_id,
     picture: 'http://rvidi.qwinixtech.com/assets/logo/rvidifb.png',
     description: 'Join '+name+' on rvidi.'
   },
