@@ -22,7 +22,8 @@ gem 'bootstrap-kaminari-views'
 gem 'koala'
 # koala dependencies
 gem 'twitter'
-gem 'linkedin', :git => "git://github.com/pengwynn/linkedin.git"
+# Commenting 'linkedin' coz of error in deploying
+# gem 'linkedin', :git => "git://github.com/pengwynn/linkedin.git"
 gem 'social-share-button'
 gem 'streamio-ffmpeg'
 
