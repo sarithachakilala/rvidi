@@ -116,11 +116,11 @@ class User < ActiveRecord::Base
     end
 
     def configure_twitter(auth_token, auth_secret)
-      Twitter.configure do |tw|
+      Twitter::REST::Client.new do |tw|
         tw.consumer_key = configatron.twitter_consumer_key
         tw.consumer_secret = configatron.twitter_consumer_secret
-        tw.oauth_token = auth_token
-        tw.oauth_token_secret = auth_secret
+        tw.access_token = auth_token
+        tw.access_token_secret = auth_secret
       end
     end
 

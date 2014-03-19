@@ -143,10 +143,10 @@
       @friends = User.current_user_friends(current_user)
       if session[:uid].present?
         uid = session[:uid]
-        User.configure_twitter(session[:auth_token], session[:auth_secret])
+        client = User.configure_twitter(session[:auth_token], session[:auth_secret])
         session[:uid] = session[:auth_token] = session[:auth_secret] = nil
         begin
-          @twitter_friends = Twitter.followers(uid.to_i)
+          @twitter_friends = client.followers(uid.to_i)
         rescue
           flash[:alert] = 'Twitter rake limit exceeded'
           redirect_to root_url
