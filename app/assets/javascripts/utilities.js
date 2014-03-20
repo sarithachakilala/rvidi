@@ -114,7 +114,7 @@ $(document).ready(function(){
     email = $('#search_value').val()
     var regex = /^([a-zA-Z0-9_\.\-\+])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
     $.ajax({
-      url: "/web/users/friends_list.js",
+      url: "/web/shows/friends_list.js",
       data: {
         search_val:$('#search_value').val() ,
         email_valid: regex.test(email)
