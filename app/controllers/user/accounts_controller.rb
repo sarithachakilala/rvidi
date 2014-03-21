@@ -181,7 +181,7 @@
 
     def accept_friend_request
       friend_requst1 = FriendMapping.where(:user_id =>current_user.id, :friend_id=> params[:friend_id]).first
-      friend_requst2 = FriendMapping.where(:user_id =>params[:friend_id], :friend_id=> current_user.id).first
+      friend_requst2 = FriendMapping.create(:user_id =>params[:friend_id], :friend_id=> current_user.id)
       notification = Notification.where(:to_id => current_user.id, :from_id => params[:friend_id]).first
       friend_requst1.update_attributes(:status =>"accepted") if friend_requst1.present?
       friend_requst2.update_attributes(:status =>"accepted") if friend_requst2.present?

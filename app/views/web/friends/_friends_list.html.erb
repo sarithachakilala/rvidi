@@ -16,7 +16,7 @@
                   </div>
                   <div class="span8">
                     <label class="checkbox inline width-100-percent ">
-                    <%= check_box_tag('selected_friends[]', each_user_detail.id,
+                    <%#= check_box_tag('selected_friends[]', each_user_detail.id,
                                       :checked => false, :class => 'checkbox-input') %>
                     <%= "#{each_user_detail.full_name}"%>
                     <%#= check_box_tag(each_user_detail.id, '', checked = false, :class => 'child_ckeck')  %> <%#= each_user_detail.full_name%>
@@ -42,7 +42,7 @@
         </div>
       <% end %>
       <div class="span4">
-        <label class="checkbox inline select-all-label">
+       <!--  <label class="checkbox inline select-all-label"> -->
           Select all
         </label>
           <!-- <span class="btn add-on btn-warning" id = "invite_friend">Invite Friend</span> -->

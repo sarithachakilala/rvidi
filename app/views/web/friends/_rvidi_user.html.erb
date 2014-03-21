@@ -22,6 +22,9 @@
       <%= shows_count(user.id) %> shows,&nbsp;
       <span style="color:#f89406;"><%= cameos_count(user.id) %> cameos </span>
     </div>
+
+    <!-- Button to invite friend -->
+    <%= link_to "Invite", invite_friend_web_users_path(:user_ids=>[user.id],:remote => true) %>
     
     <% if controller.action_name!="friends" %>
       <!-- Check Box to select the friend -->
@@ -29,6 +32,7 @@
         <%= check_box_tag('selected_friends[]', user.id, checked = false, :class => 'checkbox-input')  %> 
         <%= content_tag :span, "Select", :class=>"font-size-11 margin-top-5" %> 
       </label>
+
     <% end %>
     
   </div>

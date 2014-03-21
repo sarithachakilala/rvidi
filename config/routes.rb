@@ -74,8 +74,8 @@ Rvidi::Application.routes.draw do
         get 'play_cameo'
       end
       collection do
-        get 'invite_friend'
-        get 'friends_list'
+        # get 'invite_friend'
+        # get 'friends_list'
         get 'invite_friend_toshow'
         post 'check_password'
         get 'status_update'
@@ -83,7 +83,12 @@ Rvidi::Application.routes.draw do
         get 'download_complete_show'
       end
     end
-
+    resources :users do
+      collection do
+        get 'friends_list'
+        get 'invite_friend'
+      end
+    end
   }
   
   resources :home do

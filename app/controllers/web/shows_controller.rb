@@ -186,20 +186,20 @@ module Web
       end
     end
 
-    def friends_list
-      @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
-    end
+    # def friends_list
+    #   @users = User.where("username like ?  OR first_name like ? OR last_name like ? OR email like ? ",'%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%','%'+params[:search_val]+'%') if params[:search_val].present?
+    # end
 
-    # Collect all the friends and Invite friends to contribute to the show if checked users or present
-    def invite_friend(friends)
-      @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
-      friends.each do |each_friend|
-        @user = User.find(each_friend)
-        InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
-        notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>" has Requested you to contribute for their Show ")
-        notification.save!
-      end
-    end
+    # # Collect all the friends and Invite friends to contribute to the show if checked users or present
+    # def invite_friend(friends)
+    #   @friend_mappings = FriendMapping.where(:user_id => current_user.id, :status =>"accepted")
+    #   friends.each do |each_friend|
+    #     @user = User.find(each_friend)
+    #     InviteFriend.create(:director_id=> @show.user_id, :show_id=> @show.id, :contributor_id=>@user.id, :status =>"invited" )
+    #     notification = Notification.new(:show_id => @show.id, :from_id=>current_user.id, :to_id=> @user.id, :status => "contribute", :content=>" has Requested you to contribute for their Show ")
+    #     notification.save!
+    #   end
+    # end
 
     # Inviting friend via an email while creating a show
     def invite_friend_toshow_after_create(email, show)
