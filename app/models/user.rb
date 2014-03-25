@@ -11,8 +11,9 @@ class User < ActiveRecord::Base
   has_many :shows, :dependent => :destroy
   has_many :cameos, :dependent => :destroy
   has_many :comments, :dependent => :destroy
+  has_many :friend_mappings, :dependent => :destroy
 
-  # VALIDATIONS
+   # VALIDATIONS
   validates :first_name, :last_name, :email, :presence => true
   validates :username, :presence => true,
     :uniqueness => true,

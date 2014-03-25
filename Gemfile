@@ -51,10 +51,10 @@ group :assets do
 end
 
 group :development, :test do
-  # gem 'pry'
-  # gem 'pry-doc'
-  # gem 'pry-rails'
-  # gem 'pry-debugger'
+  gem 'pry'
+  gem 'pry-doc'
+  gem 'pry-rails'
+  gem 'pry-debugger'
   gem 'railroady'
   gem 'turn', :require => false                      # Pretty printed test output
   gem 'spork', '~> 0.9.2'                            # for fast running of tests

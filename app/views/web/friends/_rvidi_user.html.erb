@@ -1,4 +1,3 @@
-
 <% thumbnail = user.image_url.present? ? user.image_url : "/assets/default_image.png"  %>
 
 <div class="friend-box row-fluid">
@@ -24,15 +23,34 @@
     </div>
 
     <!-- Button to invite friend -->
-    <%= link_to "Invite", invite_friend_web_users_path(:user_ids=>[user.id],:remote => true) %>
-    
-    <% if controller.action_name!="friends" %>
-      <!-- Check Box to select the friend -->
-      <label class="checkbox inline width-100-percent ">
-        <%= check_box_tag('selected_friends[]', user.id, checked = false, :class => 'checkbox-input')  %> 
-        <%= content_tag :span, "Select", :class=>"font-size-11 margin-top-5" %> 
-      </label>
+        <%if friend_mapping.present? %>
+          <% if friend_mapping.status=="pending"%>
+            <% if friend_mapping.user_id == current_user.id %>
+              <span style="color:grey;">Request Pending</span>
+            <% else %>
+              <span style="color:grey;">Respond to Friend Request</span>
+            <% end %>
+          <%elsif friend_mapping.status=="ignored"%>
+            <% if friend_mapping.user_id == current_user.id %>
+              <span style="color:grey;">Request Pending</span>
+            <% else %>
+              <%= link_to "Confirm", accept_friend_request_user_accounts_path(:friend_id => user.id) %>
+            <% end %>
+          <% elsif friend_mapping.status=="accepted"%>
+            <span style="color:green;">Friends</span>
+          <% end %>
+        <% else %>
+          <%= link_to "Invite", invite_friend_web_users_path(:user_ids=>[user.id]), :remote => true %>
+        <% end %>
 
+    <% unless (friend_mapping.present? && friend_mapping.status=="accepted") %>
+      <% if controller.action_name!="friends" %>
+        <!-- Check Box to select the friend -->
+        <label class="checkbox inline width-100-percent ">
+          <%= check_box_tag('selected_friends[]', user.id, checked = false, :class => 'checkbox-input')  %> 
+          <%= content_tag :span, "Select", :class=>"font-size-11 margin-top-5" %> 
+        </label>
+      <% end %>
     <% end %>
     
   </div>

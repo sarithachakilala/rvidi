@@ -85,7 +85,7 @@ Rvidi::Application.routes.draw do
     end
     resources :users do
       collection do
-        get 'friends_list'
+        get 'search'
         get 'invite_friend'
       end
     end
