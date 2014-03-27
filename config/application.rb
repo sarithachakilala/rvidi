@@ -1,14 +1,12 @@
 require File.expand_path('../boot', __FILE__)
 require 'yaml'
-YAML::ENGINE.yamler = 'syck'
+YAML::ENGINE.yamler = 'psych'
 
 # Pick the frameworks you want:
 require "active_record/railtie"
 require "action_controller/railtie"
 require "action_mailer/railtie"
-require "active_resource/railtie"
 require "sprockets/railtie"
-# require "rails/test_unit/railtie"
 require "twitter"
 require "koala"
 

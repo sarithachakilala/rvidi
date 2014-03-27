@@ -1,9 +1,9 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '4.0.4'
 gem 'jquery-rails'
 gem 'multi_json', '1.7.2'                            # To provide easy switching between different JSON backends. Warnings with latest Gem Version 1.7.3
-gem 'delayed_job_active_record', '0.3.3'             # For executing delayed_jobs
+gem 'delayed_job_active_record'                      # For executing delayed_jobs
 gem 'psych'                                          # Libyaml Wrapper for Ruby
 gem 'configatron'                                    # to add configuration values as environment specific and as default values as well.
 gem 'omniauth-facebook', '1.4.0'                     # For Integrating Facebook
@@ -35,6 +35,9 @@ gem "bcrypt-ruby", :require => "bcrypt"              # To encrpty the user passw
 gem 'carrierwave-video'
 gem 'carrierwave-video-thumbnailer'
 gem 'net-ssh'
+
+# To upgrade to RAILS4
+gem 'protected_attributes'
 
 # Gems used only for assets and not required
 # in production environments by default.
