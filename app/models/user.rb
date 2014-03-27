@@ -14,24 +14,15 @@ class User < ActiveRecord::Base
 
   # VALIDATIONS
   validates :first_name, :last_name, :email, :presence => true
-  validates :username, :presence => true,
-    :uniqueness => true,
-    :if => :provider_does_not_exist?
-
+  validates :username, :presence => true, :uniqueness => true, :if => :provider_does_not_exist?
   validates :email, :format => {:with => /^(|(([A-Za-z0-9]+_+)|([A-Za-z0-9]+\-+)|([A-Za-z0-9]+\.+)|([A-Za-z0-9]+\++))*[A-Za-z0-9]+@((\w+\-+)|(\w+\.))*\w{1,63}\.[a-zA-Z]{2,6})$/i,
     :message => 'format is Invalid' },
     :uniqueness => true,
     :if => Proc.new { |user| user.email.present? }
-
-  validates :password, :presence => true,:length => {:within => 8..40},
-    :on => :create
-
-  validates :password_confirmation, :presence => true,
-    :on => :create
-
+  validates :password, :presence => true,:length => {:within => 8..40}
+  validates :password_confirmation, :presence => true, :on => :create
   validate :check_password_confirmation, :on => :create,
     :if => Proc.new { |user| user.password.present? && user.password_confirmation.present? }
-
   validates :terms_conditions, :acceptance => {:accept => '1'}, :on => :create
 
   #Callbacks
@@ -177,7 +168,7 @@ class User < ActiveRecord::Base
   def send_password_reset
     self.password_reset_token = SecureRandom.urlsafe_base64
     self.password_reset_sent_at = Time.zone.now
-    save!
+    save(:validate => false)
     RvidiMailer.delay.password_reset(self)
   end
 
