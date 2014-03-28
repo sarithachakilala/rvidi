@@ -11,7 +11,7 @@
         <div class="span4">
           <% rvidi_friend = User.find(friend_mapping.friend_id) %>
           <%= render :partial=> "web/friends/rvidi_user",
-                     :locals=> { :user=> rvidi_friend } %>
+                     :locals=> { :user=> rvidi_friend, :friend_mapping => friend_mapping } %>
         </div>
       <% end %>
     </div>
