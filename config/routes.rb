@@ -42,19 +42,22 @@ Rvidi::Application.routes.draw do
     end
   }
 
-  match 'auth/failure', to: redirect('/')
+  # match 'auth/failure', to: redirect('/')
+  # match "/hdfvr/avc_settings.php" => "home#avc_settings"
+  # match "/hdfvr/save_video_to_db.php" => "home#saved_video"
+  # match "/hdfvr/jpg_encoder_download.php" => "home#save_snapshoot"
+  # match 'file-render' => 'home#my_file', :as => :my_file
 
-  match "/hdfvr/avc_settings.php" => "home#avc_settings"
-  match "/hdfvr/save_video_to_db.php" => "home#saved_video"
-  match "/hdfvr/jpg_encoder_download.php" => "home#save_snapshoot"
-
-
-  match 'file-render' => 'home#my_file', :as => :my_file
+  match 'auth/failure', to: redirect('/'), via: [:get, :post]
+  match "/hdfvr/avc_settings.php" => "home#avc_settings", via: [:get, :post]
+  match "/hdfvr/save_video_to_db.php" => "home#saved_video", via: [:get, :post]
+  match "/hdfvr/jpg_encoder_download.php" => "home#save_snapshoot", via: [:get, :post]
+  match 'file-render' => 'home#my_file', :as => :my_file, via: [:get, :post]
   
   namespace(:web) {
     
-    match 'video-player' => 'cameos#video_player', :as => :video_player
-    match 'validate-video' => 'cameos#validate_video', :as => :validate_video
+    match 'video-player' => 'cameos#video_player', as: :video_player, via: [:get, :post]
+    match 'validate-video' => 'cameos#validate_video', as: :validate_video, via: [:get, :post]
     
     resources :comments do
       collection do
@@ -74,8 +77,8 @@ Rvidi::Application.routes.draw do
         get 'play_cameo'
       end
       collection do
-        get 'invite_friend'
-        get 'friends_list'
+        # get 'invite_friend'
+        # get 'friends_list'
         get 'invite_friend_toshow'
         post 'check_password'
         get 'status_update'
@@ -83,7 +86,12 @@ Rvidi::Application.routes.draw do
         get 'download_complete_show'
       end
     end
-
+    resources :users do
+      collection do
+        get 'search'
+        get 'invite_friend'
+      end
+    end
   }
   
   resources :home do

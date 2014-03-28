@@ -8,8 +8,10 @@
   <% users.each_slice(3) do|users_slice| %>
     <div class="row-fluid margin-top-5">
       <% users_slice.each do |user| %>
-        <div class="span4">
-          <%= render :partial => "web/friends/rvidi_user", :locals => {:user => user} %>
+        <% friend_mapping = FriendMapping.where(:user_id => current_user.id,:friend_id => user.id).first %>
+        <% friend_mapping ||= FriendMapping.where(:user_id => user.id,:friend_id => current_user.id).first %>
+        <div class="span4" id="div_friends_user_<%= user.id %>_detail">
+          <%= render :partial => "web/friends/rvidi_user", :locals => {:user => user, :friend_mapping => friend_mapping} %>
         </div>
       <% end %>
     </div>

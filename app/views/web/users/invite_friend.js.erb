@@ -1,0 +1,1 @@
+$("#div_friends_user_<%= @user.id %>_detail").html("<%= j(render :partial=> "/web/friends/rvidi_user", :locals => {:user => @user, :friend_mapping => @friend_mapping })%>")

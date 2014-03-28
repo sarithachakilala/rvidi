@@ -180,19 +180,20 @@
     end
 
     def accept_friend_request
-      friend_requst1 = FriendMapping.where(:user_id =>current_user.id, :friend_id=> params[:friend_id]).first
-      friend_requst2 = FriendMapping.where(:user_id =>params[:friend_id], :friend_id=> current_user.id).first
+      friend_request1 = FriendMapping.where(:user_id =>params[:friend_id], :friend_id=> current_user.id).first
+      friend_request1.update_attributes(:status =>"accepted") if friend_request1.present?
+      friend_request2 = FriendMapping.create(:user_id =>current_user.id, :friend_id=> params[:friend_id], :status =>"accepted")
       notification = Notification.where(:to_id => current_user.id, :from_id => params[:friend_id]).first
-      friend_requst1.update_attributes(:status =>"accepted") if friend_requst1.present?
-      friend_requst2.update_attributes(:status =>"accepted") if friend_requst2.present?
       notification.update_attributes(:status => "accepted", :read_status => true)
       redirect_to notification_user_account_path(:id => current_user.id), :notice => "confirmed as friend!"
     end
 
     def ignore_friend_request
-      notification = Notification.where(:to_id => current_user.id, :from_id => params[:friend_id],:status=>"pending").first
-      notification.update_attributes(:read_status => true)
-      redirect_to notification_user_account_path(:id => current_user.id), :notice => "Ignored friend Request!"
+      friend_request1 = FriendMapping.where(:user_id =>params[:friend_id], :friend_id=> current_user.id).first
+      friend_request1.update_attributes(:status =>"ignored") if friend_request1.present?
+      notification = Notification.where(:to_id => current_user.id, :from_id => params[:friend_id],:status=>"ignored").first
+      notification.update_attributes(:read_status => false) if notification.present?
+      redirect_to notification_user_account_path(:id => current_user.id), :notice => "ignored friend Request!"
     end
 
     def invite_friend_via_email
