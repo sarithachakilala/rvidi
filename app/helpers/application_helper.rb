@@ -10,7 +10,7 @@ module ApplicationHelper
 
   def streaming_server_path
       if Rails.env == 'development'
-        "rtmp://localhost/rvidi-recording/"
+        "rtmp://localhost:1935/rvidi-recording/"
       else
         "rtmp://162.243.94.70:1935/rvidi-recording/"
       end

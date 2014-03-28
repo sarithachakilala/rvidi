@@ -72,7 +72,8 @@ class CameoFile < ActiveRecord::Base
   end
 
   def get_transcode( format = :web )
-    options= { custom: "-vf 'scale=492:trunc(ow/a/2)*2'" }
+    # Default options for transcode can be get from streamio-ffmpeg github page
+    options = {custom: "-vf 'scale=800:450' -b:v 1105000 -b:a 44100", frame_rate: 50 }
     file_movie.transcode("#{File.dirname(file.path)}/#{file.get_new_filename.gsub(/\..*?$/, "")}.mp4", options)
   end
 
