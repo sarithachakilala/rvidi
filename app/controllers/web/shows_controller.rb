@@ -130,9 +130,9 @@ module Web
 
       if session[:uid].present?
         uid = session[:uid]
-        User.configure_twitter(session[:auth_token], session[:auth_secret])
+        client = User.configure_twitter(session[:auth_token], session[:auth_secret])
         session[:uid] = session[:auth_token] = session[:auth_secret] = nil
-        @twitter_friends = Twitter.followers(uid)
+        @twitter_friends = client.followers(uid)
       else
         @twitter_friends = []
       end
