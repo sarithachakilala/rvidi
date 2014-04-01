@@ -21,7 +21,7 @@
     end
 
     def create
-      @user = User.new(params[:user])
+      @user = User.new( user_params )
       if verify_recaptcha(:model => @user, :private_key=>'6Ld0H-ESAAAAAEEPiXGvWRPWGS37UvgaeSpjpFN2') && @user.save
         @success = true
         if params[:from_id].present?
@@ -91,7 +91,7 @@
       #      @profile_video.set_uploaded_video_details(media_entry)
       #    end
       respond_to do |format|
-        if @user.update_attributes(params[:user])
+        if @user.update_attributes( user_params )
           format.html { redirect_to profile_user_account_path(@user), notice: 'User was successfully updated.' }
           format.json { render json: @user }
         else
@@ -232,5 +232,9 @@
       @user = User.find(params[:id])
     end
 
+    def user_params
+      params.require(:user).permit(:email, :password, :password_confirmation, :username, :city, :state, :country, :description,
+              :uid, :terms_conditions, :first_name, :last_name, :image, :remote_image_url)
+    end
   end
 

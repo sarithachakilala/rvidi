@@ -44,19 +44,13 @@ GEM
       rails (>= 3.1)
     buftok (0.2.0)
     builder (3.1.4)
-    capistrano (2.15.5)
-      highline
-      net-scp (>= 1.0.0)
-      net-sftp (>= 2.0.0)
-      net-ssh (>= 2.0.14)
-      net-ssh-gateway (>= 1.1.0)
+    capistrano (3.1.0)
+      i18n
+      rake (>= 10.0.0)
+      sshkit (~> 1.3)
     capistrano-deepmodules (0.2)
-    capistrano-deploytags (0.9.1)
-      capistrano
-      capistrano-ext
     capistrano-ext (1.2.1)
       capistrano (>= 1.0.0)
-    capistrano_colors (0.5.5)
     capybara (2.2.1)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -82,16 +76,18 @@ GEM
       execjs
     coffee-script-source (1.7.0)
     columnize (0.3.6)
-    configatron (3.0.2)
-    cucumber (1.3.2)
+    configatron (3.1.3)
+    cucumber (1.3.14)
       builder (>= 2.1.2)
       diff-lcs (>= 1.1.3)
-      gherkin (~> 2.12.0)
-      multi_json (~> 1.3)
-    cucumber-rails (1.3.0)
+      gherkin (~> 2.12)
+      multi_json (>= 1.7.5, < 2.0)
+      multi_test (>= 0.1.1)
+    cucumber-rails (1.4.0)
       capybara (>= 1.1.2)
-      cucumber (>= 1.1.8)
+      cucumber (>= 1.2.0)
       nokogiri (>= 1.5.0)
+      rails (>= 3.0.0)
     daemons (1.1.9)
     database_cleaner (1.2.0)
     debug_inspector (0.0.2)
@@ -108,9 +104,9 @@ GEM
       delayed_job (>= 3.0, < 4.1)
     diff-lcs (1.2.5)
     docile (1.1.3)
-    email_spec (1.2.1)
+    email_spec (1.5.0)
+      launchy (~> 2.1)
       mail (~> 2.2)
-      rspec (~> 2.0)
     equalizer (0.0.9)
     erubis (2.7.0)
     eventmachine (1.0.3)
@@ -131,12 +127,10 @@ GEM
       activesupport (>= 3.2, < 5)
     hashie (2.0.5)
     headless (1.0.1)
-    highline (1.6.21)
     hike (1.2.3)
     http (0.5.0)
       http_parser.rb
     http_parser.rb (0.6.0)
-    httpauth (0.2.1)
     i18n (0.6.9)
     inherited_resources (1.4.1)
       has_scope (~> 0.6.0.rc)
@@ -156,7 +150,7 @@ GEM
       multi_json
     launchy (2.4.2)
       addressable (~> 2.3)
-    libv8 (3.11.8.17)
+    libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -165,44 +159,42 @@ GEM
     method_source (0.8.2)
     mime-types (1.25.1)
     mini_portile (0.5.3)
-    minitest (4.7.4)
-    multi_json (1.7.2)
+    minitest (4.7.5)
+    multi_json (1.9.2)
+    multi_test (0.1.1)
+    multi_xml (0.5.5)
     multipart-post (2.0.0)
     naught (1.0.0)
     net-scp (1.1.2)
       net-ssh (>= 2.6.5)
-    net-sftp (2.1.2)
-      net-ssh (>= 2.6.5)
     net-ssh (2.8.0)
-    net-ssh-gateway (1.2.0)
-      net-ssh (>= 2.6.5)
     nokogiri (1.6.1)
       mini_portile (~> 0.5.0)
     oauth (0.4.7)
-    oauth2 (0.8.1)
-      faraday (~> 0.8)
-      httpauth (~> 0.1)
-      jwt (~> 0.1.4)
-      multi_json (~> 1.0)
+    oauth2 (0.9.3)
+      faraday (>= 0.8, < 0.10)
+      jwt (~> 0.1.8)
+      multi_json (~> 1.3)
+      multi_xml (~> 0.5)
       rack (~> 1.2)
     omniauth (1.2.1)
       hashie (>= 1.2, < 3)
       rack (~> 1.0)
-    omniauth-facebook (1.4.0)
-      omniauth-oauth2 (~> 1.0.2)
+    omniauth-facebook (1.6.0)
+      omniauth-oauth2 (~> 1.1)
     omniauth-oauth (1.0.1)
       oauth
       omniauth (~> 1.0)
-    omniauth-oauth2 (1.0.3)
-      oauth2 (~> 0.8.0)
-      omniauth (~> 1.0)
+    omniauth-oauth2 (1.1.2)
+      faraday (>= 0.8, < 0.10)
+      multi_json (~> 1.3)
+      oauth2 (~> 0.9.3)
+      omniauth (~> 1.2)
     omniauth-twitter (1.0.1)
       multi_json (~> 1.3)
       omniauth-oauth (~> 1.0)
     pg (0.17.1)
     polyglot (0.3.4)
-    protected_attributes (1.0.7)
-      activemodel (>= 4.0.1, < 5.0)
     pry (0.9.12.6)
       coderay (~> 1.0)
       method_source (~> 0.8)
@@ -215,7 +207,7 @@ GEM
       yard (~> 0.8)
     pry-rails (0.3.2)
       pry (>= 0.9.10)
-    psych (2.0.4)
+    psych (2.0.5)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
     rack (1.5.2)
@@ -235,8 +227,8 @@ GEM
       activesupport (= 4.0.4)
       rake (>= 0.8.7)
       thor (>= 0.18.1, < 2.0)
-    rake (10.2.1)
-    rb-readline (0.4.2)
+    rake (10.2.2)
+    rb-readline (0.5.1)
     recaptcha (0.3.6)
     ref (1.0.5)
     responders (1.0.0)
@@ -260,12 +252,13 @@ GEM
       rspec-core (~> 2.14.0)
       rspec-expectations (~> 2.14.0)
       rspec-mocks (~> 2.14.0)
-    rvm-capistrano (1.5.1)
-      capistrano (~> 2.15.4)
-    sass (3.3.4)
-    sass-rails (4.0.1)
+    rvm-capistrano (1.5.0)
+      capistrano (>= 2.15.4)
+    sass (3.2.18)
+    sass-rails (4.0.2)
       railties (>= 4.0.0, < 5.0)
-      sass (>= 3.1.10)
+      sass (~> 3.2.0)
+      sprockets (~> 2.8, <= 2.11.0)
       sprockets-rails (~> 2.0.0)
     shoulda-callback-matchers (0.4.0)
       activesupport (>= 3)
@@ -280,7 +273,7 @@ GEM
     slop (3.5.0)
     social-share-button (0.1.5)
     spork (0.9.2)
-    sprockets (2.12.0)
+    sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
       rack (~> 1.0)
@@ -289,9 +282,15 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    sshkit (1.3.0)
+      net-scp (>= 1.1.2)
+      net-ssh
+      term-ansicolor
     streamio-ffmpeg (1.0.0)
-    therubyracer (0.11.3)
-      libv8 (~> 3.11.8.12)
+    term-ansicolor (1.3.0)
+      tins (~> 1.0)
+    therubyracer (0.12.1)
+      libv8 (~> 3.16.14.0)
       ref
     thin (1.6.2)
       daemons (>= 1.0.9)
@@ -301,6 +300,7 @@ GEM
     thread_safe (0.3.1)
       atomic (>= 1.1.7, < 2)
     tilt (1.4.1)
+    tins (1.0.1)
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
@@ -339,20 +339,18 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-kaminari-views
-  capistrano
+  capistrano (~> 3.1.0)
   capistrano-deepmodules
-  capistrano-deploytags
   capistrano-ext
-  capistrano_colors
   carrierwave
   carrierwave-video
   carrierwave-video-thumbnailer
   coffee-rails
   configatron
-  cucumber-rails (~> 1.3.0)
+  cucumber-rails (~> 1.4.0)
   database_cleaner
   delayed_job_active_record
-  email_spec (~> 1.2.1)
+  email_spec (~> 1.5.0)
   factory_girl_rails
   faker
   headless (>= 0.1.0)
@@ -361,37 +359,36 @@ DEPENDENCIES
   kaminari
   koala
   launchy
-  minitest (= 4.7.4)
-  multi_json (= 1.7.2)
+  minitest (~> 4.2)
+  multi_json (~> 1.9.2)
   net-ssh
   nokogiri
-  omniauth-facebook (= 1.4.0)
+  omniauth-facebook (~> 1.6.0)
   omniauth-twitter
   pg
-  protected_attributes
   pry
   pry-debugger
   pry-doc
   pry-rails
-  psych
+  psych (~> 2.0.5)
   quiet_assets
   railroady
-  rails (= 4.0.4)
-  rb-readline (~> 0.4.2)
+  rails (~> 4.0.4)
+  rb-readline (~> 0.5.1)
   recaptcha
   rest-client
   rmagick
   rspec
   rspec-rails
   rvm-capistrano
-  sass-rails
+  sass-rails (~> 4.0.2)
   shoulda-callback-matchers
   shoulda-matchers
   simplecov
   social-share-button
   spork (~> 0.9.2)
   streamio-ffmpeg
-  therubyracer (= 0.11.3)
+  therubyracer (= 0.12.1)
   thin
   turn
   twitter

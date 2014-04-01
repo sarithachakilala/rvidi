@@ -1,8 +1,4 @@
 class Resource < ActiveRecord::Base
-
-  attr_accessible :http_method, :url, :description,:name,
-            :api_id
-
  
   belongs_to :api
 

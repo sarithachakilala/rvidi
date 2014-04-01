@@ -89,4 +89,7 @@ Rvidi::Application.configure do
     :password => "Qwinix123@",
   }
 
+  # Rails4 Changes
+  config.eager_load = true
+
 end

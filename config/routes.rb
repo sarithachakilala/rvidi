@@ -42,12 +42,6 @@ Rvidi::Application.routes.draw do
     end
   }
 
-  # match 'auth/failure', to: redirect('/')
-  # match "/hdfvr/avc_settings.php" => "home#avc_settings"
-  # match "/hdfvr/save_video_to_db.php" => "home#saved_video"
-  # match "/hdfvr/jpg_encoder_download.php" => "home#save_snapshoot"
-  # match 'file-render' => 'home#my_file', :as => :my_file
-
   match 'auth/failure', to: redirect('/'), via: [:get, :post]
   match "/hdfvr/avc_settings.php" => "home#avc_settings", via: [:get, :post]
   match "/hdfvr/save_video_to_db.php" => "home#saved_video", via: [:get, :post]

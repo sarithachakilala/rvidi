@@ -87,7 +87,7 @@ module Web
     end
 
     def create
-      @show = current_user.shows.build(params[:show])
+      @show = current_user.shows.build( show_params )
       @show.duration = @show.duration.to_i
       respond_to do |format|
         if @show.valid?
@@ -147,7 +147,7 @@ module Web
       end
       params[:show][:duration] = params[:show][:duration].to_i*60
       respond_to do |format|
-        if @show.update_attributes(params[:show])
+        if @show.update_attributes( show_params )
           @show.disable_download if params[:show][:enable_download].blank?
           params[:active_cameos].present? ? @show.update_active_cameos(params[:active_cameos]) : @show.cameos.update_all(:status => "disabled")
           #@show.create_playlist if @show.cameos.present? && @show.cameos.enabled.present?
@@ -259,7 +259,14 @@ module Web
       end
     end
 
+    private
+    def show_params
+      params.require(:show).permit(:user_id, :title, :description, :display_preferences,
+                      :display_preferences_password, :contributor_preferences,
+                      :contributor_preferences_password, :need_review,
+                      :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
+                      :download_preference, :download_url, :cameo_duration)
+    end
 
   end
 end
-

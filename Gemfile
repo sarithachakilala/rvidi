@@ -1,12 +1,12 @@
 source 'http://rubygems.org'
 
-gem 'rails', '4.0.4'
+gem 'rails', '~> 4.0.4'
 gem 'jquery-rails'
-gem 'multi_json', '1.7.2'                            # To provide easy switching between different JSON backends. Warnings with latest Gem Version 1.7.3
+gem 'multi_json', '~> 1.9.2'                        # To provide easy switching between different JSON backends. Warnings with latest Gem Version 1.7.3
 gem 'delayed_job_active_record'                      # For executing delayed_jobs
-gem 'psych'                                          # Libyaml Wrapper for Ruby
+gem 'psych', '~> 2.0.5'                              # Libyaml Wrapper for Ruby
 gem 'configatron'                                    # to add configuration values as environment specific and as default values as well.
-gem 'omniauth-facebook', '1.4.0'                     # For Integrating Facebook
+gem 'omniauth-facebook', '~> 1.6.0'                     # For Integrating Facebook
 gem 'omniauth-twitter'                               # For Integrating Twitter
 gem "recaptcha", :require => "recaptcha/rails"
 gem 'rest-client'                                    # Simple HTTP and REST client for Ruby, inspired by the Sinatra microframework style of specifying actions: get, put, post, delete.
@@ -36,20 +36,17 @@ gem 'carrierwave-video'
 gem 'carrierwave-video-thumbnailer'
 gem 'net-ssh'
 
-# To upgrade to RAILS4
-gem 'protected_attributes'
-
 # Gems used only for assets and not required
 # in production environments by default.
 group :assets do
 
   # See https://github.com/sstephenson/execjs#readme for more supported runtimes
   # Fixed the vesion of therubyracer because of Segmentation Fault + Ruby 1.9.3p392
-  gem 'therubyracer',  '0.11.3', :platforms => :ruby # Necessary, to Provide Javascrtpt Runtime.
+  gem 'therubyracer',  '0.12.1', :platforms => :ruby # Necessary, to Provide Javascrtpt Runtime.
   gem 'uglifier', '>= 1.0.3'
   gem 'thin'                              # To avoid content-type warning messages caused by webrick, except in production.
   gem 'coffee-rails'
-  gem 'sass-rails'
+  gem 'sass-rails', '~> 4.0.2'
 
 end
 
@@ -66,18 +63,16 @@ group :development, :test do
   gem 'rspec'                                        # unit test framework
   gem 'rspec-rails'                                  # rspec only for rails
   gem 'shoulda-matchers'                             # making tests easy
-  gem 'email_spec', '~> 1.2.1'                       # for testing emails in rspec and cucumber
+  gem 'email_spec', '~> 1.5.0'                       # for testing emails in rspec and cucumber
   gem 'database_cleaner'                             # for cleaning the database between test suites
-  gem 'cucumber-rails', '~>1.3.0', :require => false # integration testing
+  gem 'cucumber-rails', '~> 1.4.0', :require => false # integration testing
   gem 'webrat'                                       # writing acceptance tests
-  gem 'minitest', '4.7.4'                            # dependency for webrat or capybara; not sure
+  gem 'minitest', '~> 4.2'                            # dependency for webrat or capybara; not sure
   gem 'headless', '>= 0.1.0'                         # capybara webkit driver
   gem 'launchy'                                      # capybara dependency
   gem 'simplecov', :require => false                 # for providing test coverage statistics
-  gem 'rb-readline', '~> 0.4.2'
+  gem 'rb-readline', '~> 0.5.1'
   gem 'nokogiri'
-  # gem 'capybara'                        # integration testing tool for rack based web applications; simulates user interaction with web app
-  # gem 'capybara-webkit', :git => "git://github.com/thoughtbot/capybara-webkit.git" # Capybara driver for headless WebKit so you can test Javascript web apps
 end
 
 group :development do
@@ -86,12 +81,10 @@ group :development do
   gem 'quiet_assets'                                 # To Avoid Asset Pipeline Log in Development
 
   # To Deploy the Application using Capistrano
-  gem 'capistrano'
+  gem 'capistrano', '~> 3.1.0'
   gem 'rvm-capistrano'
   gem 'capistrano-deepmodules'
-  gem 'capistrano_colors'
   gem 'capistrano-ext'
-  gem 'capistrano-deploytags'
 end
 
 group :test do

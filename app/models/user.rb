@@ -2,11 +2,7 @@ class User < ActiveRecord::Base
 
   attr_accessor :password, :password_confirmation, :terms_conditions
 
-  attr_accessible :email, :password, :password_confirmation, :username, :city, :state, :country,
-    :description, :uid, :terms_conditions, :first_name, :last_name, :image, :remote_image_url
-
   #Associations
-
   has_many :authentications
   has_many :shows, :dependent => :destroy
   has_many :cameos, :dependent => :destroy

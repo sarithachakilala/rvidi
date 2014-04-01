@@ -1,7 +1,5 @@
 require 'rvm/capistrano'
 require 'bundler/capistrano'
-require 'capistrano_colors'
-require 'capistrano-deploytags'
 require 'capistrano/ext/multistage'
 require "delayed/recipes" # Required for delayed_jobs
 
@@ -19,7 +17,7 @@ set :git_enable_submodules, 1
 
 set :scm, 'git'
 set :user, 'deploy'
-set :repository, 'git@gitlab.qwinixtech.com:repositories/rails/rvidi.git'
+set :repository, 'git@github.com:dputtannaiah/rvidi.git'
 set :base_path, '/u01/apps/qwinix'
 set :normalize_asset_timestamps, false
 set :default_shell, :bash

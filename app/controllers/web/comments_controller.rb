@@ -13,7 +13,7 @@ module Web
     end
 
     def create
-      @comment = Comment.new(params[:comment])
+      @comment = Comment.new( comment_params )
       @show = @comment.show
       @show_comments = Comment.get_latest_show_commits(@comment.show_id, 3)
       @all_comments = @show.comments
@@ -40,6 +40,10 @@ module Web
       end
     end
 
-  end
+    private
+    def comment_params
+      params.require(:comment).permit(:body, :show_id, :user_id, :user_name)
+    end
 
+  end
 end

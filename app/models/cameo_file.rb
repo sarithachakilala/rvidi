@@ -2,12 +2,9 @@ class CameoFile < ActiveRecord::Base
 
   class MoviewError < StandardError; end
 
-  attr_accessible :file
   serialize :metadata, Hash
 
   belongs_to :cameo
-
-  attr_accessible :device, :cameo_id, :filesize, :duration, :metadata
 
   #Gem Related
   mount_uploader :file, VideoFileUploader

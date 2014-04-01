@@ -55,7 +55,7 @@ module Web
 
     def create
       # To find the contributed users.
-      @cameo = Cameo.new( params[:cameo] )
+      @cameo = Cameo.new( cameo_params )
       @cameo.timestamp = session[:timestamp]
       @cameo.published_status = "save_cameo"
       @cameo.link_cameo_file(current_user, session[:timestamp], params[:cameo_src_type])
@@ -126,7 +126,7 @@ module Web
       #   end
       # end
 
-      @cameo.attributes = params[:cameo]
+      @cameo.attributes = cameo_params
       if params[:cameo][:start_time].present? && params[:cameo][:end_time].present?
         # Cameo.clipping_video(@cameo, session[:client], session[:ks], params[:cameo][:start_time], params[:cameo][:end_time] )
       end
@@ -244,6 +244,11 @@ module Web
       render :layout => false
     end
 
-  end
+    private
+    def cameo_params
+      params.require(:cameo).permit(:director_id, :show_id, :show_order, :status, :user_id, :name,
+                     :description, :title, :published_status, :files, :files_attributes)
+    end
 
+  end
 end
