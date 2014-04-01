@@ -15,7 +15,7 @@
 
     <!-- Button to invite facebook friend -->
     <% if request_from == "show_request" %>
-      <a href="https://twitter.com/intent/tweet?screen_name=<%= friend.screen_name %>&text=rvidi.qwinixtech.com/shows/<%=  params[:id] %>?from_id=<%= current_user.id%>" class="btn btn-warning btn-mini">Tweet</a>
+      <a href="https://twitter.com/intent/tweet?screen_name=<%= friend.screen_name %>&text=rvidi.qwinixtech.com/web/shows/<%=  params[:id] %>?from_id=<%= current_user.id%>" class="btn btn-warning btn-mini">Tweet</a>
     <% else %>
       <a href="https://twitter.com/intent/tweet?screen_name=<%= friend.screen_name %>&text=rvidi.qwinixtech.com/user/accounts/new?from_id=<%= current_user.id%>" class="btn btn-warning btn-mini">Tweet</a>
     <% end %>
