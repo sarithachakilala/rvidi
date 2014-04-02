@@ -1,8 +1,6 @@
 class ProfileVideo < ActiveRecord::Base
 
   attr_accessor :video_file, :audio_file, :recorded_file
-  attr_accessible :download_url, :kaltura_entry_id, :thumbnail_url, :user_id,
-  :video_file, :audio_file, :recorded_file
 
 	def get_kaltura_video(client, kaltura_entry_id)
 	  media_entry = client.base_entry_service.get(kaltura_entry_id)

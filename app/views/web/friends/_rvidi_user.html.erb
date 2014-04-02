@@ -35,7 +35,7 @@
             <% if friend_mapping.user_id == current_user.id %>
               <span style="color:grey;">Request Pending</span>
             <% else %>
-              <%= link_to "Confirm", accept_friend_request_user_accounts_path(:friend_id => user.id) %>
+              <%= link_to "Accept friend request", accept_friend_request_user_accounts_path(:friend_id => user.id) %>
             <% end %>
           <% elsif friend_mapping.status=="accepted"%>
             <span style="color:green;">Friends</span>

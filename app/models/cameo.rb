@@ -14,10 +14,6 @@ class Cameo < ActiveRecord::Base
   attr_accessor :video_file, :audio_file, :recorded_file, :name_flag,
     :thumbnail_url_flag, :download_url_flag, :timestamp
 
-  attr_accessible :director_id, :show_id, :show_order, :status, :user_id, :name,
-                  :description, :title, :published_status, :files, :files_attributes
-
-
   # Associations
   belongs_to :show
   belongs_to :user

@@ -8,9 +8,6 @@ Rvidi::Application.configure do
   config.consider_all_requests_local       = false
   config.action_controller.perform_caching = true
 
-  # Log error messages when you accidentally call methods on nil.
-  config.whiny_nils = true
-
   # Disable Rails's static asset server (Apache or nginx will already do this)
   config.serve_static_assets = false
 
@@ -66,5 +63,8 @@ Rvidi::Application.configure do
 
   #Modify the host to the actual host of our application.
   #config.action_mailer.default_url_options = { :host => 'localhost:3000' }
+
+  # Rails4 Changes
+  config.eager_load = true
 
 end

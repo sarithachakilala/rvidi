@@ -37,18 +37,21 @@ class User::SessionsController < User::BaseController
       if user
         session[:user_id] = user.id
         user.increment_sign_in_count
-        if (user.sign_in_count > 1)
-          user_login_path =  dashboard_user_account_path(user.id)
+        if(params[:invite_friend]== 'true')
+          user_redirect_path =  friends_user_account_path(current_user.id)
+
+        elsif (user.sign_in_count > 1)
+          user_redirect_path =  dashboard_user_account_path(user.id)
         else
-          user_login_path = auth.present? ? profile_user_account_path(user.id) :
-                                            getting_started_user_account_path(user.id)
+          user_redirect_path = auth.present? ? profile_user_account_path(user.id) :
+                                    getting_started_user_account_path(user.id)
         end
       end
       @success = user.present? ? true :false
 
       respond_to do |format|
         if @success
-          format.html{ redirect_back_or(user_login_path) }
+          format.html{ redirect_back_or(user_redirect_path) }
           format.json{ render :json => { :status => 200, :user => user } }
         else
           format.html{

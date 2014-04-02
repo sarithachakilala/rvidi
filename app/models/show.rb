@@ -22,12 +22,6 @@ class Show < ActiveRecord::Base
     NOT_AUTHENTICATED = 2
   end
 
-  attr_accessible :user_id, :title, :description, :display_preferences,
-                  :display_preferences_password, :contributor_preferences,
-                  :contributor_preferences_password, :need_review,
-                  :cameos_attributes, :show_tag, :end_set, :duration, :enable_download,
-                  :download_preference, :download_url, :cameo_duration
-
   after_create :create_permalink
 
   # Associations
