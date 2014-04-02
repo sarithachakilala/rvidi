@@ -1,4 +1,5 @@
 <% thumbnail = user.image_url.present? ? user.image_url : "/assets/default_image.png"  %>
+<% friend_mapping = defined?(friend_mapping) ? friend_mapping : nil %>
 
 <div class="friend-box row-fluid">
   

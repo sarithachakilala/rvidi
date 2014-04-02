@@ -28,7 +28,7 @@ function facebook_send_message_to_invite(element_id, name,show_id, from_id ) {
     method: 'send',
     to: element_id,
     name: 'Sign up for rVidi - Just like '+name +'!',
-    link: 'http://rvidi.qwinixtech.com/shows/'+show_id+'?'+'from_id='+from_id,
+    link: 'http://rvidi.qwinixtech.com/web/shows/'+show_id+'?'+'from_id='+from_id,
     description: 'Join '+name+' on rVidi.',
     picture: "http://rvidi.qwinixtech.com/assets/logo/rvidifb.png"
   },

@@ -1,5 +1,4 @@
 class Comment < ActiveRecord::Base
-  attr_accessible :body, :show_id, :user_id, :user_name
 
   # Valdiations
   validates :body, :presence => true

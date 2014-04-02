@@ -76,6 +76,9 @@ Rvidi::Application.configure do
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.default :charset => "utf-8"
 
+  # Configuration for Rails4 changes
+  config.eager_load = true
+
   config.action_mailer.smtp_settings = {
     :enable_starttls_auto => true,
     :address => "smtp.sendgrid.net",
@@ -85,5 +88,8 @@ Rvidi::Application.configure do
     :user_name =>"qwinix-staging",
     :password => "Qwinix123@",
   }
+
+  # Rails4 Changes
+  config.eager_load = true
 
 end

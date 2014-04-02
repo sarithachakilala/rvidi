@@ -10,7 +10,7 @@
   </div>
 
   <div class="span4">
-    <div class="clips petrol" style="height:313px;overflow:auto;">
+    <div class="clips petrol" style="height:273px;overflow:auto;">
       <!-- single playlist entry -->
       <% show.cameos.each_with_index do |cameo, index| %>
         <a href="<%= cameo.rtmp_streaming_url %>"
@@ -23,12 +23,9 @@
       <% end %>
     </div>
   </div>
-
 </div>
 
 <!-- configure entries inside playlist using standard HTML -->
-
-
 <% content_for :js_with_script_tags do %>
   <script type="text/javascript">
    wowzaStreamingServerPlaylist( "player2", true );

@@ -17,14 +17,15 @@
         <div id="show_<%= @show.id %>_kaltura_player_container" class="">
           <!-- <img src="/assets/video_img.png" alt=""> -->
           <% if params[:controller] == 'web/shows' && params[:action] == 'show' %>
-            <%= render :partial => "web/shows/player/rvidi_playlist",
+            <%#= render :partial => "web/shows/player/rvidi_playlist",
               :locals => { :cameo => selected_cameo,
               :height =>"360px",
               :width => "100%" } %>
+            <%= render :partial => "web/shows/player/rvidiplayer_playlist",
+              :locals => { :show => @show, :height =>"360px", :width => "100%" } %>
           <% else %>
-            <%= render :partial => "web/shows/player/director_playlist",
-              :locals => { :cameo => selected_cameo, :show => @show,
-              :height =>"360px", :width => "100%" } %>
+            <%= render :partial => "web/shows/player/director_playlist", :locals =>
+                  { :cameo => selected_cameo, :show => @show, :height =>"360px", :width => "100%" } %>
           <% end %>
         </div>
 

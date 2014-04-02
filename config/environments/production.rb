@@ -64,4 +64,7 @@ Rvidi::Application.configure do
   #Modify the host to the actual host of our application.
   #config.action_mailer.default_url_options = { :host => 'localhost:3000' }
 
+  # Rails4 Changes
+  config.eager_load = true
+
 end
