@@ -185,10 +185,10 @@
 
           <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
           <%= link_to "<i class='sprite-peoples-icon'></i>".html_safe,
-                      user_sign_up_path, :class => "text_align_center" %>
+                      user_sign_in_path(:invite_friend=>true), :class => "text_align_center" %>
           <div class="text_align_center Participate_text">
             <%= link_to "Invite Others To Participate",
-                        user_sign_up_path,
+                        user_sign_in_path(:invite_friend=> true),
                         :class => "text_align_center Participate_text" %>
           </div>
           <div class="text_align_center" style=""> <i class="sprite-down-arrow"> </i></div>
